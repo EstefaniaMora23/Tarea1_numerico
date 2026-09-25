@@ -1,0 +1,51 @@
+---
+format: 
+ pdf: 
+   papersize: letter
+   documentclass: article
+   lang: es-CR
+   titlepage: false
+   toc: false
+   fontsize: "11pt"
+   mainfont: Times New Roman
+   urlcolor: "blue"
+   number-sections: false
+   margin-left: "2.54cm"
+   margin-right: "2.54cm"
+   margin-top: "2.54cm"
+   margin-bottom: "2.54cm"
+   header-includes:
+            - \usepackage{indentfirst}
+            - \setlength{\parindent}{1.27cm} 
+   include-before-body: Portada.tex
+---
+
+```{=latex}
+\setcounter{page}{0} 
+```
+
+
+
+# Parte teórica - programada 
+
+## Ejercicio 5
+
+### a) Determine explícitamente la matriz A. 
+
+### b) Justifique si es posible garantizar que A posee factorización LU única.
+
+### c) Con ayuda de la factorización LU de A, encuentre el conjunto solución del sistema lineal $Ax = b, \text{donde } b:=\left(31,\frac{3}{2},124,-90\right)^t.$
+
+
+## Ejercicio 14
+
+### a) Pruebe que las entradas de la matriz L están dadas por las fórmulas: $$ L_{j,j}=\sqrt{A_{j,j}-\sum_{k=1}^{j-1}(L_{j,k})^2},\quad \text{y}\quad L_{i,j}=\frac{1}{L_{j,j}}\left(A_{i,j}-\sum_{k=1}^{j-1}L_{i,k}L_{j,k}\right),\quad \text{para }i>j$$
+### b) Usando a), encuentre la factorización de Cholesky de la matriz A (recuerde probar que es una matriz positiva definida), dada por: $$\begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix}$$
+
+## Ejercicio 15
+
+### a) Explique detalladamente el método de Müller para la resolución numérica de ecuaciones no lineales. Debe describir cómo se deriva la fórmula general del método, junto con su explicación geométrica, su velocidad de convergencia, etc. 
+
+### b) Realice una iteración del método de Müller para el polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$, utilizando los valores: $x_{0} = \frac{1}{2}, x_{1}= \frac{-1}{2}, x_{2} = 0$. Además, calcule el error absoluto $|x_{3} − x_{2}|$ de esta iteración.
+
+
