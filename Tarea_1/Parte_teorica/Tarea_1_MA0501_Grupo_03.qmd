@@ -34,6 +34,205 @@ Ver programación en el archivo Tarea_1_MA0501_Grupo_03.m
 
 # Parte teórica - programada
 
+## Ejercicio 3
+Tenemos:
+
+$$
+2(\alpha+2)x+\alpha\sin(2x)=0,
+\qquad \alpha\in\mathbb{R}
+\tag{1}
+$$
+
+### a) Determine los valores de $\alpha$ para que $(1)$ tenga solución en $[1,2]$.
+
+**TVI:** Si $f:[a,b]\rightarrow\mathbb{R}$ es continua en $[a,b]$ y
+
+$$
+f(a)\leq L\leq f(b)
+$$
+
+entonces
+
+$$
+\exists\,c\in[a,b]\quad\text{tal que}\quad f(c)=L.
+$$
+
+Definimos:
+
+$$
+f(x)=2(\alpha+2)x+\alpha\sin(2x)
+$$
+
+$f$ es continua en $[1,2]$, pues es la suma de una función lineal, la cual es continua, y una función trigonométrica. Sabemos que la composición de funciones continuas es continua.
+
+Por lo tanto,
+
+$$
+\Rightarrow f\text{ es continua en }[1,2].
+$$
+
+Vea que:
+
+$$
+f(1)=2(\alpha+2)\cdot1+\alpha\sin(2) =\alpha(2+\sin(2))+4
+$$
+
+y
+
+$$
+f(2)=2(\alpha+2)\cdot2+\alpha\sin(2\cdot2) = \alpha(4+\sin(4))+8.
+$$
+
+
+Para que $f$ tenga solución en $[1,2]$ debe cumplirse que $$f(1)\cdot f(2)\leq0.$$
+
+
+Si $$f(1)=0 \Rightarrow \alpha(2+\sin(2))+4=0 $$
+
+por lo que
+
+$$
+\alpha=-\frac{4}{2+\sin(2)}
+\approx -1.3749.
+$$
+
+Ahora, si
+
+$$ f(2)=0 \Rightarrow \alpha(4+\sin(4))+8=0 $$
+por lo que
+
+$$
+\alpha=-\frac{8}{4+\sin(4)}
+\approx -2.4667.
+$$
+
+Dado que las pendientes de $$ f(1)=\alpha(2+\sin(2))+4 $$ y $$ f(2)=\alpha(4+\sin(4))+8 $$ son positivas, entonces las funciones de $\alpha$ son crecientes.
+
+Por lo tanto, los valores de $\alpha$ para los que el TVI garantiza al menos una solución en el intervalo $[1,2]$ son:
+
+$$
+\alpha\in
+\left[
+-\frac{8}{4+\sin(4)},
+-\frac{4}{2+\sin(2)}
+\right]
+$$
+
+es decir,
+
+$$
+\alpha\in[-2.4667,-1.3749].
+$$
+
+Por lo tanto, el TVI garantiza al menos una solución en $[1,2]$ si y solo si $\alpha \in [-2.4667, -1.3749]$.
+
+### b) Muestre que la ecuación (1) se puede escribir como un problema de hallar un punto fijo de $x=\varphi(x)$ 
+
+Tenemos:
+
+$$
+2(\alpha+2)x+\alpha\sin(2x)=0
+$$
+
+$$
+\Rightarrow 2\alpha x+4x+\alpha\sin(2x)=0
+$$
+
+$$
+\Rightarrow 4x=-2\alpha x-\alpha\sin(2x)
+$$
+
+$$
+\Rightarrow x=-\frac{\alpha x}{2}-\frac{\alpha\sin(2x)}{4}
+$$
+
+Por lo tanto:
+
+$$
+\varphi(x)=-\frac{\alpha x}{2}
+-\frac{\alpha\sin(2x)}{4}
+$$
+
+
+
+Ahora, vea que $\varphi(x)$ es continua ya que es una resta de funciones continuas. Además,
+
+$$\varphi(1) = \frac{-\alpha \cdot 1}{2} - \frac{\alpha \sin(2 \cdot 1)}{4} = -\alpha \left( \frac{1}{2} + \frac{\sin(2)}{4} \right)$$
+
+$$\varphi(2) = \frac{-\alpha \cdot 2}{2} - \frac{\alpha \sin(2 \cdot 2)}{4} = -\alpha \left( 1 + \frac{\sin(4)}{4} \right)$$
+
+Necesitamos que: $\varphi(x) \in [1,2] \quad \forall x \in [1,2]$
+
+Para $\varphi(1)$:
+
+$$\Rightarrow 1 \leq -\alpha \left( \frac{1}{2} + \frac{\sin(2)}{4} \right) \leq 2 \quad $$
+
+$$\Rightarrow -2 \leq \alpha \left( \frac{1}{2} + \frac{\sin(2)}{4} \right) \leq -1$$
+
+$$\Rightarrow \frac{-2}{\frac{1}{2} + \frac{\sin(2)}{4}} \leq \alpha \leq \frac{-1}{\frac{1}{2} + \frac{\sin(2)}{4}}$$
+
+$$\Rightarrow \frac{-2}{\frac{2 + \sin(2)}{4}} \leq \alpha \leq \frac{-1}{\frac{2 + \sin(2)}{4}}$$
+
+$$\Rightarrow \frac{-8}{2 + \sin(2)} \leq \alpha \leq \frac{-4}{2 + \sin(2)}$$
+
+$$\Rightarrow -2,7498 \leq \alpha \leq -1,3749$$
+
+Para $\varphi(2)$:
+
+$$1 \leq -\alpha \left( 1 + \frac{\sin(4)}{4} \right) \leq 2$$
+
+$$\Rightarrow \frac{-2}{1 + \frac{\sin(4)}{4}} \leq \alpha \leq \frac{-1}{1 + \frac{\sin(4)}{4}}$$
+
+$$\Rightarrow -2,4667 \leq \alpha \leq -1,2334$$
+
+Por lo que:
+
+$$\alpha \in \left[ -2.7498, -1.3749 \right] \cap \left[ -2.4667, -1.2334 \right]$$
+
+$$\Rightarrow \alpha \in \left[ -2.4667, -1.3749 \right]$$
+
+### c) Justifique si es mejor el método de bisección en la ecuación $(1)$ o el método de punto fijo en la ecuación $x=\varphi(x)$ con base en lo obtenido en a) y b).
+
+Como se puede observar, $\alpha$ pertenece al mismo intervalo en el inciso a y b; así que ambos métodos comprobarán la existencia de una solución para ese intervalo. Pero para saber si el método de punto fijo converge, habría que comprobar que $|\varphi'(x)| \leq L$ para $0 < L < 1$ $\forall x \in \left]1,2\right[$ lo que implicaría cálculos extra a los realizados en a) y b). Por otro lado, el método de bisección solamente necesita la verificación de que $f(a) \cdot f(b) \leq 0$ lo cual ya fue comprobado en el inciso a); es por esto que el método de bisección sería mejor para este caso.
+
+### d) Aplique el método de punto fijo y determine una aproximación para la solución de $(1)$, con una tolerancia de $10^{-4}$ empleando el error relativo en cada iteración. Use $x_0 = 1$ y $\alpha = -2$.
+
+Tenemos $f(x) = 2(\alpha+2)x + \alpha \sin(2x)$
+
+Necesitamos llegar a $x = g(x)$; para $x = \varphi(x)$, del inciso b) obtuvimos:
+
+$$\varphi(x) = \frac{-\alpha x}{2} - \frac{\alpha \sin(2x)}{4}$$
+
+Para $\alpha = -2$
+
+$$\varphi(x) = x + \frac{\sin(2x)}{2}$$
+
+Tenemos $tol = 10^{-4}$; $x_0 = 1$; $e_k = \dfrac{|x_{k+1} - x_k|}{|x_{k+1}|}$
+
+Como $x_0 = 1$
+
+$$\Rightarrow x_1 = 1 + \frac{\sin(2 \cdot 1)}{2} \approx 1,45465$$
+
+$$\Rightarrow e_0 = \frac{|1,45465 - 1|}{|1,45465|} = \frac{0,45465}{1,45465} \approx 0,31255 > 10^{-4}$$
+
+Ahora, $x_2 = 1,45465 + \dfrac{\sin(2 \cdot 1,45465)}{2} \approx 1,56975$
+
+$$\Rightarrow e_1 = \frac{|1,56975 - 1,45465|}{|1,56975|} \approx 0,07333 > 10^{-4}$$
+
+Ahora, $x_3 = 1,56975 + \dfrac{\sin(2 \cdot 1,56975)}{2} \approx 1,57080$
+
+$$\Rightarrow e_2 = \frac{|1,57080 - 1,56975|}{|1,57080|} \approx 6,66111 \times 10^{-4} > 10^{-4}$$
+
+Ahora, $x_4 = 1,57080 + \dfrac{\sin(2 \cdot 1,57080)}{2} = \frac{\pi}{2}$
+
+$$\Rightarrow e_3 = \frac{|\frac{\pi}{2} - 1,57080|}{|\frac{\pi}{2}|} \approx 2,33844 \times 10^{-6} < 10^{-4}$$
+
+Como se llegó a que el error relativo es menor que la tolerancia entonces usamos $x_4$ como la aproximación a la solución para la ecuación $(1)$, con
+
+$$x_4 = \frac{\pi}{2} \approx 1,57080$$
+
+con un error relativo de $e_3 \approx 2,33844 \times 10^{-6} < 10^{-4}$.
+
 ## Ejercicio 5
 
 ### a) Determine explícitamente la matriz A.
