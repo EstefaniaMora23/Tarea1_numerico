@@ -26,6 +26,12 @@ format:
 \setcounter{page}{0} 
 ```
 
+# Parte programada
+
+## Ejercicio 1
+
+Ver programación en el archivo Tarea_1_MA0501_Grupo_03.m
+
 # Parte teórica - programada
 
 ## Ejercicio 5
