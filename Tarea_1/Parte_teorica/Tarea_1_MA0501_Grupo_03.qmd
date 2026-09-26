@@ -14,7 +14,7 @@ format:
    margin-right: "2.54cm"
    margin-top: "2.54cm"
    margin-bottom: "2.54cm"
-   header-includes:
+   header-includes:a
             - \usepackage{indentfirst}
             - \setlength{\parindent}{0cm}
             - \usepackage{setspace}
