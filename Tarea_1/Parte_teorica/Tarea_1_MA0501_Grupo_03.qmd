@@ -25,6 +25,12 @@ format:
 ```{=latex}
 \setcounter{page}{0} 
 ```
+# Parte programada
+
+## Ejercicio 1
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+
 
 # Parte teórica - programada
 
@@ -373,6 +379,120 @@ Así, el conjunto solución está dado por:
 
 $$ x = \begin{bmatrix}3-x_{4}\\[8pt]\frac{6x_{4} - 2}{5}\\[8pt]\frac{24 - 2x_{4}}{5}\\[8pt]x_{4}\end{bmatrix},$$ 
 donde $x_4 \in \mathbb{R}.$
+
+
+## Ejercicio 7
+
+Tenemos que para un polinomio $p(x)$ de grado $n$, el cual posee al menos una raíz múltiple $x_0$, se tiene la siguiente fórmula
+
+$$x_{k+1} = x_k - \frac{p(x_k) \, p'(x_k)}{[p'(x_k)]^2 - p(x_k) \, p''(x_k)}$$
+
+### a) ¿Qué condiciones se necesitan para que el método funcione?
+
+Para que el método funcione necesitamos que el polinomio $p(x)$ sea al menos dos veces derivable ya que necesitamos tanto la primer derivada como la segunda; además, necesitamos que el denominador del segundo término sea distinto de $0$ para que la iteración no se indefina, $ie$:
+
+$$[p'(x_k)]^2 - p(x_k) \, p''(x_k) \neq 0 \quad \forall x_k$$
+
+Además, el polinomio debe tener al menos un $x_0$ de raíz múltiple; y al igual que en el método de Newton-Raphson, el $x_0$ inicial debe ser cercano a la raíz verdadera para garantizar la convergencia.
+
+
+### b) Escriba un Algoritmo del método descrito anteriormente
+
+Algoritmo para el Método de Raíz Múltiple:
+
+- **Entradas:** $p(x)$ un polinomio, $p'(x)$ primera derivada de $p(x)$, $p''(x)$ segunda derivada de $p(x)$, $x_0$ valor inicial y $tol$ ($\varepsilon$) la tolerancia para detener la iteración.
+
+- **Salidas:** $M$ matriz que contendrá en la primera columna el número de iteración, en la segunda columna la aproximación de $x$ y en la tercera columna el error relativo de cada iteración
+
+Pasos a seguir:
+
+$k \leftarrow 0$
+
+$x \leftarrow x_0$
+
+$er \leftarrow tol + 1$
+
+Mientras que $er > tol$ hacer:
+
+$a \leftarrow p'(x)$
+
+$b \leftarrow p''(x)$
+
+
+Si $a^2 - p(x) \cdot b = 0$ entonces: "El denominador es cero". Detener
+
+$x \leftarrow x - \frac{p(x) \cdot a}{a^2 - p(x) \cdot b}$
+
+$er \leftarrow |x - x_0|$
+
+$x_0 \leftarrow X$
+
+$k \leftarrow k + 1$
+
+### c) Realice 4 iteraciones del método y encuentre en cada una el error absoluto con el punto inicial $x_0 = 0$ y $p(x) = x^6 - 12x^5 + 63x^4 - 216x^3 + 567x^2 - 972x + 729 = (x^2 + 9)(x - 3)^4$. Describa el resultado encontrado
+
+Tenemos $p(x) = x^6 - 12x^5 + 63x^4 - 216x^3 + 567x^2 - 972x + 729 = (x^2 + 9)(x - 3)^4$
+
+Tomando $p(x) = (x^2 + 9)(x - 3)^4$
+
+$$\Rightarrow p'(x) = 2x(x - 3)^4 + 4(x - 3)^3(x^2 + 9)$$
+
+$$\Rightarrow p''(x) = 2(x - 3)^4 + 8x(x - 3)^3 + 12(x - 3)^2(x^2 + 9) + 8x(x - 3)^3$$
+
+$$\Rightarrow p''(x) = 2(x - 3)^4 + 16x(x - 3)^3 + 12(x - 3)^2(x^2 + 9)$$
+
+**Iteración 1:**
+
+Tenemos $x_0 = 0$
+
+$\Rightarrow x_1 = 0 - \frac{\big[(0^2 + 9)(0 - 3)^4\big] \cdot \big[2(0)(0-3)^4 + 4(0-3)^3(0^2+9)\big]}{\big[2(0)(0-3)^4 + 4(0-3)^3(0^2+9)\big]^2 - \big[(0^2+9)(0-3)^4\big] \cdot \big[2(0-3)^4 + 16(0)(0-3)^3 + 12(0-3)^2(0^2+9)\big]}$
+
+$$\Rightarrow x_1 = 6$$
+$$\Rightarrow e_1 = |x_1 - x_0| = |6-0| = 6$$
+
+**Iteración 2:**
+
+Tenemos $x_1 = 6$
+
+$\Rightarrow x_2 = 6 - \frac{\big[(6^2 + 9)(6 - 3)^4\big] \cdot \big[2(6)(6-3)^4 + 4(6-3)^3(6^2+9)\big]}{\big[2(6)(6-3)^4 + 4(6-3)^3(6^2+9)\big]^2 - \big[(6^2+9)(6-3)^4\big] \cdot \big[2(6-3)^4 + 16(6)(6-3)^3 + 12(6-3)^2(6^2+9)\big]}$
+
+$$\Rightarrow x_2 = 2.60377$$
+$$\Rightarrow e_2 = |x_2 - x_1| = |2.60377 - 6| = 3.39623$$
+
+**Iteración 3:**
+
+Tenemos $x_2 = 2.60377$
+
+
+
+\begin{equation*}
+\resizebox{\textwidth}{!}{$
+\Rightarrow x_3 = 2.60377 - \frac{\big[(2.60377^2 + 9)(2.60377 - 3)^4\big] \cdot \big[2(2.60377)(2.60377-3)^4 + 4(2.60377-3)^3(2.60377^2+9)\big]}{\big[2(2.60377)(2.60377-3)^4 + 4(2.60377-3)^3(2.60377^2+9)\big]^2 - \big[(2.60377^2+9)(2.60377-3)^4\big] \cdot \big[2(2.60377-3)^4 + 16(2.60377)(2.60377-3)^3 + 12(2.60377-3)^2(2.60377^2+9)\big]}
+$}
+\end{equation*}
+
+$$\Rightarrow x_3 = 2.98732$$
+$$\Rightarrow e_3 = |x_3 - x_2| = |2.98732 - 2.60377| = 0.38355$$
+
+**Iteración 4:**
+
+Tenemos $x_3 = 2.98732$
+
+\begin{equation*}
+\resizebox{\textwidth}{!}{$
+\Rightarrow x_4 = 2.98732 - \frac{\big[(2.98732^2 + 9)(2.98732 - 3)^4\big] \cdot \big[2(2.98732)(2.98732-3)^4 + 4(2.98732-3)^3(2.98732^2+9)\big]}{\big[2(2.98732)(2.98732-3)^4 + 4(2.98732-3)^3(2.98732^2+9)\big]^2 - \big[(2.98732^2+9)(2.98732-3)^4\big] \cdot \big[2(2.98732-3)^4 + 16(2.98732)(2.98732-3)^3 + 12(2.98732-3)^2(2.98732^2+9)\big]}
+$}
+\end{equation*}
+
+$$\Rightarrow x_4 = 2.99999$$
+$$\Rightarrow e_4 = |x_4 - x_3| = |2.99999 - 2.98732| = 0.01267$$
+
+Como puede observarse, con 4 iteraciones, se encontró que la aproximación a una raíz del polinomio $p(x)$ es $x_4 = 2.99999 \approx 3$ la cual corresponde a una raíz del polinomio, además, se obtuvo que el primer error fue muy grande, de 6, mientras que el segundo error fue menor, de aproximadamente 3.40, y conforme se realizaron las siguientes iteraciones, este error se hizo cada vez más pequeño hasta alcanzar la iteración 4 donde se obtuvo que el error fue de aproximadamente 0.01 pero a pesar de que el error siga siendo relativamente grande, la aproximación de $x$ para la iteración 4 fue muy cercana al valor real; además, el método no se acercó al valor real de manera monótona, sino que primero subió de $x_0 = 0$ a $x_1 = 6$, luego bajó a $x_2 \approx 2.60$, luego subió a $x_3 \approx 2.99$ y por último subió a $x_4 \approx 3$.
+
+### d) Escriba una función la cual lleve acabo la implementación del método descrito en este ejercicio
+
+Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+
 
 ## Ejercicio 14
 
