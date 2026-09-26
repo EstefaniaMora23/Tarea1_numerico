@@ -16,7 +16,9 @@ format:
    margin-bottom: "2.54cm"
    header-includes:
             - \usepackage{indentfirst}
-            - \setlength{\parindent}{1.27cm} 
+            - \setlength{\parindent}{0cm}
+            - \usepackage{setspace}
+            - \setstretch{1.15} 
    include-before-body: Portada.tex
 ---
 
@@ -24,54 +26,110 @@ format:
 \setcounter{page}{0} 
 ```
 
-
-
-# Parte teórica - programada 
+# Parte teórica - programada
 
 ## Ejercicio 5
 
-### a) Determine explícitamente la matriz A. 
+### a) Determine explícitamente la matriz A.
 
-Para determinar explícitamente la matriz original A, el procedimiento a seguir consiste en aplicar a la matriz resultante las operaciones inversas a las realizadas inicialmente, desde la última operación hasta la primer operación. Por ejemplo, en caso de aplicarse en un inicio una suma de filas, ahora se aplicará una resta de filas y en caso de aplicarse en un inicio una resta de filas, ahora se aplicará una suma de filas. El orden de las operaciones a efectuar a la matriz resultante es el siguiente: 
+Para determinar explícitamente la matriz original A, el procedimiento a seguir consiste en aplicar a la matriz resultante las operaciones inversas a las realizadas inicialmente, desde la última operación hasta la primer operación. Por ejemplo, en caso de aplicarse en un inicio una suma de filas, ahora se aplicará una resta de filas y en caso de aplicarse en un inicio una resta de filas, ahora se aplicará una suma de filas. El orden de las operaciones a efectuar a la matriz resultante es el siguiente:
 
-1. $f4 + f2$
+1.  $f4 + f2$
 
-2. $f3 - \frac{1}{2} f2$
+2.  $f3 - \frac{1}{2} f2$
 
-3. $f4 - 4f1$
+3.  $f4 - 4f1$
 
-4. $f3 + 3f1$
+4.  $f3 + 3f1$
 
-5. $f2 + \frac{1}{2}f1$
+5.  $f2 + \frac{1}{2}f1$
 
-Además, la matriz resultante está dada por: 
+Además, la matriz resultante está dada por:
 
-$$\begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&10&4\end{bmatrix}$$
-Efectuando las operaciones detalladas a la matriz anterior, se obtiene: 
+$$\begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&10&4\end{bmatrix}$$ Efectuando las operaciones detalladas a la matriz anterior, se obtiene:
 
-1. $f4 + f2$
+1.  $f4 + f2$
 
 $$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0+0&0-1&10-3&4+0\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&-1&7&4\end{bmatrix}$$
 
-2. $f3 - \frac{1}{2} f2$
+2.  $f3 - \frac{1}{2} f2$
 
 $$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0-(\frac{1}{2}*0)&0-(\frac{1}{2}*-1)&5-(\frac{1}{2}*-3)&2-(\frac{1}{2}*0)\\0&-1&7&4\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&\frac{1}{2}&\frac{13}{2}&2\\0&-1&7&4\end{bmatrix}$$
 
-3. $f4 - 4f1$
+3.  $f4 - 4f1$
 
-$$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&\frac{1}{2}&\frac{13}{2}&2\\0-(4 * 7)&-1 - (4 *-1) &7 - (4 * 2)&4 - (4*9)\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&\frac{1}{2}&\frac{13}{2}&2\\-28&3&-1&-32\end{bmatrix}$$
-4. $f3 + 3f1$
+$$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&\frac{1}{2}&\frac{13}{2}&2\\0-(4 * 7)&-1 - (4 *-1) &7 - (4 * 2)&4 - (4*9)\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&\frac{1}{2}&\frac{13}{2}&2\\-28&3&-1&-32\end{bmatrix}$$ 4. $f3 + 3f1$
 
 $$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0+(3*7)&\frac{1}{2}+(3*-1)&\frac{13}{2}+(3*2)&2+(3*9)\\-28&3&-1&-32\end{bmatrix}= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\21&\frac{-5}{2}&\frac{25}{2}&29\\-28&3&-1&-32\end{bmatrix}$$
 
-5. $f2 + \frac{1}{2}f1$
+5.  $f2 + \frac{1}{2}f1$
 
-$$= \begin{bmatrix}7&-1&2&9\\0+(\frac{1}{2}*7)&-1+(\frac{1}{2}*-1)&-3+(\frac{1}{2}*2)&0+(\frac{1}{2}*9)\\21&\frac{-5}{2}&\frac{25}{2}&29\\-28&3&-1&-32\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\\frac{7}{2}&\frac{-3}{2}&-2&\frac{9}{2}\\21&\frac{-5}{2}&\frac{25}{2}&29\\-28&3&-1&-32\end{bmatrix}$$
+$$= \begin{bmatrix}7&-1&2&9\\0+(\frac{1}{2}*7)&-1+(\frac{1}{2}*-1)&-3+(\frac{1}{2}*2)&0+(\frac{1}{2}*9)\\21&\frac{-5}{2}&\frac{25}{2}&29\\-28&3&-1&-32\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\\frac{7}{2}&\frac{-3}{2}&-2&\frac{9}{2}\\21&\frac{-5}{2}&\frac{25}{2}&29\\-28&3&-1&-32\end{bmatrix}$$ En vista de lo anterior, se tiene que la matriz A corresponde a:
 
+$$A = \begin{bmatrix}7&-1&2&9\\\frac{7}{2}&\frac{-3}{2}&-2&\frac{9}{2}\\21&\frac{-5}{2}&\frac{25}{2}&29\\-28&3&-1&-32\end{bmatrix}$$
 
 ### b) Justifique si es posible garantizar que A posee factorización LU única.
 
+Por teorema se tiene que si A es una matriz no singular y se puede escribir como $A = LU$, con L una matriz triangular inferior unitaria y U una matriz triangular superior, entonces la factorización es única.
+
+Primero, se verifica si A es una matriz no singular. Es preciso recordar que una matriz singular corresponde a una matriz cuadrada cuyo determinante es igual a cero. Calculando el determinante de A mediante el método de Gauss:
+
+1.  $f2 - \frac{1}{2}f1,\quad$ $f3 - 3f1,\quad$ $f4 + 4f1$
+
+$$= \begin{bmatrix}7&-1&2&9\\\frac{7}{2} - (\frac{1}{2}*7) &\frac{-3}{2} - (\frac{1}{2} * -1)&-2 - (\frac{1}{2} *2)&\frac{9}{2} - (\frac{1}{2} * 9)\\21 - (3*7)&\frac{-5}{2} - (3*-1)&\frac{25}{2} - (3*2)&29 - (3*9)\\-28 + (4*7)&3 + (4*-1)&-1 + (4*2)&-32 + (4*9)\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&\frac{1}{2}&\frac{13}{2}&2\\0&-1&7&4\end{bmatrix}$$
+
+2.  $f3 + \frac{1}{2}*f2,\quad$ $f4 - f2$
+
+$$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0 +(\frac{1}{2}*0)&\frac{1}{2}+(\frac{1}{2}*-1)&\frac{13}{2}+(\frac{1}{2}*-3)&2 +(\frac{1}{2}*0)\\0-0&-1--1&7--3&4-0\end{bmatrix} = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&10&4\end{bmatrix}$$ 3. $f4 - 2f3$
+
+$$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0 - 2*0&0 - 2*0&10 - 2*5&4 - 2*2\end{bmatrix} =  \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$ De esta manera, finalmente el $det(A)$ se calcula como: $$det(A) = 7 * -1 * 5 * 0 = 0$$
+
+Note que a partir del procedimiento anterior, es posible visualizar que A es una matriz singular: constituye una matriz cuadrada cuyo determinante es igual a cero. De esta forma se incumple el requisito de no singularidad del teorema, por lo que no es posible garantizar que la matriz A posee una factorización LU única.
+
 ### c) Con ayuda de la factorización LU de A, encuentre el conjunto solución del sistema lineal $Ax = b, \text{donde } b:=\left(31,\frac{3}{2},124,-90\right)^t.$
+
+Primero, se desarrolla la factorización LU de la matriz A. Note que en el inciso anterior se construyó la matriz triangular superior a partir de A, la cual en el presente ejercicio se define como: $$ U = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$ Por otro lado, la matriz triangular inferior unitaria L, se construye a partir de los coeficientes utilizados para generar la matriz triangular superior U, los cuales se toman de igual manera del inciso anterior y se define la matriz de la forma:
+
+$$ L = \begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} $$ Así, se ha encontrado que: $$ A = LU = \begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} * \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$ 
+
+Ahora, el sistema planteado en el enunciado corresponde a $Ax = b$, reemplazando $A = LU$ se obtiene la expresión $LUx = b$. Defina $y= Ux$, así se tiene que $Ly = b$, desarrollando:
+
+$$\begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} * \begin{bmatrix}y_{1}\\y_{2}\\y_{3}\\y_{4}\end{bmatrix} = \begin{bmatrix}31\\\frac{3}{2}\\124\\-90\end{bmatrix}$$ 
+
+Realizando la multiplicación se llega al siguiente sistema: $$ y_{1} = 31$$
+
+$$\frac{1}{2}y_{1} + y_{2} = \frac{3}{2}$$
+
+$$3y_{1} - \frac{1}{2}y_{2} + y_{3} = 124$$
+
+$$-4y_{1} + y_{2} + 2y_{3} + y_{4} = -90$$
+
+A continuación, se procede a encontrar $y_{2}$ a partir de $y_{1} = 31$:
+
+$$\frac{1}{2}y_{1} + y_{2} = \frac{3}{2}$$
+
+$$\frac{1}{2}*31 + y_{2} = \frac{3}{2},$$
+
+$$y_{2} = \frac{3}{2} - \frac{31}{2},$$
+
+$$y_{2} = -14$$ Ahora, con $y_{1} = 31$ y $y_{2}= -14$, se despeja $y_{3}$:
+
+$$3y_{1} - \frac{1}{2}y_{2} + y_{3} = 124,$$ $$y_{3} = 124 - 3*31 +  \frac{1}{2}*-14, $$ $$y_{3} = 124 - 93 - 7, $$ $$y_{3} = 24 $$
+
+Finalmente, con $y_{1} = 31$, $y_{2}= -14$ y $y_{3} = 24$, se despeja $y_{4}$:
+
+$$-4y_{1} + y_{2} + 2y_{3} + y_{4} = -90,$$ $$y_{4} = -90 + 4 * 31 + 14 - 2 * 24 $$ $$y_{4} = -90 + 124 + 14 - 48$$ $$y_{4} = 0$$ Así, se obtiene que:
+
+$$ y = \begin{bmatrix}31\\-14\\24\\0\end{bmatrix}$$ 
+Seguidamente, es preciso recordar que y = Ux, de manera que: 
+
+
+
+
+
+
+
+
 
 
 ## Ejercicio 14
@@ -82,8 +140,6 @@ $$= \begin{bmatrix}7&-1&2&9\\0+(\frac{1}{2}*7)&-1+(\frac{1}{2}*-1)&-3+(\frac{1}{
 
 ## Ejercicio 15
 
-### a) Explique detalladamente el método de Müller para la resolución numérica de ecuaciones no lineales. Debe describir cómo se deriva la fórmula general del método, junto con su explicación geométrica, su velocidad de convergencia, etc. 
+### a) Explique detalladamente el método de Müller para la resolución numérica de ecuaciones no lineales. Debe describir cómo se deriva la fórmula general del método, junto con su explicación geométrica, su velocidad de convergencia, etc.
 
 ### b) Realice una iteración del método de Müller para el polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$, utilizando los valores: $x_{0} = \frac{1}{2}, x_{1}= \frac{-1}{2}, x_{2} = 0$. Además, calcule el error absoluto $|x_{3} − x_{2}|$ de esta iteración.
-
-
