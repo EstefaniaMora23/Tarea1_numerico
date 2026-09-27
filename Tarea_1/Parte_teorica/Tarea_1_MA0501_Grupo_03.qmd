@@ -233,6 +233,119 @@ $$x_4 = \frac{\pi}{2} \approx 1,57080$$
 
 con un error relativo de $e_3 \approx 2,33844 \times 10^{-6} < 10^{-4}$.
 
+## Ejercicio 4
+
+Considere la sucesión definida por:
+  
+$$x_{k+1} = \frac{20x_k + \dfrac{21}{x_k^2}}{21}, \qquad k \geq 1 \tag{2}$$
+    
+### a) Muestre que el límite cuando $k \to \infty$ de la sucesión (2) es $\sqrt[3]{21}$
+    
+Defina $g(x) = \dfrac{20x + \frac{21}{x^2}}{21}$, de forma que la sucesión (2) corresponde a la iteración de punto fijo $x_{k+1} = g(x_k)$.
+    
+Note que si $x_0 > 0$, entonces $g(x_0) > 0$, ya que tanto $20x_0$ como $\frac{21}{x_0^2}$ son positivos; por lo tanto, toda la sucesión permanece en los reales positivos.
+    
+Supongam que la sucesión converge, es decir, que existe $L = \lim_{k\to\infty} x_k$. Como $g$ es continua para $x \neq 0$, al tomar límite en ambos lados de (2) se obtiene:
+      
+$$L = \frac{20L + \frac{21}{L^2}}{21}$$
+      
+$$\Rightarrow 21L = 20L + \frac{21}{L^2}$$
+      
+$$\Rightarrow L = \frac{21}{L^2}$$
+      
+$$\Rightarrow L^3 = 21$$
+      
+Como $L > 0$ (pues toda la sucesión es positiva), se concluye que la única solución posible es:
+      
+$$L = \sqrt[3]{21}$$
+      
+Ahora, para garantizar que la sucesión efectivamente converge a este valor, se verifica la condición del Teorema de Convergencia Local del punto fijo: basta con que $g$ sea derivable cerca de $L$ y que $|g'(L)| < 1$.
+
+Calculando la derivada:
+
+$$g'(x) = \frac{20}{21} - \frac{2}{x^3}$$
+      
+Evaluando en $L = \sqrt[3]{21}$, es decir, usando que $L^3 = 21$:
+      
+$$g'(L) = \frac{20}{21} - \frac{2}{21} = \frac{18}{21} = \frac{6}{7} \approx 0,85714$$
+
+Como $|g'(L)| = \frac{6}{7} < 1$, se cumple la condición del teorema, por lo que existe un intervalo alrededor de $L$ dentro del cual la iteración de punto fijo converge a $L$. Los resultados numéricos del inciso c) confirman que, en efecto, con $x_0 = 1$ la sucesión se aproxima cada vez más a $L$. Por lo tanto:
+  
+$$\lim_{k \to \infty} x_k = \sqrt[3]{21}$$
+    
+### b) Determine el orden de convergencia de la sucesión (2). Explique si la convergencia es cuadrática
+    
+Del inciso a) se obtuvo que:
+  
+$$g'(L) = \frac{6}{7} \neq 0$$
+
+Por la teoría de convergencia de iteraciones de punto fijo, si $g'(L) \neq 0$, entonces el método converge con orden 1 (convergencia lineal), y no con orden 2. Esto se puede justificar formalmente usando el Teorema de Taylor: si $e_k = x_k - L$ es el error en la iteración
+$k$, entonces
+
+$$e_{k+1} = x_{k+1} - L = g(x_k) - g(L) \approx g'(L)\,e_k + O(e_k^2)$$
+
+de donde
+
+$$\lim_{k\to\infty} \frac{e_{k+1}}{e_k} = g'(L) = \frac{6}{7}$$
+  
+Como este límite es una constante distinta de cero (y no el límite $\lim \frac{e_{k+1}}{e_k^2}$ el que resulta finito y distinto de cero), la convergencia es lineal, no cuadrática, con constante asintótica de error $\frac{6}{7} \approx 0,857$.
+
+### c) Realice 4 iteraciones de (2) para aproximar $\sqrt[3]{21}$ con $x_0 = 1$. Calcule el error absoluto en cada iteración
+
+Usando $x_{k+1} = \dfrac{20x_k + \frac{21}{x_k^2}}{21}$. Como en este caso sí se conoce el valor exacto $\sqrt[3]{21} \approx 2,75892418$, el error absoluto en cada iteración se calcula con la definición formal $E_{a,k} = |\sqrt[3]{21} - x_k|$, y no como la diferencia entre iteraciones consecutivas.
+
+**Iteración 1:**
+$$
+x_1 = \frac{20(1) + \frac{21}{1^2}}{21} = \frac{41}{21} \approx 1,95238
+$$
+$$
+E_{a,1} = |\sqrt[3]{21} - x_1| = |2,75892418 - 1,95238| \approx 0,80654
+$$
+
+**Iteración 2:**
+$$
+x_2 = \frac{20(1,95238) + \frac{21}{(1,95238)^2}}{21} \approx 2,12175
+$$
+$$
+E_{a,2} = |\sqrt[3]{21} - x_2| = |2,75892418 - 2,12175| \approx 0,63717
+$$
+
+**Iteración 3:**
+$$
+x_3 = \frac{20(2,12175) + \frac{21}{(2,12175)^2}}{21} \approx 2,24285
+$$
+$$
+E_{a,3} = |\sqrt[3]{21} - x_3| = |2,75892418 - 2,24285| \approx 0,51607
+$$
+
+**Iteración 4:**
+$$
+x_4 = \frac{20(2,24285) + \frac{21}{(2,24285)^2}}{21} \approx 2,33484
+$$
+$$
+E_{a,4} = |\sqrt[3]{21} - x_4| = |2,75892418 - 2,33484| \approx 0,42408
+$$
+
+Así, con 4 iteraciones se obtiene la aproximación $x_4 \approx 2,33484$, con un error absoluto de $E_{a,4} \approx 0,42408$. Note que el error se reduce poco de una iteración a otra (de $0,80654$ a $0,42408$ en 4 iteraciones), reflejo directo de la convergencia lineal obtenida en el inciso b).
+
+### d) Calcule $\sqrt[3]{21}$ con redondeo a 8 decimales y determine el número de dígitos significativos del resultado obtenido en c)
+
+Calculando directamente:
+
+$$\sqrt[3]{21} \approx 2,75892418$$
+
+Para determinar el número de dígitos significativos de $x_4 \approx 2,33484$ respecto al valor exacto, se calcula el error relativo:
+
+$$E_r = \frac{|\sqrt[3]{21} - x_4|}{|\sqrt[3]{21}|} = \frac{|2,75892418 - 2,33484|}{2,75892418} \approx \frac{0,42408}{2,75892} \approx 0,15371$$
+
+es decir, un error relativo de aproximadamente $15,37\%$. Usando el criterio de que $x_4$ tiene $n$ dígitos significativos correctos si $E_r \leq 0,5\times10^{-n}$, se tiene que $E_r \approx 0,15371 \leq 0,5\times10^{0} = 0,5$, pero $E_r > 0,5\times10^{-1}=0,05$. Por lo tanto, $n = 0$: la aproximación $x_4$ no alcanza siquiera un dígito significativo correcto.
+
+Esto es consistente con lo encontrado en el inciso b): como la convergencia de esta sucesión es lineal con una constante asintótica $\frac{6}{7} \approx 0,857$ (muy cercana a $1$), el error se reduce muy lentamente en cada iteración, por lo que después de solo 4 iteraciones todavía se está lejos del valor real $\sqrt[3]{21}$.
+
+### e) Programe una función que aproxime $\sqrt[3]{21}$ usando la sucesión (2)
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+
 ## Ejercicio 5
 
 ### a) Determine explícitamente la matriz A.
