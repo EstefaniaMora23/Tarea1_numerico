@@ -11,11 +11,8 @@ Division_Multiples_Secciones(f_1, 1, 2, 10, 10^-10)
 
 %% Ejercicio 4
 % Prueba de la funcion del ejercicio 4e Raiz_Cubica_21:
-
 disp('Resultado del ejercicio 4e:')
 A_4 = Raiz_Cubica_21(1, 10^-6)
-
-
 
 %% Ejercicio 7
 % Prueba de la función del ejercicio 7 Método de Raíz Múltiple
@@ -140,44 +137,33 @@ end
 
 %% Ejercicio 4
 function [A] = Raiz_Cubica_21(x0, tol)
-% Se aproxima la raiz cubica de 21 mediante la sucesion x_{k+1} = (20*x_k + 21/x_k^2)/21
-% Entradas:        x0 ---- Valor inicial, debe ser un numero real positivo
-%                 tol ---- Tolerancia para el error relativo, debe ser un numero real positivo
-% Salidas:          A ---- Matriz con iteracion (col 1), aproximacion x_k (col 2) y error relativo (col 3)
-
-    % Validacion de restricciones para las entradas
     if ~(isnumeric(x0) && isreal(x0) && isscalar(x0)) || x0 <= 0
         error('El valor inicial x0 debe ser un numero real positivo.');
     end
-    
     if ~(isnumeric(tol) && isreal(tol) && isscalar(tol)) || tol <= 0
         error('La tolerancia debe ser un numero real positivo.');
     end
-
-    cont = 0;
-    er = tol + 1;
     
-    % Fila inicial de la matriz de salida (iteracion 0)
+    cont = 0;
+    er = tol + 1; 
+    
     A(1, 1) = cont;
     A(1, 2) = x0;
-    A(1, 3) = NaN; % No hay error relativo previo definido
+    A(1, 3) = NaN; 
     
-    % Ciclo iterativo de la sucesión
     while (er > tol)
         x1 = (20*x0 + 21/(x0^2)) / 21;
-        er = abs(x1 - x0) / abs(x1); % Error relativo aproximado
+        er = abs(x1 - x0) / abs(x1); 
         
         cont = cont + 1;
-        
-        % Almacenamiento en la matriz A
         A(cont + 1, 1) = cont;
         A(cont + 1, 2) = x1;
         A(cont + 1, 3) = er;
         
-        % Actualizacion para la siguiente iteracion
         x0 = x1;
     end
 end
+
 %% Ejercicio 7
 
 function[A] = metodo_Raiz_Multiple(p,dp,d2p,x0,tol,IterMax)
