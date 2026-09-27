@@ -14,7 +14,7 @@ format:
    margin-right: "2.54cm"
    margin-top: "2.54cm"
    margin-bottom: "2.54cm"
-   header-includes:a
+   header-includes:
             - \usepackage{indentfirst}
             - \setlength{\parindent}{0cm}
             - \usepackage{setspace}
@@ -291,7 +291,7 @@ $$= \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0 - 2*0&0 - 2*0&10 - 2*5&4 - 2*
 
 Note que a partir del procedimiento anterior, es posible visualizar que A es una matriz singular: constituye una matriz cuadrada cuyo determinante es igual a cero. De esta forma se incumple el requisito de no singularidad del teorema, por lo que no es posible garantizar que la matriz A posee una factorización LU única.
 
-### c) Con ayuda de la factorización LU de A, encuentre el conjunto solución del sistema lineal $Ax = b, \text{donde } b:=\left(31,\frac{3}{2},124,-90\right)^t.$
+### c) Con ayuda de la factorización LU de A, encuentre el conjunto solución del sistema lineal $Ax = b, \text{donde } b:=\left(31,\frac{3}{2},124,-90\right)^T.$
 
 Primero, se desarrolla la factorización LU de la matriz A. Note que en el inciso anterior se construyó la matriz triangular superior a partir de A, la cual en el presente ejercicio se define como: 
 $$ U = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$ 
@@ -498,7 +498,119 @@ Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
 
 ### a) Pruebe que las entradas de la matriz L están dadas por las fórmulas: $$ L_{j,j}=\sqrt{A_{j,j}-\sum_{k=1}^{j-1}(L_{j,k})^2},\quad \text{y}\quad L_{i,j}=\frac{1}{L_{j,j}}\left(A_{i,j}-\sum_{k=1}^{j-1}L_{i,k}L_{j,k}\right),\quad \text{para }i>j$$
 
+De acuerdo con el enunciado, dada la matriz $A \in \mathbb{R}^{nxn}$, la factorización de Cholesky de una matriz positiva definida A está dada por: $A = L*L^{T}$, donde  $L \in \mathbb{R}^{nxn}$ es una matriz triangular inferior y $L^{t}$ es la transpuesta de L y es
+triangular superior. 
+
+Considerando que $A \in \mathbb{R}^{nxn}$, note lo siguiente:
+
+$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L^{T}_{k, j}$$
+Además, se cumple que: 
+
+$$L^{T}_{k, j} = L_{j,k}$$
+
+Así, se obtiene: 
+
+$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L^{T}_{k, j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k}$$
+En particular, para $A_{j,j}$:
+
+$$A_{j,j} = \sum_{k=1}^{n}L_{j, k} * L_{j, k} = \sum_{k=1}^{n}(L_{j, k})^{2}$$
+Recuerde que por definición $L$ corresponde a una matriz triangular inferior, es decir que para $i > j$ se cumple que $L_{j,i} = 0$, de manera que al actualizar el límite superior de la sumatoria y separar el último término de esta, se llega a: 
+
+$$A_{j,j} = \sum_{k=1}^{j}(L_{j, k})^{2} = (\sum_{k=1}^{j-1}(L_{j, k})^{2}) + (L_{j, j})^{2}  $$
+
+Como A es una matriz definida positiva y se cumple que $A_{j,j} = (\sum_{k=1}^{j-1}(L_{j, k})^{2}) + (L_{j, j})^{2}$, entonces también se cumple que $A_{j,j} - \sum_{k=1}^{j-1}(L_{j, k})^{2} \geq 0$. De manera que al despejar se obtiene: 
+
+$$ L_{j,j} = \sqrt{A_{j,j} - \sum_{k=1}^{j-1}(L_{j, k})^{2}}$$
+Por otro lado, recuerde que anteriormente se planteó: 
+$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k}$$
+Además, si se establece que $i > j$, entonces se tiene que $L_{j,k} = 0$, para $k=j+1, ..., i, ..., n$ puesto que la matriz L es traingular inferior, así: 
+$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k} = \sum_{k=1}^{j}L_{i, k} * L_{j, k}$$
+Separando el último término de la sumatoria: 
+
+$$A_{i,j} = \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) + L_{i,j}*L_{j,j}$$
+Finalmente, despejando $L_{i,j}$: 
+
+
+$$A_{i,j} = \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) + L_{i,j}*L_{j,j}$$
+
+$$A_{i,j} - \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) =  L_{i,j}*L_{j,j}$$
+$$\frac{1}{L_{j,j}}(A_{i,j} - \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k})) =  L_{i,j}$$
+
+Se ha demostrado el cumplimiento de las dos igualdades propuestas. 
+
 ### b) Usando a), encuentre la factorización de Cholesky de la matriz A (recuerde probar que es una matriz positiva definida), dada por: $$\begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix}$$
+
+Se establece que la matriz A está dada por: 
+
+$$A = \begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix}$$
+La matriz A se dice definida positiva si satisface: 
+$$ x^{T}Ax > 0,$$
+
+donde $x$ es un vector columna no nulo en $\mathbb{R}^{3}$. 
+
+
+Considere 
+
+$$ x = \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix}$$
+Así, para que la matriz A sea definida positiva debe cumplirse: 
+
+$$\begin{bmatrix}x_{1}&x_{2}&x_{3}\end{bmatrix} * \begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix} * \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix} > 0 $$
+
+Calculando la expresión anterior:
+
+$$= \begin{bmatrix}(4x_{1} + 12x_{2}- 16x_{3})&(12x_{1} + 37x_{2}- 43x_{3})&(-16x_{1} + -43x_{2} + 98x_{3})\end{bmatrix}* \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix}$$
+$$= x_{1}(4x_{1} + 12x_{2}- 16x_{3}) + x_{2}(12x_{1} + 37x_{2}- 43x_{3}) + x_{3}(-16x_{1} + -43x_{2} + 98x_{3})$$
+$$= 4x_{1}^{2} + 12x_{1}x_{2}- 16x_{1}x_{3} + 12x_{1}x_{2} + 37x_{2}^{2}- 43x_{2}x_{3} -16x_{1}x_{3} -43x_{2}x_{3} + 98x_{3}^{2}$$
+$$= 4x_{1}^{2} + 37x_{2}^{2} + 98x_{3}^{2} + 24x_{1}x_{2}- 86x_{2}x_{3} - 32x_{1}x_{3}$$
+Agrupando los términos que poseen $x_{1}$:
+
+$$= (4x_{1}^{2} + 24x_{1}x_{2} - 32x_{1}x_{3}) + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
+Factorizando el 4:
+
+$$= 4(x_{1}^{2} + 6x_{1}x_{2} - 8x_{1}x_{3}) + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
+Ahora, visualice que 
+$$x_{1}^{2} + 6x_{1}x_{2} - 8x_{1}x_{3} = (x_{1} + 3x_{2} - 4x_{3})^{2} - (3x_{2} - 4x_{3})^{2},$$
+puesto que 
+$$(x_{1} + 3x_{2} - 4x_{3})^{2} = x_{1}^{2} + 2x_{1}(3x_{2} - 4x_{3}) + (3x_{2} - 4x_{3})^{2},$$ 
+no obstante, el término $(3x_{2} - 4x_{3})^{2}$ no aparece y es precisamente ese el motivo por el cual se debe restar. Reemplazando:
+
+$$= 4[(x_{1} + 3x_{2} - 4x_{3})^{2} - (3x_{2} - 4x_{3})^{2}]  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
+Se distribuye el 4 y se desarrolla el término $(3x_{2} - 4x_{3})^{2}$:
+
+$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} - 4(9x_{2}^{2} - 24x_{2}x_{3}  + 16x_{3}^{2})  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
+$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} - 36x_{2}^{2} + 96x_{2}x_{3}  - 64x_{3}^{2}  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
+$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + x_{2}^{2} + 10x_{2}x_{3} + 34x_{3}^{2} $$
+Se agrupan convenientemente los términos para factorizar:
+$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2}^{2} + 10x_{2}x_{3} + 25x_{3}^{2}) + 9x_{3}^{2} $$
+$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2} + 5x_{3})^{2} + 9x_{3}^{2} $$
+Finalmente, note que 
+
+$$(x_{1} + 3x_{2} - 4x_{3})^{2} \geq 0,$$
+$$(x_{2} + 5x_{3})^{2} \geq 0,$$
+$$9x_{3}^{2} > 0$$
+Por lo que se cumple que: 
+
+$$x^{T}Ax = 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2} + 5x_{3})^{2} + 9x_{3}^{2} > 0$$
+En vista de lo anterior, concluya que la matriz A es definida positiva. Seguidamente, se procede a encontrar la  factorización de Cholesky de la matriz A a partir de las igualdades probadas en el inciso (a). 
+
+Se desarrollan a continuación los cálculos correspondientes: 
+
+$$L_{1,1} = \sqrt{A_{1,1} - \sum_{k=1}^{1-1}(L_{1, k})^{2}}= \sqrt{4 - 0} = \sqrt{4} = 2$$
+$$L_{2,1}= \frac{1}{L_{1,1}}(A_{2,1} - \sum_{k=1}^{1-1}(L_{2, k} * L_{1, k})) = \frac{1}{2}(12 - 0) = \frac{12}{2} = 6$$
+
+$$L_{3,1}= \frac{1}{L_{1,1}}(A_{3,1} - \sum_{k=1}^{1-1}(L_{3, k} * L_{1, k})) = \frac{1}{2}(-16 - 0) = \frac{-16}{2} = -8$$
+$$L_{2,2} = \sqrt{A_{2,2} - \sum_{k=1}^{2-1}(L_{2, k})^{2}}= \sqrt{A_{2,2} - \sum_{k=1}^{1}(L_{2, k})^{2}} = \sqrt{A_{2,2} - (L_{2, 1})^{2}} =\sqrt{37 - 6^{2}} =  \sqrt{1} = 1$$
+$$L_{3,2}= \frac{1}{L_{2,2}}(A_{3,2} - \sum_{k=1}^{1}(L_{3, k} * L_{2, k}))= \frac{1}{L_{2,2}}(A_{3,2} - L_{3, 1} * L_{2, 1}) = -43 + 48 = 5 $$
+$$L_{3,3} = \sqrt{A_{3,3} - \sum_{k=1}^{2}(L_{3, k})^{2}}= \sqrt{A_{3,3} - [(L_{3, 1})^{2} + (L_{3, 2})^{2}]} = \sqrt{98 - [(-8)^{2} + 5^{2}]} =\sqrt{98-89} = \sqrt{9} = 3$$
+La matriz resultante es de la forma: 
+
+
+$$ L = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix}$$
+Además, se obtiene que: 
+
+$$ L^{T} = \begin{bmatrix}2&6&-8\\0&1&5\\0&0&3\end{bmatrix}$$
+De esta forma, la factorización de Cholesky de A está dada por: 
+$$A= L*L^{T} = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix} * \begin{bmatrix}2&6&-8\\0&1&5\\0&0&3\end{bmatrix}$$
 
 ## Ejercicio 15
 
