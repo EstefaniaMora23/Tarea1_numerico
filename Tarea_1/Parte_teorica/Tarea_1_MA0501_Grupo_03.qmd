@@ -31,6 +31,10 @@ format:
 
 Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
 
+## Ejercicio 2
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+
 
 # Parte teórica - programada
 
@@ -1280,4 +1284,74 @@ $$A= L*L^{T} = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix} * \begin{bmatrix
 
 ### a) Explique detalladamente el método de Müller para la resolución numérica de ecuaciones no lineales. Debe describir cómo se deriva la fórmula general del método, junto con su explicación geométrica, su velocidad de convergencia, etc.
 
+#### Panorama general
+
+De acuerdo con Guillén (2026), el método de Müller fue presentado por primera vez por David Eugene Müller en el año 1956. Constituye un proceso numérico, iterativo y particularmente útil para determinar las raíces tanto reales como complejas de las ecuaciones polinómicas. Es preciso recordar que las ecuaciones polinómicas son expresiones matemáticas que pueden escribirse en la forma $P(x) = 0$. Así, el método de Müller es efectivo para encontrar las raíces de estas ecuaciones de manera rápida y precisa.
+
+De manera general, se tiene que el método de Müller corresponde a una generalización del método de la secante, la cual acompaña con el método de interpolación cuadrática. El método de la secante obtiene las raíces de una función estimando una proyección de una línea recta en el eje x mediante dos valores de la función: $x_{0}$ y $x_{1}$, estos últimos determinan la siguiente aproximación $x_{2}$ como la intercepción del eje x con la recta que pasa por $(x_{0} ,f(x_{0}))$ y $(x_{1},f(x_{1}))$. Por su parte, el método de Müller trabaja de manera similar, pero en lugar de hacer la proyección de una recta  utilizando dos puntos, requiere de tres puntos para calcular una parábola. A continuación se profundiza en la formulación matemática del método.
+
+#### Formulación matemática del método
+
+Como se mencionó anteriormente, el método de Müller requiere de tres puntos iniciales, los cuales pueden seleccionarse de manera arbitraria o pueden seleccionarse mediante estimaciones preliminares que sugieran puntos cercanos a la raíz buscada. Asuma que $x_{0},$ $x_{1}$ y $x_{2}$ corresponden a los tres puntos iniciales a utilizar. A partir de estos tres puntos, se procede a determinar la siguiente aproximación $x_{3}$, considerando la intercepción del eje x con la parábola que pasa por $(x0,f(x0))$, $(x1,f(x1))$ y $(x2,f(x2)).$ El método consiste en obtener los coeficientes de los tres puntos, sustituirlos en la fórmula cuadrática y obtener el punto donde la parábola intercepta el eje x.
+
+Considere la fórmula cuadrática: 
+
+$$f(x)= a(x−x_{2})^{2} + b(x−x_{2}) + c$$
+En vista de lo anterior, los coeficientes de la parábola se calculan resolviendo el siguiente sistema de ecuaciones: 
+$$f(x_{0})= a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2}) + c$$
+$$f(x_{1})= a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) + c$$
+$$f(x_{2})= a(x_{2}−x_{2})^{2} + b(x_{2}−x_{2}) + c $$
+Esta última ecuación produce: 
+$$f(x_{2})= c$$
+Por lo que se puede obtener un sistema de dos ecuaciones conformadas por dos incógnitas: 
+
+
+$$f(x_{0}) - f(x_{2}) = a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2})$$
+$$f(x_{1}) - f(x_{2}) = a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) $$
+
+En cambio en el método de Müller se usa tres aproximaciones iníciales: x0, x1 y x2. Con la cual procederíamos a determina la siguiente aproximación x3, considerando la intercepción del eje x con la parábola que pasa por (x0,f(x0)) , (x1,f(x1)) y (x2,f(x2)).
+
+El método consiste en obtener los coeficientes de los tres puntos, sustituirlos en la fórmula cuadrática y obtener el punto donde la parábola intercepta el eje x. La aproximación es fácil de escribir, en forma conveniente esta sería:
+función. 
+
+El objetivo de dicha herramienta consiste en encontrar las raíces de las ecuaciones con raíces múltiples, y consiste en obtener los coeficientes de la parábola que pasa por tres puntos elegidos. Cuyos coeficientes son sustituidos en la formula cuadrática para obtener el valor donde la parábola intercepta al eje X; es decir, la raíz estimada. La aproximación se puede facilitar, si se escribe la ecuación de la parábola en una forma conveniente.
+
+El Método de Muller aplica una combinación de secantes y interpolación cuadrática. Esta técnica se basa en el uso de dos aproximaciones iniciales y se distingue por su rapidez en la convergencia hacia la raíz de ecuaciones.
+
+
+En cambio en el método de Müller se usa tres aproximaciones iníciales: x0, x1 y x2. Con la cual procederíamos a determina la siguiente aproximación x3, considerando la intercepción del eje x con la parábola que pasa por (x0,f(x0)) , (x1,f(x1)) y (x2,f(x2)).
+
+El método consiste en obtener los coeficientes de los tres puntos, sustituirlos en la fórmula cuadrática y obtener el punto donde la parábola intercepta el eje x. La aproximación es fácil de escribir, en forma conveniente esta sería:
+
+
+
+Método de Aproximación
+
+Ecuaciones Polinómicas
+
+El Método de Muller utiliza aproximaciones sucesivas para acercarse a la solución correcta de la ecuación. Este enfoque es ventajoso en comparación con métodos más simples ya que garantiza una convergencia más rápida hacia la raíz.
+
+
+
+Derivadas y Convergencia
+
+La convergencia del Método de Muller se ve favorecida por el uso de derivadas, que permiten ajustar la búsqueda de la raíz en función de la pendiente de la curva. Esto optimiza el proceso, ofreciendo soluciones más eficientes.
+
+
+#### Formulación del método
+
+
+
+
+
 ### b) Realice una iteración del método de Müller para el polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$, utilizando los valores: $x_{0} = \frac{1}{2}, x_{1}= \frac{-1}{2}, x_{2} = 0$. Además, calcule el error absoluto $|x_{3} − x_{2}|$ de esta iteración.
+
+
+
+### c) [MATLAB] Escriba una función en MATLAB con el método de Müller que describió en la parte (a).
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+
+### d) [MATLAB] Usando la función en MATLAB programada en (c), calcule la aproximación $x_{8}$ para el polinomio de la parte (b), junto con los errores absolutos $|xk − xk−1|$ de cada iteración. Su programa debe mostrar una tabla que contenga las aproximaciones en la primera columna y los errores en la segunda.
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
