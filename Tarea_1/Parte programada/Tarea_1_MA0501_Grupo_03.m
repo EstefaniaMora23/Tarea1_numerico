@@ -77,6 +77,25 @@ disp('Resultado del ejercicio 8b:')
 disp('Cantidad de valores iniciales sin convergencia verificada =');
 disp(sum(isnan(convergencia_8)));
 
+% Inciso c
+format long
+d2f_8 = @(x_8) 4896*x_8 - 7670;
+
+df_raices_8 = df_8(raices_8);
+d2f_raices_8 = d2f_8(raices_8);
+
+radios_8 = abs(2*df_raices_8 ./ d2f_raices_8);
+
+inferior_8 = raices_8 - radios_8;
+superior_8 = raices_8 + radios_8;
+
+disp('Resultado del ejercicio 8c:')
+disp('Radios estimados de atraccion =');
+disp(radios_8);
+
+disp('Intervalos estimados: extremo inferior y extremo superior =');
+disp([inferior_8(:), superior_8(:)]);
+
 %% Ejercicio 10
 
 % Inciso b
