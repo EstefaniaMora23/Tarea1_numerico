@@ -32,6 +32,7 @@ c1_8 = fzero(f_8,[1.4,1.5]);
 c2_8 = fzero(f_8,[1.55,1.6]);
 c3_8 = fzero(f_8,[1.65,1.7]);
 
+format rational
 raices_8 = [c1_8; c2_8; c3_8];
 
 disp('Resultado del ejercicio 8a:')
@@ -44,7 +45,7 @@ disp(f_8(raices_8));
 
 
 % Inciso b
-
+format long
 df_8 = @(x_8) 2448*x_8.^2 - 7670*x_8 + 6000;
 x0_8 = linspace(1.4,1.7);
 tol_8 = 1e-10;
