@@ -22,10 +22,204 @@ d2p_7 =  @(x) 2*(x - 3)^4 + 16*x*(x - 3)^3 + 12*(x - 3)^2 * (x^2 + 9); % Segunda
 disp('Resultado del ejercicio 7d:')
 metodo_Raiz_Multiple(p_7,dp_7,d2p_7,0,10^-10,100)
 
+%% Ejercicio 8
+
+% Funcion del metodo de Newton
+
+function[M] = metodoNewton(f,df,x,tol,iteMax)
+% Funcion para aproximar la solucion de f(x) = 0 usando el metodo de Newton.
+% Entradas:       f --- funcion cuya raiz se busca
+%                df --- derivada de f
+%                 x --- aproximacion inicial
+%               tol --- tolerancia para detener el ciclo
+%            iteMax --- numero maximo de filas de M, incluida la inicial
+% Salidas:        M --- columna 1: aproximaciones
+%                       columna 2: cambios absolutos entre aproximaciones
+
+cont = 1; er = tol + 1; M(1,1) = x; M(1,2) = inf;
+
+while er > tol && cont < iteMax
+    t = x;
+    q = df(x);
+
+    if (abs(q)<tol)
+        return;
+    end
+
+    x = x - f(x)/q;
+    er = abs(t-x);
+
+    M(cont+1,1) = x;
+    M(cont+1,2) = er;
+    cont = cont + 1;
+end
+end
+
+% Inciso a
+
+f_8 = @(x_8) 816*x_8.^3 - 3835*x_8.^2 + 6000*x_8 - 3125;
+
+c1_8 = fzero(f_8,[1.4,1.5]);
+c2_8 = fzero(f_8,[1.55,1.6]);
+c3_8 = fzero(f_8,[1.65,1.7]);
+
+raices_8 = [c1_8; c2_8; c3_8];
+
+disp('Resultado del ejercicio 8a:')
+disp('Raices aproximadas con fzero =');
+disp(raices_8);
+
+% Verificacion
+disp('Valores de f en las raices aproximadas =');
+disp(f_8(raices_8));
 
 
+% Inciso b
 
+df_8 = @(x_8) 2448*x_8.^2 - 7670*x_8 + 6000;
+x0_8 = linspace(1.4,1.7);
+tol_8 = 1e-10;
+iteMax_8 = 100;
 
+convergencia_8 = NaN(size(x0_8)); % Se guarda el resultado
+
+for j_8 = 1:length(x0_8)
+
+    M_8 = metodoNewton(f_8,df_8,x0_8(j_8),tol_8,iteMax_8);
+    raizNewton_8 = M_8(end,1);
+
+    % Verificacion
+    if abs(f_8(raizNewton_8)) < tol_8
+        convergencia_8(j_8) = raizNewton_8;
+    end
+end
+
+% Grafica
+figure;
+plot(x0_8,convergencia_8,'.','MarkerSize',12);
+xlabel('Valor inicial x_0');
+ylabel('Raiz a la que converge Newton');
+title('Ejercicio 8b: convergencia del metodo de Newton');
+yticks(raices_8);
+grid on;
+
+disp('Resultado del ejercicio 8b:')
+disp('Cantidad de valores iniciales sin convergencia verificada =');
+disp(sum(isnan(convergencia_8)));
+
+%% Ejercicio 10
+
+% Inciso b
+t_10 = [0; 0.2; 0.4; 0.6; 0.8];
+Ti_10 = [37; 36.72; 36.41; 36.12; 35.90];
+
+T_10 = @(k_10) 21 + 16*exp(-k_10*t_10); % modelo dado
+r_10 = @(k_10) T_10(k_10) - Ti_10;
+
+% Derivadas
+dr_10 = @(k_10) -16*t_10.*exp(-k_10*t_10);
+d2r_10 = @(k_10) 16*t_10.^2.*exp(-k_10*t_10);
+
+% Funcion objetivo y sus derivadas
+f_10 = @(k_10) sum(r_10(k_10).^2);
+
+df_10 = @(k_10) 2*sum(r_10(k_10).*dr_10(k_10));
+
+d2f_10 = @(k_10) 2*sum(dr_10(k_10).^2 + r_10(k_10).*d2r_10(k_10));
+
+kInicial_10 = 0.2; % parametros para utilizar la funcion
+tol_10 = 1e-10;
+iteMax_10 = 100;
+
+% Resolver f'(k) = 0
+M_10 = metodoNewton(df_10,d2f_10,kInicial_10,tol_10,iteMax_10); % reutilizamos la funcion programada en el ejercicio 8
+k_10 = M_10(end,1);
+
+disp('Resultado del ejercicio 10b:')
+disp('Columnas: aproximacion de k y cambio absoluto');
+disp(M_10);
+
+disp('k (horas^-1) =');
+disp(k_10);
+
+disp('f(k) =');
+disp(f_10(k_10));
+
+disp('Primera derivada =');
+disp(df_10(k_10));
+
+disp('Segunda derivada =');
+disp(d2f_10(k_10));
+
+% Verificacion
+if abs(df_10(k_10)) < tol_10 && d2f_10(k_10) > 0
+    disp('Se verifico numericamente un minimo local estricto.');
+else
+    disp('Revisar la convergencia y el criterio de minimo.');
+end
+
+% Inciso c
+
+Ta_c_10 = 31;     
+T0_c_10 = 37;     
+Tmedida_c_10 = 34; 
+
+% Despejar el tiempo
+tiempo_c_10 = -log((Tmedida_c_10-Ta_c_10)/(T0_c_10-Ta_c_10))/k_10;
+
+disp('Resultado del ejercicio 10c:')
+disp('Tiempo transcurrido desde el fallecimiento (horas) =');
+disp(tiempo_c_10);
+
+% Verificacion
+Tcomprobacion_c_10 = Ta_c_10 + (T0_c_10-Ta_c_10)*exp(-k_10*tiempo_c_10);
+
+disp('Temperatura calculada para ese tiempo (grados Celsius) =');
+disp(Tcomprobacion_c_10);
+
+%% Ejercicio 12
+
+% Inciso f
+
+% Metodo de Newton para ecuaciones no lineales
+
+function[M] = metodoNewtonSistemas(F,J,x,tol,iteMax)
+% Funcion para aproximar la solucion de F(x) = 0 usando Newton.
+% Entradas:       F --- funcion que devuelve el vector de ecuaciones
+%                 J --- funcion que devuelve la matriz jacobiana
+%                 x --- vector de aproximacion inicial
+%               tol --- tolerancia para el cambio entre aproximaciones
+%            iteMax --- numero maximo de filas de M, incluida la inicial
+% Salidas:        M --- primeras n columnas: componentes de x
+%                       ultima columna: norma del cambio entre aproximaciones
+
+x = x(:); % Trabajar con un vector columna
+n = length(x);
+
+cont = 1;
+er = tol + 1;
+M(1,1:n) = x.';
+M(1,n+1) = inf;
+
+while er > tol && cont < iteMax
+    t = x;
+    A = J(x);
+
+    if rcond(A) < eps
+        warning('El jacobiano es singular o numericamente casi singular.');
+        return;
+    end
+
+    % Resolver J(x)*y = -F(x)
+    y = A\(-F(x));
+    x = x + y; % actualizar
+    er = norm(t-x,2);
+
+    M(cont+1,1:n) = x.';
+    M(cont+1,n+1) = er;
+    cont = cont + 1;
+end
+end
 
 
 
@@ -97,12 +291,6 @@ while (er > tol)
     cont = cont + 1;
 end
 end
-
-
-%% Ejercicio 2
-
-
-
 
 
 %% Ejercicio 4
