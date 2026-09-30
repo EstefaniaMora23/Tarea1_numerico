@@ -1162,6 +1162,143 @@ Como puede observarse, con 4 iteraciones, se encontró que la aproximación a un
 Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
 
 
+## Ejercicio 11
+
+### a) Explique con detalle como se construye todo el proceso de eliminación Gaussiana con pivoteo total. Escriba explícitamente las fórmulas de las matrices: P, Q, L y U, para el caso
+
+
+El proceso de Eliminación Gaussiana surge como un método para resolver la ecuación $Ax = b$ con $A \in \mathbb{R}^{n \times n}$. Para este método se utiliza la factorización $LU$, donde la matriz $L$ es triangular inferior con unos en su diagonal y $U$ es triangular superior.
+
+El modo en que funciona el método de Eliminación Gaussiana con Pivoteo Total es que busca en cada paso $k$, el elemento más grande en valor absoluto en la submatriz de la iteración $k$ $A^{(k)} \in \mathbb{R}^{(n-k+1) \times (n-k+1)}$ la cual va de la $k$-ésima a la $n$-ésima fila y de la $k$-ésima a la $n$-ésima columna, es decir, se buscan los índices $(f, c)$ tales que
+
+$$|A_{f,c}^{(k)}| = \max_{k \leq i,j \leq n} |A_{i,j}^{(k)}|.$$
+
+Una vez encontrado este elemento, se intercambia la fila $k$ con la fila $f$ y posteriormente se intercambia la columna $k$ con la columna $c$. Para guardar la información del cambio de fila $k$ se utiliza la matriz $P_k$, que es la matriz identidad con las filas $k$ y $f$ intercambiadas. Por otro lado, para guardar la información del cambio de columna se utiliza la matriz $Q_k$, que es la matriz identidad con las columnas $k$ y $c$ intercambiadas. Explícitamente las matrices $P_k$ y $Q_k$ son las siguientes:
+
+$$P_k = I_n \text{ con filas } k, f \text{ intercambiadas}, \qquad Q_k = I_n \text{ con columnas } k, c \text{ intercambiadas}.$$
+
+Posteriormente, se hacen ceros los elementos debajo del pivote en la columna $k$, en otras palabras, la posición $(k,k)$, es decir, se hacen cero las entradas $A_{i,k}$ para $i = k+1, k+2, \ldots, n$. Para esto se define
+
+$$\ell_{i,k} := \frac{A_{i,k}^{(k)}}{A_{k,k}^{(k)}}, \quad i = k+1, \ldots, n,$$
+
+y se realiza la operación elemental de fila
+
+$$- \ell_{i,k} \cdot f_k + f_i \to f_i, \quad i = k+1, \ldots, n.$$
+Este proceso se repite $(n - 1)$-veces hasta llegar a la penúltima fila y columna de la matriz original $A$
+
+**Matrices resultantes:**
+
+\begin{itemize}
+    \item $P \in \mathbb{R}^{n \times n}$: matriz utilizada para guardar los cambios de fila, donde
+    $$P = P_{n-1} \cdot P_{n-2} \cdots P_1.$$
+    
+    \item $Q \in \mathbb{R}^{n \times n}$: matriz utilizada para guardar los cambios de columna, donde
+    $$Q = Q_{n-1} \cdot Q_{n-2} \cdots Q_1.$$
+    
+    \item $L \in \mathbb{R}^{n \times n}$: matriz triangular inferior con unos en su diagonal la cual guarda las operaciones de fila realizadas, donde
+    $$L = \begin{pmatrix}
+    1 & 0 & 0 & \cdots & 0 \\
+    \ell_{2,1} & 1 & 0 & \cdots & 0 \\ 
+    \ell_{3,1} & \ell_{3,2} & 1 & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \ddots & \vdots \\
+    \ell_{n,1} & \ell_{n,2} & \cdots & \ell_{n,n-1} & 1
+    \end{pmatrix} = L_1^{-1} L_2^{-1} \cdots L_{n-1}^{-1},$$
+    
+    donde cada matriz elemental $L_k$ y su inversa $L_k^{-1}$ son las siguientes:
+    $$L_k = \begin{pmatrix}
+    1 & & & & \\
+    & \ddots & & & \\
+    & & 1 & & \\
+    & & -\ell_{k+1,k} & 1 & \\
+    & & \vdots & & \ddots \\
+    & & -\ell_{n,k} & & & 1
+    \end{pmatrix}
+    \qquad \text{y} \qquad
+    L_k^{-1} = \begin{pmatrix}
+    1 & & & & \\
+    & \ddots & & & \\
+    & & 1 & & \\
+    & & \ell_{k+1,k} & 1 & \\
+    & & \vdots & & \ddots \\
+    & & \ell_{n,k} & & & 1
+    \end{pmatrix}.$$
+    
+    \item $U \in \mathbb{R}^{n \times n}$: matriz triangular superior resultante al final de las $n-1$ iteraciones, donde
+    $$U = A^{(n)}.$$
+\end{itemize}
+
+
+
+Al finalizar las $n-1$ iteraciones se obtiene la factorización
+
+$$PAQ = LU.$$
+
+**Resolución del sistema $Ax = b$**
+
+Esta factorización permite resolver la ecuación $Ax = b$ de la siguiente manera. Partiendo de la factorización
+
+$$PAQ = LU \implies A = P^{-1} L U Q^{-1}.$$
+
+Como $P$ y $Q$ son matrices de permutación, sus columnas son ortonormales, por lo que estas matrices son ortogonales, por lo que $P^{-1} = P^T$ y $Q^{-1} = Q^T$.
+
+$$\implies A = P^T L U Q^T.$$
+
+Reemplazando $A$ en $Ax = b$:
+
+$$(P^T L U Q^T) x = b \implies L U Q^T x = P b.$$
+
+Sea $y := U Q^T x$. Entonces
+
+$$L y = P b.$$
+
+Ahora, sea $z := Q^T x$. Entonces $y = U z$, es decir,
+
+$$U z = y.$$
+
+Finalmente, como $z = Q^T x$, se tiene que
+
+$$x = Q z.$$
+
+### b) Escriba el Algoritmo del método de eliminación Gaussiana con pivoteo total
+
+Algoritmo de Eliminación Gaussiana con Pivoteo Total:
+
+- **Entradas:** matriz $A \in \mathbb{R}^{n \times n}$.
+
+- **Salidas:** factorización $PAQ = LU$.
+
+Pasos a seguir:
+
+$U \leftarrow A, \quad L \leftarrow I, \quad P \leftarrow I, \quad Q \leftarrow I$
+
+Para $k = 1 : n-1$ hacer:
+
+\quad Seleccionar $f \geq k$ y $c \geq k$ tal que $|U_{f,c}|$ es máximo
+
+\quad $U_{k, k:n} \leftrightarrow U_{f, k:n}$
+
+\quad $L_{k, 1:k-1} \leftrightarrow L_{f, 1:k-1}$
+
+\quad $P_{k, :} \leftrightarrow P_{f, :}$
+
+\quad $U_{:, k} \leftrightarrow U_{:, c}$
+
+\quad $Q_{:, k} \leftrightarrow Q_{:, c}$
+
+\quad Para $j = k+1 : n$ hacer:
+
+\quad \quad $L_{j,k} \leftarrow U_{j,k} / U_{k,k}$
+
+\quad \quad $U_{j, k:n} \leftarrow U_{j, k:n} - L_{j,k} \cdot U_{k, k:n}$
+
+\quad end
+
+end
+
+### c) Escriba una función de MATLAB con el método de eliminación Gaussiana con pivoteo total
+
+Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+
 ## Ejercicio 14
 
 ### a) Pruebe que las entradas de la matriz L están dadas por las fórmulas: $$ L_{j,j}=\sqrt{A_{j,j}-\sum_{k=1}^{j-1}(L_{j,k})^2},\quad \text{y}\quad L_{i,j}=\frac{1}{L_{j,j}}\left(A_{i,j}-\sum_{k=1}^{j-1}L_{i,k}L_{j,k}\right),\quad \text{para }i>j$$
