@@ -1288,7 +1288,10 @@ $$A= L*L^{T} = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix} * \begin{bmatrix
 
 De acuerdo con Guillén (2026), el método de Müller fue presentado por primera vez por David Eugene Müller en el año 1956. Constituye un proceso numérico, iterativo y particularmente útil para determinar las raíces tanto reales como complejas de las ecuaciones polinómicas. Es preciso recordar que las ecuaciones polinómicas son expresiones matemáticas que pueden escribirse en la forma $P(x) = 0$. Así, el método de Müller es efectivo para encontrar las raíces de estas ecuaciones de manera rápida y precisa.
 
-De manera general, se tiene que el método de Müller corresponde a una generalización del método de la secante, la cual acompaña con el método de interpolación cuadrática. El método de la secante obtiene las raíces de una función estimando una proyección de una línea recta en el eje x mediante dos valores de la función: $x_{0}$ y $x_{1}$, estos últimos determinan la siguiente aproximación $x_{2}$ como la intercepción del eje x con la recta que pasa por $(x_{0} ,f(x_{0}))$ y $(x_{1},f(x_{1}))$. Por su parte, el método de Müller trabaja de manera similar, pero en lugar de hacer la proyección de una recta  utilizando dos puntos, requiere de tres puntos para calcular una parábola. A continuación se profundiza en la formulación matemática del método.
+De manera general, se tiene que el método de Müller corresponde a una generalización del método de la secante, la cual acompaña con el método de interpolación cuadrática. El método de la secante obtiene las raíces de una función estimando una proyección de una línea recta en el eje x mediante dos valores de la función: $x_{0}$ y $x_{1}$, estos últimos determinan la siguiente aproximación $x_{2}$ como la intercepción del eje x con la recta que pasa por $(x_{0} ,f(x_{0}))$ y $(x_{1},f(x_{1}))$. Por su parte, el método de Müller trabaja de manera similar, pero en lugar de hacer la proyección de una recta  utilizando dos puntos, requiere de tres puntos para calcular una parábola. En términos geométricos, el método de Müller busca aproximar las raíces de una función mediante una sucesión de parábolas. Para ello, se seleccionan tres puntos iniciales denotados como $(x_{0} ,f(x_{0})),$ $(x_{1},f(x_{1}))$ y $(x_{2} ,f(x_{2}))$, a través de estos puntos se construye una parábola que aproxima localmente el comportamiento de la función. Posteriormente, se determina la intersección de esta parábola con el eje  x, es decir, el punto donde la parábola toma el valor cero; de forma que dicha intersección corresponde a la nueva aproximación $x_{3}$ de la raíz. Luego, $x_{3}$
+se utiliza junto con dos de los puntos anteriores para construir una nueva parábola y obtener así una nueva aproximación. Tal proceso se repite de forma iterativa, generando una sucesión de parábolas cuyas intersecciones con el eje x buscan acercarse cada vez más a la raíz de la función.
+
+A continuación se profundiza en la formulación matemática del método.
 
 #### Formulación matemática del método
 
@@ -1308,37 +1311,107 @@ Por lo que se puede obtener un sistema de dos ecuaciones conformadas por dos inc
 
 $$f(x_{0}) - f(x_{2}) = a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2})$$
 $$f(x_{1}) - f(x_{2}) = a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) $$
+Ahora, se despeja el coeficiente $b$ de ambas ecuaciones. Para la primera ecuación: 
 
-En cambio en el método de Müller se usa tres aproximaciones iníciales: x0, x1 y x2. Con la cual procederíamos a determina la siguiente aproximación x3, considerando la intercepción del eje x con la parábola que pasa por (x0,f(x0)) , (x1,f(x1)) y (x2,f(x2)).
+$$f(x_{0}) - f(x_{2}) = a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2})$$
+$$f(x_{0}) - f(x_{2})- a(x_{0}−x_{2})^{2} =  b(x_{0}−x_{2})$$
 
-El método consiste en obtener los coeficientes de los tres puntos, sustituirlos en la fórmula cuadrática y obtener el punto donde la parábola intercepta el eje x. La aproximación es fácil de escribir, en forma conveniente esta sería:
-función. 
+$$\frac{f(x_{0}) - f(x_{2})- a(x_{0}−x_{2})^{2}}{x_{0}−x_{2}} =  b$$
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - a(x_{0}−x_{2}) =  b$$
 
-El objetivo de dicha herramienta consiste en encontrar las raíces de las ecuaciones con raíces múltiples, y consiste en obtener los coeficientes de la parábola que pasa por tres puntos elegidos. Cuyos coeficientes son sustituidos en la formula cuadrática para obtener el valor donde la parábola intercepta al eje X; es decir, la raíz estimada. La aproximación se puede facilitar, si se escribe la ecuación de la parábola en una forma conveniente.
+Ahora para la segunda ecuación: 
 
-El Método de Muller aplica una combinación de secantes y interpolación cuadrática. Esta técnica se basa en el uso de dos aproximaciones iniciales y se distingue por su rapidez en la convergencia hacia la raíz de ecuaciones.
+$$f(x_{1}) - f(x_{2}) = a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) $$
+
+$$f(x_{1}) - f(x_{2})- a(x_{1}−x_{2})^{2} = b(x_{1}−x_{2}) $$
+$$\frac{f(x_{1}) - f(x_{2})- a(x_{1}−x_{2})^{2}}{x_{1}−x_{2}} = b$$
+$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) = b$$
+Igualando ambas expresiones: 
+
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - a(x_{0}−x_{2})= \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) $$
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = - a(x_{1}−x_{2}) + a(x_{0}−x_{2}) $$
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[-(x_{1}−x_{2}) + (x_{0}−x_{2})] $$
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[-x_{1}+x_{2} + x_{0}−x_{2}] $$
+
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[x_{0}-x_{1}] $$
+Finalmente, se tiene que: 
+$$\frac{\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}}}{x_{0}-x_{1}}= a$$
+Simplificando: 
+$$\frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}= a$$
+Ahora, reemplazando el valor de $a$ en una expresión de $b$: 
+
+$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) = b$$
+$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - [\frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}](x_{1}−x_{2}) = b$$
+$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
+
+$$\frac{(x_{0}−x_{2})(x_{0}-x_{1})[f(x_{1}) - f(x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})] + (x_{1}−x_{2})(x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
+Sacando a factor común $(x_{0}−x_{2})[f(x_{1}) - f(x_{2})]$:
+
+$$\frac{(x_{0}−x_{2})[f(x_{1}) - f(x_{2})][(x_{0}-x_{1}) + (x_{1}−x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
+Desarrollando la suma de $(x_{0}-x_{1}) + (x_{1}−x_{2})$:
+
+$$\frac{(x_{0}−x_{2})[f(x_{1}) - f(x_{2})][(x_{0}−x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
+$$\frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
+De esta manera, las fórmulas de los coeficientes son: 
+
+$$a= \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}$$
+
+$$b = \frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})}$$
+$$c = f(x_{2})$$
+Seguidamente, en vista de que lo se busca es una raíz, se iguala la parábola a cero: 
+
+$$a(x−x_{2})^{2} + b(x−x_{2}) + c = 0$$
+Se toma $y=x−x_{2}$ y se reemplaza en la ecuación, así: 
+$$ay^{2} + by + c = 0$$
+Es posible obtener las soluciones de las ecuaciones cuadráticas aplicando la fórmula general: 
+$$y=\frac{-b\pm\sqrt{b^{2}-4ac}}{2a}$$
+Reemplanzo $y$ por su valor original: 
+
+$$x−x_{2}=\frac{-b±\sqrt{b^{2}-4ac}}{2a}$$
+Finalmente: 
+
+$$x =x_{2} + \frac{-b\pm\sqrt{b^{2}-4ac}}{2a}$$
+
+Ahora, debido al error de redondeo potencial, el método de Müller racionaliza la fórmula para evitar la pérdida de precisión por cancelación. El procedimiento matemático para la primera raíz:
+
+$$x =x_{2} + \frac{-b+\sqrt{b^{2}-4ac}}{2a} * \frac{-b-\sqrt{b^{2}-4ac}}{-b-\sqrt{b^{2}-4ac}}$$
+$$x =x_{2} + \frac{(-b)^{2}-(\sqrt{b^{2}-4ac})^{2}}{2a(-b-\sqrt{b^{2}-4ac})}$$
+$$x =x_{2} + \frac{b^{2}-b^{2}+4ac}{2a(-b-\sqrt{b^{2}-4ac})}$$
+$$x =x_{2} + \frac{4ac}{2a(-b-\sqrt{b^{2}-4ac})}$$
+$$x =x_{2} + \frac{2c}{-(b+\sqrt{b^{2}-4ac})}$$
+$$x =x_{2} + \frac{-2c}{b+\sqrt{b^{2}-4ac}}$$
+El procedimiento matemático para la segunda raíz: 
+$$x =x_{2} + \frac{-b-\sqrt{b^{2}-4ac}}{2a} * \frac{-b+\sqrt{b^{2}-4ac}}{-b+\sqrt{b^{2}-4ac}}$$
 
 
-En cambio en el método de Müller se usa tres aproximaciones iníciales: x0, x1 y x2. Con la cual procederíamos a determina la siguiente aproximación x3, considerando la intercepción del eje x con la parábola que pasa por (x0,f(x0)) , (x1,f(x1)) y (x2,f(x2)).
+$$x =x_{2} + \frac{(-b)^{2}-(\sqrt{b^{2}-4ac})^{2}}{2a(-b+\sqrt{b^{2}-4ac})}$$
 
-El método consiste en obtener los coeficientes de los tres puntos, sustituirlos en la fórmula cuadrática y obtener el punto donde la parábola intercepta el eje x. La aproximación es fácil de escribir, en forma conveniente esta sería:
+$$x =x_{2} + \frac{b^{2}-b^{2}+4ac}{2a(-b+\sqrt{b^{2}-4ac})}$$
 
+$$x =x_{2} + \frac{4ac}{2a(-b+\sqrt{b^{2}-4ac})}$$
+$$x =x_{2} + \frac{2c}{-(b-\sqrt{b^{2}-4ac})}$$
+$$x =x_{2} + \frac{-2c}{b-\sqrt{b^{2}-4ac}}$$
+De esta manera, se ha llegado a la fórmula del método Müller para la siguiente aproximación de la raíz:
 
-
-Método de Aproximación
-
-Ecuaciones Polinómicas
-
-El Método de Muller utiliza aproximaciones sucesivas para acercarse a la solución correcta de la ecuación. Este enfoque es ventajoso en comparación con métodos más simples ya que garantiza una convergencia más rápida hacia la raíz.
-
-
-
-Derivadas y Convergencia
-
-La convergencia del Método de Muller se ve favorecida por el uso de derivadas, que permiten ajustar la búsqueda de la raíz en función de la pendiente de la curva. Esto optimiza el proceso, ofreciendo soluciones más eficientes.
+$$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$
+Es preciso recordar que método de Müller es un método iterativo. La idea es repetir el procedimiento detallado con el objetivo de obtener aproximaciones cada vez más cercanas a la raíz. En la segunda iteración es común tomar los puntos $x_{1}$, $x_{2}$ y $x_{3}$ para calcular la nueva aproximación a la raíz: $x_{4}.$
 
 
-#### Formulación del método
+#### Sobre su velocidad de convergencia
+
+De acuerdo con Artichuk (2020), la convergencia del método de Müller es de orden 1.839, lo que lo hace más rapido que el método de la secante, en el cual está basado; este último posee un orden de convergencia de 1.62. No obstante, es importante considerar que el método de Müller tiene una menor velocidad de convergencia en comparación a otros métodos, dentro de ellos se encuentra el método de Newton-Raphson, cuya convergencia es cuadrática, es decir, de orden 2.
+
+ 
+
+
+
+
+
+
+
+
+
+
 
 
 
