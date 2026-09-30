@@ -22,6 +22,90 @@ d2p_7 =  @(x) 2*(x - 3)^4 + 16*x*(x - 3)^3 + 12*(x - 3)^2 * (x^2 + 9); % Segunda
 disp('Resultado del ejercicio 7d:')
 metodo_Raiz_Multiple(p_7,dp_7,d2p_7,0,10^-10,100)
 
+%% Ejercicio 8
+
+% Funcion del metodo de Newton
+
+function[M] = metodoNewton(f,df,x,tol,iteMax)
+% Funcion para aproximar la solucion de f(x) = 0 usando el metodo de Newton.
+% Entradas:       f --- funcion cuya raiz se busca
+%                df --- derivada de f
+%                 x --- aproximacion inicial
+%               tol --- tolerancia para detener el ciclo
+%            iteMax --- numero maximo de filas de M, incluida la inicial
+% Salidas:        M --- columna 1: aproximaciones
+%                       columna 2: cambios absolutos entre aproximaciones
+
+cont = 1; er = tol + 1; M(1,1) = x; M(1,2) = inf;
+
+while er > tol && cont < iteMax
+    t = x;
+    q = df(x);
+
+    if (abs(q)<tol)
+        return;
+    end
+
+    x = x - f(x)/q;
+    er = abs(t-x);
+
+    M(cont+1,1) = x;
+    M(cont+1,2) = er;
+    cont = cont + 1;
+end
+end
+
+% Inciso a
+
+f_8 = @(x_8) 816*x_8.^3 - 3835*x_8.^2 + 6000*x_8 - 3125;
+
+c1_8 = fzero(f_8,[1.4,1.5]);
+c2_8 = fzero(f_8,[1.55,1.6]);
+c3_8 = fzero(f_8,[1.65,1.7]);
+
+raices_8 = [c1_8; c2_8; c3_8];
+
+disp('Resultado del ejercicio 8a:')
+disp('Raices aproximadas con fzero =');
+disp(raices_8);
+
+% Verificacion
+disp('Valores de f en las raices aproximadas =');
+disp(f_8(raices_8));
+
+
+% Inciso b
+
+df_8 = @(x_8) 2448*x_8.^2 - 7670*x_8 + 6000;
+x0_8 = linspace(1.4,1.7);
+tol_8 = 1e-10;
+iteMax_8 = 100;
+
+convergencia_8 = NaN(size(x0_8)); % Se guarda el resultado
+
+for j_8 = 1:length(x0_8)
+
+    M_8 = metodoNewton(f_8,df_8,x0_8(j_8),tol_8,iteMax_8);
+    raizNewton_8 = M_8(end,1);
+
+    % Verificacion
+    if abs(f_8(raizNewton_8)) < tol_8
+        convergencia_8(j_8) = raizNewton_8;
+    end
+end
+
+% Grafica
+figure;
+plot(x0_8,convergencia_8,'.','MarkerSize',12);
+xlabel('Valor inicial x_0');
+ylabel('Raiz a la que converge Newton');
+title('Ejercicio 8b: convergencia del metodo de Newton');
+yticks(raices_8);
+grid on;
+
+disp('Resultado del ejercicio 8b:')
+disp('Cantidad de valores iniciales sin convergencia verificada =');
+disp(sum(isnan(convergencia_8)));
 
 %% Ejercicio 10
 
@@ -48,10 +132,9 @@ tol_10 = 1e-10;
 iteMax_10 = 100;
 
 % Resolver f'(k) = 0
-M_10 = metodoNewton(df_10,d2f_10,kInicial_10,tol_10,iteMax_10);
+M_10 = metodoNewton(df_10,d2f_10,kInicial_10,tol_10,iteMax_10); % reutilizamos la funcion programada en el ejercicio 8
 k_10 = M_10(end,1);
 
-format long
 disp('Resultado del ejercicio 10b:')
 disp('Columnas: aproximacion de k y cambio absoluto');
 disp(M_10);
@@ -168,12 +251,6 @@ end
 end
 
 
-%% Ejercicio 2
-
-
-
-
-
 %% Ejercicio 4
 
 % Se aproxima la raiz cubica de 21 mediante la sucesion x_{k+1} = (20*x_k + 21/x_k^2)/21
@@ -253,35 +330,4 @@ while (er > tol) && (cont <= IterMax)
     A(cont+1,3) = er;
     cont = cont + 1;
 end 
-end
-
-%% Ejercicio 10
-
-function[M] = metodoNewton(f,df,x,tol,iteMax)
-% Funcion para aproximar la solucion de f(x) = 0 usando el metodo de Newton.
-% Entradas:       f --- funcion cuya raiz se busca
-%                df --- derivada de f
-%                 x --- aproximacion inicial
-%               tol --- tolerancia para detener el ciclo
-%            iteMax --- numero maximo de filas de M, incluida la inicial
-% Salidas:        M --- columna 1: aproximaciones
-%                       columna 2: cambios absolutos entre aproximaciones
-
-cont = 1; er = tol + 1; M(1,1) = x; M(1,2) = inf;
-
-while er > tol && cont < iteMax
-    t = x;
-    q = df(x);
-
-    if (abs(q)<tol)
-        return;
-    end
-
-    x = x - f(x)/q;
-    er = abs(t-x);
-
-    M(cont+1,1) = x;
-    M(cont+1,2) = er;
-    cont = cont + 1;
-end
 end
