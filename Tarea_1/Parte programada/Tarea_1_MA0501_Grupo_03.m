@@ -177,7 +177,49 @@ Tcomprobacion_c_10 = Ta_c_10 + (T0_c_10-Ta_c_10)*exp(-k_10*tiempo_c_10);
 disp('Temperatura calculada para ese tiempo (grados Celsius) =');
 disp(Tcomprobacion_c_10);
 
+%% Ejercicio 12
 
+% Inciso f
+
+% Metodo de Newton para ecuaciones no lineales
+
+function[M] = metodoNewtonSistemas(F,J,x,tol,iteMax)
+% Funcion para aproximar la solucion de F(x) = 0 usando Newton.
+% Entradas:       F --- funcion que devuelve el vector de ecuaciones
+%                 J --- funcion que devuelve la matriz jacobiana
+%                 x --- vector de aproximacion inicial
+%               tol --- tolerancia para el cambio entre aproximaciones
+%            iteMax --- numero maximo de filas de M, incluida la inicial
+% Salidas:        M --- primeras n columnas: componentes de x
+%                       ultima columna: norma del cambio entre aproximaciones
+
+x = x(:); % Trabajar con un vector columna
+n = length(x);
+
+cont = 1;
+er = tol + 1;
+M(1,1:n) = x.';
+M(1,n+1) = inf;
+
+while er > tol && cont < iteMax
+    t = x;
+    A = J(x);
+
+    if rcond(A) < eps
+        warning('El jacobiano es singular o numericamente casi singular.');
+        return;
+    end
+
+    % Resolver J(x)*y = -F(x)
+    y = A\(-F(x));
+    x = x + y; % actualizar
+    er = norm(t-x,2);
+
+    M(cont+1,1:n) = x.';
+    M(cont+1,n+1) = er;
+    cont = cont + 1;
+end
+end
 
 
 
