@@ -146,6 +146,17 @@ Tcomprobacion_c_10 = Ta_c_10 + (T0_c_10-Ta_c_10)*exp(-k_10*tiempo_c_10);
 disp('Temperatura calculada para ese tiempo (grados Celsius) =');
 disp(Tcomprobacion_c_10);
 
+
+
+%% Ejercicio 11
+
+% Prueba de la funcion del ejercicio 11, inciso c: factorizacionLU_pivoteo_total:
+
+A_11 = [0 8 -2; 1 -3 6; 5 -15 25];
+disp('Resultado del ejercicio 11 c:')
+[P_11,Q_11,L_11,U_11] = factorizacionLU_pivoteo_total(A_11)
+
+
 %% Ejercicio 12
 
 % Inciso f
@@ -339,6 +350,58 @@ while er > tol && cont < iteMax
     M(cont+1,2) = er;
     cont = cont + 1;
 end
+end
+
+
+%% Ejercicio 11
+
+function[P,Q,L,U] = factorizacionLU_pivoteo_total(A)
+% funcion para calcular la desconposicion PAQ = LU
+% Entradas:   A --- matriz nxn
+% Salidas     L --- matriz triangular inferior
+%             U --- matriz triangular superior
+%             P --- matriz de cambio de filas
+%             Q --- matriz de cambio de columnas
+
+[m,n] = size(A);
+
+if (m~=n)
+    error("La matriz no es cuadrada")
+end
+
+U = A; 
+L = eye(n);
+P = eye(n);
+Q = eye(n);
+for k = 1 : m-1
+    % Buscar la coordenada de la matriz donde se encuentra el máximo 
+    maximo  = 0;
+    fila = k; % Como estamos actualmente en k, el máximo podría ser en (k,k)
+    col = k;
+    for i = k:m
+        for j = k:n
+            if abs((U(i,j))) > maximo
+                maximo = abs(U(i,j));
+                fila = i;
+                col = j;
+            end
+        end 
+
+    end
+    % Intercambiar filas
+    U([k,fila], k:m) = U([fila,k], k:m);
+    L([k,fila], 1:k-1) = L([fila,k], 1:k-1);
+    P([k,fila], :) = P([fila,k], :);
+
+    % Intercambiar columnas
+    U(:, [k,col]) = U(:, [col,k]);
+    Q(:, [k,col]) = Q(:, [col,k]);
+
+    for j = k+1 :m
+        L(j,k) = U(j,k)/U(k,k);
+        U(j,k:m) = U(j,k:m) - L(j,k) * U(k,k:m);
+    end
+end 
 end
 
 %% Ejercicio 12
