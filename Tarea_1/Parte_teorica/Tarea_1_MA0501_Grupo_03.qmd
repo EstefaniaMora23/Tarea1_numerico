@@ -1402,22 +1402,28 @@ Es preciso recordar que método de Müller es un método iterativo. La idea es r
 De acuerdo con Artichuk (2020), la convergencia del método de Müller es de orden 1.839, lo que lo hace más rapido que el método de la secante, en el cual está basado; este último posee un orden de convergencia de 1.62. No obstante, es importante considerar que el método de Müller tiene una menor velocidad de convergencia en comparación a otros métodos, dentro de ellos se encuentra el método de Newton-Raphson, cuya convergencia es cuadrática, es decir, de orden 2.
 
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### b) Realice una iteración del método de Müller para el polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$, utilizando los valores: $x_{0} = \frac{1}{2}, x_{1}= \frac{-1}{2}, x_{2} = 0$. Además, calcule el error absoluto $|x_{3} − x_{2}|$ de esta iteración.
+
+Para aproximar la raíz del polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$ a partir del método de Müller, se utilizan los tres puntos brindados por el enunciado como los puntos iniciales. Se definen  $x_{0} = \frac{1}{2}, \quad x_{1}= \frac{-1}{2} \quad \text{y} \quad x_{2} = 0$. De esta forma, en vías de aplicar la fórmulas generales del método, se calculan los coeficientes de la ecuación cuadrática que aproxima la función. 
+
+Para facilitar el orden del procedimiento posterior, se calculan primero: 
+
+$$f(x_{0}) = f(\frac{1}{2}) =16(\frac{1}{2})^{4} − 40(\frac{1}{2})^{3} + 5(\frac{1}{2})^{2} + 20(\frac{1}{2}) + 6 = \frac{53}{4} = 13.25$$
+$$f(x_{1}) = f(\frac{-1}{2}) =16(\frac{-1}{2})^{4} − 40(\frac{-1}{2})^{3} + 5(\frac{-1}{2})^{2} + 20(\frac{-1}{2}) + 6 = \frac{13}{4} = 3.25$$
+$$f(x_{2}) = f(0) =16(0)^{4} − 40(0)^{3} + 5(0)^{2} + 20(0) + 6 = 6$$
+
+Ahora, calculando los coeficientes. Para el coeficiente a:
+
+$$a= \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}$$
+$$a= \frac{(\frac{-1}{2}−0)[13.25 - 6] - (\frac{1}{2}-0)[3.25 - 6]}{(\frac{1}{2}−0)(\frac{-1}{2}−0)(\frac{1}{2}-\frac{-1}{2})}$$
+
+
+
+$$b = \frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})}$$
+
+
+$$c = f(x_{2})$$
+
 
 
 
