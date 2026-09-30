@@ -24,37 +24,6 @@ metodo_Raiz_Multiple(p_7,dp_7,d2p_7,0,10^-10,100)
 
 %% Ejercicio 8
 
-% Funcion del metodo de Newton
-
-function[M] = metodoNewton(f,df,x,tol,iteMax)
-% Funcion para aproximar la solucion de f(x) = 0 usando el metodo de Newton.
-% Entradas:       f --- funcion cuya raiz se busca
-%                df --- derivada de f
-%                 x --- aproximacion inicial
-%               tol --- tolerancia para detener el ciclo
-%            iteMax --- numero maximo de filas de M, incluida la inicial
-% Salidas:        M --- columna 1: aproximaciones
-%                       columna 2: cambios absolutos entre aproximaciones
-
-cont = 1; er = tol + 1; M(1,1) = x; M(1,2) = inf;
-
-while er > tol && cont < iteMax
-    t = x;
-    q = df(x);
-
-    if (abs(q)<tol)
-        return;
-    end
-
-    x = x - f(x)/q;
-    er = abs(t-x);
-
-    M(cont+1,1) = x;
-    M(cont+1,2) = er;
-    cont = cont + 1;
-end
-end
-
 % Inciso a
 
 f_8 = @(x_8) 816*x_8.^3 - 3835*x_8.^2 + 6000*x_8 - 3125;
@@ -181,45 +150,10 @@ disp(Tcomprobacion_c_10);
 
 % Inciso f
 
-% Metodo de Newton para ecuaciones no lineales
+% La funcion solicitada se encuentra en el apartado de funciones mas abajo
+% en este documento.
 
-function[M] = metodoNewtonSistemas(F,J,x,tol,iteMax)
-% Funcion para aproximar la solucion de F(x) = 0 usando Newton.
-% Entradas:       F --- funcion que devuelve el vector de ecuaciones
-%                 J --- funcion que devuelve la matriz jacobiana
-%                 x --- vector de aproximacion inicial
-%               tol --- tolerancia para el cambio entre aproximaciones
-%            iteMax --- numero maximo de filas de M, incluida la inicial
-% Salidas:        M --- primeras n columnas: componentes de x
-%                       ultima columna: norma del cambio entre aproximaciones
 
-x = x(:); % Trabajar con un vector columna
-n = length(x);
-
-cont = 1;
-er = tol + 1;
-M(1,1:n) = x.';
-M(1,n+1) = inf;
-
-while er > tol && cont < iteMax
-    t = x;
-    A = J(x);
-
-    if rcond(A) < eps
-        warning('El jacobiano es singular o numericamente casi singular.');
-        return;
-    end
-
-    % Resolver J(x)*y = -F(x)
-    y = A\(-F(x));
-    x = x + y; % actualizar
-    er = norm(t-x,2);
-
-    M(cont+1,1:n) = x.';
-    M(cont+1,n+1) = er;
-    cont = cont + 1;
-end
-end
 
 
 
@@ -372,4 +306,81 @@ while (er > tol) && (cont <= IterMax)
     A(cont+1,3) = er;
     cont = cont + 1;
 end 
+end
+
+%% Ejercicio 8
+
+% Funcion del metodo de Newton
+
+function[M] = metodoNewton(f,df,x,tol,iteMax)
+% Funcion para aproximar la solucion de f(x) = 0 usando el metodo de Newton.
+% Entradas:       f --- funcion cuya raiz se busca
+%                df --- derivada de f
+%                 x --- aproximacion inicial
+%               tol --- tolerancia para detener el ciclo
+%            iteMax --- numero maximo de filas de M, incluida la inicial
+% Salidas:        M --- columna 1: aproximaciones
+%                       columna 2: cambios absolutos entre aproximaciones
+
+cont = 1; er = tol + 1; M(1,1) = x; M(1,2) = inf;
+
+while er > tol && cont < iteMax
+    t = x;
+    q = df(x);
+
+    if (abs(q)<tol)
+        return;
+    end
+
+    x = x - f(x)/q;
+    er = abs(t-x);
+
+    M(cont+1,1) = x;
+    M(cont+1,2) = er;
+    cont = cont + 1;
+end
+end
+
+%% Ejercicio 12
+
+% Inciso a
+
+% Metodo de Newton para ecuaciones no lineales
+
+function[M] = metodoNewtonSistemas(F,J,x,tol,iteMax)
+% Funcion para aproximar la solucion de F(x) = 0 usando Newton.
+% Entradas:       F --- funcion que devuelve el vector de ecuaciones
+%                 J --- funcion que devuelve la matriz jacobiana
+%                 x --- vector de aproximacion inicial
+%               tol --- tolerancia para el cambio entre aproximaciones
+%            iteMax --- numero maximo de filas de M, incluida la inicial
+% Salidas:        M --- primeras n columnas: componentes de x
+%                       ultima columna: norma del cambio entre aproximaciones
+
+x = x(:); % Trabajar con un vector columna
+n = length(x);
+
+cont = 1;
+er = tol + 1;
+M(1,1:n) = x.';
+M(1,n+1) = inf;
+
+while er > tol && cont < iteMax
+    t = x;
+    A = J(x);
+
+    if rcond(A) < eps
+        warning('El jacobiano es singular o numericamente casi singular.');
+        return;
+    end
+
+    % Resolver J(x)*y = -F(x)
+    y = A\(-F(x));
+    x = x + y; % actualizar
+    er = norm(t-x,2);
+
+    M(cont+1,1:n) = x.';
+    M(cont+1,n+1) = er;
+    cont = cont + 1;
+end
 end
