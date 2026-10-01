@@ -2194,7 +2194,7 @@ $$x =x_{2} + \frac{-2c}{b-\sqrt{b^{2}-4ac}}$$
 De esta manera, se ha llegado a la fórmula del método Müller para la siguiente aproximación de la raíz:
 
 $$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$
-Es preciso recordar que método de Müller es un método iterativo. La idea es repetir el procedimiento detallado con el objetivo de obtener aproximaciones cada vez más cercanas a la raíz. En la segunda iteración es común tomar los puntos $x_{1}$, $x_{2}$ y $x_{3}$ para calcular la nueva aproximación a la raíz: $x_{4}.$ La aproximación final de cada iteración corresponde a aquella en la que el signo del denominador del segundo término coincide con el signo del coeficiente b, lo anterior con tal de obtener una aproximación más estable. 
+Es preciso recordar que método de Müller es un método iterativo. La idea es repetir el procedimiento detallado con el objetivo de obtener aproximaciones cada vez más cercanas a la raíz. En la segunda iteración es común tomar los puntos $x_{1}$, $x_{2}$ y $x_{3}$ para calcular la nueva aproximación a la raíz: $x_{4}.$ Para escoger la aproximación final de cada iteración, se revisa el valor absoluto del denominador del segundo término, de manera que el signo que posea el mayor valor absoluto es el que se preserva en la aproximación final, lo anterior con tal de obtener una mayor estabilidad. 
 
 
 #### Sobre su velocidad de convergencia
@@ -2233,7 +2233,24 @@ $$c= 6$$
 De esta manera, se ha encontrado que las constantes corresponden a: $a = 9$, $b=10$ y $c=6$. Seguidamente, haciendo uso de estos resultados se calcula la nueva aproximación $x_{3}$:
 
 $$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$
-Como $b=10$, entonces la aproximación a la raíz en la primera iteración está dada por: 
+Seguidamente, se procede con la escogencia de la aproximación final en base al valor absoluto del denominador del segundo término. Para el primer denominador:
+
+$$\lvert b+\sqrt{b^{2}-4ac} \rvert =   \lvert 10+\sqrt{10^{2}-4*9*6} \rvert = \lvert 10+\sqrt{-116} \rvert = \lvert 10+2i\sqrt{29} \rvert$$
+Ahora, para un número complejo $z = a + bi$ se tiene que: 
+
+$$\lvert z \rvert = \sqrt{a^{2} + b^{2}} $$
+Así: 
+
+$$\lvert b+\sqrt{b^{2}-4ac} \rvert = \lvert 10+2i\sqrt{29} \rvert = \sqrt{10^{2} + (2\sqrt{29})^{2}} = 6\sqrt{6} \approx 14.696938 $$
+Para el segundo denominador: 
+
+$$\lvert b-\sqrt{b^{2}-4ac} \rvert =   \lvert 10-\sqrt{10^{2}-4*9*6} \rvert = \lvert 10-\sqrt{-116} \rvert = \lvert 10-2i\sqrt{29} \rvert$$
+Aplicando el mismo procedimiento, se llega a: 
+
+$$\lvert b-\sqrt{b^{2}-4ac} \rvert = \lvert 10-2i\sqrt{29} \rvert = \sqrt{10^{2} + (-2\sqrt{29})^{2}} = 6\sqrt{6} \approx 14.696938$$
+Note que como ambos denomiandores poseen el mismo valor absoluto, se elige arbitrariamente la expresión de la suma. 
+
+En vista de lo anterior, la aproximación a la raíz en la primera iteración está dada por: 
 
 $$x_{3} =x_{2} + \frac{-2c}{b+\sqrt{b^{2}-4ac}}$$
 
@@ -2246,7 +2263,7 @@ $$x_{3} = \frac{-12}{10+ i\sqrt{116}}$$
 $$x_{3} = \frac{-12}{10+ 2i\sqrt{29}}$$
 Colocando la fracción en la calculadora se obtiene finalmente que:
 
-$$x_{3} = \frac{-5}{9}+ \frac{\sqrt{29}}{9}i$$
+$$x_{3} = \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \approx -0.555556 + 0.598352i $$
 Por último, se calcula el error absoluto de la iteración: 
 
 $$\lvert x_{3} - x_{2} \rvert = \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i - 0 \rvert = \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert$$
@@ -2258,7 +2275,7 @@ Así:
 $$\lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert = \sqrt{(\frac{-5}{9})^{2} + (\frac{\sqrt{29}}{9})^{2}} = \frac{\sqrt{6}}{3}$$
 Por lo que: 
 
-$$\lvert x_{3} - x_{2} \rvert =  \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert=\frac{\sqrt{6}}{3} \approx 0.816496$$
+$$\lvert x_{3} - x_{2} \rvert =  \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert=\frac{\sqrt{6}}{3} \approx 0.816497$$
 
 ### c) [MATLAB] Escriba una función en MATLAB con el método de Müller que describió en la parte (a).
 
