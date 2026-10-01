@@ -1,13 +1,29 @@
-%% Tarea 1
+%% Portada 
+% Universidad de Costa Rica
+% Departamento de Matematica Pura 
+% Analisis numerico I
 
+% Tarea 1
+
+% Profesor:
+% Esteban Segura Ugalde 
+
+% Estudiantes:
+% Alexandra Gonzalez Bermudez, C4F535
+% Emily Estefania Mora Contreras, C4H522
+% Jose Miguel Rodriguez Gomez, C4J104
+% Daniela Prado Vargas, C26070
+
+% Segundo semestre 
+% 2026
+
+%% Solucion de incisos: calculos a partir de las funciones creadas
 %% Ejercicio 1
 % Prueba de la funcion del ejercicio 1 Division_Multiples_Secciones:
 
 f_1 = @(x) exp(x) -2*x - 1; % funcion para el metodo
 disp('Resultado del ejercicio 1:')
 Division_Multiples_Secciones(f_1, 1, 2, 10, 10^-10)
-
-
 
 %% Ejercicio 4
 % Prueba de la funcion del ejercicio 4e Raiz_Cubica_21:
@@ -23,7 +39,6 @@ disp('Resultado del ejercicio 7d:')
 metodo_Raiz_Multiple(p_7,dp_7,d2p_7,0,10^-10,100)
 
 %% Ejercicio 8
-
 % Inciso a
 
 f_8 = @(x_8) 816*x_8.^3 - 3835*x_8.^2 + 6000*x_8 - 3125;
@@ -97,7 +112,6 @@ disp('Intervalos estimados: extremo inferior y extremo superior =');
 disp([inferior_8(:), superior_8(:)]);
 
 %% Ejercicio 10
-
 % Inciso b
 t_10 = [0; 0.2; 0.4; 0.6; 0.8];
 Ti_10 = [37; 36.72; 36.41; 36.12; 35.90];
@@ -166,8 +180,6 @@ Tcomprobacion_c_10 = Ta_c_10 + (T0_c_10-Ta_c_10)*exp(-k_10*tiempo_c_10);
 disp('Temperatura calculada para ese tiempo (grados Celsius) =');
 disp(Tcomprobacion_c_10);
 
-
-
 %% Ejercicio 11
 
 % Prueba de la funcion del ejercicio 11, inciso c: factorizacionLU_pivoteo_total:
@@ -176,41 +188,74 @@ A_11 = [0 8 -2; 1 -3 6; 5 -15 25];
 disp('Resultado del ejercicio 11 c:')
 [P_11,Q_11,L_11,U_11] = factorizacionLU_pivoteo_total(A_11)
 
-
 %% Ejercicio 12
 
 % Inciso f
 
-% La funcion solicitada se encuentra en el apartado de funciones mas abajo
-% en este documento.
+% La funcion solicitada se encuentra en el apartado de funciones, situado 
+% mas abajo en este documento.
 
 
 
+%% Ejercicio 15
+
+f_15 = @(x_15) 16*x_15^4 - 40*x_15^3 + 5*x_15^2 + 20*x_15 + 6;
+x0_muller = 1/2;
+x1_muller = -1/2;
+x2_muller = 0;
+
+% Seccion de verificacion de la funcion
+% Se prueba la funcion para el reusltado desarrollado en el inciso b
+iteMax_15_prueba = 1;
+[x3_muller_prueba, x3_error_muller_prueba] = metodoMuller(f_15, x0_muller, x1_muller, x2_muller, iteMax_15_prueba);
+disp('Resultado de la prueba de la funcion. Ejercicio 15, inciso b')
+disp('Aproximacion de x3:');
+%Se busca corregir el formato del numero de iteracion para que se 
+% imprima de manera agradable
+for i = 1:size(x3_muller_prueba,1)
+    fprintf('%d   %.6f %+.6fi\n', ...
+        x3_muller_prueba(i,1), ...
+        real(x3_muller_prueba(i,2)), ...
+        imag(x3_muller_prueba(i,2)));
+end
+disp('Error absoluto de la iteracion');
+%Se busca corregir el formato del numero de iteracion para que se 
+% imprima de manera agradable
+for i = 1:size(x3_error_muller_prueba,1)
+    fprintf('%d   %.6f\n', ...
+        real(x3_error_muller_prueba(i,1)), ...
+        real(x3_error_muller_prueba(i,2)));
+end
+
+
+% Inciso d
+iteMax_15_d = 6;
+
+% Se calcula la aproximacion x8 a partir de la funcion creada
+[x8_muller, x8_errores_muller] = metodoMuller(f_15, x0_muller, x1_muller, x2_muller, iteMax_15_d);
+
+disp('Resultado del ejercicio 15, inciso c:')
+disp('Tabla de aproximaciones en cada iteracion hasta obtener x8:');
+%Se busca corregir el formato de los numeros de iteracion para que se 
+% impriman de manera agradable
+for i = 1:size(x8_muller,1)
+    fprintf('%d   %.6f %+.6fi\n', ...
+        x8_muller(i,1), ...
+        real(x8_muller(i,2)), ...
+        imag(x8_muller(i,2)));
+end
+disp('Tabla de errores absolutos en cada iteracion hasta obtener x8:');
+%Se busca corregir el formato de los numeros de iteracion y los valores de 
+% los errores, para que se impriman de manera agradable
+for i = 1:size(x8_errores_muller,1)
+    fprintf('%d   %.6f\n', ...
+        real(x8_errores_muller(i,1)), ...
+        real(x8_errores_muller(i,2)));
+end
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%% Funciones 
+%% Solucion de incisos: creacion de funciones 
 
 %% Ejercicio 1
 
@@ -467,3 +512,67 @@ while er > tol && cont < iteMax
     cont = cont + 1;
 end
 end
+
+%% Ejercicio 15
+
+% Inciso c
+
+% Metodo de Muller para ecuaciones no lineales
+
+function[x_muller, errores_muller] = metodoMuller(f_muller,x0,x1,x2, iteMax)
+% Funcion para aproximar la solucion de f(x) = 0 usando el metodo de Muller.
+% Entradas: f_muller --- funcion a la que se le quiere calcular la
+%                       aproximacion de la raiz
+%                 x0 --- primer punto inicial 
+%                 x1 --- segundo punto inicial
+%                 x2 --- tercer punto inicial
+%                tol --- tolerancia para el cambio entre aproximaciones
+%             iteMax --- numero de iteraciones maximas a calcular
+% Salidas:  x_muller --- vector de aproximaciones de la raiz en cada 
+%                        iteracion
+%     errores_muller --- vector de errores absolutos de cada iteracion
+
+x_muller = zeros(iteMax, 2);
+errores_muller = zeros(iteMax, 2);
+contador_iteraciones = 0;
+error_iteracion_actual = 0;
+
+while contador_iteraciones < iteMax 
+    h0 = x1 - x0;
+    h1 = x2 - x1;
+    delta_0 = (f_muller(x1) - f_muller(x0)) / h0;
+    delta_1 = (f_muller(x2) - f_muller(x1)) / h1;
+
+    a = (delta_1 - delta_0)/(h1 + h0);
+    b = a*h1 + delta_1;
+    c = f_muller(x2);
+
+    discriminante_muller = sqrt(b^2 - 4*a*c);
+
+    % Se revisa el valor absoluto  del denominador para seleccionar 
+    % la forma de la aproximacion final
+    if abs(b + discriminante_muller) >= abs(b - discriminante_muller)
+            denominador_muller = b + discriminante_muller;
+    else
+        denominador_muller = b - discriminante_muller;
+    end
+
+    x_iteracion = x2 + (-2*c)/denominador_muller;
+    error_iteracion_actual = abs(x_iteracion - x2);
+
+    %Se agrega la aproximacion de la raiz y el error de la iteracion a los 
+    %vectores
+    x_muller(contador_iteraciones + 1, :) = [contador_iteraciones + 3, x_iteracion];
+    errores_muller(contador_iteraciones + 1, :) = [contador_iteraciones + 3, error_iteracion_actual];
+
+    x0 = x1;
+    x1 = x2;
+    x2 = x_iteracion;
+
+    contador_iteraciones = contador_iteraciones + 1;
+
+end
+end
+
+
+
