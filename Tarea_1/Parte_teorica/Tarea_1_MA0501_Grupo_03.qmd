@@ -1161,6 +1161,114 @@ Como puede observarse, con 4 iteraciones, se encontró que la aproximación a un
 
 Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
 
+## Ejercicio 8
+
+Considere la función
+
+$$
+f(x)=816x^3-3835x^2+6000x-3125.
+$$
+
+### a) Utilice la función fzero de MATLAB para aproximar las tres soluciones.
+
+Para aproximar las tres raíces, se construyeron tres intervalos en los que la función presenta un cambio de signo, como se muestra a continuación:
+
+| Intervalo $[a,b]$ | $f(a)$ | $f(b)$ |
+|:----------------:|-------:|-------:|
+| $[1.4,1.5]$ | $-2.496$ | $0.25$ |
+| $[1.55,1.6]$ | $0.0945$ | $-0.264$ |
+| $[1.65,1.7]$ | $-0.2135$ | $0.858$ |
+
+Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`):
+
+$$
+c_1\approx1.4705882353,\qquad
+c_2\approx1.5625,\qquad
+c_3\approx1.6666666667.
+$$
+
+y al ponerlo en formato racional, se obtuvo que las raíces exactas son:
+
+$$
+c_1=\frac{25}{17},\qquad
+c_2=\frac{25}{16},\qquad
+c_3=\frac{5}{3}.
+$$
+
+### b) Para cada elemento de $x_0$ obtenga el valor de convergencia del método de Newton. Grafique el valor de convergencia en función del valor inicial. 
+
+La iteración del método de Newton está definida por
+
+$$
+x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}.
+$$
+
+Calculamos la primera derivada de la función:
+
+$$
+\begin{aligned}
+f'(x_k)
+&=816\cdot3x_k^2-3835\cdot2x_k+6000\\
+&=2448x_k^2-7670x_k+6000.
+\end{aligned}
+$$
+
+Por lo tanto, las iteraciones de Newton para esta función están dadas por
+
+$$
+x_{k+1}
+=
+x_k-
+\frac{816x_k^3-3835x_k^2+6000x_k-3125}
+{2448x_k^2-7670x_k+6000}.
+$$
+
+En MATLAB, se utilizó `linspace(1.4,1.7)` para construir el vector de valores iniciales. Luego, se aplicó la función `metodoNewton` a cada valor inicial por separado, utilizando una tolerancia de $10^{-10}$ y un máximo de $100$ iteraciones (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`).
+
+Durante cada ejecución se calculó el error relativo entre aproximaciones consecutivas:
+
+$$
+\mathrm{err}_k
+=
+\frac{|x_{k+1}-x_k|}{|x_{k+1}|}.
+$$
+
+Se guardó la aproximación final cuando se verificó que $|f(x)|<10^{-10}$. Finalmente, se graficaron los valores de convergencia en función de los valores iniciales, colocando $x_0$ en el eje horizontal y la raíz aproximada en el eje vertical. La gráfica se muestra a continuación.
+
+![Convergencia del método de Newton](grafico_8b.png){width=60%}
+
+### c) Compare esta cota estimada con los resultados numéricos de la parte (b). ¿Hay algún estimado particularmente malo? En caso afirmativo, ¿puede explicar el porqué?
+
+Para cada raíz $c$, el estimado proporcionado en el enunciado define una cota, la denotamos $R_c$.
+
+$$
+R_c=\left|\frac{f''(c)}{2f'(c)}\right|^{-1}
+=\left|\frac{2f'(c)}{f''(c)}\right|.
+$$
+
+Así, la condición $|x_0-c|\leq R_c$ corresponde al intervalo $[c-R_c,c+R_c]$. Utilizando las raíces del inciso a) y las derivadas de la función f,
+
+$$
+f'(x)=2448x^2-7670x+6000,
+\qquad
+f''(x)=4896x-7670,
+$$
+
+se obtienen los siguientes intervalos estimados, por medio de MATLAB (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`):
+
+$$
+\begin{aligned}
+I_{c_1}\approx[1.408010,\;1.533166],\\
+I_{c_2}\approx[0.781250,\;2.343750],\\
+I_{c_3}\approx[1.598639,\;1.734694].
+\end{aligned}
+$$
+
+Al compararlos con la gráfica del inciso b), se observa que estos intervalos no describen correctamente todos los valores iniciales que convergen a cada raíz. Por ejemplo, dentro del primer intervalo aparecen valores iniciales que convergen a $c_3$, mientras que dentro del tercero hay valores que convergen a $c_1$ o a $c_2$.
+
+El estimado más *particularmente malo* corresponde a la raíz central, $c_2=1.5625$. Note que se obtuvo $R_{c_2}=0.78125$, aunque los valores iniciales muestreados que convergen a ella se encuentran aproximadamente entre $1.524242$ y $1.606061$. Además, el intervalo estimado contiene las otras dos raíces, por lo que no puede garantizar la convergencia a $c_2$ desde todos sus puntos.
+
+Esta diferencia se explica porque $f''(c_2)=-20$ tiene un valor absoluto pequeño, lo que produce una estimación de $R_c$ muy grande. Sin embargo, la expresión solo utiliza las derivadas evaluadas en la raíz y no considera su comportamiento en el resto del intervalo. Como establece el teorema de convergencia de Newton, una garantía requiere controlar las derivadas en todo un entorno de la raíz. Por ello, el estimado del enunciado debe interpretarse como una aproximación local y no como el intervalo real de atracción.
 
 ## Ejercicio 11
 
