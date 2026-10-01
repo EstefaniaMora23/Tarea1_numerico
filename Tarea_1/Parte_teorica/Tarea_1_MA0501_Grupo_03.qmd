@@ -1179,7 +1179,7 @@ Para aproximar las tres raíces, se construyeron tres intervalos en los que la f
 | $[1.55,1.6]$ | $0.0945$ | $-0.264$ |
 | $[1.65,1.7]$ | $-0.2135$ | $0.858$ |
 
-Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`):
+Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso a):
 
 $$
 c_1\approx1.4705882353,\qquad
@@ -1223,7 +1223,7 @@ x_k-
 {2448x_k^2-7670x_k+6000}.
 $$
 
-En MATLAB, se utilizó `linspace(1.4,1.7)` para construir el vector de valores iniciales. Luego, se aplicó la función `metodoNewton` a cada valor inicial por separado, utilizando una tolerancia de $10^{-10}$ y un máximo de $100$ iteraciones (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`).
+En MATLAB, se utilizó `linspace(1.4,1.7)` para construir el vector de valores iniciales. Luego, se aplicó la función `metodoNewton` a cada valor inicial por separado, utilizando una tolerancia de $10^{-10}$ y un máximo de $100$ iteraciones (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso b).
 
 Durante cada ejecución se calculó el error relativo entre aproximaciones consecutivas:
 
@@ -1254,7 +1254,7 @@ f'(x)=2448x^2-7670x+6000,
 f''(x)=4896x-7670,
 $$
 
-se obtienen los siguientes intervalos estimados, por medio de MATLAB (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`):
+se obtienen los siguientes intervalos estimados, por medio de MATLAB (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso c):
 
 $$
 \begin{aligned}
@@ -1269,6 +1269,132 @@ Al compararlos con la gráfica del inciso b), se observa que estos intervalos no
 El estimado más *particularmente malo* corresponde a la raíz central, $c_2=1.5625$. Note que se obtuvo $R_{c_2}=0.78125$, aunque los valores iniciales muestreados que convergen a ella se encuentran aproximadamente entre $1.524242$ y $1.606061$. Además, el intervalo estimado contiene las otras dos raíces, por lo que no puede garantizar la convergencia a $c_2$ desde todos sus puntos.
 
 Esta diferencia se explica porque $f''(c_2)=-20$ tiene un valor absoluto pequeño, lo que produce una estimación de $R_c$ muy grande. Sin embargo, la expresión solo utiliza las derivadas evaluadas en la raíz y no considera su comportamiento en el resto del intervalo. Como establece el teorema de convergencia de Newton, una garantía requiere controlar las derivadas en todo un entorno de la raíz. Por ello, el estimado del enunciado debe interpretarse como una aproximación local y no como el intervalo real de atracción.
+
+## Ejercicio 10
+
+La ley de enfriamiento de Newton establece que
+
+$$
+T'(t)=k\bigl(T_a-T(t)\bigr).
+$$ {#eq-10-ley}
+
+### a) Verificación de la ley de enfriamiento de Newton
+
+Queremos verificar que la función
+
+$$
+T(t)=T_a+(T_0-T_a)e^{-kt}
+$$ {#eq-10-solucion}
+
+satisface la @eq-10-ley y la condición inicial $T(0)=T_0$. Consideramos que $T_a$, $T_0$ y $k$ son constantes.
+
+Derivamos la @eq-10-solucion con respecto a $t$. La derivada de $T_a$ es cero y, por la regla de la cadena, la derivada de $e^{-kt}$ es $-ke^{-kt}$. Por tanto,
+
+$$
+T'(t)=-k(T_0-T_a)e^{-kt}.
+$$ {#eq-10-derivada}
+
+En el lado derecho de la @eq-10-ley, sustituimos únicamente $T(t)$ por la expresión completa de la @eq-10-solucion:
+
+$$
+k\bigl(T_a-T(t)\bigr)
+=
+k\left[T_a-\left(T_a+(T_0-T_a)e^{-kt}\right)\right].
+$$ {#eq-10-sustitucion}
+
+Distribuimos el signo negativo que está delante del paréntesis:
+
+$$
+k\bigl(T_a-T(t)\bigr)
+=
+k\left[T_a-T_a-(T_0-T_a)e^{-kt}\right].
+$$ {#eq-10-signos}
+
+Como $T_a-T_a=0$, obtenemos
+
+$$
+k\bigl(T_a-T(t)\bigr)
+=
+-k(T_0-T_a)e^{-kt}.
+$$ {#eq-10-derecho}
+
+La @eq-10-derivada y la @eq-10-derecho tienen la misma expresión. Por lo tanto, la función propuesta satisface la ecuación diferencial:
+
+$$
+T'(t)=k\bigl(T_a-T(t)\bigr).
+$$ {#eq-10-verificacion}
+
+Finalmente, verificamos la condición inicial. Sustituimos $t=0$ en la @eq-10-solucion:
+
+$$
+\begin{aligned}
+T(0)
+&=T_a+(T_0-T_a)e^{-k(0)}\\
+&=T_a+(T_0-T_a)\cdot 1\\
+&=T_0.
+\end{aligned}
+$$ {#eq-10-inicial}
+
+Así, la función propuesta satisface tanto la ley de enfriamiento de Newton como la condición inicial $T(0)=T_0$.
+
+### b) Aproxime el punto críıtico de $f$ y verifique que $f$ alcanza un mínimo.
+
+La solución se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección *Resolución de incisos*, Ejercicio 10, inciso b; a continuación se muestra un resumen de los resultados obtenidos. 
+
+Se utilizó el método de Newton para resolver $f'(k)=0$, con aproximación inicial $k_0=0.2$ y tolerancia $10^{-10}$. Después de cinco iteraciones, se obtuvo
+
+$$
+k=0.091283148291059\ \text{horas}^{-1}.
+$$
+
+Para verificar que corresponde a un mínimo, se evaluaron la función objetivo y sus dos primeras derivadas:
+
+$$
+\begin{aligned}
+f(k)&=0.001815572905696,\\
+f'(k)&= -6.328271240363392\times 10^{-14},\\
+f''(k)&= 5.441009243718520\times 10^{2}.
+\end{aligned}
+$$
+
+Como $|f'(k)|<10^{-10}$, se verificó numéricamente la condición de punto crítico. Además, $f''(k)>0$, por lo que el resultado corresponde a un mínimo local estricto.
+
+Finalmente, 
+
+$$
+T(t)\approx 21+16e^{-0.091283148291059t}.
+$$
+
+### c) ¿Hace cuánto falleció la persona?
+
+Utilizando la constante $k$ obtenida en el inciso b), con temperatura ambiente de $31\,^\circ\mathrm{C}$ y temperatura inicial de $37\,^\circ\mathrm{C}$, se tiene
+
+$$
+T(t)=31+6e^{-kt}.
+$$
+
+Para encontrar el tiempo transcurrido hasta alcanzar $34\,^\circ\mathrm{C}$, se despejó $t$:
+
+$$
+34=31+6e^{-kt}
+\quad\Longrightarrow\quad
+t=-\frac{\ln(1/2)}{k}.
+$$
+
+El cálculo en MATLAB dio como resultado (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 10, inciso c)
+
+$$
+t\approx 7.593375048260011\ \text{horas}.
+$$
+
+Por tanto, habían transcurrido aproximadamente **7 horas y 36 minutos desde el fallecimiento**.
+Como verificación, se sustituyó el tiempo obtenido en el modelo utilizando el valor calculado de $k$. MATLAB devolvió
+
+$$
+T(t)=34\,^\circ\mathrm{C},
+$$
+
+que coincide con la temperatura observada.
 
 ## Ejercicio 11
 
@@ -1406,6 +1532,435 @@ end
 ### c) Escriba una función de MATLAB con el método de eliminación Gaussiana con pivoteo total
 
 Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+
+## Ejercicio 12
+
+### a) Pruebe que la convergencia del método de Newton para sistemas no lineales es cuadrática.
+
+Sea $a\in\mathbb{R}^n$ una solución del sistema, de modo que $F(a)=0$. Suponga que $F$ tiene derivadas continuas hasta orden dos en una vecindad de $a$ y que $J(a)$ es invertible. La iteración del método de Newton está dada por
+
+$$
+x^{(k+1)}
+=
+x^{(k)}-[J(x^{(k)})]^{-1}F(x^{(k)}).
+$$ {#eq-12-newton}
+
+Aplicando el desarrollo de Taylor de $F$ alrededor de $x^{(k)}$ evaluado en $a$, se obtiene
+
+$$
+F(a)
+=
+F(x^{(k)})
++
+J(x^{(k)})(a-x^{(k)})
++
+R_k,
+$$ {#eq-12-taylor}
+
+donde denotamos por $R_k$ al resto. Por continuidad, las segundas derivadas de $F$ se pueden acotar en una vecindad cerrada suficientemente pequeña de $a$. En consecuencia, existe una constante $K>0$ tal que
+
+$$
+\|R_k\|\le K\|x^{(k)}-a\|^2.
+$$
+
+Como $F(a)=0$, de la @eq-12-taylor se sigue que
+
+$$
+0
+=
+F(x^{(k)})
+-
+J(x^{(k)})(x^{(k)}-a)
++
+R_k.
+$$
+
+Por tanto,
+
+$$
+F(x^{(k)})
+=
+J(x^{(k)})(x^{(k)}-a)-R_k.
+$$
+
+Sustituyendo esta expresión en la @eq-12-newton y restando $a$, se obtiene
+
+$$
+\begin{aligned}
+x^{(k+1)}-a
+&=
+x^{(k)}-a
+-
+[J(x^{(k)})]^{-1}
+\left[J(x^{(k)})(x^{(k)}-a)-R_k\right]\\
+&=
+x^{(k)}-a-(x^{(k)}-a)
++
+[J(x^{(k)})]^{-1}R_k\\
+&=
+[J(x^{(k)})]^{-1}R_k.
+\end{aligned}
+$$
+
+Como $J(a)$ es invertible y $J$ es continua, existe una vecindad de $a$ en la que $J(x)$ es invertible. Además, por continuidad de la inversa, tomando una vecindad más pequeña si es necesario, existe una constante $M>0$ tal que
+
+$$
+\|[J(x)]^{-1}\|\le M.
+$$
+
+Tomando normas y utilizando la cota del resto, resulta
+
+$$
+\begin{aligned}
+\|x^{(k+1)}-a\|
+&\le
+\|[J(x^{(k)})]^{-1}\|\,\|R_k\|\\
+&\le
+MK\|x^{(k)}-a\|^2.
+\end{aligned}
+$$
+
+Así, con $C=MK$, se tiene
+
+$$
+\|x^{(k+1)}-a\|
+\le C\|x^{(k)}-a\|^2.
+$$
+
+Para garantizar la convergencia, tome $\delta>0$ de modo que la bola de radio $\delta$ centrada en $a$ esté contenida en la vecindad donde se cumplen las cotas anteriores y que $C\delta<1$. Si $\|x^{(0)}-a\|<\delta$, entonces
+
+$$
+\|x^{(k+1)}-a\|
+\le C\|x^{(k)}-a\|^2
+\le C\delta\,\|x^{(k)}-a\|.
+$$
+
+Por el principio de inducción, las aproximaciones permanecen en dicha vecindad y
+
+$$
+\|x^{(k)}-a\|
+\le
+(C\delta)^k\|x^{(0)}-a\|
+\longrightarrow 0.
+$$
+
+Por lo tanto, $x^{(k)}\to a$ y la cota cuadrática obtenida demuestra que el método de Newton para sistemas no lineales tiene convergencia local al menos cuadrática bajo las hipótesis indicadas.
+
+### b) Escritura del sistema en la forma $F(x)=0$
+
+Tenemos que 
+
+$$
+\begin{cases}
+3x_1-\cos(x_2x_3)=0.5,\\
+x_1^2-81(x_2+0.1)^2+\sin(x_3)=-1.06,\\
+e^{-x_1x_2}+20x_3=\dfrac{3-10\pi}{3}.
+\end{cases}
+$$
+
+Restando el lado derecho de cada ecuación, se definen las funciones
+
+$$
+\begin{aligned}
+f_1(x_1,x_2,x_3)
+&=3x_1-\cos(x_2x_3)-0.5,\\
+f_2(x_1,x_2,x_3)
+&=x_1^2-81(x_2+0.1)^2+\sin(x_3)+1.06,\\
+f_3(x_1,x_2,x_3)
+&=e^{-x_1x_2}+20x_3-\frac{3-10\pi}{3}.
+\end{aligned}
+$$
+
+Por tanto, el sistema se expresa como $F(x)=0$, donde $x=(x_1,x_2,x_3)^t$ y
+
+$$
+F(x)=
+\begin{pmatrix}
+3x_1-\cos(x_2x_3)-0.5\\
+x_1^2-81(x_2+0.1)^2+\sin(x_3)+1.06\\
+e^{-x_1x_2}+20x_3-\dfrac{3-10\pi}{3}
+\end{pmatrix}.
+$$
+
+De modo que, resolver el sistema equivale a encontrar un vector $x\in\mathbb{R}^3$ tal que $F(x)=0$.
+
+### c) Matriz Jacobiana e iteración de Newton
+
+La matriz Jacobiana se obtiene calculando las derivadas parciales de las funciones del inciso b), como se ve a continuación:
+
+$$
+J(x)=
+\begin{pmatrix}
+\dfrac{\partial f_1}{\partial x_1} &
+\dfrac{\partial f_1}{\partial x_2} &
+\dfrac{\partial f_1}{\partial x_3}\\[6pt]
+\dfrac{\partial f_2}{\partial x_1} &
+\dfrac{\partial f_2}{\partial x_2} &
+\dfrac{\partial f_2}{\partial x_3}\\[6pt]
+\dfrac{\partial f_3}{\partial x_1} &
+\dfrac{\partial f_3}{\partial x_2} &
+\dfrac{\partial f_3}{\partial x_3}
+\end{pmatrix}.
+$$
+
+Por tanto,
+
+$$
+J(x)=
+\begin{pmatrix}
+3 & x_3\sin(x_2x_3) & x_2\sin(x_2x_3)\\
+2x_1 & -162(x_2+0.1) & \cos(x_3)\\
+-x_2e^{-x_1x_2} & -x_1e^{-x_1x_2} & 20
+\end{pmatrix}.
+$$
+
+Para $x^{(k)}=(x_1^{(k)},x_2^{(k)},x_3^{(k)})^t$, la iteración
+de Newton para este sistema queda
+
+$$
+x^{(k+1)}
+=
+x^{(k)}
+-
+[J(x^{(k)})]^{-1}
+\begin{pmatrix}
+3x_1^{(k)}-\cos(x_2^{(k)}x_3^{(k)})-0.5\\
+(x_1^{(k)})^2-81(x_2^{(k)}+0.1)^2+\sin(x_3^{(k)})+1.06\\
+e^{-x_1^{(k)}x_2^{(k)}}+20x_3^{(k)}-\dfrac{3-10\pi}{3}
+\end{pmatrix},
+\qquad k=0,1,\ldots,
+$$
+
+siempre que $J(x^{(k)})$ sea invertible.
+
+Para calcular cada aproximación sin invertir explícitamente
+el Jacobiano, se puede resolver el sistema lineal
+
+$$
+J(x^{(k)})y^{(k)}=-F(x^{(k)})
+$$
+
+y luego actualizar mediante
+
+$$
+x^{(k+1)}=x^{(k)}+y^{(k)}.
+$$
+
+### d) Iteraciones del método de Newton para aproximar la solución del sistema
+
+Partimos de la aproximación inicial
+
+$$
+x^{(0)}=
+\begin{pmatrix}
+0.1\\
+0.1\\
+-0.1
+\end{pmatrix}.
+$$
+
+Siguiendo la sugerencia, en cada iteración resolvemos el sistema lineal
+
+$$
+J(x^{(k)})y^{(k)}=-F(x^{(k)})
+$$
+
+y actualizamos la aproximación mediante
+
+$$
+x^{(k+1)}=x^{(k)}+y^{(k)}.
+$$
+
+#### Primera iteración: $k=0$
+
+Evaluando el Jacobiano y la función en $x^{(0)}$, el sistema que debemos resolver es, con valores redondeados,
+
+$$
+\begin{pmatrix}
+3 & 0.0009999833 & -0.0009999833\\
+0.2 & -32.4 & 0.9950041653\\
+-0.0990049834 & -0.0990049834 & 20
+\end{pmatrix}
+y^{(0)}
+=
+\begin{pmatrix}
+1.1999500004\\
+2.2698334166\\
+-8.4620253457
+\end{pmatrix}.
+$$
+
+Al resolverlo, se obtiene
+
+$$
+y^{(0)}=
+\begin{pmatrix}
+0.3998696729\\
+-0.0805331515\\
+-0.4215204719
+\end{pmatrix}.
+$$
+
+Por tanto,
+
+$$
+x^{(1)}
+=x^{(0)}+y^{(0)}
+=
+\begin{pmatrix}
+0.4998696729\\
+0.0194668485\\
+-0.5215204719
+\end{pmatrix}.
+$$
+
+#### Segunda iteración: $k=1$
+
+Evaluamos nuevamente el Jacobiano y la función, ahora en
+$x^{(1)}$. El sistema lineal es
+
+$$
+\begin{pmatrix}
+3 & 0.0052945726 & -0.0001976311\\
+0.9997393459 & -19.3536294631 & 0.8670626845\\
+-0.0192783375 & -0.4950290873 & 20
+\end{pmatrix}
+y^{(1)}
+=
+\begin{pmatrix}
+0.0003394465\\
+0.3443879276\\
+-0.0318823779
+\end{pmatrix}.
+$$
+
+Su solución es
+
+$$
+y^{(1)}=
+\begin{pmatrix}
+0.0001445672\\
+-0.0178782572\\
+-0.0020364924
+\end{pmatrix}.
+$$
+
+Actualizando la aproximación,
+
+$$
+x^{(2)}
+=x^{(1)}+y^{(1)}
+=
+\begin{pmatrix}
+0.5000142402\\
+0.0015885914\\
+-0.5235569643
+\end{pmatrix}.
+$$
+
+#### Tercera iteración: $k=2$
+
+Evaluando el Jacobiano y la función en $x^{(2)}$, obtenemos
+
+$$
+\begin{pmatrix}
+3 & 0.0004354517 & -0.0000013213\\
+1.0000284803 & -16.4573518020 & 0.8660463087\\
+-0.0015873300 & -0.4996172274 & 20
+\end{pmatrix}
+y^{(2)}
+=
+\begin{pmatrix}
+-0.0000430664\\
+0.0258891432\\
+-0.0000422221
+\end{pmatrix}.
+$$
+
+Al resolver este sistema,
+
+$$
+y^{(2)}=
+\begin{pmatrix}
+-0.0000141267\\
+-0.0015761466\\
+-0.0000414857
+\end{pmatrix}.
+$$
+
+Finalmente,
+
+$$
+x^{(3)}
+=x^{(2)}+y^{(2)}
+=
+\begin{pmatrix}
+0.5000001135\\
+0.0000124448\\
+-0.5235984501
+\end{pmatrix}.
+$$
+
+Por tanto, después de tres iteraciones, la aproximación solicitada es
+
+$$
+x^{(3)}\approx
+\begin{pmatrix}
+0.5000001135\\
+0.0000124448\\
+-0.5235984501
+\end{pmatrix}.
+$$
+
+### e) Escriba el Algoritmo del método de Newton descrito en el ejercicio.
+
+- **Entradas:** $F:\mathbb{R}^n\to\mathbb{R}^n$ continuamente diferenciable, su matriz Jacobiana $J$, el vector inicial $x_0\in\mathbb{R}^n$, la tolerancia $tol>0$ y el número máximo de iteraciones $iteMax$.
+
+- **Salidas:** $k$, número de iteraciones realizadas, y $x$, aproximación obtenida para la solución de $F(x)=0$.
+
+Pasos a seguir:
+
+$$
+\begin{array}{l}
+k\leftarrow 0,\qquad x\leftarrow x_0,\qquad err\leftarrow tol+1.
+\\[8pt]
+\text{Mientras } err\ge tol \text{ y } k<iteMax \text{ hacer:}
+\\[6pt]
+\quad t\leftarrow x
+\\[6pt]
+\quad A\leftarrow J(x)
+\\[6pt]
+\quad \text{Si } A \text{ es singular:}
+\\[6pt]
+\qquad \text{Mostrar un mensaje de error y detener el algoritmo.}
+\\[6pt]
+\quad \text{end}
+\\[6pt]
+\quad \text{Resolver el sistema lineal } Ay=-F(x)
+\\[6pt]
+\quad x\leftarrow x+y
+\\[6pt]
+\quad err\leftarrow \|x-t\|_2
+\\[6pt]
+\quad k\leftarrow k+1
+\\[6pt]
+\text{end}
+\\[8pt]
+\text{Si } err\ge tol:
+\\[6pt]
+\quad \text{Indicar que se alcanzó el máximo de iteraciones}
+\\
+\quad \text{sin cumplir la tolerancia.}
+\\[6pt]
+\text{end}
+\\[8pt]
+\text{Devolver } k \text{ y } x.
+\end{array}
+$$
+
+### f)[MATLAB] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
+
+La resolución del ejercicio se encuentra en el archivo , en la sección *Funciones*, Ejercicio 12, inciso f.
 
 ## Ejercicio 14
 
