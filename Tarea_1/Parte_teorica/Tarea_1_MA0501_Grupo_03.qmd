@@ -33,7 +33,7 @@ Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
 
 ## Ejercicio 2
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 2`. 
 
 
 # Parte teórica - programada
@@ -2279,8 +2279,8 @@ $$\lvert x_{3} - x_{2} \rvert =  \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rver
 
 ### c) [MATLAB] Escriba una función en MATLAB con el método de Müller que describió en la parte (a).
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 15`. 
 
 ### d) [MATLAB] Usando la función en MATLAB programada en (c), calcule la aproximación $x_{8}$ para el polinomio de la parte (b), junto con los errores absolutos $|xk − xk−1|$ de cada iteración. Su programa debe mostrar una tabla que contenga las aproximaciones en la primera columna y los errores en la segunda.
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `%% Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado  `Ejercicio 15`. 
