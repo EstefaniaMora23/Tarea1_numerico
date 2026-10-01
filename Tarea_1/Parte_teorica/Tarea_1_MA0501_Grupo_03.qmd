@@ -1639,7 +1639,7 @@ $$x =x_{2} + \frac{-2c}{b-\sqrt{b^{2}-4ac}}$$
 De esta manera, se ha llegado a la fórmula del método Müller para la siguiente aproximación de la raíz:
 
 $$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$
-Es preciso recordar que método de Müller es un método iterativo. La idea es repetir el procedimiento detallado con el objetivo de obtener aproximaciones cada vez más cercanas a la raíz. En la segunda iteración es común tomar los puntos $x_{1}$, $x_{2}$ y $x_{3}$ para calcular la nueva aproximación a la raíz: $x_{4}.$
+Es preciso recordar que método de Müller es un método iterativo. La idea es repetir el procedimiento detallado con el objetivo de obtener aproximaciones cada vez más cercanas a la raíz. En la segunda iteración es común tomar los puntos $x_{1}$, $x_{2}$ y $x_{3}$ para calcular la nueva aproximación a la raíz: $x_{4}.$ La aproximación final de cada iteración corresponde a aquella en la que el signo del denominador del segundo término coincide con el signo del coeficiente b, lo anterior con tal de obtener una aproximación más estable. 
 
 
 #### Sobre su velocidad de convergencia
@@ -1660,17 +1660,50 @@ $$f(x_{2}) = f(0) =16(0)^{4} − 40(0)^{3} + 5(0)^{2} + 20(0) + 6 = 6$$
 Ahora, calculando los coeficientes. Para el coeficiente a:
 
 $$a= \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}$$
+
 $$a= \frac{(\frac{-1}{2}−0)[13.25 - 6] - (\frac{1}{2}-0)[3.25 - 6]}{(\frac{1}{2}−0)(\frac{-1}{2}−0)(\frac{1}{2}-\frac{-1}{2})}$$
 
-
+$$a= \frac{\frac{-1}{2}*7.25 - \frac{1}{2}*-2.75}{\frac{1}{2}*\frac{-1}{2}*1}$$
+$$a = 9$$
+Para el coeficiente b:
 
 $$b = \frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})}$$
+$$b = \frac{(\frac{1}{2}−0)^{2}[3.25 - 6]- (\frac{-1}{2}−0)^{2}[13.25 - 6]}{(\frac{-1}{2}−0)(\frac{1}{2}−0)(\frac{1}{2}-\frac{-1}{2})}$$
+$$b = \frac{\frac{1}{4}*- 2.75- \frac{1}{4}*7.25}{\frac{-1}{2}*\frac{1}{2}*1}$$
+$$b = 10$$
+
+Para el coeficiente c:
+$$c = f(x_{2}) $$
+$$c= 6$$
+De esta manera, se ha encontrado que las constantes corresponden a: $a = 9$, $b=10$ y $c=6$. Seguidamente, haciendo uso de estos resultados se calcula la nueva aproximación $x_{3}$:
+
+$$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$
+Como $b=10$, entonces la aproximación a la raíz en la primera iteración está dada por: 
+
+$$x_{3} =x_{2} + \frac{-2c}{b+\sqrt{b^{2}-4ac}}$$
 
 
-$$c = f(x_{2})$$
+$$x_{3} = 0 + \frac{-2*6}{10+\sqrt{10^{2}-4*9*6}}$$
+$$x_{3} = \frac{-12}{10+\sqrt{-116}}$$
+A partir de lo anterior, note que la aproximación de la raíz es compleja: 
+$$x_{3} = \frac{-12}{10+\sqrt{116 * i^{2}}}$$
+$$x_{3} = \frac{-12}{10+ i\sqrt{116}}$$
+$$x_{3} = \frac{-12}{10+ 2i\sqrt{29}}$$
+Colocando la fracción en la calculadora se obtiene finalmente que:
 
+$$x_{3} = \frac{-5}{9}+ \frac{\sqrt{29}}{9}i$$
+Por último, se calcula el error absoluto de la iteración: 
 
+$$\lvert x_{3} - x_{2} \rvert = \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i - 0 \rvert = \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert$$
 
+Recuerde que para un número complejo $z = a + bi$ se tiene que: 
+
+$$\lvert z \rvert = \sqrt{a^{2} + b^{2}} $$
+Así: 
+$$\lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert = \sqrt{(\frac{-5}{9})^{2} + (\frac{\sqrt{29}}{9})^{2}} = \frac{\sqrt{6}}{3}$$
+Por lo que: 
+
+$$\lvert x_{3} - x_{2} \rvert =  \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert=\frac{\sqrt{6}}{3} \approx 0.816496$$
 
 ### c) [MATLAB] Escriba una función en MATLAB con el método de Müller que describió en la parte (a).
 
