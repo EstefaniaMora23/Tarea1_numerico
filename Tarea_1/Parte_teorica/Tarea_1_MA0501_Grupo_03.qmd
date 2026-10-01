@@ -1746,7 +1746,221 @@ $$
 x^{(k+1)}=x^{(k)}+y^{(k)}.
 $$
 
+### d) Iteraciones del método de Newton para aproximar la solución del sistema
 
+Partimos de la aproximación inicial
+
+$$
+x^{(0)}=
+\begin{pmatrix}
+0.1\\
+0.1\\
+-0.1
+\end{pmatrix}.
+$$
+
+Siguiendo la sugerencia, en cada iteración resolvemos el sistema lineal
+
+$$
+J(x^{(k)})y^{(k)}=-F(x^{(k)})
+$$
+
+y actualizamos la aproximación mediante
+
+$$
+x^{(k+1)}=x^{(k)}+y^{(k)}.
+$$
+
+#### Primera iteración: $k=0$
+
+Evaluando el Jacobiano y la función en $x^{(0)}$, el sistema que debemos resolver es, con valores redondeados,
+
+$$
+\begin{pmatrix}
+3 & 0.0009999833 & -0.0009999833\\
+0.2 & -32.4 & 0.9950041653\\
+-0.0990049834 & -0.0990049834 & 20
+\end{pmatrix}
+y^{(0)}
+=
+\begin{pmatrix}
+1.1999500004\\
+2.2698334166\\
+-8.4620253457
+\end{pmatrix}.
+$$
+
+Al resolverlo, se obtiene
+
+$$
+y^{(0)}=
+\begin{pmatrix}
+0.3998696729\\
+-0.0805331515\\
+-0.4215204719
+\end{pmatrix}.
+$$
+
+Por tanto,
+
+$$
+x^{(1)}
+=x^{(0)}+y^{(0)}
+=
+\begin{pmatrix}
+0.4998696729\\
+0.0194668485\\
+-0.5215204719
+\end{pmatrix}.
+$$
+
+#### Segunda iteración: $k=1$
+
+Evaluamos nuevamente el Jacobiano y la función, ahora en
+$x^{(1)}$. El sistema lineal es
+
+$$
+\begin{pmatrix}
+3 & 0.0052945726 & -0.0001976311\\
+0.9997393459 & -19.3536294631 & 0.8670626845\\
+-0.0192783375 & -0.4950290873 & 20
+\end{pmatrix}
+y^{(1)}
+=
+\begin{pmatrix}
+0.0003394465\\
+0.3443879276\\
+-0.0318823779
+\end{pmatrix}.
+$$
+
+Su solución es
+
+$$
+y^{(1)}=
+\begin{pmatrix}
+0.0001445672\\
+-0.0178782572\\
+-0.0020364924
+\end{pmatrix}.
+$$
+
+Actualizando la aproximación,
+
+$$
+x^{(2)}
+=x^{(1)}+y^{(1)}
+=
+\begin{pmatrix}
+0.5000142402\\
+0.0015885914\\
+-0.5235569643
+\end{pmatrix}.
+$$
+
+#### Tercera iteración: $k=2$
+
+Evaluando el Jacobiano y la función en $x^{(2)}$, obtenemos
+
+$$
+\begin{pmatrix}
+3 & 0.0004354517 & -0.0000013213\\
+1.0000284803 & -16.4573518020 & 0.8660463087\\
+-0.0015873300 & -0.4996172274 & 20
+\end{pmatrix}
+y^{(2)}
+=
+\begin{pmatrix}
+-0.0000430664\\
+0.0258891432\\
+-0.0000422221
+\end{pmatrix}.
+$$
+
+Al resolver este sistema,
+
+$$
+y^{(2)}=
+\begin{pmatrix}
+-0.0000141267\\
+-0.0015761466\\
+-0.0000414857
+\end{pmatrix}.
+$$
+
+Finalmente,
+
+$$
+x^{(3)}
+=x^{(2)}+y^{(2)}
+=
+\begin{pmatrix}
+0.5000001135\\
+0.0000124448\\
+-0.5235984501
+\end{pmatrix}.
+$$
+
+Por tanto, después de tres iteraciones, la aproximación solicitada es
+
+$$
+x^{(3)}\approx
+\begin{pmatrix}
+0.5000001135\\
+0.0000124448\\
+-0.5235984501
+\end{pmatrix}.
+$$
+
+### e) Escriba el Algoritmo del método de Newton descrito en el ejercicio.
+
+- **Entradas:** $F:\mathbb{R}^n\to\mathbb{R}^n$ continuamente diferenciable, su matriz Jacobiana $J$, el vector inicial $x_0\in\mathbb{R}^n$, la tolerancia $tol>0$ y el número máximo de iteraciones $iteMax$.
+
+- **Salidas:** $k$, número de iteraciones realizadas, y $x$, aproximación obtenida para la solución de $F(x)=0$.
+
+Pasos a seguir:
+
+$$
+\begin{array}{l}
+k\leftarrow 0,\qquad x\leftarrow x_0,\qquad err\leftarrow tol+1.
+\\[8pt]
+\text{Mientras } err\ge tol \text{ y } k<iteMax \text{ hacer:}
+\\[6pt]
+\quad t\leftarrow x
+\\[6pt]
+\quad A\leftarrow J(x)
+\\[6pt]
+\quad \text{Si } A \text{ es singular:}
+\\[6pt]
+\qquad \text{Mostrar un mensaje de error y detener el algoritmo.}
+\\[6pt]
+\quad \text{end}
+\\[6pt]
+\quad \text{Resolver el sistema lineal } Ay=-F(x)
+\\[6pt]
+\quad x\leftarrow x+y
+\\[6pt]
+\quad err\leftarrow \|x-t\|_2
+\\[6pt]
+\quad k\leftarrow k+1
+\\[6pt]
+\text{end}
+\\[8pt]
+\text{Si } err\ge tol:
+\\[6pt]
+\quad \text{Indicar que se alcanzó el máximo de iteraciones}
+\\
+\quad \text{sin cumplir la tolerancia.}
+\\[6pt]
+\text{end}
+\\[8pt]
+\text{Devolver } k \text{ y } x.
+\end{array}
+$$
+
+### f)[MATLAB] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
+
+La resolución del ejercicio se encuentra en el archivo , en la sección *Funciones*, Ejercicio 12, inciso f.
 
 ## Ejercicio 14
 
