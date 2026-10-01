@@ -1272,13 +1272,13 @@ Esta diferencia se explica porque $f''(c_2)=-20$ tiene un valor absoluto pequeñ
 
 ## Ejercicio 10
 
-### a) Verificación de la ley de enfriamiento de Newton
-
 La ley de enfriamiento de Newton establece que
 
 $$
 T'(t)=k\bigl(T_a-T(t)\bigr).
 $$ {#eq-10-ley}
+
+### a) Verificación de la ley de enfriamiento de Newton
 
 Queremos verificar que la función
 
