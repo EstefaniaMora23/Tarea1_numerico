@@ -1533,6 +1533,221 @@ end
 
 Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
 
+## Ejercicio 12
+
+### a) Pruebe que la convergencia del método de Newton para sistemas no lineales es cuadrática.
+
+Sea $a\in\mathbb{R}^n$ una solución del sistema, de modo que $F(a)=0$. Suponga que $F$ tiene derivadas continuas hasta orden dos en una vecindad de $a$ y que $J(a)$ es invertible. La iteración del método de Newton está dada por
+
+$$
+x^{(k+1)}
+=
+x^{(k)}-[J(x^{(k)})]^{-1}F(x^{(k)}).
+$$ {#eq-12-newton}
+
+Aplicando el desarrollo de Taylor de $F$ alrededor de $x^{(k)}$ evaluado en $a$, se obtiene
+
+$$
+F(a)
+=
+F(x^{(k)})
++
+J(x^{(k)})(a-x^{(k)})
++
+R_k,
+$$ {#eq-12-taylor}
+
+donde denotamos por $R_k$ al resto. Por continuidad, las segundas derivadas de $F$ se pueden acotar en una vecindad cerrada suficientemente pequeña de $a$. En consecuencia, existe una constante $K>0$ tal que
+
+$$
+\|R_k\|\le K\|x^{(k)}-a\|^2.
+$$
+
+Como $F(a)=0$, de la @eq-12-taylor se sigue que
+
+$$
+0
+=
+F(x^{(k)})
+-
+J(x^{(k)})(x^{(k)}-a)
++
+R_k.
+$$
+
+Por tanto,
+
+$$
+F(x^{(k)})
+=
+J(x^{(k)})(x^{(k)}-a)-R_k.
+$$
+
+Sustituyendo esta expresión en la @eq-12-newton y restando $a$, se obtiene
+
+$$
+\begin{aligned}
+x^{(k+1)}-a
+&=
+x^{(k)}-a
+-
+[J(x^{(k)})]^{-1}
+\left[J(x^{(k)})(x^{(k)}-a)-R_k\right]\\
+&=
+x^{(k)}-a-(x^{(k)}-a)
++
+[J(x^{(k)})]^{-1}R_k\\
+&=
+[J(x^{(k)})]^{-1}R_k.
+\end{aligned}
+$$
+
+Como $J(a)$ es invertible y $J$ es continua, existe una vecindad de $a$ en la que $J(x)$ es invertible. Además, por continuidad de la inversa, tomando una vecindad más pequeña si es necesario, existe una constante $M>0$ tal que
+
+$$
+\|[J(x)]^{-1}\|\le M.
+$$
+
+Tomando normas y utilizando la cota del resto, resulta
+
+$$
+\begin{aligned}
+\|x^{(k+1)}-a\|
+&\le
+\|[J(x^{(k)})]^{-1}\|\,\|R_k\|\\
+&\le
+MK\|x^{(k)}-a\|^2.
+\end{aligned}
+$$
+
+Así, con $C=MK$, se tiene
+
+$$
+\|x^{(k+1)}-a\|
+\le C\|x^{(k)}-a\|^2.
+$$
+
+Para garantizar la convergencia, tome $\delta>0$ de modo que la bola de radio $\delta$ centrada en $a$ esté contenida en la vecindad donde se cumplen las cotas anteriores y que $C\delta<1$. Si $\|x^{(0)}-a\|<\delta$, entonces
+
+$$
+\|x^{(k+1)}-a\|
+\le C\|x^{(k)}-a\|^2
+\le C\delta\,\|x^{(k)}-a\|.
+$$
+
+Por el principio de inducción, las aproximaciones permanecen en dicha vecindad y
+
+$$
+\|x^{(k)}-a\|
+\le
+(C\delta)^k\|x^{(0)}-a\|
+\longrightarrow 0.
+$$
+
+Por lo tanto, $x^{(k)}\to a$ y la cota cuadrática obtenida demuestra que el método de Newton para sistemas no lineales tiene convergencia local al menos cuadrática bajo las hipótesis indicadas.
+
+### b) Escritura del sistema en la forma $F(x)=0$
+
+Tenemos que 
+
+$$
+\begin{cases}
+3x_1-\cos(x_2x_3)=0.5,\\
+x_1^2-81(x_2+0.1)^2+\sin(x_3)=-1.06,\\
+e^{-x_1x_2}+20x_3=\dfrac{3-10\pi}{3}.
+\end{cases}
+$$
+
+Restando el lado derecho de cada ecuación, se definen las funciones
+
+$$
+\begin{aligned}
+f_1(x_1,x_2,x_3)
+&=3x_1-\cos(x_2x_3)-0.5,\\
+f_2(x_1,x_2,x_3)
+&=x_1^2-81(x_2+0.1)^2+\sin(x_3)+1.06,\\
+f_3(x_1,x_2,x_3)
+&=e^{-x_1x_2}+20x_3-\frac{3-10\pi}{3}.
+\end{aligned}
+$$
+
+Por tanto, el sistema se expresa como $F(x)=0$, donde $x=(x_1,x_2,x_3)^t$ y
+
+$$
+F(x)=
+\begin{pmatrix}
+3x_1-\cos(x_2x_3)-0.5\\
+x_1^2-81(x_2+0.1)^2+\sin(x_3)+1.06\\
+e^{-x_1x_2}+20x_3-\dfrac{3-10\pi}{3}
+\end{pmatrix}.
+$$
+
+De modo que, resolver el sistema equivale a encontrar un vector $x\in\mathbb{R}^3$ tal que $F(x)=0$.
+
+### c) Matriz Jacobiana e iteración de Newton
+
+La matriz Jacobiana se obtiene calculando las derivadas parciales de las funciones del inciso b), como se ve a continuación:
+
+$$
+J(x)=
+\begin{pmatrix}
+\dfrac{\partial f_1}{\partial x_1} &
+\dfrac{\partial f_1}{\partial x_2} &
+\dfrac{\partial f_1}{\partial x_3}\\[6pt]
+\dfrac{\partial f_2}{\partial x_1} &
+\dfrac{\partial f_2}{\partial x_2} &
+\dfrac{\partial f_2}{\partial x_3}\\[6pt]
+\dfrac{\partial f_3}{\partial x_1} &
+\dfrac{\partial f_3}{\partial x_2} &
+\dfrac{\partial f_3}{\partial x_3}
+\end{pmatrix}.
+$$
+
+Por tanto,
+
+$$
+J(x)=
+\begin{pmatrix}
+3 & x_3\sin(x_2x_3) & x_2\sin(x_2x_3)\\
+2x_1 & -162(x_2+0.1) & \cos(x_3)\\
+-x_2e^{-x_1x_2} & -x_1e^{-x_1x_2} & 20
+\end{pmatrix}.
+$$
+
+Para $x^{(k)}=(x_1^{(k)},x_2^{(k)},x_3^{(k)})^t$, la iteración
+de Newton para este sistema queda
+
+$$
+x^{(k+1)}
+=
+x^{(k)}
+-
+[J(x^{(k)})]^{-1}
+\begin{pmatrix}
+3x_1^{(k)}-\cos(x_2^{(k)}x_3^{(k)})-0.5\\
+(x_1^{(k)})^2-81(x_2^{(k)}+0.1)^2+\sin(x_3^{(k)})+1.06\\
+e^{-x_1^{(k)}x_2^{(k)}}+20x_3^{(k)}-\dfrac{3-10\pi}{3}
+\end{pmatrix},
+\qquad k=0,1,\ldots,
+$$
+
+siempre que $J(x^{(k)})$ sea invertible.
+
+Para calcular cada aproximación sin invertir explícitamente
+el Jacobiano, se puede resolver el sistema lineal
+
+$$
+J(x^{(k)})y^{(k)}=-F(x^{(k)})
+$$
+
+y luego actualizar mediante
+
+$$
+x^{(k+1)}=x^{(k)}+y^{(k)}.
+$$
+
+
+
 ## Ejercicio 14
 
 ### a) Pruebe que las entradas de la matriz L están dadas por las fórmulas: $$ L_{j,j}=\sqrt{A_{j,j}-\sum_{k=1}^{j-1}(L_{j,k})^2},\quad \text{y}\quad L_{i,j}=\frac{1}{L_{j,j}}\left(A_{i,j}-\sum_{k=1}^{j-1}L_{i,k}L_{j,k}\right),\quad \text{para }i>j$$
