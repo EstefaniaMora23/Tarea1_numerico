@@ -219,8 +219,8 @@ for i = 1:size(x3_muller_prueba,1)
         imag(x3_muller_prueba(i,2)));
 end
 disp('Error absoluto de la iteracion');
-%Se busca corregir el formato del numero de iteracion para que se 
-% imprima de manera agradable
+%Se busca corregir el formato del numeros de iteracion y del valor del error, 
+% para que se impriman de manera agradable
 for i = 1:size(x3_error_muller_prueba,1)
     fprintf('%d   %.6f\n', ...
         real(x3_error_muller_prueba(i,1)), ...
@@ -245,8 +245,8 @@ for i = 1:size(x8_muller,1)
         imag(x8_muller(i,2)));
 end
 disp('Tabla de errores absolutos en cada iteracion hasta obtener x8:');
-%Se busca corregir el formato de los numeros de iteracion y los valores de 
-% los errores, para que se impriman de manera agradable
+%Se busca corregir el formato de los numeros de iteracion y de los valores 
+% de los errores, para que se impriman de manera agradable
 for i = 1:size(x8_errores_muller,1)
     fprintf('%d   %.6f\n', ...
         real(x8_errores_muller(i,1)), ...
