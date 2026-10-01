@@ -1270,6 +1270,132 @@ El estimado más *particularmente malo* corresponde a la raíz central, $c_2=1.5
 
 Esta diferencia se explica porque $f''(c_2)=-20$ tiene un valor absoluto pequeño, lo que produce una estimación de $R_c$ muy grande. Sin embargo, la expresión solo utiliza las derivadas evaluadas en la raíz y no considera su comportamiento en el resto del intervalo. Como establece el teorema de convergencia de Newton, una garantía requiere controlar las derivadas en todo un entorno de la raíz. Por ello, el estimado del enunciado debe interpretarse como una aproximación local y no como el intervalo real de atracción.
 
+## Ejercicio 10
+
+### a) Verificación de la ley de enfriamiento de Newton
+
+La ley de enfriamiento de Newton establece que
+
+$$
+T'(t)=k\bigl(T_a-T(t)\bigr).
+$$ {#eq-10-ley}
+
+Queremos verificar que la función
+
+$$
+T(t)=T_a+(T_0-T_a)e^{-kt}
+$$ {#eq-10-solucion}
+
+satisface la @eq-10-ley y la condición inicial $T(0)=T_0$. Consideramos que $T_a$, $T_0$ y $k$ son constantes.
+
+Derivamos la @eq-10-solucion con respecto a $t$. La derivada de $T_a$ es cero y, por la regla de la cadena, la derivada de $e^{-kt}$ es $-ke^{-kt}$. Por tanto,
+
+$$
+T'(t)=-k(T_0-T_a)e^{-kt}.
+$$ {#eq-10-derivada}
+
+En el lado derecho de la @eq-10-ley, sustituimos únicamente $T(t)$ por la expresión completa de la @eq-10-solucion:
+
+$$
+k\bigl(T_a-T(t)\bigr)
+=
+k\left[T_a-\left(T_a+(T_0-T_a)e^{-kt}\right)\right].
+$$ {#eq-10-sustitucion}
+
+Distribuimos el signo negativo que está delante del paréntesis:
+
+$$
+k\bigl(T_a-T(t)\bigr)
+=
+k\left[T_a-T_a-(T_0-T_a)e^{-kt}\right].
+$$ {#eq-10-signos}
+
+Como $T_a-T_a=0$, obtenemos
+
+$$
+k\bigl(T_a-T(t)\bigr)
+=
+-k(T_0-T_a)e^{-kt}.
+$$ {#eq-10-derecho}
+
+La @eq-10-derivada y la @eq-10-derecho tienen la misma expresión. Por lo tanto, la función propuesta satisface la ecuación diferencial:
+
+$$
+T'(t)=k\bigl(T_a-T(t)\bigr).
+$$ {#eq-10-verificacion}
+
+Finalmente, verificamos la condición inicial. Sustituimos $t=0$ en la @eq-10-solucion:
+
+$$
+\begin{aligned}
+T(0)
+&=T_a+(T_0-T_a)e^{-k(0)}\\
+&=T_a+(T_0-T_a)\cdot 1\\
+&=T_0.
+\end{aligned}
+$$ {#eq-10-inicial}
+
+Así, la función propuesta satisface tanto la ley de enfriamiento de Newton como la condición inicial $T(0)=T_0$.
+
+### b) Aproxime el punto críıtico de $f$ y verifique que $f$ alcanza un mínimo.
+
+La solución se encuentra en `Tarea_1_MA0501_Grupo_03.m`, a continuación se muestra un resumen de los resultados obtenidos. 
+
+Se utilizó el método de Newton para resolver $f'(k)=0$, con aproximación inicial $k_0=0.2$ y tolerancia $10^{-10}$. Después de cinco iteraciones, se obtuvo
+
+$$
+k=0.091283148291059\ \text{horas}^{-1}.
+$$
+
+Para verificar que corresponde a un mínimo, se evaluaron la función objetivo y sus dos primeras derivadas:
+
+$$
+\begin{aligned}
+f(k)&=0.001815572905696,\\
+f'(k)&= -6.328271240363392\times 10^{-14},\\
+f''(k)&= 5.441009243718520\times 10^{2}.
+\end{aligned}
+$$
+
+Como $|f'(k)|<10^{-10}$, se verificó numéricamente la condición de punto crítico. Además, $f''(k)>0$, por lo que el resultado corresponde a un mínimo local estricto.
+
+Finalmente, 
+
+$$
+T(t)\approx 21+16e^{-0.091283148291059t}.
+$$
+
+### c) ¿Hace cuánto falleció la persona?
+
+Utilizando la constante $k$ obtenida en el inciso b), con temperatura ambiente de $31\,^\circ\mathrm{C}$ y temperatura inicial de $37\,^\circ\mathrm{C}$, se tiene
+
+$$
+T(t)=31+6e^{-kt}.
+$$
+
+Para encontrar el tiempo transcurrido hasta alcanzar $34\,^\circ\mathrm{C}$, se despejó $t$:
+
+$$
+34=31+6e^{-kt}
+\quad\Longrightarrow\quad
+t=-\frac{\ln(1/2)}{k}.
+$$
+
+El cálculo en MATLAB dio como resultado
+
+$$
+t\approx 7.593375048260011\ \text{horas}.
+$$
+
+Por tanto, habían transcurrido aproximadamente **7 horas y 36 minutos desde el fallecimiento**.
+Como verificación, se sustituyó el tiempo obtenido en el modelo utilizando el valor calculado de $k$. MATLAB devolvió
+
+$$
+T(t)=34\,^\circ\mathrm{C},
+$$
+
+que coincide con la temperatura observada.
+
 ## Ejercicio 11
 
 ### a) Explique con detalle como se construye todo el proceso de eliminación Gaussiana con pivoteo total. Escriba explícitamente las fórmulas de las matrices: P, Q, L y U, para el caso
