@@ -1179,7 +1179,7 @@ Para aproximar las tres raíces, se construyeron tres intervalos en los que la f
 | $[1.55,1.6]$ | $0.0945$ | $-0.264$ |
 | $[1.65,1.7]$ | $-0.2135$ | $0.858$ |
 
-Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso a):
+Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 8, inciso a):
 
 $$
 c_1\approx1.4705882353,\qquad
@@ -1223,7 +1223,7 @@ x_k-
 {2448x_k^2-7670x_k+6000}.
 $$
 
-En MATLAB, se utilizó `linspace(1.4,1.7)` para construir el vector de valores iniciales. Luego, se aplicó la función `metodoNewton` a cada valor inicial por separado, utilizando una tolerancia de $10^{-10}$ y un máximo de $100$ iteraciones (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso b).
+En MATLAB, se utilizó `linspace(1.4,1.7)` para construir el vector de valores iniciales. Luego, se aplicó la función `metodoNewton` a cada valor inicial por separado, utilizando una tolerancia de $10^{-10}$ y un máximo de $100$ iteraciones (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 8, inciso b).
 
 Durante cada ejecución se calculó el error relativo entre aproximaciones consecutivas:
 
@@ -1254,7 +1254,7 @@ f'(x)=2448x^2-7670x+6000,
 f''(x)=4896x-7670,
 $$
 
-se obtienen los siguientes intervalos estimados, por medio de MATLAB (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso c):
+se obtienen los siguientes intervalos estimados, por medio de MATLAB (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 8, inciso c):
 
 $$
 \begin{aligned}
@@ -1339,7 +1339,7 @@ Así, la función propuesta satisface tanto la ley de enfriamiento de Newton com
 
 ### b) Aproxime el punto críıtico de $f$ y verifique que $f$ alcanza un mínimo.
 
-La solución se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección *Resolución de incisos*, Ejercicio 10, inciso b; a continuación se muestra un resumen de los resultados obtenidos. 
+La solución se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 10, inciso b; a continuación se muestra un resumen de los resultados obtenidos. 
 
 Se utilizó el método de Newton para resolver $f'(k)=0$, con aproximación inicial $k_0=0.2$ y tolerancia $10^{-10}$. Después de cinco iteraciones, se obtuvo
 
@@ -1381,7 +1381,7 @@ $$
 t=-\frac{\ln(1/2)}{k}.
 $$
 
-El cálculo en MATLAB dio como resultado (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 10, inciso c)
+El cálculo en MATLAB dio como resultado (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 10, inciso c)
 
 $$
 t\approx 7.593375048260011\ \text{horas}.
