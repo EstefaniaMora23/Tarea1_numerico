@@ -19,6 +19,8 @@ format:
             - \setlength{\parindent}{0cm}
             - \usepackage{setspace}
             - \setstretch{1.15} 
+            - \usepackage{hanging}
+            - \usepackage{hyperref}
    include-before-body: Portada.tex
 ---
 
@@ -42,15 +44,15 @@ El gráfico de erorres absolutos resultante es el siguiente:
 
 ![](grafico_2.png){fig-align="center"}
 
-Primero, es importante recordar que la condición de parada del método iterativo de gradiente conjugado con precondicionador está dada por: $∥ \alpha_{k} p_{k} ∥ < \text{to}l$, donde además se tiene que $x_{k+1} = x_{k} + \alpha_{k} p_{k}$, de forma que el método se detiene cuando la diferencia entre dos aproximaciones consecutivas de la raíz es menor a la tolerancia. A partir del gráfico prsentado, note que bajo el precondicionador M2 el método converge a una mayor rapidez: requiere de un menor número de iteraciones para que la diferencia entre dos aproximaciones consecutivas de la raíz sea menor a la tolerancia elegida. Además, es preciso destacar que existe una diferencia considerable entre el número de iteraciones requeridas por cada precondicionador: mientras que el M2 requiere de 180 iteraciones, el M1 requiere de 432, obteniendo una diferencia de 252 iteraciones. En vista de lo expuesto antes, el precondicionador M2 es mejor que el precondicionador M1.
+Primero, es importante recordar que la condición de parada del método iterativo de gradiente conjugado con precondicionador está dada por: $∥ \alpha_{k} p_{k} ∥ < \text{tol}$, donde además se tiene que $x_{k+1} = x_{k} + \alpha_{k} p_{k}$, de forma que el método se detiene cuando la diferencia entre dos aproximaciones consecutivas de la raíz es menor a la tolerancia. A partir del gráfico presentado, note que bajo el precondicionador M2 el método converge a una mayor rapidez: requiere de un menor número de iteraciones para que la diferencia entre dos aproximaciones consecutivas de la raíz sea menor a la tolerancia elegida. Además, es preciso destacar que existe una diferencia considerable entre el número de iteraciones requeridas por cada precondicionador: mientras que el M2 requiere de 180 iteraciones, el M1 requiere de 432, obteniendo una diferencia de 252 iteraciones. En vista de lo expuesto antes, el precondicionador M2 es mejor que el precondicionador M1.
 
 ### ¿Qué sucede al utilizar el método de Gauss-Seidel programado en clase con $x_{0} = 0, tol = 10^{−6}$ y compararlo con lo anterior? Comente.
 
-Tras utilizar el método de Gauss-Seidel programado en clase, inicialmente se encontró que al no existir un número máximo de iteraciones, el programa continuaba ejecutándose sin brindar alguna respuesta. En vista de lo anterior, se modificó la función de manera que se integrara un número máximo de repeticiones: se construyó de manera que si se llega a la cantidad máxima sin cumplir la condición de la tolerancia, se avise al usuario de dicha situación. Durante la prueba del método, se emplearon distintos números de iteraciones máximas, sin embargo en todos los escenarios se obtuvo el mismo resultado: no se cumplió la condición de la tolerancia. A continuación se presenta el respaldo de lo expuesto antes:
+Tras utilizar el método de Gauss-Seidel programado en clase, inicialmente se encontró que al no existir un número máximo de iteraciones, el programa continuaba ejecutándose sin brindar alguna respuesta. En vista de lo anterior, se modificó la función de manera que se integrara un número máximo de repeticiones, además, si se llega a la cantidad máxima sin cumplir la condición de la tolerancia, se avisa al usuario de dicha situación. Durante la prueba del método, se emplearon distintos números de iteraciones máximas, sin embargo en todos los escenarios se obtuvo el mismo resultado: no se cumplió la condición de la tolerancia. A continuación se presenta el respaldo de lo expuesto antes:
 
 ![](images/clipboard-2203765831.png){fig-align="center"}
 
-En comparación a los resultados pasados, se encuentran dos posibles resultados: el método Gauss-Seidel podría no converger del todo o podría ocurrir que su rapidez de convergencia es considerablemente menor frente al método iterativo de gradiente conjugado bajo los precondicionadores M1 y M2, el cual necesitó menos de 500 iteraciones para converger en ambos casos.
+En comparación a los resultados pasados, se encuentran dos posibles comentarios: el método Gauss-Seidel podría no converger del todo, o podría ocurrir que su rapidez de convergencia es considerablemente menor frente al método iterativo de gradiente conjugado bajo los precondicionadores M1 y M2, el cual necesitó menos de 500 iteraciones para converger en ambos casos.
 
 # Parte teórica - programada
 
@@ -2203,7 +2205,7 @@ $$ L^{T} = \begin{bmatrix}2&6&-8\\0&1&5\\0&0&3\end{bmatrix}$$ De esta forma, la 
 
 #### Panorama general
 
-De acuerdo con Guillén (2026), el método de Müller fue presentado por primera vez por David Eugene Müller en el año 1956. Constituye un proceso numérico, iterativo y particularmente útil para determinar las raíces tanto reales como complejas de las ecuaciones polinómicas. Es preciso recordar que las ecuaciones polinómicas son expresiones matemáticas que pueden escribirse en la forma $P(x) = 0$. Así, el método de Müller es efectivo para encontrar las raíces de estas ecuaciones de manera rápida y precisa.
+De acuerdo con Guillén (s.f.), el método de Müller fue presentado por primera vez por David Eugene Müller en el año 1956. Constituye un proceso numérico, iterativo y particularmente útil para determinar las raíces tanto reales como complejas de las ecuaciones polinómicas. Es preciso recordar que las ecuaciones polinómicas son expresiones matemáticas que pueden escribirse en la forma $P(x) = 0$. Así, el método de Müller es efectivo para encontrar las raíces de estas ecuaciones de manera rápida y precisa.
 
 De manera general, se tiene que el método de Müller corresponde a una generalización del método de la secante, a la vez que recurre al método de interpolación cuadrática. El método de la secante obtiene las raíces de una función estimando una proyección de una línea recta en el eje x mediante dos valores de la función: $x_{0}$ y $x_{1}$, estos últimos determinan la siguiente aproximación $x_{2}$ como la intercepción del eje x con la recta que pasa por $(x_{0} ,f(x_{0}))$ y $(x_{1},f(x_{1}))$. Por su parte, el método de Müller trabaja de manera similar, pero en lugar de hacer la proyección de una recta utilizando dos puntos, requiere de tres puntos para calcular una parábola. En términos geométricos, el método de Müller busca aproximar las raíces de una función mediante una sucesión de parábolas. Para ello, se seleccionan tres puntos iniciales denotados como $(x_{0} ,f(x_{0})),$ $(x_{1},f(x_{1}))$ y $(x_{2} ,f(x_{2}))$, a través de estos puntos se construye una parábola que aproxima localmente el comportamiento de la función. Posteriormente, se determina la intersección de esta parábola con el eje x, es decir, el punto donde la parábola toma el valor cero; de forma que dicha intersección corresponde a la nueva aproximación $x_{3}$ de la raíz. Luego, $x_{3}$ se utiliza junto con dos de los puntos anteriores para construir una nueva parábola y obtener así una nueva aproximación. Tal proceso se repite de forma iterativa, generando una sucesión de parábolas cuyas intersecciones con el eje x buscan acercarse cada vez más a la raíz de la función.
 
@@ -2322,3 +2324,21 @@ Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Sol
 ### d) \[MATLAB\] Usando la función en MATLAB programada en (c), calcule la aproximación $x_{8}$ para el polinomio de la parte (b), junto con los errores absolutos $|xk − xk−1|$ de cada iteración. Su programa debe mostrar una tabla que contenga las aproximaciones en la primera columna y los errores en la segunda.
 
 Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`.
+
+\newpage
+
+# Referencias 
+
+
+\begin{hangparas}{1.27cm}{1}
+
+Artichuk, L. (07 de octubre de 2020). \textit{Método de Müller}. Prezi. 
+\url{https://prezi.com/p/i1xjefilccoi/metodo-de-muller/}
+
+
+Guillén, A. (s.f.). \textit{Proyecto Métodos Numéricos MA-0320}. WordPress. 
+\url{https://arturoguillen90.wordpress.com/interpolacion/muller/}
+
+
+\end{hangparas}
+
