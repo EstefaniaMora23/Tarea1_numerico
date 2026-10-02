@@ -1187,7 +1187,7 @@ Para aproximar las tres raíces, se construyeron tres intervalos en los que la f
 | $[1.55,1.6]$ | $0.0945$ | $-0.264$ |
 | $[1.65,1.7]$ | $-0.2135$ | $0.858$ |
 
-Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso a):
+Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 8, inciso a):
 
 $$
 c_1\approx1.4705882353,\qquad
@@ -1231,7 +1231,7 @@ x_k-
 {2448x_k^2-7670x_k+6000}.
 $$
 
-En MATLAB, se utilizó `linspace(1.4,1.7)` para construir el vector de valores iniciales. Luego, se aplicó la función `metodoNewton` a cada valor inicial por separado, utilizando una tolerancia de $10^{-10}$ y un máximo de $100$ iteraciones (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso b).
+En MATLAB, se utilizó `linspace(1.4,1.7)` para construir el vector de valores iniciales. Luego, se aplicó la función `metodoNewton` a cada valor inicial por separado, utilizando una tolerancia de $10^{-10}$ y un máximo de $100$ iteraciones (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 8, inciso b).
 
 Durante cada ejecución se calculó el error relativo entre aproximaciones consecutivas:
 
@@ -1262,7 +1262,7 @@ f'(x)=2448x^2-7670x+6000,
 f''(x)=4896x-7670,
 $$
 
-se obtienen los siguientes intervalos estimados, por medio de MATLAB (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 8, inciso c):
+se obtienen los siguientes intervalos estimados, por medio de MATLAB (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 8, inciso c):
 
 $$
 \begin{aligned}
@@ -1347,7 +1347,7 @@ Así, la función propuesta satisface tanto la ley de enfriamiento de Newton com
 
 ### b) Aproxime el punto críıtico de $f$ y verifique que $f$ alcanza un mínimo.
 
-La solución se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección *Resolución de incisos*, Ejercicio 10, inciso b; a continuación se muestra un resumen de los resultados obtenidos. 
+La solución se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 10, inciso b; a continuación se muestra un resumen de los resultados obtenidos. 
 
 Se utilizó el método de Newton para resolver $f'(k)=0$, con aproximación inicial $k_0=0.2$ y tolerancia $10^{-10}$. Después de cinco iteraciones, se obtuvo
 
@@ -1389,7 +1389,7 @@ $$
 t=-\frac{\ln(1/2)}{k}.
 $$
 
-El cálculo en MATLAB dio como resultado (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Resolución de incisos*, Ejercicio 10, inciso c)
+El cálculo en MATLAB dio como resultado (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 10, inciso c)
 
 $$
 t\approx 7.593375048260011\ \text{horas}.
@@ -1635,22 +1635,60 @@ $$
 \le C\|x^{(k)}-a\|^2.
 $$
 
-Para garantizar la convergencia, tome $\delta>0$ de modo que la bola de radio $\delta$ centrada en $a$ esté contenida en la vecindad donde se cumplen las cotas anteriores y que $C\delta<1$. Si $\|x^{(0)}-a\|<\delta$, entonces
+Para garantizar la convergencia, tome $\delta>0$ de modo que la bola de radio $\delta$ centrada en $a$ esté contenida en la vecindad donde se cumplen las cotas anteriores y que $C\delta<1$. Suponga que $\|x^{(0)}-a\|<\delta$. Demostraremos por inducción que, para todo $k\geq 0$, se cumple
+
+$$
+\|x^{(k)}-a\|<\delta
+\qquad\text{y}\qquad
+\|x^{(k)}-a\|
+\leq (C\delta)^k\|x^{(0)}-a\|.
+$$
+
+**Paso base.** Para $k=0$, por la elección de la aproximación inicial se tiene $\|x^{(0)}-a\|<\delta$. Además,
+
+$$
+\|x^{(0)}-a\|
+=(C\delta)^0\|x^{(0)}-a\|.
+$$
+
+Por tanto, ambas afirmaciones se cumplen para $k=0$.
+
+**Hipótesis inductiva.** Suponga que, para algún $k\geq 0$,
+
+$$
+\|x^{(k)}-a\|<\delta
+\qquad\text{y}\qquad
+\|x^{(k)}-a\|
+\leq (C\delta)^k\|x^{(0)}-a\|.
+$$
+
+**Paso inductivo.** Como $x^{(k)}$ pertenece a la bola donde se cumplen las cotas anteriores, se obtiene
+
+$$
+\begin{aligned}
+\|x^{(k+1)}-a\|
+&\leq C\|x^{(k)}-a\|^2\\
+&\leq C\delta\,\|x^{(k)}-a\|\\
+&\leq (C\delta)^{k+1}\|x^{(0)}-a\|.
+\end{aligned}
+$$
+
+Asimismo, como $C\delta<1$ y $\|x^{(k)}-a\|<\delta$,
 
 $$
 \|x^{(k+1)}-a\|
-\le C\|x^{(k)}-a\|^2
-\le C\delta\,\|x^{(k)}-a\|.
+\leq C\delta\,\|x^{(k)}-a\|
+<\delta.
 $$
 
-Por el principio de inducción, las aproximaciones permanecen en dicha vecindad y
+Así, ambas afirmaciones se cumplen para $k+1$. Por el principio de inducción, todas las aproximaciones permanecen en dicha vecindad y, para todo $k\geq 0$,
 
 $$
-\|x^{(k)}-a\|
-\le
-(C\delta)^k\|x^{(0)}-a\|
-\longrightarrow 0.
+0\leq \|x^{(k)}-a\|
+\leq (C\delta)^k\|x^{(0)}-a\|.
 $$
+
+Como $0\leq C\delta<1$, el lado derecho tiende a cero cuando $k\to\infty$. Por tanto, $\|x^{(k)}-a\|\to 0$, es decir, $x^{(k)}\to a$.
 
 Por lo tanto, $x^{(k)}\to a$ y la cota cuadrática obtenida demuestra que el método de Newton para sistemas no lineales tiene convergencia local al menos cuadrática bajo las hipótesis indicadas.
 
@@ -1968,7 +2006,7 @@ $$
 
 ### f)[MATLAB] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
 
-La resolución del ejercicio se encuentra en el archivo , en la sección *Funciones*, Ejercicio 12, inciso f.
+La resolución del ejercicio se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección *Funciones*, Ejercicio 12, inciso f.
 
 ## Ejercicio 14
 
