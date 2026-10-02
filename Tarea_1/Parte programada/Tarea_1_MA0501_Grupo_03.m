@@ -79,11 +79,25 @@ for i = 1:size(errores_M2,1)
     fprintf('%5d        %.10e\n', errores_M2(i,1), errores_M2(i,2));
 end
 
+% Se construye el grafico de los errores
+figure
+% Se grafican los errores bajo M1
+% Se grafica el numero de iteraciones en el eje x y los errores en el eje y
+semilogy(errores_M1(:,1), errores_M1(:,2), '-')
+% Para seguir dibujando sobre el mismo grafico
+hold on
+% Se grafican los errores bajo M2
+% Se grafica el numero de iteraciones en el eje x y los errores en el eje y
+semilogy(errores_M2(:,1), errores_M2(:,2), '-')
 
+% Se añaden las etiquetas 
+xlabel('Numero de iteración')
+ylabel('Error absoluto: ||b - Ax_k||')
+title('Errores absolutos por iteración bajo M1 y M2')
 
-
-
-
+legend('M1', 'M2')
+grid on
+hold off
 
 %% Ejercicio 4
 % Prueba de la funcion del ejercicio 4e Raiz_Cubica_21:
@@ -170,6 +184,69 @@ disp(radios_8);
 
 disp('Intervalos estimados: extremo inferior y extremo superior =');
 disp([inferior_8(:), superior_8(:)]);
+
+
+
+%% Ejercicio 9
+
+% Inciso d
+format long
+p_9 = [816 -3835 6000 -3125];       % coeficientes de f(x) = 816x^3 - 3835x^2 + 6000x - 3125
+f_9 = @(x_9) polyval(p_9,x_9);
+df_9 = @(x_9) polyval(polyder(p_9),x_9);
+c_9 = 25/16;                         % raiz a la que converge x0 = 1.6 (ejercicio 8, inciso a)
+x0_9 = 1.6;
+tol_9 = 1e-6;
+
+suc_halley_9 = iter(p_9,x0_9,tol_9);
+M_newton_9 = metodoNewton(f_9,df_9,x0_9,tol_9,100); % reutilizamos la funcion del ejercicio 8
+suc_newton_9 = M_newton_9(:,1);
+
+err_halley_9 = abs(suc_halley_9 - c_9);
+err_newton_9 = abs(suc_newton_9 - c_9);
+
+disp('Resultado del ejercicio 9d:')
+disp('Halley: columnas k, x_k, |x_k - c|');
+disp([(0:length(suc_halley_9)-1)', suc_halley_9, err_halley_9]);
+disp('Newton: columnas k, x_k, |x_k - c|');
+disp([(0:length(suc_newton_9)-1)', suc_newton_9, err_newton_9]);
+
+% Se usa max(err,eps) para poder dibujar errores cero en escala logaritmica
+figure;
+semilogy(0:length(err_newton_9)-1, max(err_newton_9,eps), '-s', 'LineWidth', 1.5); hold on;
+semilogy(0:length(err_halley_9)-1, max(err_halley_9,eps), '-o', 'LineWidth', 1.5);
+xlabel('Iteracion k');
+ylabel('Error absoluto |x_k - c|');
+title('Ejercicio 9d: Newton vs. Halley, x_0 = 1.6');
+legend('Newton','Halley','Location','northeast');
+grid on;
+
+% Inciso e
+xx_9 = linspace(1.4,1.7);
+tolE_9 = 1e-10;
+conv_halley_9 = NaN(size(xx_9));
+for j_9 = 1:length(xx_9)
+    try
+        s_9 = iter(p_9,xx_9(j_9),tolE_9);
+        if abs(f_9(s_9(end))) < 1e-8      % verificacion de que el valor final es raiz
+            conv_halley_9(j_9) = s_9(end);
+        end
+    catch
+        % si la iteracion se indefine se deja NaN
+    end
+end
+
+figure;
+plot(xx_9,conv_halley_9,'.','MarkerSize',12);
+xlabel('Valor inicial x_0');
+ylabel('Raiz a la que converge Halley');
+title('Ejercicio 9e: convergencia del metodo de Halley');
+yticks([25/17, 25/16, 5/3]);
+grid on;
+
+disp('Resultado del ejercicio 9e:')
+disp('Cantidad de valores iniciales sin convergencia verificada =');
+disp(sum(isnan(conv_halley_9)));
 
 %% Ejercicio 10
 % Inciso b
@@ -540,6 +617,58 @@ while er > tol && cont < iteMax
 end
 end
 
+
+%% Ejercicio 9
+
+function [suc] = iter(f,x0,tol)
+% Metodo de Halley para aproximar una raiz simple de un polinomio.
+% Iteracion: x_{k+1} = x_k - (f/f')*(1 - (f/f')*(f''/(2 f')))^(-1), que se
+% calcula en la forma equivalente x_{k+1} = x_k - 2 f f' / (2 f'^2 - f f'').
+% Entradas:     f ---- Vector fila con los coeficientes del polinomio
+%              x0 ---- Aproximacion inicial (numero real)
+%             tol ---- Tolerancia positiva; el programa se detiene cuando |x_{k+1} - x_k| < tol
+% Salidas:    suc ---- Vector columna con la sucesion [x_0; x_1; ...; x_k] generada por el metodo
+
+if ~(isnumeric(f) && isreal(f) && isvector(f) && numel(f) >= 2)
+    error('f debe ser un vector real con los coeficientes de un polinomio no constante');
+end
+if ~(isnumeric(x0) && isreal(x0) && isscalar(x0))
+    error('x0 debe ser un numero real');
+end
+if ~(isnumeric(tol) && isreal(tol) && isscalar(tol)) || tol <= 0
+    error('tol debe ser un numero real positivo');
+end
+
+df  = polyder(f);    % Primera derivada del polinomio
+d2f = polyder(df);   % Segunda derivada del polinomio
+
+iterMax = 100;       % Cota para evitar ciclo infinito
+x = x0;
+suc = x0;
+er = tol + 1;
+k = 0;
+
+while (er >= tol) && (k < iterMax)
+    fx   = polyval(f,x);
+    dfx  = polyval(df,x);
+    d2fx = polyval(d2f,x);
+    den  = 2*dfx^2 - fx*d2fx;
+
+    if (dfx == 0) || (den == 0)
+        error('La iteracion se indefine en k = %d (f''(x_k) = 0 o el denominador es cero)', k);
+    end
+
+    xNuevo = x - 2*fx*dfx/den;
+    er = abs(xNuevo - x);
+    suc = [suc; xNuevo];
+    x = xNuevo;
+    k = k + 1;
+end
+
+if er >= tol
+    warning('Se alcanzo el maximo de iteraciones sin cumplir la tolerancia');
+end
+end
 
 %% Ejercicio 11
 
