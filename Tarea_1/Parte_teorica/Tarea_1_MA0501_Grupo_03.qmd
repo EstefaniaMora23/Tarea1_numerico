@@ -1627,22 +1627,60 @@ $$
 \le C\|x^{(k)}-a\|^2.
 $$
 
-Para garantizar la convergencia, tome $\delta>0$ de modo que la bola de radio $\delta$ centrada en $a$ esté contenida en la vecindad donde se cumplen las cotas anteriores y que $C\delta<1$. Si $\|x^{(0)}-a\|<\delta$, entonces
+Para garantizar la convergencia, tome $\delta>0$ de modo que la bola de radio $\delta$ centrada en $a$ esté contenida en la vecindad donde se cumplen las cotas anteriores y que $C\delta<1$. Suponga que $\|x^{(0)}-a\|<\delta$. Demostraremos por inducción que, para todo $k\geq 0$, se cumple
+
+$$
+\|x^{(k)}-a\|<\delta
+\qquad\text{y}\qquad
+\|x^{(k)}-a\|
+\leq (C\delta)^k\|x^{(0)}-a\|.
+$$
+
+**Paso base.** Para $k=0$, por la elección de la aproximación inicial se tiene $\|x^{(0)}-a\|<\delta$. Además,
+
+$$
+\|x^{(0)}-a\|
+=(C\delta)^0\|x^{(0)}-a\|.
+$$
+
+Por tanto, ambas afirmaciones se cumplen para $k=0$.
+
+**Hipótesis inductiva.** Suponga que, para algún $k\geq 0$,
+
+$$
+\|x^{(k)}-a\|<\delta
+\qquad\text{y}\qquad
+\|x^{(k)}-a\|
+\leq (C\delta)^k\|x^{(0)}-a\|.
+$$
+
+**Paso inductivo.** Como $x^{(k)}$ pertenece a la bola donde se cumplen las cotas anteriores, se obtiene
+
+$$
+\begin{aligned}
+\|x^{(k+1)}-a\|
+&\leq C\|x^{(k)}-a\|^2\\
+&\leq C\delta\,\|x^{(k)}-a\|\\
+&\leq (C\delta)^{k+1}\|x^{(0)}-a\|.
+\end{aligned}
+$$
+
+Asimismo, como $C\delta<1$ y $\|x^{(k)}-a\|<\delta$,
 
 $$
 \|x^{(k+1)}-a\|
-\le C\|x^{(k)}-a\|^2
-\le C\delta\,\|x^{(k)}-a\|.
+\leq C\delta\,\|x^{(k)}-a\|
+<\delta.
 $$
 
-Por el principio de inducción, las aproximaciones permanecen en dicha vecindad y
+Así, ambas afirmaciones se cumplen para $k+1$. Por el principio de inducción, todas las aproximaciones permanecen en dicha vecindad y, para todo $k\geq 0$,
 
 $$
-\|x^{(k)}-a\|
-\le
-(C\delta)^k\|x^{(0)}-a\|
-\longrightarrow 0.
+0\leq \|x^{(k)}-a\|
+\leq (C\delta)^k\|x^{(0)}-a\|.
 $$
+
+Como $0\leq C\delta<1$, el lado derecho tiende a cero cuando $k\to\infty$. Por tanto, $\|x^{(k)}-a\|\to 0$, es decir, $x^{(k)}\to a$.
 
 Por lo tanto, $x^{(k)}\to a$ y la cota cuadrática obtenida demuestra que el método de Newton para sistemas no lineales tiene convergencia local al menos cuadrática bajo las hipótesis indicadas.
 
