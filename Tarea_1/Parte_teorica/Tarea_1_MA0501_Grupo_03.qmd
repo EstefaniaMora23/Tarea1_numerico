@@ -1278,6 +1278,166 @@ El estimado más *particularmente malo* corresponde a la raíz central, $c_2=1.5
 
 Esta diferencia se explica porque $f''(c_2)=-20$ tiene un valor absoluto pequeño, lo que produce una estimación de $R_c$ muy grande. Sin embargo, la expresión solo utiliza las derivadas evaluadas en la raíz y no considera su comportamiento en el resto del intervalo. Como establece el teorema de convergencia de Newton, una garantía requiere controlar las derivadas en todo un entorno de la raíz. Por ello, el estimado del enunciado debe interpretarse como una aproximación local y no como el intervalo real de atracción.
 
+## Ejercicio 9
+
+Dada una función $f\in C^2([a,b])$ y un valor inicial $x_0$, defina la sucesión $\{x_k\}_{k=0}^{\infty}$ dada por
+
+$$
+x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}\left(1-\frac{f(x_k)}{f'(x_k)}\cdot\frac{f''(x_k)}{2f'(x_k)}\right)^{-1}.
+$$
+
+### a) Sea $f\in C^3([a,b])$ tal que $f(c)=0$, donde $c$ es un cero simple. Demuestre que existe $\delta>0$ tal que si $x_0\in(c-\delta,c+\delta)$, entonces $x_k$ converge a $c$. ¿Qué hipótesis adicionales se necesitan?
+
+Suponga que $c\in(a,b)$ y que $f'(c)\neq0$. Como $f\in C^3$, se tiene que $f,f',f''\in C^1$, por lo que $f'$ y $D$ son continuas. Además, $D(c)=2f'(c)^2-0=2f'(c)^2>0$ y $f'(c)\neq0$. Por continuidad existe $h>0$ con $[c-h,c+h]\subset[a,b]$ tal que $f'(x)\neq0$ y $D(x)>0$ para todo $x\in[c-h,c+h]$. En ese intervalo $\varphi$ está bien definida y es de clase $C^1$, pues $N\in C^2$, $D\in C^1$ y $D\neq0$.
+
+Como $f(c)=0$, se tiene $N(c)=0$ y por lo tanto $\varphi(c)=c$, es decir, $c$ es un punto fijo de $\varphi$. Para estudiar $\varphi'$ se deriva $N$ y $D$:
+
+$$
+N'=2f'^2+2ff'',\qquad D'=4f'f''-\left(f'f''+ff'''\right)=3f'f''-ff''',
+$$
+
+de donde, por la regla del cociente,
+
+$$
+\varphi'(x)=1-\frac{N'(x)D(x)-N(x)D'(x)}{D(x)^2}.
+$$
+
+Evaluando en $x=c$ se tiene $N(c)=0$, $N'(c)=2f'(c)^2$ y $D(c)=2f'(c)^2$, así que
+
+$$
+\varphi'(c)=1-\frac{2f'(c)^2\cdot2f'(c)^2}{\left(2f'(c)^2\right)^2}=1-1=0.
+$$
+
+Como $\varphi'$ es continua en $c$ y $\varphi'(c)=0$, tomando $\varepsilon=\tfrac12$ en la definición de continuidad existe $\delta\in(0,h]$ tal que, si $|x-c|\leq\delta$, entonces $|\varphi'(x)-\varphi'(c)|<\tfrac12$, es decir,
+
+$$
+|\varphi'(x)|<\tfrac12=:L<1\qquad\text{para todo }x\in I_\delta=[c-\delta,c+\delta].
+$$
+
+Verifique que $\varphi$ aplica $I_\delta$ en sí mismo. Si $x\in I_\delta$, por el Teorema del Valor Medio existe $\xi$ entre $x$ y $c$ (por lo que $\xi\in I_\delta$) tal que
+
+$$
+|\varphi(x)-c|=|\varphi(x)-\varphi(c)|=|\varphi'(\xi)||x-c|\leq\tfrac12|x-c|\leq\delta,
+$$
+
+luego $\varphi(x)\in I_\delta$.
+
+Sea ahora $x_0\in I_\delta$. Se prueba por inducción que $x_k\in I_\delta$ y $|x_k-c|\leq\left(\tfrac12\right)^k|x_0-c|$ para todo $k\geq0$. Para $k=0$ es inmediato. Si se cumple para $k$, entonces $x_{k+1}=\varphi(x_k)\in I_\delta$ por lo anterior, y
+
+$$
+|x_{k+1}-c|=|\varphi(x_k)-\varphi(c)|\leq\tfrac12|x_k-c|\leq\left(\tfrac12\right)^{k+1}|x_0-c|.
+$$
+
+Como $\left(\tfrac12\right)^k|x_0-c|\to0$ cuando $k\to\infty$, se concluye que $x_k\to c$ para todo $x_0\in(c-\delta,c+\delta)$. Esto es consistente con el Teorema del Punto Fijo, cuyas hipótesis se cumplen en $I_\delta$ ($\varphi$ continua, $\varphi(I_\delta)\subset I_\delta$ y $|\varphi'|\leq L<1$), y que además asegura que $c$ es el único punto fijo de $\varphi$ en $I_\delta$.
+
+Respecto a las hipótesis adicionales, además de $f\in C^3$ y $f(c)=0$ no se necesita nada más que lo siguiente: $c$ debe ser un punto interior de $[a,b]$, $f'(c)\neq0$ y $x_0$ debe estar en un entorno de $c$. Las condiciones $f'(x)\neq0$ y $D(x)\neq0$ no se piden en todo $[a,b]$, pues se cumplen automáticamente en un entorno de $c$ por continuidad. El resultado es solo local: $\delta$ existe pero no se da explícitamente, y para $x_0$ lejos de $c$ el denominador $D(x_k)$ puede anularse y la iteración indefinirse.
+
+### b) Sea $f\in C^3([a,b])$ tal que $f(c)=0$, donde $c$ es un cero simple. Demuestre que la velocidad de convergencia es cúbica.
+
+Sean $e_k=x_k-c$ el error de la iteración $k$ y
+
+$$
+\alpha=f'(c)\neq0,\qquad\beta=f''(c),\qquad\gamma=f'''(c).
+$$
+
+Por el inciso a), si $x_0\in I_\delta$ entonces $e_k\to0$; suponga $e_k\neq0$ para todo $k$. Escriba $e=e_k$. Como $f\in C^3$, el desarrollo de Taylor alrededor de $c$ (usando $f(c)=0$) da
+
+$$
+\begin{aligned}
+f(x_k)&=\alpha e+\tfrac{\beta}{2}e^2+\tfrac{\gamma}{6}e^3+o(e^3),\\
+f'(x_k)&=\alpha+\beta e+\tfrac{\gamma}{2}e^2+o(e^2),\\
+f''(x_k)&=\beta+\gamma e+o(e).
+\end{aligned}
+$$
+
+De la iteración,
+
+$$
+e_{k+1}=e-\frac{2ff'}{D}=\frac{eD-2ff'}{D},\qquad D=2f'^2-ff''.
+$$
+
+Calcule cada término hasta el orden necesario:
+
+$$
+f'^2=\alpha^2+2\alpha\beta e+(\beta^2+\alpha\gamma)e^2+o(e^2),\qquad
+ff''=\alpha\beta e+\left(\alpha\gamma+\tfrac{\beta^2}{2}\right)e^2+o(e^2),
+$$
+
+$$
+D=2\alpha^2+3\alpha\beta e+\left(\tfrac{3}{2}\beta^2+\alpha\gamma\right)e^2+o(e^2),
+$$
+
+$$
+eD=2\alpha^2e+3\alpha\beta e^2+\left(\tfrac32\beta^2+\alpha\gamma\right)e^3+o(e^3),
+$$
+
+$$
+ff'=\alpha^2e+\tfrac32\alpha\beta e^2+\left(\tfrac23\alpha\gamma+\tfrac12\beta^2\right)e^3+o(e^3)
+\;\Rightarrow\;
+2ff'=2\alpha^2e+3\alpha\beta e^2+\left(\tfrac43\alpha\gamma+\beta^2\right)e^3+o(e^3).
+$$
+
+Restando, los términos de orden $e$ y $e^2$ se cancelan:
+
+$$
+eD-2ff'=\left(\tfrac12\beta^2-\tfrac13\alpha\gamma\right)e^3+o(e^3).
+$$
+
+Como $D\to D(c)=2\alpha^2\neq0$ cuando $e\to0$,
+
+$$
+\lim_{k\to\infty}\frac{|e_{k+1}|}{|e_k|^3}
+=\frac{\left|\tfrac12\beta^2-\tfrac13\alpha\gamma\right|}{2\alpha^2}
+=\left|\frac{3\beta^2-2\alpha\gamma}{12\alpha^2}\right|
+=\left|\left(\frac{f''(c)}{2f'(c)}\right)^2-\frac{f'''(c)}{6f'(c)}\right|=:|C|.
+$$
+
+El límite existe y es finito, por lo que la sucesión converge con orden $q=3$ y $|e_{k+1}|\approx|C||e_k|^3$: la convergencia es cúbica. Si $C\neq0$ el orden es exactamente $3$; si $C=0$ la convergencia es de orden mayor a $3$.
+
+### c) [MATLAB] Escriba una función `suc = iter(f,x0,tol)` en MATLAB que calcule la sucesión definida anteriormente, donde las entradas son la función $f$, el valor inicial $x_0$ y cierta tolerancia `tol`. Por simplicidad en la implementación, asuma que $f$ es un polinomio, por lo que al calcular sus derivadas podemos hacerlo de manera exacta (a precisión de la máquina).
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 9`.
+
+### d) [MATLAB] Verifique el comportamiento de su función para: $f(x)=816x^3-3835x^2+6000x-3125$, utilizando $x_0=1.6$, $tol=10^{-6}$. Compare el comportamiento de la sucesión obtenida, con la que se obtiene al aplicar el Método de Newton. Dibuje en un mismo gráfico el error $|x_k-c|$ para ambos casos. Comente sus resultados.
+
+Se ejecutó `iter([816 -3835 6000 -3125],1.6,1e-6)` y, para comparar, la función `metodoNewton` del ejercicio 8 con el mismo $x_0$ y la misma tolerancia (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 9, inciso d). Ambos métodos convergen a la raíz $c=\frac{25}{16}=1.5625$ (ejercicio 8, inciso a). Los errores absolutos obtenidos son:
+
+| $k$ | $x_k$ (Halley) | $\lvert x_k-c\rvert$ (Halley) | $x_k$ (Newton) | $\lvert x_k-c\rvert$ (Newton) |
+|:--:|:--:|:--:|:--:|:--:|
+| 0 | $1.6000000000$ | $3.75\times10^{-2}$ | $1.6000000000$ | $3.75\times10^{-2}$ |
+| 1 | $1.5717278538$ | $9.23\times10^{-3}$ | $1.5484375000$ | $1.41\times10^{-2}$ |
+| 2 | $1.5625819211$ | $8.19\times10^{-5}$ | $1.5634246281$ | $9.25\times10^{-4}$ |
+| 3 | $1.5625000001$ | $5.82\times10^{-11}$ | $1.5625009272$ | $9.27\times10^{-7}$ |
+| 4 | $1.5625000000$ | $3.4\times10^{-14}$ | $1.5625000000$ | $1.15\times10^{-12}$ |
+
+![Error absoluto de Newton y Halley con $x_0=1.6$](grafico_9d.png){width=60%}
+
+Con la tolerancia $10^{-6}$ sobre $|x_{k+1}-x_k|$, ambos métodos se detienen en $k=4$, pero el error de Halley es mucho menor en cada iteración: en $k=3$ es $5.82\times10^{-11}$, mientras que el de Newton es $9.27\times10^{-7}$. En escala logarítmica, la curva de Halley cae mucho más rápido que la de Newton, lo cual es consistente con la convergencia cúbica del inciso b) frente a la cuadrática de Newton.
+
+Se verifica además el orden numéricamente. Para Halley, los cocientes $|e_{k+1}|/|e_k|^3$ son $175.0$, $104.3$ y $105.8$, y se aproximan a la constante teórica del inciso b). Con $f'(c)=-\frac{125}{16}=-7.8125$, $f''(c)=-20$ y $f'''(c)=4896$:
+
+$$
+C=\frac{3(-20)^2-2(-7.8125)(4896)}{12(-7.8125)^2}=\frac{77700}{732.42}\approx106.09.
+$$
+
+Para Newton, $|e_{k+1}|/|e_k|^2$ se acerca a $\left|\frac{f''(c)}{2f'(c)}\right|=1.28$ (los valores obtenidos en las últimas iteraciones son $1.08$ y $1.34$). El cociente de Halley en la última iteración no se interpreta, porque $3.4\times10^{-14}$ ya está dominado por el error de redondeo al evaluar $f$ cerca de la raíz.
+
+### e) [MATLAB] Grafique los intervalos de atracción del Método de Halley. Para ello, considere el vector de valores iniciales `xx = linspace(1.4, 1.7)`. Grafique el valor de convergencia del método en función de `xx`. ¿Existe alguna mejoría con respecto al Método de Newton (ver Ejercicio anterior)?
+
+Para cada valor de `xx` se aplicó la función `iter` con tolerancia $10^{-10}$ y se guardó el último valor de la sucesión, verificando que fuera raíz de $f$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 9, inciso e). La gráfica es:
+
+![Convergencia del método de Halley](grafico_9e.png){width=60%}
+
+Los valores iniciales muestreados convergen siempre a alguna de las tres raíces (ninguno quedó sin convergencia verificada), y los intervalos de atracción obtenidos son:
+
+| Raíz | Halley | Newton (ejercicio 8b) |
+|:--:|:--:|:--:|
+| $c_1=\frac{25}{17}$ | $[1.400000,\,1.509091]$ | $x_0$ entre $1.4$ y $1.621212$ (con tramos que no convergen a $c_1$) |
+| $c_2=\frac{25}{16}$ | $[1.512121,\,1.621212]$ | $[1.524242,\,1.606061]$ |
+| $c_3=\frac{5}{3}$ | $[1.624242,\,1.700000]$ | $x_0$ entre $1.512121$ y $1.7$ (con tramos que no convergen a $c_3$) |
+
+Sí hay mejoría. Con Halley la gráfica son tres tramos consecutivos y bien separados (uno por raíz), de modo que el valor inicial determina la raíz de forma monótona: al recorrer `xx` solo hay 2 cambios de raíz. Con Newton se observan 4 cambios, es decir, los intervalos de atracción están intercalados y fragmentados, y por ejemplo hay valores iniciales cerca de $c_1$ que convergen a $c_3$. Además, la base de atracción de la raíz central $c_2$ es más grande con Halley: con $100$ puntos, $37$ valores convergen a $c_2$ frente a $28$ con Newton. Esto no implica convergencia garantizada desde cualquier $x_0$: el método de Halley sigue siendo local (inciso a).
+
 ## Ejercicio 10
 
 La ley de enfriamiento de Newton establece que
