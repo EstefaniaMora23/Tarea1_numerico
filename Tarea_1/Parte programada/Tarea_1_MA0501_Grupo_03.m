@@ -79,6 +79,26 @@ for i = 1:size(errores_M2,1)
     fprintf('%5d        %.10e\n', errores_M2(i,1), errores_M2(i,2));
 end
 
+% Se construye el grafico de los errores
+figure
+% Se grafican los errores bajo M1
+% Se grafica el numero de iteraciones en el eje x y los errores en el eje y
+semilogy(errores_M1(:,1), errores_M1(:,2), '-')
+% Para seguir dibujando sobre el mismo grafico
+hold on
+% Se grafican los errores bajo M2
+% Se grafica el numero de iteraciones en el eje x y los errores en el eje y
+semilogy(errores_M2(:,1), errores_M2(:,2), '-')
+
+% Se añaden las etiquetas 
+xlabel('Numero de iteración')
+ylabel('Error absoluto: ||b - Ax_k||')
+title('Errores absolutos por iteración bajo M1 y M2')
+
+legend('M1', 'M2')
+grid on
+hold off
+
 %% Ejercicio 4
 % Prueba de la funcion del ejercicio 4e Raiz_Cubica_21:
 disp('Resultado del ejercicio 4e:')

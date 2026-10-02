@@ -29,7 +29,7 @@ format:
 
 ## Ejercicio 1
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 1`. 
 
 ## Ejercicio 2
 
@@ -1167,7 +1167,7 @@ Como puede observarse, con 4 iteraciones, se encontró que la aproximación a un
 
 ### d) Escriba una función la cual lleve acabo la implementación del método descrito en este ejercicio
 
-Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 7`. 
 
 ## Ejercicio 8
 
@@ -1539,7 +1539,7 @@ end
 
 ### c) Escriba una función de MATLAB con el método de eliminación Gaussiana con pivoteo total
 
-Ver la programación en el archivo `Tarea_1_MA0501_Grupo_03.m`
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 11`. 
 
 ## Ejercicio 12
 
