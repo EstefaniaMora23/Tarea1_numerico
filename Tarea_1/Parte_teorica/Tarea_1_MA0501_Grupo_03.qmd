@@ -25,20 +25,37 @@ format:
 ```{=latex}
 \setcounter{page}{0} 
 ```
+
 # Parte programada
 
 ## Ejercicio 1
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 1`. 
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 1`.
 
 ## Ejercicio 2
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 2`. 
+Para la creación de la función, ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones` en el apartado `Ejercicio 2`. Para la prueba de la función, ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 2`.
 
+### Haga un gráfico con los errores absolutos $∥ b−Ax k ∥$ obtenidos en cada iteración al usar el precondicionador M1 y con el precondicionador M2. Explique cuál es mejor y el motivo.
+
+El gráfico de erorres absolutos resultante es el siguiente:
+
+![](grafico_2.png){fig-align="center"}
+
+Primero, es importante recordar que la condición de parada del método iterativo de gradiente conjugado con precondicionador está dada por: $∥ \alpha_{k} p_{k} ∥ < \text{to}l$, donde además se tiene que $x_{k+1} = x_{k} + \alpha_{k} p_{k}$, de forma que el método se detiene cuando la diferencia entre dos aproximaciones consecutivas de la raíz es menor a la tolerancia. A partir del gráfico prsentado, note que bajo el precondicionador M2 el método converge a una mayor rapidez: requiere de un menor número de iteraciones para que la diferencia entre dos aproximaciones consecutivas de la raíz sea menor a la tolerancia elegida. Además, es preciso destacar que existe una diferencia considerable entre el número de iteraciones requeridas por cada precondicionador: mientras que el M2 requiere de 180 iteraciones, el M1 requiere de 432, obteniendo una diferencia de 252 iteraciones. En vista de lo expuesto antes, el precondicionador M2 es mejor que el precondicionador M1.
+
+### ¿Qué sucede al utilizar el método de Gauss-Seidel programado en clase con $x_{0} = 0, tol = 10^{−6}$ y compararlo con lo anterior? Comente.
+
+Tras utilizar el método de Gauss-Seidel programado en clase, inicialmente se encontró que al no existir un número máximo de iteraciones, el programa continuaba ejecutándose sin brindar alguna respuesta. En vista de lo anterior, se modificó la función de manera que se integrara un número máximo de repeticiones: se construyó de manera que si se llega a la cantidad máxima sin cumplir la condición de la tolerancia, se avise al usuario de dicha situación. Durante la prueba del método, se emplearon distintos números de iteraciones máximas, sin embargo en todos los escenarios se obtuvo el mismo resultado: no se cumplió la condición de la tolerancia. A continuación se presenta el respaldo de lo expuesto antes:
+
+![](images/clipboard-2203765831.png){fig-align="center"}
+
+En comparación a los resultados pasados, se encuentran dos posibles resultados: el método Gauss-Seidel podría no converger del todo o podría ocurrir que su rapidez de convergencia es considerablemente menor frente al método iterativo de gradiente conjugado bajo los precondicionadores M1 y M2, el cual necesitó menos de 500 iteraciones para converger en ambos casos.
 
 # Parte teórica - programada
 
 ## Ejercicio 3
+
 Tenemos:
 
 $$
@@ -87,9 +104,7 @@ $$
 f(2)=2(\alpha+2)\cdot2+\alpha\sin(2\cdot2) = \alpha(4+\sin(4))+8.
 $$
 
-
 Para que $f$ tenga solución en $[1,2]$ debe cumplirse que $$f(1)\cdot f(2)\leq0.$$
-
 
 Si $$f(1)=0 \Rightarrow \alpha(2+\sin(2))+4=0 $$
 
@@ -102,8 +117,7 @@ $$
 
 Ahora, si
 
-$$ f(2)=0 \Rightarrow \alpha(4+\sin(4))+8=0 $$
-por lo que
+$$ f(2)=0 \Rightarrow \alpha(4+\sin(4))+8=0 $$ por lo que
 
 $$
 \alpha=-\frac{8}{4+\sin(4)}
@@ -130,7 +144,7 @@ $$
 
 Por lo tanto, el TVI garantiza al menos una solución en $[1,2]$ si y solo si $\alpha \in [-2.4667, -1.3749]$.
 
-### b) Muestre que la ecuación (1) se puede escribir como un problema de hallar un punto fijo de $x=\varphi(x)$ 
+### b) Muestre que la ecuación (1) se puede escribir como un problema de hallar un punto fijo de $x=\varphi(x)$
 
 Tenemos:
 
@@ -156,8 +170,6 @@ $$
 \varphi(x)=-\frac{\alpha x}{2}
 -\frac{\alpha\sin(2x)}{4}
 $$
-
-
 
 Ahora, vea que $\varphi(x)$ es continua ya que es una resta de funciones continuas. Además,
 
@@ -240,101 +252,89 @@ con un error relativo de $e_3 \approx 2,33844 \times 10^{-6} < 10^{-4}$.
 ## Ejercicio 4
 
 Considere la sucesión definida por:
-  
+
 $$x_{k+1} = \frac{20x_k + \dfrac{21}{x_k^2}}{21}, \qquad k \geq 1 \tag{2}$$
-    
+
 ### a) Muestre que el límite cuando $k \to \infty$ de la sucesión (2) es $\sqrt[3]{21}$
-    
+
 Defina $g(x) = \dfrac{20x + \frac{21}{x^2}}{21}$, de forma que la sucesión (2) corresponde a la iteración de punto fijo $x_{k+1} = g(x_k)$.
-    
+
 Note que si $x_0 > 0$, entonces $g(x_0) > 0$, ya que tanto $20x_0$ como $\frac{21}{x_0^2}$ son positivos; por lo tanto, toda la sucesión permanece en los reales positivos.
-    
+
 Suponga que la sucesión converge, es decir, que existe $L = \lim_{k\to\infty} x_k$. Como $g$ es continua para $x \neq 0$, al tomar límite en ambos lados de (2) se obtiene:
-      
+
 $$L = \frac{20L + \frac{21}{L^2}}{21}$$
-      
+
 $$\Rightarrow 21L = 20L + \frac{21}{L^2}$$
-      
+
 $$\Rightarrow L = \frac{21}{L^2}$$
-      
+
 $$\Rightarrow L^3 = 21$$
-      
+
 Como $L > 0$ (pues toda la sucesión es positiva), se concluye que la única solución posible es:
-      
+
 $$L = \sqrt[3]{21}$$
-      
+
 Ahora, para garantizar que la sucesión efectivamente converge a este valor, se verifican las hipótesis del Teorema del Punto Fijo para $g$ sobre un intervalo adecuado. Se considera la sucesión con valor inicial $x_0 = 1$ (el del inciso c)). El primer término es $x_1 = g(1) = \frac{41}{21}$, y a partir de $x_1$ se trabaja sobre el intervalo $[a,b]$ con $a = x_1 = \frac{41}{21}$ y $b = \sqrt[3]{21}$.
 
 Calculando la derivada:
 
 $$g'(x) = \frac{20}{21} - \frac{2}{x^3}$$
-      
+
 Evaluando en $L = \sqrt[3]{21}$, es decir, usando que $L^3 = 21$:
-      
+
 $$g'(L) = \frac{20}{21} - \frac{2}{21} = \frac{18}{21} = \frac{6}{7} \approx 0,85714$$
 
 Note que no se puede tomar $x_0 = 1$ como extremo del intervalo, pues $|g'(1)| = \frac{22}{21} > 1$ y $g$ no es contracción cerca de $1$. Por eso se parte de $a = x_1$.
 
-Como $g''(x) = \frac{6}{x^4} > 0$, la función $g'$ es estrictamente creciente. Entonces, para todo $x \in [a,b]$,
-$$g'(a) \leq g'(x) \leq g'(b) = \frac{6}{7}, \qquad g'(a) = \frac{20}{21} - \frac{2}{\left(\frac{41}{21}\right)^3} \approx 0,6836 > 0.$$
-Por lo tanto, $0 < g'(x) \leq \frac{6}{7} < 1$ para todo $x \in [a,b]$. En particular, $g$ es creciente en $[a,b]$.
+Como $g''(x) = \frac{6}{x^4} > 0$, la función $g'$ es estrictamente creciente. Entonces, para todo $x \in [a,b]$, $$g'(a) \leq g'(x) \leq g'(b) = \frac{6}{7}, \qquad g'(a) = \frac{20}{21} - \frac{2}{\left(\frac{41}{21}\right)^3} \approx 0,6836 > 0.$$ Por lo tanto, $0 < g'(x) \leq \frac{6}{7} < 1$ para todo $x \in [a,b]$. En particular, $g$ es creciente en $[a,b]$.
 
 Además, $g([a,b]) \subseteq [a,b]$: como $g$ es creciente, $g([a,b]) = [g(a), g(b)] = [x_2, b]$, donde $x_2 = g(a) \approx 2,12175 \geq a$ y $g(b) = \sqrt[3]{21} = b$.
 
-Así, $g$ es continua en $[a,b]$, $g([a,b]) \subseteq [a,b]$ y $|g'(x)| \leq \frac{6}{7} < 1$ para todo $x \in [a,b]$. Por el Teorema del Punto Fijo, como $x_1 = a \in [a,b]$, la sucesión $x_{k+1} = g(x_k)$ converge al único punto fijo de $g$ en $[a,b]$, que por lo obtenido arriba es $L = \sqrt[3]{21}$. Por lo tanto:  
+Así, $g$ es continua en $[a,b]$, $g([a,b]) \subseteq [a,b]$ y $|g'(x)| \leq \frac{6}{7} < 1$ para todo $x \in [a,b]$. Por el Teorema del Punto Fijo, como $x_1 = a \in [a,b]$, la sucesión $x_{k+1} = g(x_k)$ converge al único punto fijo de $g$ en $[a,b]$, que por lo obtenido arriba es $L = \sqrt[3]{21}$. Por lo tanto:\
 $$\lim_{k \to \infty} x_k = \sqrt[3]{21}$$
-    
+
 ### b) Determine el orden de convergencia de la sucesión (2). Explique si la convergencia es cuadrática
-    
+
 Del inciso a) se obtuvo que:
-  
+
 $$g'(L) = \frac{6}{7} \neq 0$$
 
-Por la teoría de convergencia de iteraciones de punto fijo, si $g'(L) \neq 0$, entonces el método converge con orden 1 (convergencia lineal), y no con orden 2. Esto se puede justificar formalmente usando el Teorema de Taylor: si $e_k = x_k - L$ es el error en la iteración
-$k$, entonces
+Por la teoría de convergencia de iteraciones de punto fijo, si $g'(L) \neq 0$, entonces el método converge con orden 1 (convergencia lineal), y no con orden 2. Esto se puede justificar formalmente usando el Teorema de Taylor: si $e_k = x_k - L$ es el error en la iteración $k$, entonces
 
 $$e_{k+1} = x_{k+1} - L = g(x_k) - g(L) \approx g'(L)\,e_k + O(e_k^2)$$
 
 de donde
 
 $$\lim_{k\to\infty} \frac{e_{k+1}}{e_k} = g'(L) = \frac{6}{7}$$
-  
-Como este límite es una constante en $(0,1)$, la convergencia es lineal, con constante asintótica de error $\frac{6}{7} \approx 0,857$. No es cuadrática, pues en ese caso $\lim_{k\to\infty} \frac{|e_{k+1}|}{|e_k|^2}$ tendría que existir y ser finito, pero aquí $$\frac{|e_{k+1}|}{|e_k|^2} = \frac{|e_{k+1}|}{|e_k|}\cdot\frac{1}{|e_k|} \longrightarrow \infty,$$ 
-ya que $\frac{|e_{k+1}|}{|e_k|} \to \frac{6}{7}$ y $|e_k| \to 0$.
+
+Como este límite es una constante en $(0,1)$, la convergencia es lineal, con constante asintótica de error $\frac{6}{7} \approx 0,857$. No es cuadrática, pues en ese caso $\lim_{k\to\infty} \frac{|e_{k+1}|}{|e_k|^2}$ tendría que existir y ser finito, pero aquí $$\frac{|e_{k+1}|}{|e_k|^2} = \frac{|e_{k+1}|}{|e_k|}\cdot\frac{1}{|e_k|} \longrightarrow \infty,$$ ya que $\frac{|e_{k+1}|}{|e_k|} \to \frac{6}{7}$ y $|e_k| \to 0$.
 
 ### c) Realice 4 iteraciones de (2) para aproximar $\sqrt[3]{21}$ con $x_0 = 1$. Calcule el error absoluto en cada iteración
 
 Usando $x_{k+1} = \dfrac{20x_k + \frac{21}{x_k^2}}{21}$. Como en este caso sí se conoce el valor exacto $\sqrt[3]{21} \approx 2,75892418$, el error absoluto en cada iteración se calcula con la definición formal $E_{a,k} = |\sqrt[3]{21} - x_k|$, y no como la diferencia entre iteraciones consecutivas.
 
-**Iteración 1:**
-$$
+**Iteración 1:** $$
 x_1 = \frac{20(1) + \frac{21}{1^2}}{21} = \frac{41}{21} \approx 1,95238095
-$$
-$$
+$$ $$
 E_{a,1} = |\sqrt[3]{21} - x_1| = |2,75892418 - 1,95238095| \approx 0,80654323
 $$
 
-**Iteración 2:**
-$$
+**Iteración 2:** $$
 x_2 = \frac{20(1,95238095) + \frac{21}{(1,95238095)^2}}{21} \approx 2,12175427
-$$
-$$
+$$ $$
 E_{a,2} = |\sqrt[3]{21} - x_2| = |2,75892418 - 2,12175427| \approx 0,63716991
 $$
 
-**Iteración 3:**
-$$
+**Iteración 3:** $$
 x_3 = \frac{20(2,12175427) + \frac{21}{(2,12175427)^2}}{21} \approx 2,24284969
-$$
-$$
+$$ $$
 E_{a,3} = |\sqrt[3]{21} - x_3| = |2,75892418 - 2,24284969| \approx 0,51607449
 $$
 
-**Iteración 4:**
-$$
+**Iteración 4:** $$
 x_4 = \frac{20(2,24284969) + \frac{21}{(2,24284969)^2}}{21} \approx 2,33483967
-$$
-$$
+$$ $$
 E_{a,4} = |\sqrt[3]{21} - x_4| = |2,75892418 - 2,33483967| \approx 0,42408451
 $$
 
@@ -418,19 +418,17 @@ Note que a partir del procedimiento anterior, es posible visualizar que A es una
 
 ### c) Con ayuda de la factorización LU de A, encuentre el conjunto solución del sistema lineal $Ax = b, \text{donde } b:=\left(31,\frac{3}{2},124,-90\right)^T.$
 
-Primero, se desarrolla la factorización LU de la matriz A. Note que en el inciso anterior se construyó la matriz triangular superior a partir de A, la cual en el presente ejercicio se define como: 
-$$ U = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$ 
-Por otro lado, la matriz triangular inferior unitaria L, se construye a partir de los coeficientes utilizados para generar la matriz triangular superior U, los cuales se toman de igual manera del inciso anterior y se define la matriz de la forma:
+Primero, se desarrolla la factorización LU de la matriz A. Note que en el inciso anterior se construyó la matriz triangular superior a partir de A, la cual en el presente ejercicio se define como: $$ U = \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$ Por otro lado, la matriz triangular inferior unitaria L, se construye a partir de los coeficientes utilizados para generar la matriz triangular superior U, los cuales se toman de igual manera del inciso anterior y se define la matriz de la forma:
 
-$$ L = \begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} $$ 
+$$ L = \begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} $$
 
-Así, se ha encontrado que: 
+Así, se ha encontrado que:
 
-$$ A = LU = \begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} * \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$ 
+$$ A = LU = \begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} * \begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} $$
 
 Ahora, el sistema planteado en el enunciado corresponde a $Ax = b$, reemplazando $A = LU$ se obtiene la expresión $LUx = b$. Defina $y= Ux$, así se tiene que $Ly = b$, desarrollando:
 
-$$\begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} * \begin{bmatrix}y_{1}\\y_{2}\\y_{3}\\y_{4}\end{bmatrix} = \begin{bmatrix}31\\\frac{3}{2}\\124\\-90\end{bmatrix}$$ 
+$$\begin{bmatrix}1&0&0&0\\\frac{1}{2}&1&0&0\\3&\frac{-1}{2}&1&0\\-4&1&2&1\end{bmatrix} * \begin{bmatrix}y_{1}\\y_{2}\\y_{3}\\y_{4}\end{bmatrix} = \begin{bmatrix}31\\\frac{3}{2}\\124\\-90\end{bmatrix}$$
 
 Realizando la multiplicación se llega al siguiente sistema: $$ y_{1} = 31$$
 
@@ -456,14 +454,13 @@ Finalmente, con $y_{1} = 31$, $y_{2}= -14$ y $y_{3} = 24$, se despeja $y_{4}$:
 
 $$-4y_{1} + y_{2} + 2y_{3} + y_{4} = -90,$$ $$y_{4} = -90 + 4 * 31 + 14 - 2 * 24 $$ $$y_{4} = -90 + 124 + 14 - 48$$ $$y_{4} = 0$$ Así, se obtiene que:
 
-$$ y = \begin{bmatrix}31\\-14\\24\\0\end{bmatrix}$$ 
+$$ y = \begin{bmatrix}31\\-14\\24\\0\end{bmatrix}$$
 
-
-Seguidamente, es preciso recordar que $y = Ux$, de manera que: 
+Seguidamente, es preciso recordar que $y = Ux$, de manera que:
 
 $$\begin{bmatrix}7&-1&2&9\\0&-1&-3&0\\0&0&5&2\\0&0&0&0\end{bmatrix} * \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\\x_{4}\end{bmatrix} = \begin{bmatrix}31\\-14\\24\\0\end{bmatrix}$$
 
-En consideración de lo anterior, se obtiene el siguiente sistema de ecuaciones: 
+En consideración de lo anterior, se obtiene el siguiente sistema de ecuaciones:
 
 $$7x_{1} - x_{2} +2x_{3} + 9x_{4} = 31,$$
 
@@ -471,39 +468,17 @@ $$-x_{2} - 3x_{3} = -14,$$
 
 $$5x_{3} + 2x_{4} = 24,$$
 
-$$ 0 = 0$$
-Note que la cuarta fila, que es la encargada de brindar información respecto al valor de $x_{4}$, no extiende alguna ecuación que permita encontrar un único valor para dicha variable, de forma que $x_{4}$ puede ser cualquier número real. En vista de esto, se procede a encontrar soluciones en términos de $x_{4}$ para el resto de las variables. Partiendo de la tercera ecuación se tiene: 
+$$ 0 = 0$$ Note que la cuarta fila, que es la encargada de brindar información respecto al valor de $x_{4}$, no extiende alguna ecuación que permita encontrar un único valor para dicha variable, de forma que $x_{4}$ puede ser cualquier número real. En vista de esto, se procede a encontrar soluciones en términos de $x_{4}$ para el resto de las variables. Partiendo de la tercera ecuación se tiene:
 
-$$5x_{3} + 2x_{4} = 24$$
-$$5x_{3} = 24 - 2x_{4}$$
-$$x_{3} = \frac{24 - 2x_{4}}{5}$$
-Ahora, reemplazando $x_{3} = \frac{24 - 2x_{4}}{5}$ en la segunda ecuación se tiene: 
+$$5x_{3} + 2x_{4} = 24$$ $$5x_{3} = 24 - 2x_{4}$$ $$x_{3} = \frac{24 - 2x_{4}}{5}$$ Ahora, reemplazando $x_{3} = \frac{24 - 2x_{4}}{5}$ en la segunda ecuación se tiene:
 
-$$-x_{2} - 3x_{3} = -14$$
-$$-x_{2} - 3 * (\frac{24 - 2x_{4}}{5}) = -14$$
-$$-x_{2} = -14 + \frac{72 - 6x_{4}}{5}$$
-$$x_{2} = 14 + \frac{-72 + 6x_{4}}{5}$$
-$$x_{2} = \frac{70 -72 + 6x_{4}}{5}$$
-$$x_{2} = \frac{6x_{4} - 2}{5}$$
+$$-x_{2} - 3x_{3} = -14$$ $$-x_{2} - 3 * (\frac{24 - 2x_{4}}{5}) = -14$$ $$-x_{2} = -14 + \frac{72 - 6x_{4}}{5}$$ $$x_{2} = 14 + \frac{-72 + 6x_{4}}{5}$$ $$x_{2} = \frac{70 -72 + 6x_{4}}{5}$$ $$x_{2} = \frac{6x_{4} - 2}{5}$$
 
-Finalmente, reemplazando $x_{2} = \frac{6x_{4} - 2}{5}$ y  $x_{3} = \frac{24 - 2x_{4}}{5}$ en la primera ecuación: 
+Finalmente, reemplazando $x_{2} = \frac{6x_{4} - 2}{5}$ y $x_{3} = \frac{24 - 2x_{4}}{5}$ en la primera ecuación:
 
+$$7x_{1} - x_{2} +2x_{3} + 9x_{4} = 31$$ $$7x_{1} - \frac{6x_{4} - 2}{5} +2(\frac{24 - 2x_{4}}{5}) + 9x_{4} = 31$$ $$7x_{1} - \frac{6x_{4} - 2}{5} + \frac{48 - 4x_{4}}{5} + 9x_{4} = 31$$ $$7x_{1} = 31 + \frac{6x_{4} - 2}{5} - \frac{48 - 4x_{4}}{5} - 9x_{4}$$ $$x_{1} = \frac{31}{7} + \frac{6x_{4} - 2}{35} - \frac{48 - 4x_{4}}{35} - \frac{9x_{4}}{7}$$ $$x_{1} = \frac{31 - 9x_{4}}{7} + \frac{6x_{4} - 2  - 48 + 4x_{4}}{35}$$ $$x_{1} = \frac{31 - 9x_{4}}{7} + \frac{10x_{4} - 50}{35}$$ $$x_{1} = \frac{1085 - 315x_{4} + 70x_{4} - 350}{245}$$ $$x_{1} = \frac{735 - 245x_{4}}{245}$$ $$x_{1} = \frac{245(3 -x_{4})}{245}$$ $$x_{1} = 3 -x_{4}$$ Así, el conjunto solución está dado por:
 
-$$7x_{1} - x_{2} +2x_{3} + 9x_{4} = 31$$
-$$7x_{1} - \frac{6x_{4} - 2}{5} +2(\frac{24 - 2x_{4}}{5}) + 9x_{4} = 31$$
-$$7x_{1} - \frac{6x_{4} - 2}{5} + \frac{48 - 4x_{4}}{5} + 9x_{4} = 31$$
-$$7x_{1} = 31 + \frac{6x_{4} - 2}{5} - \frac{48 - 4x_{4}}{5} - 9x_{4}$$
-$$x_{1} = \frac{31}{7} + \frac{6x_{4} - 2}{35} - \frac{48 - 4x_{4}}{35} - \frac{9x_{4}}{7}$$
-$$x_{1} = \frac{31 - 9x_{4}}{7} + \frac{6x_{4} - 2  - 48 + 4x_{4}}{35}$$
-$$x_{1} = \frac{31 - 9x_{4}}{7} + \frac{10x_{4} - 50}{35}$$
-$$x_{1} = \frac{1085 - 315x_{4} + 70x_{4} - 350}{245}$$
-$$x_{1} = \frac{735 - 245x_{4}}{245}$$
-$$x_{1} = \frac{245(3 -x_{4})}{245}$$
-$$x_{1} = 3 -x_{4}$$ 
-Así, el conjunto solución está dado por: 
-
-$$ x = \begin{bmatrix}3-x_{4}\\[8pt]\frac{6x_{4} - 2}{5}\\[8pt]\frac{24 - 2x_{4}}{5}\\[8pt]x_{4}\end{bmatrix},$$ 
-donde $x_4 \in \mathbb{R}.$
+$$ x = \begin{bmatrix}3-x_{4}\\[8pt]\frac{6x_{4} - 2}{5}\\[8pt]\frac{24 - 2x_{4}}{5}\\[8pt]x_{4}\end{bmatrix},$$ donde $x_4 \in \mathbb{R}.$
 
 ## Ejercicio 6
 
@@ -1055,8 +1030,6 @@ $$
 \begin{pmatrix}3\\-1\\2\end{pmatrix}
 $$
 
-
-
 ## Ejercicio 7
 
 Tenemos que para un polinomio $p(x)$ de grado $n$, el cual posee al menos una raíz múltiple $x_0$, se tiene la siguiente fórmula
@@ -1071,14 +1044,13 @@ $$[p'(x_k)]^2 - p(x_k) \, p''(x_k) \neq 0 \quad \forall x_k$$
 
 Además, el polinomio debe tener al menos un $x_0$ de raíz múltiple; y al igual que en el método de Newton-Raphson, el $x_0$ inicial debe ser cercano a la raíz verdadera para garantizar la convergencia.
 
-
 ### b) Escriba un Algoritmo del método descrito anteriormente
 
 Algoritmo para el Método de Raíz Múltiple:
 
-- **Entradas:** $p(x)$ un polinomio, $p'(x)$ primera derivada de $p(x)$, $p''(x)$ segunda derivada de $p(x)$, $x_0$ valor inicial y $tol$ ($\varepsilon$) la tolerancia para detener la iteración.
+-   **Entradas:** $p(x)$ un polinomio, $p'(x)$ primera derivada de $p(x)$, $p''(x)$ segunda derivada de $p(x)$, $x_0$ valor inicial y $tol$ ($\varepsilon$) la tolerancia para detener la iteración.
 
-- **Salidas:** $M$ matriz que contendrá en la primera columna el número de iteración, en la segunda columna la aproximación de $x$ y en la tercera columna el error relativo de cada iteración
+-   **Salidas:** $M$ matriz que contendrá en la primera columna el número de iteración, en la segunda columna la aproximación de $x$ y en la tercera columna el error relativo de cada iteración
 
 Pasos a seguir:
 
@@ -1093,7 +1065,6 @@ Mientras que $er > tol$ hacer:
 $a \leftarrow p'(x)$
 
 $b \leftarrow p''(x)$
-
 
 Si $a^2 - p(x) \cdot b = 0$ entonces: "El denominador es cero". Detener
 
@@ -1123,8 +1094,7 @@ Tenemos $x_0 = 0$
 
 $\Rightarrow x_1 = 0 - \frac{\big[(0^2 + 9)(0 - 3)^4\big] \cdot \big[2(0)(0-3)^4 + 4(0-3)^3(0^2+9)\big]}{\big[2(0)(0-3)^4 + 4(0-3)^3(0^2+9)\big]^2 - \big[(0^2+9)(0-3)^4\big] \cdot \big[2(0-3)^4 + 16(0)(0-3)^3 + 12(0-3)^2(0^2+9)\big]}$
 
-$$\Rightarrow x_1 = 6$$
-$$\Rightarrow e_1 = |x_1 - x_0| = |6-0| = 6$$
+$$\Rightarrow x_1 = 6$$ $$\Rightarrow e_1 = |x_1 - x_0| = |6-0| = 6$$
 
 **Iteración 2:**
 
@@ -1132,14 +1102,11 @@ Tenemos $x_1 = 6$
 
 $\Rightarrow x_2 = 6 - \frac{\big[(6^2 + 9)(6 - 3)^4\big] \cdot \big[2(6)(6-3)^4 + 4(6-3)^3(6^2+9)\big]}{\big[2(6)(6-3)^4 + 4(6-3)^3(6^2+9)\big]^2 - \big[(6^2+9)(6-3)^4\big] \cdot \big[2(6-3)^4 + 16(6)(6-3)^3 + 12(6-3)^2(6^2+9)\big]}$
 
-$$\Rightarrow x_2 = 2.60377$$
-$$\Rightarrow e_2 = |x_2 - x_1| = |2.60377 - 6| = 3.39623$$
+$$\Rightarrow x_2 = 2.60377$$ $$\Rightarrow e_2 = |x_2 - x_1| = |2.60377 - 6| = 3.39623$$
 
 **Iteración 3:**
 
 Tenemos $x_2 = 2.60377$
-
-
 
 \begin{equation*}
 \resizebox{\textwidth}{!}{$
@@ -1147,8 +1114,7 @@ Tenemos $x_2 = 2.60377$
 $}
 \end{equation*}
 
-$$\Rightarrow x_3 = 2.98732$$
-$$\Rightarrow e_3 = |x_3 - x_2| = |2.98732 - 2.60377| = 0.38355$$
+$$\Rightarrow x_3 = 2.98732$$ $$\Rightarrow e_3 = |x_3 - x_2| = |2.98732 - 2.60377| = 0.38355$$
 
 **Iteración 4:**
 
@@ -1160,14 +1126,13 @@ Tenemos $x_3 = 2.98732$
 $}
 \end{equation*}
 
-$$\Rightarrow x_4 = 2.99999$$
-$$\Rightarrow e_4 = |x_4 - x_3| = |2.99999 - 2.98732| = 0.01267$$
+$$\Rightarrow x_4 = 2.99999$$ $$\Rightarrow e_4 = |x_4 - x_3| = |2.99999 - 2.98732| = 0.01267$$
 
 Como puede observarse, con 4 iteraciones, se encontró que la aproximación a una raíz del polinomio $p(x)$ es $x_4 = 2.99999 \approx 3$ la cual corresponde a una raíz del polinomio, además, se obtuvo que el primer error fue muy grande, de 6, mientras que el segundo error fue menor, de aproximadamente 3.40, y conforme se realizaron las siguientes iteraciones, este error se hizo cada vez más pequeño hasta alcanzar la iteración 4 donde se obtuvo que el error fue de aproximadamente 0.01 pero a pesar de que el error siga siendo relativamente grande, la aproximación de $x$ para la iteración 4 fue muy cercana al valor real; además, el método no se acercó al valor real de manera monótona, sino que primero subió de $x_0 = 0$ a $x_1 = 6$, luego bajó a $x_2 \approx 2.60$, luego subió a $x_3 \approx 2.99$ y por último subió a $x_4 \approx 3$.
 
 ### d) Escriba una función la cual lleve acabo la implementación del método descrito en este ejercicio
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 7`. 
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 7`.
 
 ## Ejercicio 8
 
@@ -1181,11 +1146,11 @@ $$
 
 Para aproximar las tres raíces, se construyeron tres intervalos en los que la función presenta un cambio de signo, como se muestra a continuación:
 
-| Intervalo $[a,b]$ | $f(a)$ | $f(b)$ |
-|:----------------:|-------:|-------:|
-| $[1.4,1.5]$ | $-2.496$ | $0.25$ |
-| $[1.55,1.6]$ | $0.0945$ | $-0.264$ |
-| $[1.65,1.7]$ | $-0.2135$ | $0.858$ |
+| Intervalo $[a,b]$ |    $f(a)$ |   $f(b)$ |
+|:-----------------:|----------:|---------:|
+|    $[1.4,1.5]$    |  $-2.496$ |   $0.25$ |
+|   $[1.55,1.6]$    |  $0.0945$ | $-0.264$ |
+|   $[1.65,1.7]$    | $-0.2135$ |  $0.858$ |
 
 Por medio de la función `fzero` de MATLAB, se obtuvieron las siguientes aproximaciones de las tres raíces contenidas en $[1.4,1.7]$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 8, inciso a):
 
@@ -1203,7 +1168,7 @@ c_2=\frac{25}{16},\qquad
 c_3=\frac{5}{3}.
 $$
 
-### b) Para cada elemento de $x_0$ obtenga el valor de convergencia del método de Newton. Grafique el valor de convergencia en función del valor inicial. 
+### b) Para cada elemento de $x_0$ obtenga el valor de convergencia del método de Newton. Grafique el valor de convergencia en función del valor inicial.
 
 La iteración del método de Newton está definida por
 
@@ -1243,7 +1208,7 @@ $$
 
 Se guardó la aproximación final cuando se verificó que $|f(x)|<10^{-10}$. Finalmente, se graficaron los valores de convergencia en función de los valores iniciales, colocando $x_0$ en el eje horizontal y la raíz aproximada en el eje vertical. La gráfica se muestra a continuación.
 
-![Convergencia del método de Newton](grafico_8b.png){width=60%}
+![Convergencia del método de Newton](grafico_8b.png){width="60%"}
 
 ### c) Compare esta cota estimada con los resultados numéricos de la parte (b). ¿Hay algún estimado particularmente malo? En caso afirmativo, ¿puede explicar el porqué?
 
@@ -1347,7 +1312,7 @@ Así, la función propuesta satisface tanto la ley de enfriamiento de Newton com
 
 ### b) Aproxime el punto críıtico de $f$ y verifique que $f$ alcanza un mínimo.
 
-La solución se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 10, inciso b; a continuación se muestra un resumen de los resultados obtenidos. 
+La solución se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 10, inciso b; a continuación se muestra un resumen de los resultados obtenidos.
 
 Se utilizó el método de Newton para resolver $f'(k)=0$, con aproximación inicial $k_0=0.2$ y tolerancia $10^{-10}$. Después de cinco iteraciones, se obtuvo
 
@@ -1367,7 +1332,7 @@ $$
 
 Como $|f'(k)|<10^{-10}$, se verificó numéricamente la condición de punto crítico. Además, $f''(k)>0$, por lo que el resultado corresponde a un mínimo local estricto.
 
-Finalmente, 
+Finalmente,
 
 $$
 T(t)\approx 21+16e^{-0.091283148291059t}.
@@ -1395,8 +1360,7 @@ $$
 t\approx 7.593375048260011\ \text{horas}.
 $$
 
-Por tanto, habían transcurrido aproximadamente **7 horas y 36 minutos desde el fallecimiento**.
-Como verificación, se sustituyó el tiempo obtenido en el modelo utilizando el valor calculado de $k$. MATLAB devolvió
+Por tanto, habían transcurrido aproximadamente **7 horas y 36 minutos desde el fallecimiento**. Como verificación, se sustituyó el tiempo obtenido en el modelo utilizando el valor calculado de $k$. MATLAB devolvió
 
 $$
 T(t)=34\,^\circ\mathrm{C},
@@ -1407,7 +1371,6 @@ que coincide con la temperatura observada.
 ## Ejercicio 11
 
 ### a) Explique con detalle como se construye todo el proceso de eliminación Gaussiana con pivoteo total. Escriba explícitamente las fórmulas de las matrices: P, Q, L y U, para el caso
-
 
 El proceso de Eliminación Gaussiana surge como un método para resolver la ecuación $Ax = b$ con $A \in \mathbb{R}^{n \times n}$. Para este método se utiliza la factorización $LU$, donde la matriz $L$ es triangular inferior con unos en su diagonal y $U$ es triangular superior.
 
@@ -1425,8 +1388,7 @@ $$\ell_{i,k} := \frac{A_{i,k}^{(k)}}{A_{k,k}^{(k)}}, \quad i = k+1, \ldots, n,$$
 
 y se realiza la operación elemental de fila
 
-$$- \ell_{i,k} \cdot f_k + f_i \to f_i, \quad i = k+1, \ldots, n.$$
-Este proceso se repite $(n - 1)$-veces hasta llegar a la penúltima fila y columna de la matriz original $A$
+$$- \ell_{i,k} \cdot f_k + f_i \to f_i, \quad i = k+1, \ldots, n.$$ Este proceso se repite $(n - 1)$-veces hasta llegar a la penúltima fila y columna de la matriz original $A$
 
 **Matrices resultantes:**
 
@@ -1469,13 +1431,11 @@ Este proceso se repite $(n - 1)$-veces hasta llegar a la penúltima fila y colum
     $$U = A^{(n)}.$$
 \end{itemize}
 
-
-
 Al finalizar las $n-1$ iteraciones se obtiene la factorización
 
 $$PAQ = LU.$$
 
-**Resolución del sistema $Ax = b$**
+**Resolución del sistema** $Ax = b$
 
 Esta factorización permite resolver la ecuación $Ax = b$ de la siguiente manera. Partiendo de la factorización
 
@@ -1505,9 +1465,9 @@ $$x = Q z.$$
 
 Algoritmo de Eliminación Gaussiana con Pivoteo Total:
 
-- **Entradas:** matriz $A \in \mathbb{R}^{n \times n}$.
+-   **Entradas:** matriz $A \in \mathbb{R}^{n \times n}$.
 
-- **Salidas:** factorización $PAQ = LU$.
+-   **Salidas:** factorización $PAQ = LU$.
 
 Pasos a seguir:
 
@@ -1539,7 +1499,7 @@ end
 
 ### c) Escriba una función de MATLAB con el método de eliminación Gaussiana con pivoteo total
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 11`. 
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 11`.
 
 ## Ejercicio 12
 
@@ -1694,7 +1654,7 @@ Por lo tanto, $x^{(k)}\to a$ y la cota cuadrática obtenida demuestra que el mé
 
 ### b) Escritura del sistema en la forma $F(x)=0$
 
-Tenemos que 
+Tenemos que
 
 $$
 \begin{cases}
@@ -1760,8 +1720,7 @@ J(x)=
 \end{pmatrix}.
 $$
 
-Para $x^{(k)}=(x_1^{(k)},x_2^{(k)},x_3^{(k)})^t$, la iteración
-de Newton para este sistema queda
+Para $x^{(k)}=(x_1^{(k)},x_2^{(k)},x_3^{(k)})^t$, la iteración de Newton para este sistema queda
 
 $$
 x^{(k+1)}
@@ -1779,8 +1738,7 @@ $$
 
 siempre que $J(x^{(k)})$ sea invertible.
 
-Para calcular cada aproximación sin invertir explícitamente
-el Jacobiano, se puede resolver el sistema lineal
+Para calcular cada aproximación sin invertir explícitamente el Jacobiano, se puede resolver el sistema lineal
 
 $$
 J(x^{(k)})y^{(k)}=-F(x^{(k)})
@@ -1862,8 +1820,7 @@ $$
 
 #### Segunda iteración: $k=1$
 
-Evaluamos nuevamente el Jacobiano y la función, ahora en
-$x^{(1)}$. El sistema lineal es
+Evaluamos nuevamente el Jacobiano y la función, ahora en $x^{(1)}$. El sistema lineal es
 
 $$
 \begin{pmatrix}
@@ -1960,9 +1917,9 @@ $$
 
 ### e) Escriba el Algoritmo del método de Newton descrito en el ejercicio.
 
-- **Entradas:** $F:\mathbb{R}^n\to\mathbb{R}^n$ continuamente diferenciable, su matriz Jacobiana $J$, el vector inicial $x_0\in\mathbb{R}^n$, la tolerancia $tol>0$ y el número máximo de iteraciones $iteMax$.
+-   **Entradas:** $F:\mathbb{R}^n\to\mathbb{R}^n$ continuamente diferenciable, su matriz Jacobiana $J$, el vector inicial $x_0\in\mathbb{R}^n$, la tolerancia $tol>0$ y el número máximo de iteraciones $iteMax$.
 
-- **Salidas:** $k$, número de iteraciones realizadas, y $x$, aproximación obtenida para la solución de $F(x)=0$.
+-   **Salidas:** $k$, número de iteraciones realizadas, y $x$, aproximación obtenida para la solución de $F(x)=0$.
 
 Pasos a seguir:
 
@@ -2004,7 +1961,7 @@ k\leftarrow 0,\qquad x\leftarrow x_0,\qquad err\leftarrow tol+1.
 \end{array}
 $$
 
-### f)[MATLAB] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
+### f)\[MATLAB\] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
 
 La resolución del ejercicio se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección *Funciones*, Ejercicio 12, inciso f.
 
@@ -2012,119 +1969,73 @@ La resolución del ejercicio se encuentra en el archivo `Tarea_1_MA0501_Grupo_03
 
 ### a) Pruebe que las entradas de la matriz L están dadas por las fórmulas: $$ L_{j,j}=\sqrt{A_{j,j}-\sum_{k=1}^{j-1}(L_{j,k})^2},\quad \text{y}\quad L_{i,j}=\frac{1}{L_{j,j}}\left(A_{i,j}-\sum_{k=1}^{j-1}L_{i,k}L_{j,k}\right),\quad \text{para }i>j$$
 
-De acuerdo con el enunciado, dada la matriz $A \in \mathbb{R}^{nxn}$, la factorización de Cholesky de una matriz positiva definida A está dada por: $A = L*L^{T}$, donde  $L \in \mathbb{R}^{nxn}$ es una matriz triangular inferior y $L^{t}$ es la transpuesta de L y es
-triangular superior. 
+De acuerdo con el enunciado, dada la matriz $A \in \mathbb{R}^{nxn}$, la factorización de Cholesky de una matriz positiva definida A está dada por: $A = L*L^{T}$, donde $L \in \mathbb{R}^{nxn}$ es una matriz triangular inferior y $L^{t}$ es la transpuesta de L y es triangular superior.
 
 Considerando que $A \in \mathbb{R}^{nxn}$, note lo siguiente:
 
-$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L^{T}_{k, j}$$
-Además, se cumple que: 
+$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L^{T}_{k, j}$$ Además, se cumple que:
 
 $$L^{T}_{k, j} = L_{j,k}$$
 
-Así, se obtiene: 
+Así, se obtiene:
 
-$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L^{T}_{k, j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k}$$
-En particular, para $A_{j,j}$:
+$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L^{T}_{k, j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k}$$ En particular, para $A_{j,j}$:
 
-$$A_{j,j} = \sum_{k=1}^{n}L_{j, k} * L_{j, k} = \sum_{k=1}^{n}(L_{j, k})^{2}$$
-Recuerde que por definición $L$ corresponde a una matriz triangular inferior, es decir que para $i > j$ se cumple que $L_{j,i} = 0$, de manera que al actualizar el límite superior de la sumatoria y separar el último término de esta, se llega a: 
+$$A_{j,j} = \sum_{k=1}^{n}L_{j, k} * L_{j, k} = \sum_{k=1}^{n}(L_{j, k})^{2}$$ Recuerde que por definición $L$ corresponde a una matriz triangular inferior, es decir que para $i > j$ se cumple que $L_{j,i} = 0$, de manera que al actualizar el límite superior de la sumatoria y separar el último término de esta, se llega a:
 
 $$A_{j,j} = \sum_{k=1}^{j}(L_{j, k})^{2} = (\sum_{k=1}^{j-1}(L_{j, k})^{2}) + (L_{j, j})^{2}  $$
 
-Como A es una matriz definida positiva y se cumple que $A_{j,j} = (\sum_{k=1}^{j-1}(L_{j, k})^{2}) + (L_{j, j})^{2}$, entonces también se cumple que $A_{j,j} - \sum_{k=1}^{j-1}(L_{j, k})^{2} \geq 0$. De manera que al despejar se obtiene: 
+Como A es una matriz definida positiva y se cumple que $A_{j,j} = (\sum_{k=1}^{j-1}(L_{j, k})^{2}) + (L_{j, j})^{2}$, entonces también se cumple que $A_{j,j} - \sum_{k=1}^{j-1}(L_{j, k})^{2} \geq 0$. De manera que al despejar se obtiene:
 
-$$ L_{j,j} = \sqrt{A_{j,j} - \sum_{k=1}^{j-1}(L_{j, k})^{2}}$$
-Por otro lado, recuerde que anteriormente se planteó: 
-$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k}$$
-Además, si se establece que $i > j$, entonces se tiene que $L_{j,k} = 0$, para $k=j+1, ..., i, ..., n$ puesto que la matriz L es traingular inferior, así: 
-$$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k} = \sum_{k=1}^{j}L_{i, k} * L_{j, k}$$
-Separando el último término de la sumatoria: 
+$$ L_{j,j} = \sqrt{A_{j,j} - \sum_{k=1}^{j-1}(L_{j, k})^{2}}$$ Por otro lado, recuerde que anteriormente se planteó: $$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k}$$ Además, si se establece que $i > j$, entonces se tiene que $L_{j,k} = 0$, para $k=j+1, ..., i, ..., n$ puesto que la matriz L es traingular inferior, así: $$A_{i,j} = \sum_{k=1}^{n}L_{i, k} * L_{j, k} = \sum_{k=1}^{j}L_{i, k} * L_{j, k}$$ Separando el último término de la sumatoria:
 
-$$A_{i,j} = \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) + L_{i,j}*L_{j,j}$$
-Finalmente, despejando $L_{i,j}$: 
-
+$$A_{i,j} = \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) + L_{i,j}*L_{j,j}$$ Finalmente, despejando $L_{i,j}$:
 
 $$A_{i,j} = \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) + L_{i,j}*L_{j,j}$$
 
-$$A_{i,j} - \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) =  L_{i,j}*L_{j,j}$$
-$$\frac{1}{L_{j,j}}(A_{i,j} - \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k})) =  L_{i,j}$$
+$$A_{i,j} - \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k}) =  L_{i,j}*L_{j,j}$$ $$\frac{1}{L_{j,j}}(A_{i,j} - \sum_{k=1}^{j-1}(L_{i, k} * L_{j, k})) =  L_{i,j}$$
 
-Se ha demostrado el cumplimiento de las dos igualdades propuestas. 
+Se ha demostrado el cumplimiento de las dos igualdades propuestas.
 
 ### b) Usando a), encuentre la factorización de Cholesky de la matriz A (recuerde probar que es una matriz positiva definida), dada por: $$\begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix}$$
 
-Se establece que la matriz A está dada por: 
+Se establece que la matriz A está dada por:
 
-$$A = \begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix}$$
-La matriz A se dice definida positiva si satisface: 
-$$ x^{T}Ax > 0,$$
+$$A = \begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix}$$ La matriz A se dice definida positiva si satisface: $$ x^{T}Ax > 0,$$
 
-donde $x$ es un vector columna no nulo en $\mathbb{R}^{3}$. 
+donde $x$ es un vector columna no nulo en $\mathbb{R}^{3}$.
 
+Considere
 
-Considere 
-
-$$ x = \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix}$$
-Así, para que la matriz A sea definida positiva debe cumplirse: 
+$$ x = \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix}$$ Así, para que la matriz A sea definida positiva debe cumplirse:
 
 $$\begin{bmatrix}x_{1}&x_{2}&x_{3}\end{bmatrix} * \begin{bmatrix}4&12&-16\\12&37&-43\\-16&-43&98\end{bmatrix} * \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix} > 0 $$
 
 Calculando la expresión anterior:
 
-$$= \begin{bmatrix}(4x_{1} + 12x_{2}- 16x_{3})&(12x_{1} + 37x_{2}- 43x_{3})&(-16x_{1} + -43x_{2} + 98x_{3})\end{bmatrix}* \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix}$$
-$$= x_{1}(4x_{1} + 12x_{2}- 16x_{3}) + x_{2}(12x_{1} + 37x_{2}- 43x_{3}) + x_{3}(-16x_{1} + -43x_{2} + 98x_{3})$$
-$$= 4x_{1}^{2} + 12x_{1}x_{2}- 16x_{1}x_{3} + 12x_{1}x_{2} + 37x_{2}^{2}- 43x_{2}x_{3} -16x_{1}x_{3} -43x_{2}x_{3} + 98x_{3}^{2}$$
-$$= 4x_{1}^{2} + 37x_{2}^{2} + 98x_{3}^{2} + 24x_{1}x_{2}- 86x_{2}x_{3} - 32x_{1}x_{3}$$
-Agrupando los términos que poseen $x_{1}$:
+$$= \begin{bmatrix}(4x_{1} + 12x_{2}- 16x_{3})&(12x_{1} + 37x_{2}- 43x_{3})&(-16x_{1} + -43x_{2} + 98x_{3})\end{bmatrix}* \begin{bmatrix}x_{1}\\x_{2}\\x_{3}\end{bmatrix}$$ $$= x_{1}(4x_{1} + 12x_{2}- 16x_{3}) + x_{2}(12x_{1} + 37x_{2}- 43x_{3}) + x_{3}(-16x_{1} + -43x_{2} + 98x_{3})$$ $$= 4x_{1}^{2} + 12x_{1}x_{2}- 16x_{1}x_{3} + 12x_{1}x_{2} + 37x_{2}^{2}- 43x_{2}x_{3} -16x_{1}x_{3} -43x_{2}x_{3} + 98x_{3}^{2}$$ $$= 4x_{1}^{2} + 37x_{2}^{2} + 98x_{3}^{2} + 24x_{1}x_{2}- 86x_{2}x_{3} - 32x_{1}x_{3}$$ Agrupando los términos que poseen $x_{1}$:
 
-$$= (4x_{1}^{2} + 24x_{1}x_{2} - 32x_{1}x_{3}) + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
-Factorizando el 4:
+$$= (4x_{1}^{2} + 24x_{1}x_{2} - 32x_{1}x_{3}) + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$ Factorizando el 4:
 
-$$= 4(x_{1}^{2} + 6x_{1}x_{2} - 8x_{1}x_{3}) + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
-Ahora, visualice que 
-$$x_{1}^{2} + 6x_{1}x_{2} - 8x_{1}x_{3} = (x_{1} + 3x_{2} - 4x_{3})^{2} - (3x_{2} - 4x_{3})^{2},$$
-puesto que 
-$$(x_{1} + 3x_{2} - 4x_{3})^{2} = x_{1}^{2} + 2x_{1}(3x_{2} - 4x_{3}) + (3x_{2} - 4x_{3})^{2},$$ 
-no obstante, el término $(3x_{2} - 4x_{3})^{2}$ no aparece y es precisamente ese el motivo por el cual se debe restar. Reemplazando:
+$$= 4(x_{1}^{2} + 6x_{1}x_{2} - 8x_{1}x_{3}) + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$ Ahora, visualice que $$x_{1}^{2} + 6x_{1}x_{2} - 8x_{1}x_{3} = (x_{1} + 3x_{2} - 4x_{3})^{2} - (3x_{2} - 4x_{3})^{2},$$ puesto que $$(x_{1} + 3x_{2} - 4x_{3})^{2} = x_{1}^{2} + 2x_{1}(3x_{2} - 4x_{3}) + (3x_{2} - 4x_{3})^{2},$$ no obstante, el término $(3x_{2} - 4x_{3})^{2}$ no aparece y es precisamente ese el motivo por el cual se debe restar. Reemplazando:
 
-$$= 4[(x_{1} + 3x_{2} - 4x_{3})^{2} - (3x_{2} - 4x_{3})^{2}]  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
-Se distribuye el 4 y se desarrolla el término $(3x_{2} - 4x_{3})^{2}$:
+$$= 4[(x_{1} + 3x_{2} - 4x_{3})^{2} - (3x_{2} - 4x_{3})^{2}]  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$ Se distribuye el 4 y se desarrolla el término $(3x_{2} - 4x_{3})^{2}$:
 
-$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} - 4(9x_{2}^{2} - 24x_{2}x_{3}  + 16x_{3}^{2})  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
-$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} - 36x_{2}^{2} + 96x_{2}x_{3}  - 64x_{3}^{2}  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$
-$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + x_{2}^{2} + 10x_{2}x_{3} + 34x_{3}^{2} $$
-Se agrupan convenientemente los términos para factorizar:
-$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2}^{2} + 10x_{2}x_{3} + 25x_{3}^{2}) + 9x_{3}^{2} $$
-$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2} + 5x_{3})^{2} + 9x_{3}^{2} $$
-Finalmente, note que 
+$$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} - 4(9x_{2}^{2} - 24x_{2}x_{3}  + 16x_{3}^{2})  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$ $$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} - 36x_{2}^{2} + 96x_{2}x_{3}  - 64x_{3}^{2}  + 37x_{2}^{2} - 86x_{2}x_{3} + 98x_{3}^{2} $$ $$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + x_{2}^{2} + 10x_{2}x_{3} + 34x_{3}^{2} $$ Se agrupan convenientemente los términos para factorizar: $$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2}^{2} + 10x_{2}x_{3} + 25x_{3}^{2}) + 9x_{3}^{2} $$ $$= 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2} + 5x_{3})^{2} + 9x_{3}^{2} $$ Finalmente, note que
 
-$$(x_{1} + 3x_{2} - 4x_{3})^{2} \geq 0,$$
-$$(x_{2} + 5x_{3})^{2} \geq 0,$$
-$$9x_{3}^{2} > 0$$
-Por lo que se cumple que: 
+$$(x_{1} + 3x_{2} - 4x_{3})^{2} \geq 0,$$ $$(x_{2} + 5x_{3})^{2} \geq 0,$$ $$9x_{3}^{2} > 0$$ Por lo que se cumple que:
 
-$$x^{T}Ax = 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2} + 5x_{3})^{2} + 9x_{3}^{2} > 0$$
-En vista de lo anterior, concluya que la matriz A es definida positiva. Seguidamente, se procede a encontrar la  factorización de Cholesky de la matriz A a partir de las igualdades probadas en el inciso (a). 
+$$x^{T}Ax = 4(x_{1} + 3x_{2} - 4x_{3})^{2} + (x_{2} + 5x_{3})^{2} + 9x_{3}^{2} > 0$$ En vista de lo anterior, concluya que la matriz A es definida positiva. Seguidamente, se procede a encontrar la factorización de Cholesky de la matriz A a partir de las igualdades probadas en el inciso (a).
 
-Se desarrollan a continuación los cálculos correspondientes: 
+Se desarrollan a continuación los cálculos correspondientes:
 
-$$L_{1,1} = \sqrt{A_{1,1} - \sum_{k=1}^{1-1}(L_{1, k})^{2}}= \sqrt{4 - 0} = \sqrt{4} = 2$$
-$$L_{2,1}= \frac{1}{L_{1,1}}(A_{2,1} - \sum_{k=1}^{1-1}(L_{2, k} * L_{1, k})) = \frac{1}{2}(12 - 0) = \frac{12}{2} = 6$$
+$$L_{1,1} = \sqrt{A_{1,1} - \sum_{k=1}^{1-1}(L_{1, k})^{2}}= \sqrt{4 - 0} = \sqrt{4} = 2$$ $$L_{2,1}= \frac{1}{L_{1,1}}(A_{2,1} - \sum_{k=1}^{1-1}(L_{2, k} * L_{1, k})) = \frac{1}{2}(12 - 0) = \frac{12}{2} = 6$$
 
-$$L_{3,1}= \frac{1}{L_{1,1}}(A_{3,1} - \sum_{k=1}^{1-1}(L_{3, k} * L_{1, k})) = \frac{1}{2}(-16 - 0) = \frac{-16}{2} = -8$$
-$$L_{2,2} = \sqrt{A_{2,2} - \sum_{k=1}^{2-1}(L_{2, k})^{2}}= \sqrt{A_{2,2} - \sum_{k=1}^{1}(L_{2, k})^{2}} = \sqrt{A_{2,2} - (L_{2, 1})^{2}} =\sqrt{37 - 6^{2}} =  \sqrt{1} = 1$$
-$$L_{3,2}= \frac{1}{L_{2,2}}(A_{3,2} - \sum_{k=1}^{1}(L_{3, k} * L_{2, k}))= \frac{1}{L_{2,2}}(A_{3,2} - L_{3, 1} * L_{2, 1}) = -43 + 48 = 5 $$
-$$L_{3,3} = \sqrt{A_{3,3} - \sum_{k=1}^{2}(L_{3, k})^{2}}= \sqrt{A_{3,3} - [(L_{3, 1})^{2} + (L_{3, 2})^{2}]} = \sqrt{98 - [(-8)^{2} + 5^{2}]} =\sqrt{98-89} = \sqrt{9} = 3$$
-La matriz resultante es de la forma: 
+$$L_{3,1}= \frac{1}{L_{1,1}}(A_{3,1} - \sum_{k=1}^{1-1}(L_{3, k} * L_{1, k})) = \frac{1}{2}(-16 - 0) = \frac{-16}{2} = -8$$ $$L_{2,2} = \sqrt{A_{2,2} - \sum_{k=1}^{2-1}(L_{2, k})^{2}}= \sqrt{A_{2,2} - \sum_{k=1}^{1}(L_{2, k})^{2}} = \sqrt{A_{2,2} - (L_{2, 1})^{2}} =\sqrt{37 - 6^{2}} =  \sqrt{1} = 1$$ $$L_{3,2}= \frac{1}{L_{2,2}}(A_{3,2} - \sum_{k=1}^{1}(L_{3, k} * L_{2, k}))= \frac{1}{L_{2,2}}(A_{3,2} - L_{3, 1} * L_{2, 1}) = -43 + 48 = 5 $$ $$L_{3,3} = \sqrt{A_{3,3} - \sum_{k=1}^{2}(L_{3, k})^{2}}= \sqrt{A_{3,3} - [(L_{3, 1})^{2} + (L_{3, 2})^{2}]} = \sqrt{98 - [(-8)^{2} + 5^{2}]} =\sqrt{98-89} = \sqrt{9} = 3$$ La matriz resultante es de la forma:
 
+$$ L = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix}$$ Además, se obtiene que:
 
-$$ L = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix}$$
-Además, se obtiene que: 
-
-$$ L^{T} = \begin{bmatrix}2&6&-8\\0&1&5\\0&0&3\end{bmatrix}$$
-De esta forma, la factorización de Cholesky de A está dada por: 
-$$A= L*L^{T} = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix} * \begin{bmatrix}2&6&-8\\0&1&5\\0&0&3\end{bmatrix}$$
+$$ L^{T} = \begin{bmatrix}2&6&-8\\0&1&5\\0&0&3\end{bmatrix}$$ De esta forma, la factorización de Cholesky de A está dada por: $$A= L*L^{T} = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix} * \begin{bmatrix}2&6&-8\\0&1&5\\0&0&3\end{bmatrix}$$
 
 ## Ejercicio 15
 
@@ -2134,8 +2045,7 @@ $$A= L*L^{T} = \begin{bmatrix}2&0&0\\6&1&0\\-8&5&3\end{bmatrix} * \begin{bmatrix
 
 De acuerdo con Guillén (2026), el método de Müller fue presentado por primera vez por David Eugene Müller en el año 1956. Constituye un proceso numérico, iterativo y particularmente útil para determinar las raíces tanto reales como complejas de las ecuaciones polinómicas. Es preciso recordar que las ecuaciones polinómicas son expresiones matemáticas que pueden escribirse en la forma $P(x) = 0$. Así, el método de Müller es efectivo para encontrar las raíces de estas ecuaciones de manera rápida y precisa.
 
-De manera general, se tiene que el método de Müller corresponde a una generalización del método de la secante, a la vez que recurre al método de interpolación cuadrática. El método de la secante obtiene las raíces de una función estimando una proyección de una línea recta en el eje x mediante dos valores de la función: $x_{0}$ y $x_{1}$, estos últimos determinan la siguiente aproximación $x_{2}$ como la intercepción del eje x con la recta que pasa por $(x_{0} ,f(x_{0}))$ y $(x_{1},f(x_{1}))$. Por su parte, el método de Müller trabaja de manera similar, pero en lugar de hacer la proyección de una recta  utilizando dos puntos, requiere de tres puntos para calcular una parábola. En términos geométricos, el método de Müller busca aproximar las raíces de una función mediante una sucesión de parábolas. Para ello, se seleccionan tres puntos iniciales denotados como $(x_{0} ,f(x_{0})),$ $(x_{1},f(x_{1}))$ y $(x_{2} ,f(x_{2}))$, a través de estos puntos se construye una parábola que aproxima localmente el comportamiento de la función. Posteriormente, se determina la intersección de esta parábola con el eje  x, es decir, el punto donde la parábola toma el valor cero; de forma que dicha intersección corresponde a la nueva aproximación $x_{3}$ de la raíz. Luego, $x_{3}$
-se utiliza junto con dos de los puntos anteriores para construir una nueva parábola y obtener así una nueva aproximación. Tal proceso se repite de forma iterativa, generando una sucesión de parábolas cuyas intersecciones con el eje x buscan acercarse cada vez más a la raíz de la función.
+De manera general, se tiene que el método de Müller corresponde a una generalización del método de la secante, a la vez que recurre al método de interpolación cuadrática. El método de la secante obtiene las raíces de una función estimando una proyección de una línea recta en el eje x mediante dos valores de la función: $x_{0}$ y $x_{1}$, estos últimos determinan la siguiente aproximación $x_{2}$ como la intercepción del eje x con la recta que pasa por $(x_{0} ,f(x_{0}))$ y $(x_{1},f(x_{1}))$. Por su parte, el método de Müller trabaja de manera similar, pero en lugar de hacer la proyección de una recta utilizando dos puntos, requiere de tres puntos para calcular una parábola. En términos geométricos, el método de Müller busca aproximar las raíces de una función mediante una sucesión de parábolas. Para ello, se seleccionan tres puntos iniciales denotados como $(x_{0} ,f(x_{0})),$ $(x_{1},f(x_{1}))$ y $(x_{2} ,f(x_{2}))$, a través de estos puntos se construye una parábola que aproxima localmente el comportamiento de la función. Posteriormente, se determina la intersección de esta parábola con el eje x, es decir, el punto donde la parábola toma el valor cero; de forma que dicha intersección corresponde a la nueva aproximación $x_{3}$ de la raíz. Luego, $x_{3}$ se utiliza junto con dos de los puntos anteriores para construir una nueva parábola y obtener así una nueva aproximación. Tal proceso se repite de forma iterativa, generando una sucesión de parábolas cuyas intersecciones con el eje x buscan acercarse cada vez más a la raíz de la función.
 
 A continuación se profundiza en la formulación matemática del método.
 
@@ -2143,120 +2053,67 @@ A continuación se profundiza en la formulación matemática del método.
 
 Como se mencionó anteriormente, el método de Müller requiere de tres puntos iniciales, los cuales pueden seleccionarse de manera arbitraria o pueden seleccionarse mediante estimaciones preliminares que sugieran puntos cercanos a la raíz buscada. Asuma que $x_{0},$ $x_{1}$ y $x_{2}$ corresponden a los tres puntos iniciales a utilizar. A partir de estos tres puntos, se procede a determinar la siguiente aproximación $x_{3}$, considerando la intercepción del eje x con la parábola que pasa por $(x_{0},f(x_{0}))$, $(x_{1},f(x_{1}))$ y $(x_{2},f(x_{2})).$ El método consiste en obtener los coeficientes de los tres puntos, sustituirlos en la fórmula cuadrática y obtener el punto donde la parábola intercepta el eje x.
 
-Considere la fórmula cuadrática: 
+Considere la fórmula cuadrática:
 
-$$f(x)= a(x−x_{2})^{2} + b(x−x_{2}) + c$$
-En vista de lo anterior, los coeficientes de la parábola se calculan resolviendo el siguiente sistema de ecuaciones: 
-$$f(x_{0})= a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2}) + c$$
-$$f(x_{1})= a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) + c$$
-$$f(x_{2})= a(x_{2}−x_{2})^{2} + b(x_{2}−x_{2}) + c $$
-Esta última ecuación produce: 
-$$f(x_{2})= c$$
-Por lo que se puede obtener un sistema de dos ecuaciones conformadas por dos incógnitas: 
+$$f(x)= a(x−x_{2})^{2} + b(x−x_{2}) + c$$ En vista de lo anterior, los coeficientes de la parábola se calculan resolviendo el siguiente sistema de ecuaciones: $$f(x_{0})= a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2}) + c$$ $$f(x_{1})= a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) + c$$ $$f(x_{2})= a(x_{2}−x_{2})^{2} + b(x_{2}−x_{2}) + c $$ Esta última ecuación produce: $$f(x_{2})= c$$ Por lo que se puede obtener un sistema de dos ecuaciones conformadas por dos incógnitas:
 
+$$f(x_{0}) - f(x_{2}) = a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2})$$ $$f(x_{1}) - f(x_{2}) = a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) $$ Ahora, se despeja el coeficiente $b$ de ambas ecuaciones. Para la primera ecuación:
 
-$$f(x_{0}) - f(x_{2}) = a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2})$$
-$$f(x_{1}) - f(x_{2}) = a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) $$
-Ahora, se despeja el coeficiente $b$ de ambas ecuaciones. Para la primera ecuación: 
+$$f(x_{0}) - f(x_{2}) = a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2})$$ $$f(x_{0}) - f(x_{2})- a(x_{0}−x_{2})^{2} =  b(x_{0}−x_{2})$$
 
-$$f(x_{0}) - f(x_{2}) = a(x_{0}−x_{2})^{2} + b(x_{0}−x_{2})$$
-$$f(x_{0}) - f(x_{2})- a(x_{0}−x_{2})^{2} =  b(x_{0}−x_{2})$$
+$$\frac{f(x_{0}) - f(x_{2})- a(x_{0}−x_{2})^{2}}{x_{0}−x_{2}} =  b$$ $$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - a(x_{0}−x_{2}) =  b$$
 
-$$\frac{f(x_{0}) - f(x_{2})- a(x_{0}−x_{2})^{2}}{x_{0}−x_{2}} =  b$$
-$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - a(x_{0}−x_{2}) =  b$$
-
-Ahora para la segunda ecuación: 
+Ahora para la segunda ecuación:
 
 $$f(x_{1}) - f(x_{2}) = a(x_{1}−x_{2})^{2} + b(x_{1}−x_{2}) $$
 
-$$f(x_{1}) - f(x_{2})- a(x_{1}−x_{2})^{2} = b(x_{1}−x_{2}) $$
-$$\frac{f(x_{1}) - f(x_{2})- a(x_{1}−x_{2})^{2}}{x_{1}−x_{2}} = b$$
-$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) = b$$
-Igualando ambas expresiones: 
+$$f(x_{1}) - f(x_{2})- a(x_{1}−x_{2})^{2} = b(x_{1}−x_{2}) $$ $$\frac{f(x_{1}) - f(x_{2})- a(x_{1}−x_{2})^{2}}{x_{1}−x_{2}} = b$$ $$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) = b$$ Igualando ambas expresiones:
 
-$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - a(x_{0}−x_{2})= \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) $$
-$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = - a(x_{1}−x_{2}) + a(x_{0}−x_{2}) $$
-$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[-(x_{1}−x_{2}) + (x_{0}−x_{2})] $$
-$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[-x_{1}+x_{2} + x_{0}−x_{2}] $$
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - a(x_{0}−x_{2})= \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) $$ $$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = - a(x_{1}−x_{2}) + a(x_{0}−x_{2}) $$ $$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[-(x_{1}−x_{2}) + (x_{0}−x_{2})] $$ $$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[-x_{1}+x_{2} + x_{0}−x_{2}] $$
 
-$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[x_{0}-x_{1}] $$
-Finalmente, se tiene que: 
-$$\frac{\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}}}{x_{0}-x_{1}}= a$$
-Simplificando: 
-$$\frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}= a$$
-Ahora, reemplazando el valor de $a$ en una expresión de $b$: 
+$$\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} = a[x_{0}-x_{1}] $$ Finalmente, se tiene que: $$\frac{\frac{f(x_{0}) - f(x_{2})}{x_{0}−x_{2}} - \frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}}}{x_{0}-x_{1}}= a$$ Simplificando: $$\frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}= a$$ Ahora, reemplazando el valor de $a$ en una expresión de $b$:
 
-$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) = b$$
-$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - [\frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}](x_{1}−x_{2}) = b$$
-$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
+$$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - a(x_{1}−x_{2}) = b$$ $$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - [\frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}](x_{1}−x_{2}) = b$$ $$\frac{f(x_{1}) - f(x_{2})}{x_{1}−x_{2}} - \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
 
-$$\frac{(x_{0}−x_{2})(x_{0}-x_{1})[f(x_{1}) - f(x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})] + (x_{1}−x_{2})(x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
-Sacando a factor común $(x_{0}−x_{2})[f(x_{1}) - f(x_{2})]$:
+$$\frac{(x_{0}−x_{2})(x_{0}-x_{1})[f(x_{1}) - f(x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})] + (x_{1}−x_{2})(x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$ Sacando a factor común $(x_{0}−x_{2})[f(x_{1}) - f(x_{2})]$:
 
-$$\frac{(x_{0}−x_{2})[f(x_{1}) - f(x_{2})][(x_{0}-x_{1}) + (x_{1}−x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
-Desarrollando la suma de $(x_{0}-x_{1}) + (x_{1}−x_{2})$:
+$$\frac{(x_{0}−x_{2})[f(x_{1}) - f(x_{2})][(x_{0}-x_{1}) + (x_{1}−x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$ Desarrollando la suma de $(x_{0}-x_{1}) + (x_{1}−x_{2})$:
 
-$$\frac{(x_{0}−x_{2})[f(x_{1}) - f(x_{2})][(x_{0}−x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
-$$\frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$
-De esta manera, las fórmulas de los coeficientes son: 
+$$\frac{(x_{0}−x_{2})[f(x_{1}) - f(x_{2})][(x_{0}−x_{2})] - (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$ $$\frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})} = b$$ De esta manera, las fórmulas de los coeficientes son:
 
 $$a= \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{2})]}{(x_{0}−x_{2})(x_{1}−x_{2})(x_{0}-x_{1})}$$
 
-$$b = \frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})}$$
-$$c = f(x_{2})$$
-Seguidamente, en vista de que lo se busca es una raíz, se iguala la parábola a cero: 
+$$b = \frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})}$$ $$c = f(x_{2})$$ Seguidamente, en vista de que lo se busca es una raíz, se iguala la parábola a cero:
 
-$$a(x−x_{2})^{2} + b(x−x_{2}) + c = 0$$
-Se toma $y=x−x_{2}$ y se reemplaza en la ecuación, así: 
-$$ay^{2} + by + c = 0$$
-Es posible obtener las soluciones de las ecuaciones cuadráticas aplicando la fórmula general: 
-$$y=\frac{-b\pm\sqrt{b^{2}-4ac}}{2a}$$
-Reemplanzo $y$ por su valor original: 
+$$a(x−x_{2})^{2} + b(x−x_{2}) + c = 0$$ Se toma $y=x−x_{2}$ y se reemplaza en la ecuación, así: $$ay^{2} + by + c = 0$$ Es posible obtener las soluciones de las ecuaciones cuadráticas aplicando la fórmula general: $$y=\frac{-b\pm\sqrt{b^{2}-4ac}}{2a}$$ Reemplanzo $y$ por su valor original:
 
-$$x−x_{2}=\frac{-b±\sqrt{b^{2}-4ac}}{2a}$$
-Finalmente: 
+$$x−x_{2}=\frac{-b±\sqrt{b^{2}-4ac}}{2a}$$ Finalmente:
 
 $$x =x_{2} + \frac{-b\pm\sqrt{b^{2}-4ac}}{2a}$$
 
 Ahora, debido al error de redondeo potencial, el método de Müller racionaliza la fórmula para evitar la pérdida de precisión por cancelación. El procedimiento matemático para la primera raíz:
 
-$$x =x_{2} + \frac{-b+\sqrt{b^{2}-4ac}}{2a} * \frac{-b-\sqrt{b^{2}-4ac}}{-b-\sqrt{b^{2}-4ac}}$$
-$$x =x_{2} + \frac{(-b)^{2}-(\sqrt{b^{2}-4ac})^{2}}{2a(-b-\sqrt{b^{2}-4ac})}$$
-$$x =x_{2} + \frac{b^{2}-b^{2}+4ac}{2a(-b-\sqrt{b^{2}-4ac})}$$
-$$x =x_{2} + \frac{4ac}{2a(-b-\sqrt{b^{2}-4ac})}$$
-$$x =x_{2} + \frac{2c}{-(b+\sqrt{b^{2}-4ac})}$$
-$$x =x_{2} + \frac{-2c}{b+\sqrt{b^{2}-4ac}}$$
-El procedimiento matemático para la segunda raíz: 
-$$x =x_{2} + \frac{-b-\sqrt{b^{2}-4ac}}{2a} * \frac{-b+\sqrt{b^{2}-4ac}}{-b+\sqrt{b^{2}-4ac}}$$
-
+$$x =x_{2} + \frac{-b+\sqrt{b^{2}-4ac}}{2a} * \frac{-b-\sqrt{b^{2}-4ac}}{-b-\sqrt{b^{2}-4ac}}$$ $$x =x_{2} + \frac{(-b)^{2}-(\sqrt{b^{2}-4ac})^{2}}{2a(-b-\sqrt{b^{2}-4ac})}$$ $$x =x_{2} + \frac{b^{2}-b^{2}+4ac}{2a(-b-\sqrt{b^{2}-4ac})}$$ $$x =x_{2} + \frac{4ac}{2a(-b-\sqrt{b^{2}-4ac})}$$ $$x =x_{2} + \frac{2c}{-(b+\sqrt{b^{2}-4ac})}$$ $$x =x_{2} + \frac{-2c}{b+\sqrt{b^{2}-4ac}}$$ El procedimiento matemático para la segunda raíz: $$x =x_{2} + \frac{-b-\sqrt{b^{2}-4ac}}{2a} * \frac{-b+\sqrt{b^{2}-4ac}}{-b+\sqrt{b^{2}-4ac}}$$
 
 $$x =x_{2} + \frac{(-b)^{2}-(\sqrt{b^{2}-4ac})^{2}}{2a(-b+\sqrt{b^{2}-4ac})}$$
 
 $$x =x_{2} + \frac{b^{2}-b^{2}+4ac}{2a(-b+\sqrt{b^{2}-4ac})}$$
 
-$$x =x_{2} + \frac{4ac}{2a(-b+\sqrt{b^{2}-4ac})}$$
-$$x =x_{2} + \frac{2c}{-(b-\sqrt{b^{2}-4ac})}$$
-$$x =x_{2} + \frac{-2c}{b-\sqrt{b^{2}-4ac}}$$
-De esta manera, se ha llegado a la fórmula del método Müller para la siguiente aproximación de la raíz:
+$$x =x_{2} + \frac{4ac}{2a(-b+\sqrt{b^{2}-4ac})}$$ $$x =x_{2} + \frac{2c}{-(b-\sqrt{b^{2}-4ac})}$$ $$x =x_{2} + \frac{-2c}{b-\sqrt{b^{2}-4ac}}$$ De esta manera, se ha llegado a la fórmula del método Müller para la siguiente aproximación de la raíz:
 
-$$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$
-Es preciso recordar que método de Müller es un método iterativo. La idea es repetir el procedimiento detallado con el objetivo de obtener aproximaciones cada vez más cercanas a la raíz. En la segunda iteración es común tomar los puntos $x_{1}$, $x_{2}$ y $x_{3}$ para calcular la nueva aproximación a la raíz: $x_{4}.$ Para escoger la aproximación final de cada iteración, se revisa el valor absoluto del denominador del segundo término, de manera que el signo que posea el mayor valor absoluto es el que se preserva en la aproximación final, lo anterior con tal de obtener una mayor estabilidad. 
-
+$$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$ Es preciso recordar que método de Müller es un método iterativo. La idea es repetir el procedimiento detallado con el objetivo de obtener aproximaciones cada vez más cercanas a la raíz. En la segunda iteración es común tomar los puntos $x_{1}$, $x_{2}$ y $x_{3}$ para calcular la nueva aproximación a la raíz: $x_{4}.$ Para escoger la aproximación final de cada iteración, se revisa el valor absoluto del denominador del segundo término, de manera que el signo que posea el mayor valor absoluto es el que se preserva en la aproximación final, lo anterior con tal de obtener una mayor estabilidad.
 
 #### Sobre su velocidad de convergencia
 
 De acuerdo con Artichuk (2020), la convergencia del método de Müller es de orden 1.839, lo que lo hace más rapido que el método de la secante, en el cual está basado; este último posee un orden de convergencia de 1.62. No obstante, es importante considerar que el método de Müller tiene una menor velocidad de convergencia en comparación a otros métodos, dentro de ellos se encuentra el método de Newton-Raphson, cuya convergencia es cuadrática, es decir, de orden 2.
 
- 
 ### b) Realice una iteración del método de Müller para el polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$, utilizando los valores: $x_{0} = \frac{1}{2}, x_{1}= \frac{-1}{2}, x_{2} = 0$. Además, calcule el error absoluto $|x_{3} − x_{2}|$ de esta iteración.
 
-Para aproximar la raíz del polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$ a partir del método de Müller, se utilizan los tres puntos brindados por el enunciado como los puntos iniciales. Se definen  $x_{0} = \frac{1}{2}, \quad x_{1}= \frac{-1}{2} \quad \text{y} \quad x_{2} = 0$. De esta forma, en vías de aplicar la fórmulas generales del método, se calculan los coeficientes de la ecuación cuadrática que aproxima la función. 
+Para aproximar la raíz del polinomio $f(x) = 16x^{4} − 40x^{3} + 5x^{2} + 20x + 6$ a partir del método de Müller, se utilizan los tres puntos brindados por el enunciado como los puntos iniciales. Se definen $x_{0} = \frac{1}{2}, \quad x_{1}= \frac{-1}{2} \quad \text{y} \quad x_{2} = 0$. De esta forma, en vías de aplicar la fórmulas generales del método, se calculan los coeficientes de la ecuación cuadrática que aproxima la función.
 
-Para facilitar el orden del procedimiento posterior, se calculan primero: 
+Para facilitar el orden del procedimiento posterior, se calculan primero:
 
-$$f(x_{0}) = f(\frac{1}{2}) =16(\frac{1}{2})^{4} − 40(\frac{1}{2})^{3} + 5(\frac{1}{2})^{2} + 20(\frac{1}{2}) + 6 = \frac{53}{4} = 13.25$$
-$$f(x_{1}) = f(\frac{-1}{2}) =16(\frac{-1}{2})^{4} − 40(\frac{-1}{2})^{3} + 5(\frac{-1}{2})^{2} + 20(\frac{-1}{2}) + 6 = \frac{13}{4} = 3.25$$
-$$f(x_{2}) = f(0) =16(0)^{4} − 40(0)^{3} + 5(0)^{2} + 20(0) + 6 = 6$$
+$$f(x_{0}) = f(\frac{1}{2}) =16(\frac{1}{2})^{4} − 40(\frac{1}{2})^{3} + 5(\frac{1}{2})^{2} + 20(\frac{1}{2}) + 6 = \frac{53}{4} = 13.25$$ $$f(x_{1}) = f(\frac{-1}{2}) =16(\frac{-1}{2})^{4} − 40(\frac{-1}{2})^{3} + 5(\frac{-1}{2})^{2} + 20(\frac{-1}{2}) + 6 = \frac{13}{4} = 3.25$$ $$f(x_{2}) = f(0) =16(0)^{4} − 40(0)^{3} + 5(0)^{2} + 20(0) + 6 = 6$$
 
 Ahora, calculando los coeficientes. Para el coeficiente a:
 
@@ -2264,69 +2121,44 @@ $$a= \frac{(x_{1}−x_{2})[f(x_{0}) - f(x_{2})] - (x_{0}-x_{2})[f(x_{1}) - f(x_{
 
 $$a= \frac{(\frac{-1}{2}−0)[13.25 - 6] - (\frac{1}{2}-0)[3.25 - 6]}{(\frac{1}{2}−0)(\frac{-1}{2}−0)(\frac{1}{2}-\frac{-1}{2})}$$
 
-$$a= \frac{\frac{-1}{2}*7.25 - \frac{1}{2}*-2.75}{\frac{1}{2}*\frac{-1}{2}*1}$$
-$$a = 9$$
-Para el coeficiente b:
+$$a= \frac{\frac{-1}{2}*7.25 - \frac{1}{2}*-2.75}{\frac{1}{2}*\frac{-1}{2}*1}$$ $$a = 9$$ Para el coeficiente b:
 
-$$b = \frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})}$$
-$$b = \frac{(\frac{1}{2}−0)^{2}[3.25 - 6]- (\frac{-1}{2}−0)^{2}[13.25 - 6]}{(\frac{-1}{2}−0)(\frac{1}{2}−0)(\frac{1}{2}-\frac{-1}{2})}$$
-$$b = \frac{\frac{1}{4}*- 2.75- \frac{1}{4}*7.25}{\frac{-1}{2}*\frac{1}{2}*1}$$
-$$b = 10$$
+$$b = \frac{(x_{0}−x_{2})^{2}[f(x_{1}) - f(x_{2})]- (x_{1}−x_{2})^{2}[f(x_{0}) - f(x_{2})]}{(x_{1}−x_{2})(x_{0}−x_{2})(x_{0}-x_{1})}$$ $$b = \frac{(\frac{1}{2}−0)^{2}[3.25 - 6]- (\frac{-1}{2}−0)^{2}[13.25 - 6]}{(\frac{-1}{2}−0)(\frac{1}{2}−0)(\frac{1}{2}-\frac{-1}{2})}$$ $$b = \frac{\frac{1}{4}*- 2.75- \frac{1}{4}*7.25}{\frac{-1}{2}*\frac{1}{2}*1}$$ $$b = 10$$
 
-Para el coeficiente c:
-$$c = f(x_{2}) $$
-$$c= 6$$
-De esta manera, se ha encontrado que las constantes corresponden a: $a = 9$, $b=10$ y $c=6$. Seguidamente, haciendo uso de estos resultados se calcula la nueva aproximación $x_{3}$:
+Para el coeficiente c: $$c = f(x_{2}) $$ $$c= 6$$ De esta manera, se ha encontrado que las constantes corresponden a: $a = 9$, $b=10$ y $c=6$. Seguidamente, haciendo uso de estos resultados se calcula la nueva aproximación $x_{3}$:
 
-$$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$
-Seguidamente, se procede con la escogencia de la aproximación final en base al valor absoluto del denominador del segundo término. Para el primer denominador:
+$$x_{3} =x_{2} + \frac{-2c}{b\pm\sqrt{b^{2}-4ac}}$$ Seguidamente, se procede con la escogencia de la aproximación final en base al valor absoluto del denominador del segundo término. Para el primer denominador:
 
-$$\lvert b+\sqrt{b^{2}-4ac} \rvert =   \lvert 10+\sqrt{10^{2}-4*9*6} \rvert = \lvert 10+\sqrt{-116} \rvert = \lvert 10+2i\sqrt{29} \rvert$$
-Ahora, para un número complejo $z = a + bi$ se tiene que: 
+$$\lvert b+\sqrt{b^{2}-4ac} \rvert =   \lvert 10+\sqrt{10^{2}-4*9*6} \rvert = \lvert 10+\sqrt{-116} \rvert = \lvert 10+2i\sqrt{29} \rvert$$ Ahora, para un número complejo $z = a + bi$ se tiene que:
 
-$$\lvert z \rvert = \sqrt{a^{2} + b^{2}} $$
-Así: 
+$$\lvert z \rvert = \sqrt{a^{2} + b^{2}} $$ Así:
 
-$$\lvert b+\sqrt{b^{2}-4ac} \rvert = \lvert 10+2i\sqrt{29} \rvert = \sqrt{10^{2} + (2\sqrt{29})^{2}} = 6\sqrt{6} \approx 14.696938 $$
-Para el segundo denominador: 
+$$\lvert b+\sqrt{b^{2}-4ac} \rvert = \lvert 10+2i\sqrt{29} \rvert = \sqrt{10^{2} + (2\sqrt{29})^{2}} = 6\sqrt{6} \approx 14.696938 $$ Para el segundo denominador:
 
-$$\lvert b-\sqrt{b^{2}-4ac} \rvert =   \lvert 10-\sqrt{10^{2}-4*9*6} \rvert = \lvert 10-\sqrt{-116} \rvert = \lvert 10-2i\sqrt{29} \rvert$$
-Aplicando el mismo procedimiento, se llega a: 
+$$\lvert b-\sqrt{b^{2}-4ac} \rvert =   \lvert 10-\sqrt{10^{2}-4*9*6} \rvert = \lvert 10-\sqrt{-116} \rvert = \lvert 10-2i\sqrt{29} \rvert$$ Aplicando el mismo procedimiento, se llega a:
 
-$$\lvert b-\sqrt{b^{2}-4ac} \rvert = \lvert 10-2i\sqrt{29} \rvert = \sqrt{10^{2} + (-2\sqrt{29})^{2}} = 6\sqrt{6} \approx 14.696938$$
-Note que como ambos denomiandores poseen el mismo valor absoluto, se elige arbitrariamente la expresión de la suma. 
+$$\lvert b-\sqrt{b^{2}-4ac} \rvert = \lvert 10-2i\sqrt{29} \rvert = \sqrt{10^{2} + (-2\sqrt{29})^{2}} = 6\sqrt{6} \approx 14.696938$$ Note que como ambos denomiandores poseen el mismo valor absoluto, se elige arbitrariamente la expresión de la suma.
 
-En vista de lo anterior, la aproximación a la raíz en la primera iteración está dada por: 
+En vista de lo anterior, la aproximación a la raíz en la primera iteración está dada por:
 
 $$x_{3} =x_{2} + \frac{-2c}{b+\sqrt{b^{2}-4ac}}$$
 
+$$x_{3} = 0 + \frac{-2*6}{10+\sqrt{10^{2}-4*9*6}}$$ $$x_{3} = \frac{-12}{10+\sqrt{-116}}$$ A partir de lo anterior, note que la aproximación de la raíz es compleja: $$x_{3} = \frac{-12}{10+\sqrt{116 * i^{2}}}$$ $$x_{3} = \frac{-12}{10+ i\sqrt{116}}$$ $$x_{3} = \frac{-12}{10+ 2i\sqrt{29}}$$ Colocando la fracción en la calculadora se obtiene finalmente que:
 
-$$x_{3} = 0 + \frac{-2*6}{10+\sqrt{10^{2}-4*9*6}}$$
-$$x_{3} = \frac{-12}{10+\sqrt{-116}}$$
-A partir de lo anterior, note que la aproximación de la raíz es compleja: 
-$$x_{3} = \frac{-12}{10+\sqrt{116 * i^{2}}}$$
-$$x_{3} = \frac{-12}{10+ i\sqrt{116}}$$
-$$x_{3} = \frac{-12}{10+ 2i\sqrt{29}}$$
-Colocando la fracción en la calculadora se obtiene finalmente que:
-
-$$x_{3} = \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \approx -0.555556 + 0.598352i $$
-Por último, se calcula el error absoluto de la iteración: 
+$$x_{3} = \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \approx -0.555556 + 0.598352i $$ Por último, se calcula el error absoluto de la iteración:
 
 $$\lvert x_{3} - x_{2} \rvert = \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i - 0 \rvert = \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert$$
 
-Recuerde que para un número complejo $z = a + bi$ se tiene que: 
+Recuerde que para un número complejo $z = a + bi$ se tiene que:
 
-$$\lvert z \rvert = \sqrt{a^{2} + b^{2}} $$
-Así: 
-$$\lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert = \sqrt{(\frac{-5}{9})^{2} + (\frac{\sqrt{29}}{9})^{2}} = \frac{\sqrt{6}}{3}$$
-Por lo que: 
+$$\lvert z \rvert = \sqrt{a^{2} + b^{2}} $$ Así: $$\lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert = \sqrt{(\frac{-5}{9})^{2} + (\frac{\sqrt{29}}{9})^{2}} = \frac{\sqrt{6}}{3}$$ Por lo que:
 
 $$\lvert x_{3} - x_{2} \rvert =  \lvert \frac{-5}{9}+ \frac{\sqrt{29}}{9}i \rvert=\frac{\sqrt{6}}{3} \approx 0.816497$$
 
-### c) [MATLAB] Escriba una función en MATLAB con el método de Müller que describió en la parte (a).
+### c) \[MATLAB\] Escriba una función en MATLAB con el método de Müller que describió en la parte (a).
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado  `Ejercicio 15`. 
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 15`.
 
-### d) [MATLAB] Usando la función en MATLAB programada en (c), calcule la aproximación $x_{8}$ para el polinomio de la parte (b), junto con los errores absolutos $|xk − xk−1|$ de cada iteración. Su programa debe mostrar una tabla que contenga las aproximaciones en la primera columna y los errores en la segunda.
+### d) \[MATLAB\] Usando la función en MATLAB programada en (c), calcule la aproximación $x_{8}$ para el polinomio de la parte (b), junto con los errores absolutos $|xk − xk−1|$ de cada iteración. Su programa debe mostrar una tabla que contenga las aproximaciones en la primera columna y los errores en la segunda.
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `%% Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado  `Ejercicio 15`. 
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`.

@@ -83,11 +83,13 @@ end
 figure
 % Se grafican los errores bajo M1
 % Se grafica el numero de iteraciones en el eje x y los errores en el eje y
+% El gráfico se presenta con escala logaritmica en el eje y 
 semilogy(errores_M1(:,1), errores_M1(:,2), '-')
 % Para seguir dibujando sobre el mismo grafico
 hold on
 % Se grafican los errores bajo M2
 % Se grafica el numero de iteraciones en el eje x y los errores en el eje y
+% El gráfico se presenta con escala logaritmica en el eje y
 semilogy(errores_M2(:,1), errores_M2(:,2), '-')
 
 % Se añaden las etiquetas 
@@ -98,6 +100,16 @@ title('Errores absolutos por iteración bajo M1 y M2')
 legend('M1', 'M2')
 grid on
 hold off
+
+% Se ejecuta el metodo Gauss Seidel 
+iteMax_gauss = 500;
+disp('Resultados bajo el metodo Gauss Seidel')
+[aproximaciones_GS, errores_GS] = metodoGaussSeidel(A_2, b_2, x0_2, tol_2, iteMax_gauss);
+
+% Se muestran los resultados obtenidos con Gauss Seidel
+disp('Errores absolutos de cada iteracion GS:')
+disp(errores_GS)
+
 
 %% Ejercicio 4
 % Prueba de la funcion del ejercicio 4e Raiz_Cubica_21:
@@ -438,6 +450,48 @@ end
 x = xk;
 % Se agrega el numero de iteracion al vector de errores absolutos 
 res = [(0:k)', res];
+end
+
+% Funcion del metodo Gauss Seidel programada en clase
+
+function[GS,E] = metodoGaussSeidel(A,b,x,tol, iteMax)
+% Metodo para aproximar la solucion x de Ax = b
+% Entradas:       A ---- matriz del sistema n x n
+%                 b ---- vector de constanntes 
+%                 x ---- aproximacion inicial
+%               tol ---- tolerancia para detener el ciclo
+%            iteMax ---- numero maximo de iteraciones
+% Salidas:       GS ---- matriz con las aproximaciones 
+%                 E ---- vector columna con los errores absolutos 
+
+L_gauss = tril(A,-1); 
+D_gauss = diag(diag(A)); 
+U_gauss = triu(A,1);
+
+
+M_gauss = D_gauss + L_gauss;       
+N_gauss = -U_gauss;
+
+if norm(M_gauss\N_gauss, inf) >= 1 
+    disp('No se cumple la condicion de convergencia. El metodo podria no converger.')
+end
+GS = x; 
+er = norm(A*x - b);
+E = er;
+B = (M_gauss\N_gauss);
+c = (M_gauss\b);
+ite = 0;
+while (er > tol && ite < iteMax)
+    x = B*x + c;
+    er = norm(A*x - b);
+    GS = [GS,x];
+    E = [E;er]; 
+    ite = ite + 1;
+end
+
+if er > tol
+    disp('Se alcanzo el numero maximo de iteraciones sin cumplir la tolerancia.');
+end
 end
 
 %% Ejercicio 4
