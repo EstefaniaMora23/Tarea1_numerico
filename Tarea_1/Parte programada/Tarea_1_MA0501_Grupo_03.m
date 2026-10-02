@@ -24,6 +24,66 @@
 f_1 = @(x) exp(x) -2*x - 1; % funcion para el metodo
 disp('Resultado del ejercicio 1:')
 Division_Multiples_Secciones(f_1, 1, 2, 10, 10^-10)
+%% Ejercicio 2
+% Prueba de la funcion del ejercicio 2 metodo_gradiente_conjugado. 
+
+%Se define la matriz A_2, a partir del archivo descargado 
+load('bcsstk06.mat');
+A_2 = Problem.A;
+
+% Se definen las variables solicitadas 
+b_2 = A_2 * (1 : length(A_2))';
+D_2 = diag(diag(A_2));
+L_2 = tril(A_2,-1);
+U_2 = triu(A_2,1);
+M1_2 = D_2;
+M2_2 = (D_2 + L_2) * (D_2 \ (D_2 + U_2));
+x0_2 = zeros(length(A_2),1);
+tol_2 = 10^-6;
+
+% Se ejecuta la funcion con M1
+[x_M1, errores_M1] = metodo_gradiente_conjugado(A_2, b_2, x0_2, M1_2, tol_2);
+% Se muestran los resultados obtenidos con M1
+disp('Resultado del ejercicio 2 con la matriz M1:')
+% Se busca corregir el formato para que la solucion se imprima 
+% de manera agradable
+fprintf('Aproximacion de la solucion:\n');
+for i = 1:length(x_M1)
+    fprintf('x(%d) = %.10e\n', i, x_M1(i));
+end
+
+disp('Errores absolutos de cada iteracion:')
+fprintf('Iteracion     Error absoluto\n');
+% Se busca corregir el formato para que el numero de iteracion se imprima 
+% de manera agradable
+for i = 1:size(errores_M1,1)
+    fprintf('%5d        %.10e\n', errores_M1(i,1), errores_M1(i,2));
+end
+
+% Se ejecuta la funcion con M2
+[x_M2, errores_M2] = metodo_gradiente_conjugado(A_2, b_2, x0_2, M2_2, tol_2);
+% Se muestran los resultados obtenidos con M2
+disp('Resultado del ejercicio 2 con la matriz M2:')
+% Se busca corregir el formato para que la solucion se imprima 
+% de manera agradable
+fprintf('Aproximacion de la solucion:\n');
+for i = 1:length(x_M2)
+    fprintf('x(%d) = %.10e\n', i, x_M2(i));
+end
+
+disp('Errores absolutos de cada iteracion:')
+fprintf('Iteracion     Error absoluto\n');
+% Se busca corregir el formato para que el numero de iteracion se imprima 
+% de manera agradable
+for i = 1:size(errores_M2,1)
+    fprintf('%5d        %.10e\n', errores_M2(i,1), errores_M2(i,2));
+end
+
+
+
+
+
+
 
 %% Ejercicio 4
 % Prueba de la funcion del ejercicio 4e Raiz_Cubica_21:
@@ -302,6 +362,69 @@ while (er > tol)
 end
 end
 
+%% Ejercicio 2
+
+%Metodo iterativo de gradiente conjugado con precondicionador 
+
+function[x, res] = metodo_gradiente_conjugado(A, b, x0, M, tol)
+% Funcion para aproximar la solucion de Ax = b con el metodo de la
+% gradiente conjugado 
+
+% Entradas:         A --- matriz en R^{nxn}, simetrica y definida positiva 
+%                   b --- vector de constantes en R^{n}
+%                  x0 --- aproximacion inicial
+%                   M --- matriz que precondiciona el sistema
+%                 tol --- tolerancia para detener el programa 
+% Salidas:          x --- aproximacion final de la solucion del sistema 
+%                 res --- vector columna de los errores absolutos  (∥b − Axk∥) 
+%                         en cada iteracion
+
+% Se revisa la simetria y la definicion positiva 
+simetria = issymmetric(A);
+if simetria == 0
+    error("La matriz ingresada no es simetrica")
+end 
+
+valores_propios = eig(A);
+if ~all(valores_propios > 0)
+    error("La matriz ingresada no es definida positiva")
+end
+
+% Se definen las variables 
+
+xk = x0;
+rk = b - A*x0;
+zk = M \ rk;
+pk = zk;
+alpha_k = 1;
+k = 0;
+
+% Se guarda el error inicial 
+res = norm(rk);
+
+while norm(alpha_k * pk) >= tol
+    alpha_k = (rk' * zk) / (pk' * A * pk);
+    x_k_mas_1 =  xk + alpha_k * pk;
+    r_k_mas_1 = rk - (alpha_k * A * pk);
+    z_k_mas_1 = M  \  r_k_mas_1;
+    beta_k = (z_k_mas_1' *  r_k_mas_1) / (zk' * rk);
+    p_k_mas_1 = z_k_mas_1 + (beta_k * pk);
+    k = k + 1;
+
+    % Tras aumentar el k, se redefinen las variables
+    xk = x_k_mas_1;
+    rk = r_k_mas_1;
+    zk = z_k_mas_1;
+    pk = p_k_mas_1;
+
+    % Se guarda el error absoluto de la iteracion
+    res = [res; norm(b - A * xk)];
+end
+% Se define la aproximacion final a retornar 
+x = xk;
+% Se agrega el numero de iteracion al vector de errores absolutos 
+res = [(0:k)', res];
+end
 
 %% Ejercicio 4
 
