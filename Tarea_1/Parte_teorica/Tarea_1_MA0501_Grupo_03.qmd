@@ -1255,9 +1255,21 @@ $$
 
 ### a) Sea $f\in C^3([a,b])$ tal que $f(c)=0$, donde $c$ es un cero simple. Demuestre que existe $\delta>0$ tal que si $x_0\in(c-\delta,c+\delta)$, entonces $x_k$ converge a $c$. ¿Qué hipótesis adicionales se necesitan?
 
+Primero, note que la iteración de Halley se puede escribir como una iteración de punto fijo $x_{k+1}=\varphi(x_k)$. Al definir
+$$
+N:=2ff',\qquad D:=2f'^2-ff'',\qquad \varphi(x):=x-\frac{N(x)}{D(x)},
+$$
+se tiene que
+$$
+\frac{f}{f'}\left(1-\frac{f}{f'}\cdot\frac{f''}{2f'}\right)^{-1}
+=\frac{f}{f'}\cdot\frac{2f'^2}{2f'^2-ff''}
+=\frac{2ff'}{D}=\frac{N}{D},
+$$
+por lo que la sucesión del enunciado cumple $x_{k+1}=\varphi(x_k)$.
+
 Suponga que $c\in(a,b)$ y que $f'(c)\neq0$. Como $f\in C^3$, se tiene que $f,f',f''\in C^1$, por lo que $f'$ y $D$ son continuas. Además, $D(c)=2f'(c)^2-0=2f'(c)^2>0$ y $f'(c)\neq0$. Por continuidad existe $h>0$ con $[c-h,c+h]\subset[a,b]$ tal que $f'(x)\neq0$ y $D(x)>0$ para todo $x\in[c-h,c+h]$. En ese intervalo $\varphi$ está bien definida y es de clase $C^1$, pues $N\in C^2$, $D\in C^1$ y $D\neq0$.
 
-Como $f(c)=0$, se tiene $N(c)=0$ y por lo tanto $\varphi(c)=c$, es decir, $c$ es un punto fijo de $\varphi$. Para estudiar $\varphi'$ se deriva $N$ y $D$:
+Como $f(c)=0$, se tiene $N(c)=0$ y por lo tanto $\varphi(c)=c$, es decir, $c$ es un punto fijo de $\varphi$. Para estudiar $\varphi'$ se derivan $N$ y $D$:
 
 $$
 N'=2f'^2+2ff'',\qquad D'=4f'f''-\left(f'f''+ff'''\right)=3f'f''-ff''',
@@ -1281,7 +1293,7 @@ $$
 |\varphi'(x)|<\tfrac12=:L<1\qquad\text{para todo }x\in I_\delta=[c-\delta,c+\delta].
 $$
 
-Verifique que $\varphi$ aplica $I_\delta$ en sí mismo. Si $x\in I_\delta$, por el Teorema del Valor Medio existe $\xi$ entre $x$ y $c$ (por lo que $\xi\in I_\delta$) tal que
+Se verifica ahora que $\varphi$ aplica $I_\delta$ en sí mismo. Si $x\in I_\delta$, por el Teorema del Valor Medio existe $\xi$ entre $x$ y $c$ (por lo que $\xi\in I_\delta$) tal que
 
 $$
 |\varphi(x)-c|=|\varphi(x)-\varphi(c)|=|\varphi'(\xi)||x-c|\leq\tfrac12|x-c|\leq\delta,
@@ -1297,7 +1309,7 @@ $$
 
 Como $\left(\tfrac12\right)^k|x_0-c|\to0$ cuando $k\to\infty$, se concluye que $x_k\to c$ para todo $x_0\in(c-\delta,c+\delta)$. Esto es consistente con el Teorema del Punto Fijo, cuyas hipótesis se cumplen en $I_\delta$ ($\varphi$ continua, $\varphi(I_\delta)\subset I_\delta$ y $|\varphi'|\leq L<1$), y que además asegura que $c$ es el único punto fijo de $\varphi$ en $I_\delta$.
 
-Respecto a las hipótesis adicionales, además de $f\in C^3$ y $f(c)=0$ no se necesita nada más que lo siguiente: $c$ debe ser un punto interior de $[a,b]$, $f'(c)\neq0$ y $x_0$ debe estar en un entorno de $c$. Las condiciones $f'(x)\neq0$ y $D(x)\neq0$ no se piden en todo $[a,b]$, pues se cumplen automáticamente en un entorno de $c$ por continuidad. El resultado es solo local: $\delta$ existe pero no se da explícitamente, y para $x_0$ lejos de $c$ el denominador $D(x_k)$ puede anularse y la iteración indefinirse.
+Respecto a las hipótesis adicionales, además de $f\in C^3$ y $f(c)=0$ solo se requiere que $c$ sea un punto interior de $[a,b]$, que $f'(c)\neq0$ (es decir, que $c$ sea un cero simple) y que $x_0$ esté en un entorno de $c$. Las condiciones $f'(x)\neq0$ y $D(x)\neq0$ no se piden en todo $[a,b]$, pues se cumplen automáticamente en un entorno de $c$ por continuidad. El resultado es solo local: $\delta$ existe pero no se da explícitamente, y para $x_0$ lejos de $c$ el denominador $D(x_k)$ puede anularse y la iteración indefinirse.
 
 ### b) Sea $f\in C^3([a,b])$ tal que $f(c)=0$, donde $c$ es un cero simple. Demuestre que la velocidad de convergencia es cúbica.
 
@@ -1307,7 +1319,7 @@ $$
 \alpha=f'(c)\neq0,\qquad\beta=f''(c),\qquad\gamma=f'''(c).
 $$
 
-Por el inciso a), si $x_0\in I_\delta$ entonces $e_k\to0$; suponga $e_k\neq0$ para todo $k$. Escriba $e=e_k$. Como $f\in C^3$, el desarrollo de Taylor alrededor de $c$ (usando $f(c)=0$) da
+Por el inciso a), si $x_0\in I_\delta$ entonces $e_k\to0$; suponga $e_k\neq0$ para todo $k$. Se escribe $e=e_k$. Como $f\in C^3$, el desarrollo de Taylor alrededor de $c$ (usando $f(c)=0$) da
 
 $$
 \begin{aligned}
@@ -1323,7 +1335,7 @@ $$
 e_{k+1}=e-\frac{2ff'}{D}=\frac{eD-2ff'}{D},\qquad D=2f'^2-ff''.
 $$
 
-Calcule cada término hasta el orden necesario:
+Se calcula cada término hasta el orden necesario:
 
 $$
 f'^2=\alpha^2+2\alpha\beta e+(\beta^2+\alpha\gamma)e^2+o(e^2),\qquad
@@ -1359,7 +1371,7 @@ $$
 =\left|\left(\frac{f''(c)}{2f'(c)}\right)^2-\frac{f'''(c)}{6f'(c)}\right|=:|C|.
 $$
 
-El límite existe y es finito, por lo que la sucesión converge con orden $q=3$ y $|e_{k+1}|\approx|C||e_k|^3$: la convergencia es cúbica. Si $C\neq0$ el orden es exactamente $3$; si $C=0$ la convergencia es de orden mayor a $3$.
+El límite existe y es finito, por lo que la sucesión converge con orden $q=3$ y $|e_{k+1}|\approx|C||e_k|^3$: la convergencia es cúbica. Si $C\neq0$ el orden es exactamente $3$; si $C=0$ la convergencia es de orden mayor a $3$. 
 
 ### c) [MATLAB] Escriba una función `suc = iter(f,x0,tol)` en MATLAB que calcule la sucesión definida anteriormente, donde las entradas son la función $f$, el valor inicial $x_0$ y cierta tolerancia `tol`. Por simplicidad en la implementación, asuma que $f$ es un polinomio, por lo que al calcular sus derivadas podemos hacerlo de manera exacta (a precisión de la máquina).
 
@@ -2126,6 +2138,89 @@ $$
 ### f)\[MATLAB\] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
 
 La resolución del ejercicio se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección *Funciones*, Ejercicio 12, inciso f.
+
+## Ejercicio 13
+
+### a) Demuestre que calcular el producto interno $x^Ty$ es estable hacia atrás.
+
+Sean $x,y\in\mathbb{C}^m$ y considere el problema $f:\mathbb{C}^m\times\mathbb{C}^m\to\mathbb{C}$, $f(x,y)=x^Ty=\sum_{i=1}^{m}x_iy_i$, cuyo algoritmo $\tilde f$ redondea los datos, calcula los productos $x_iy_i$ en punto flotante y luego los suma en orden. Por la definición de algoritmo estable hacia atrás, se deben encontrar $\tilde x,\tilde y$ tales que
+$$
+\tilde f(x,y)=f(\tilde x,\tilde y)
+\qquad\text{y}\qquad
+\frac{\|(\tilde x,\tilde y)-(x,y)\|}{\|(x,y)\|}=O(\epsilon_M).
+$$
+Para ello, se utilizan únicamente los dos axiomas de la aritmética en punto flotante: para cada número real existe $\epsilon$ con $|\epsilon|\leq\epsilon_M$ tal que $\mathrm{fl}(x)=x(1+\epsilon)$, y para $x,y\in\mathbb{F}$ se cumple $x\circledast y=(x*y)(1+\epsilon)$ con $|\epsilon|\leq\epsilon_M$. Por el primer axioma, el redondeo de los datos da $\mathrm{fl}(x_i)=x_i(1+\epsilon_i)$ y $\mathrm{fl}(y_i)=y_i(1+\eta_i)$, con $|\epsilon_i|,|\eta_i|\leq\epsilon_M$. Luego, por el axioma fundamental, cada producto calculado es
+$$
+p_i=\mathrm{fl}(x_i)\otimes\mathrm{fl}(y_i)
+=x_iy_i(1+\epsilon_i)(1+\eta_i)(1+\delta_i),\qquad |\delta_i|\leq\epsilon_M,
+$$
+y las sumas se calculan como $s_1=p_1$ y $s_k=s_{k-1}\oplus p_k=(s_{k-1}+p_k)(1+\sigma_k)$, con $|\sigma_k|\leq\epsilon_M$ para $k=2,\dots,m$. Al desarrollar esta recursión, el resultado final $\tilde f(x,y)=s_m$ es
+$$
+\tilde f(x,y)
+=\sum_{i=1}^{m}p_i\prod_{k=\max(i,2)}^{m}(1+\sigma_k)
+=\sum_{i=1}^{m}x_iy_i\,(1+\epsilon_i)(1+\eta_i)(1+\delta_i)\prod_{k=\max(i,2)}^{m}(1+\sigma_k).
+$$
+Se definen entonces los datos perturbados $\tilde y_i:=y_i$ y $\tilde x_i:=x_i(1+\theta_i)$, donde $1+\theta_i:=(1+\epsilon_i)(1+\eta_i)(1+\delta_i)\prod_{k=\max(i,2)}^{m}(1+\sigma_k)$, con lo cual se obtiene exactamente
+$$
+\tilde f(x,y)=\sum_{i=1}^{m}\tilde x_i\tilde y_i=\tilde x^T\tilde y=f(\tilde x,\tilde y).
+$$
+Resta mostrar que la perturbación es pequeña. Note que en cada $1+\theta_i$ aparecen a lo más $m+2$ factores de la forma $(1+\varepsilon)$ con $|\varepsilon|\leq\epsilon_M$ (tres provenientes del redondeo de los datos y del producto, y a lo más $m-1$ de las sumas), por lo que
+$$
+|\theta_i|\leq(1+\epsilon_M)^{m+2}-1=(m+2)\epsilon_M+O(\epsilon_M^2)=O(\epsilon_M),
+$$
+donde la constante depende de $m$ pero no de $x$ ni de $y$. En consecuencia,
+
+$$
+\|\tilde x-x\|_2^2=\sum_{i=1}^{m}|x_i\theta_i|^2\leq\left(\max_i|\theta_i|\right)^2\|x\|_2^2
+\;\Longrightarrow\;
+\frac{\|\tilde x-x\|_2}{\|x\|_2}\leq\max_i|\theta_i|=O(\epsilon_M),
+$$
+y como además $\tilde y-y=0$, se concluye que $\tilde f(x,y)=f(\tilde x,\tilde y)$ con datos cuya perturbación relativa es $O(\epsilon_M)$. Es decir, el cálculo del producto interno en punto flotante produce la respuesta exacta a un problema con datos ligeramente perturbados, por lo que es estable hacia atrás. En particular, por el Teorema visto en clase, su error relativo es $O(\kappa(x)\epsilon_M)$.
+
+### b) [MATLAB] Efectos del factor de crecimiento.
+
+#### b.1) Escriba una función que reciba como entrada $m\in\mathbb{N}$ y devuelva la matriz $A\in\mathbb{R}^{m\times m}$.
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 13`, función `matriz_factor_crecimiento`.
+
+#### b.2) Para $m=50$ calcule el factor de crecimiento de $A$ y la norma $\|A-LU\|_2$. Comente sobre los resultados.
+
+Se aplicó la factorización LU con pivoteo parcial de MATLAB, `[L,U,P] = lu(A)`, a la matriz con $m=50$ (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 13, inciso b.2). Se utilizó el factor de crecimiento definido en la materia del curso,
+$$
+\rho(A)=\frac{\max|u_{ij}|}{\max|a_{ij}|}.
+$$
+Los resultados obtenidos son
+$$
+\rho(A)=2^{49}\approx5.6295\times10^{14},
+\qquad
+\|A-LU\|_2=0.
+$$
+
+Para comentar estos resultados, note que en cada columna $k$ la entrada diagonal vale $1$ y las entradas inferiores valen $-1$, por lo que todas tienen el mismo valor absoluto. Así, el pivoteo parcial no realiza intercambios de filas ($P=I$, por eso $\|A-LU\|_2=\|PA-LU\|_2$). Los multiplicadores son $\ell_{j,k}=-1$ y, en cada paso, la última columna se duplica, de modo que $u_{k,m}=2^{k-1}$ y $\max|u_{ij}|=2^{m-1}$, mientras que $\max|a_{ij}|=1$. Por lo tanto, $\rho(A)=2^{m-1}$ crece exponencialmente con $m$. Todos estos valores son potencias de $2$ y enteros menores que $2^{53}$, por lo que se representan y calculan sin error de redondeo, lo que explica que $\|A-LU\|_2=0$ exactamente.
+
+Esto no contradice la estabilidad hacia atrás: aunque $A-LU$ sea nula, el teorema visto en clase sobre la estabilidad de la eliminación gaussiana con pivoteo parcial garantiza únicamente que la solución calculada $\tilde x$ cumple $(A+\delta A)\tilde x=b$ con
+
+$$
+\frac{\|\delta A\|}{\|A\|}\leq\varphi(m)\,\rho(A)\,\epsilon_M .
+$$
+
+Para $m=50$ se tiene $\rho(A)\epsilon_M\approx2^{49}\cdot2^{-53}=2^{-4}=0.0625$, así que la cota deja de ser pequeña. Es decir, la eliminación gaussiana con pivoteo parcial es estable cuando el factor de crecimiento es moderado, pero esta matriz es un caso en el que $\rho$ es tan grande que la garantía se pierde.
+
+#### b.3) Resuelva $Ax_{apr}=b$ mediante las factorizaciones LU y QR para $m=10:60$ y grafique $\|x_{exacta}-x_{apr}\|_2$ en función de $m$.
+
+Para cada $m=10,\dots,60$ se definió `xExact = rand(m,1)` y $b=A\,x_{exacta}$. Luego, el sistema se resolvió con `[L,U,P] = lu(A)` (resolviendo $Ly=Pb$ y $Ux=y$) y con `[Q,R] = qr(A)` (resolviendo $Rx=Q^Tb$ por sustitución hacia atrás), como se vio en clase (véase en el archivo `Tarea_1_MA0501_Grupo_03.m`, sección de *Solución de incisos: cálculos a partir de las funciones creadas*, Ejercicio 13, inciso b.3). La gráfica obtenida es
+
+![Error de las factorizaciones LU y QR en función de $m$](grafico_13b3.png){width=60%}
+
+Se observa que el error de la factorización QR se mantiene en el orden de $10^{-15}$ a $10^{-14}$ para todo $m$, mientras que el error de la factorización LU crece de manera aproximadamente exponencial: pasa de un orden de $10^{-14}$ para $m=10$ a un orden de $1$ (o mayor) para $m=60$, es decir, la solución obtenida con LU deja de tener cifras correctas. (Como `xExact` es aleatorio, los valores exactos cambian en cada ejecución, pero la tendencia es la misma.)
+
+Este comportamiento se justifica con lo visto en el inciso anterior y con la teoría de estabilidad:
+
+Según el teorema visto en clase sobre la precisión de un algoritmo estable hacia atrás, el error es $O(\kappa(A)\epsilon_M)$. El número de condición de $A$ es pequeño (con $\kappa_2(A)\approx22.3$ para $m=50$ y $\kappa_2(A)\approx26.8$ para $m=60$), por lo que el problema está bien condicionado y un error grande no puede atribuirse al problema.
+
+El error grande de LU se debe entonces al algoritmo: según el teorema de estabilidad de la eliminación gaussiana con pivoteo parcial, el error depende de $\varphi(m)\,\rho(A)\,\epsilon_M$, y aquí $\rho(A)=2^{m-1}$. Cuando $m$ crece, $\rho(A)\epsilon_M$ pasa de ser despreciable a ser del orden de $1$ (aproximadamente cuando $m\approx 54$), y por eso el error crece exponencialmente con $m$.
+
+La factorización QR con transformaciones de Householder usa matrices ortogonales, que conservan la norma-2 ($\|QA\|_2=\|A\|_2$), de modo que no hay un factor de crecimiento que amplifique los errores de redondeo. Por eso su error se mantiene del orden de $\kappa(A)\epsilon_M$ (muy pequeño) para todos los valores de $m$.
 
 ## Ejercicio 14
 
