@@ -2216,11 +2216,11 @@ Se observa que el error de la factorización QR se mantiene en el orden de $10^{
 
 Este comportamiento se justifica con lo visto en el inciso anterior y con la teoría de estabilidad:
 
-Según el teorema visto en clase sobre la precisión de un algoritmo estable hacia atrás, el error es $O(\kappa(A)\epsilon_M)$. El número de condición de $A$ es pequeño (con $\kappa_2(A)\approx22.3$ para $m=50$ y $\kappa_2(A)\approx26.8$ para $m=60$), por lo que el problema está bien condicionado y un error grande no puede atribuirse al problema.
+Según el teorema visto en clase sobre la precisión de un algoritmo estable hacia atrás, si un algoritmo es estable hacia atrás, su error relativo es $O(\kappa(A)\epsilon_M)$. El número de condición de $A$ es pequeño (con $\kappa_2(A)\approx22.3$ para $m=50$ y $\kappa_2(A)\approx26.8$ para $m=60$), por lo que el problema está bien condicionado y un error grande no puede atribuirse al problema.
 
 El error grande de LU se debe entonces al algoritmo: según el teorema de estabilidad de la eliminación gaussiana con pivoteo parcial, el error depende de $\varphi(m)\,\rho(A)\,\epsilon_M$, y aquí $\rho(A)=2^{m-1}$. Cuando $m$ crece, $\rho(A)\epsilon_M$ pasa de ser despreciable a ser del orden de $1$ (aproximadamente cuando $m\approx 54$), y por eso el error crece exponencialmente con $m$.
 
-La factorización QR con transformaciones de Householder usa matrices ortogonales, que conservan la norma-2 ($\|QA\|_2=\|A\|_2$), de modo que no hay un factor de crecimiento que amplifique los errores de redondeo. Por eso su error se mantiene del orden de $\kappa(A)\epsilon_M$ (muy pequeño) para todos los valores de $m$.
+La factorización QR con transformaciones de Householder usa matrices ortogonales, que conservan la norma-2 ($\|QA\|_2=\|A\|_2$) y cuyo número de condición es $\kappa_2(Q)=1$. Por esta razón, estas transformaciones no amplifican el tamaño de las entradas: a diferencia de LU, aquí no aparece un factor de crecimiento $\rho(A)$ que haga crecer el error. Si se supone que el algoritmo es estable hacia atrás, como lo son muchos algoritmos de Álgebra Lineal Numérica, el teorema sobre la precisión de un algoritmo estable hacia atrás asegura un error relativo $O(\kappa(A)\epsilon_M)$, que para estos valores de $\kappa_2(A)$ es muy pequeño. Esto es consistente con lo observado en la gráfica, donde el error de QR se mantiene en el orden de $10^{-15}$ a $10^{-14}$ para todo $m$.
 
 ## Ejercicio 14
 
