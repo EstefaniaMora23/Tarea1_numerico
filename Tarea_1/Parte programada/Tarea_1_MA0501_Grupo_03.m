@@ -344,7 +344,58 @@ disp('Resultado del ejercicio 11 c:')
 % La funcion solicitada se encuentra en el apartado de funciones, situado 
 % mas abajo en este documento.
 
+%% Ejercicio 13
 
+% Inciso b.2
+m_13 = 50;
+A_13 = matriz_factor_crecimiento(m_13);
+[L_13,U_13,P_13] = lu(A_13);                       % factorizacion PA = LU con pivoteo parcial
+rho_13 = max(abs(U_13(:))) / max(abs(A_13(:)));    % factor de crecimiento
+norma_13 = norm(A_13 - L_13*U_13, 2);              % como P = I, A - LU = PA - LU
+
+disp('Resultado del ejercicio 13, inciso b.2:')
+disp('Factor de crecimiento rho(A) para m = 50:');
+disp(rho_13);
+disp('Comparacion con 2^(m-1):');
+disp(2^(m_13-1));
+disp('Norma 2 de A - LU:');
+disp(norma_13);
+
+% Inciso b.3
+m_vec_13 = 10:60;
+err_LU_13 = zeros(size(m_vec_13));
+err_QR_13 = zeros(size(m_vec_13));
+
+rng(1);   % semilla fija para que el grafico sea reproducible
+warning('off', 'MATLAB:nearlySingularMatrix');
+for j_13 = 1:length(m_vec_13)
+    mj_13 = m_vec_13(j_13);
+    Aj_13 = matriz_factor_crecimiento(mj_13);
+    xExact_13 = rand(mj_13,1);
+    bj_13 = Aj_13 * xExact_13;
+
+    % Solucion mediante factorizacion LU: PA = LU, LUx = Pb
+    [Lj_13,Uj_13,Pj_13] = lu(Aj_13);
+    y_13 = Lj_13 \ (Pj_13*bj_13);
+    xLU_13 = Uj_13 \ y_13;
+
+    % Solucion mediante factorizacion QR: A = QR, Rx = Q'b
+    [Qj_13,Rj_13] = qr(Aj_13);
+    xQR_13 = Rj_13 \ (Qj_13'*bj_13);
+
+    err_LU_13(j_13) = norm(xExact_13 - xLU_13, 2);
+    err_QR_13(j_13) = norm(xExact_13 - xQR_13, 2);
+end
+warning('on', 'MATLAB:nearlySingularMatrix');   
+
+figure;
+semilogy(m_vec_13, err_LU_13, '-o', 'LineWidth', 1.5); hold on;
+semilogy(m_vec_13, err_QR_13, '-s', 'LineWidth', 1.5);
+xlabel('m');
+ylabel('Error ||x_{exacta} - x_{aprox}||_2');
+title('Ejercicio 13 b.3: error de LU y QR en funcion de m');
+legend('Factorizacion LU','Factorizacion QR','Location','northwest');
+grid on;
 
 %% Ejercicio 15
 
@@ -819,6 +870,24 @@ while er > tol && cont < iteMax
 end
 end
 
+%% Ejercicio 13
+
+% Inciso b.1
+
+function[A] = matriz_factor_crecimiento(m)
+% Funcion para construir la matriz A de tamano mxm con unos en la diagonal
+% y en la ultima columna, y -1 debajo de la diagonal.
+% Entradas:   m --- numero natural, tamano de la matriz
+% Salidas:    A --- matriz mxm descrita anteriormente
+
+if (~isscalar(m) || ~isnumeric(m) || m < 1 || m ~= floor(m))
+    error("m debe ser un numero natural")
+end
+
+A = eye(m) - tril(ones(m),-1); % unos en la diagonal y -1 debajo de ella
+A(:,m) = 1;                    % ultima columna de unos
+
+end
 %% Ejercicio 15
 
 % Inciso c
