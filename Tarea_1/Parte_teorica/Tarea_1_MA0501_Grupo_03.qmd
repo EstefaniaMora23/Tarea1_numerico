@@ -48,7 +48,7 @@ Primero, es importante recordar que la condición de parada del método iterativ
 
 ### ¿Qué sucede al utilizar el método de Gauss-Seidel programado en clase con $x_{0} = 0, tol = 10^{−6}$ y compararlo con lo anterior? Comente.
 
-Tras utilizar el método de Gauss-Seidel programado en clase, inicialmente se encontró que al no existir un número máximo de iteraciones, el programa continuaba ejecutándose sin brindar alguna respuesta. En vista de lo anterior, se modificó la función de manera que se integrara un número máximo de repeticiones, además, si se llega a la cantidad máxima sin cumplir la condición de la tolerancia, se avisa al usuario de dicha situación. Durante la prueba del método, se emplearon distintos números de iteraciones máximas, sin embargo en todos los escenarios se obtuvo el mismo resultado: no se cumplió la condición de la tolerancia. A continuación se presenta el respaldo de lo expuesto antes:
+Tras utilizar el método de Gauss-Seidel programado en clase, inicialmente se encontró que al no existir un número máximo de iteraciones, el programa continuaba ejecutándose sin brindar respuesta alguna. En vista de lo anterior, se modificó la función de manera que se integrara un número máximo de repeticiones, además, en el escenario en el que se llegue a la cantidad máxima sin cumplir la condición de la tolerancia, se avisa al usuario de dicha situación. Durante la prueba del método, se emplearon distintos números de iteraciones máximas, sin embargo en todos los escenarios se obtuvo el mismo resultado: no se cumplió la condición de la tolerancia. A continuación se presenta el respaldo de lo expuesto antes:
 
 ![](images/clipboard-2203765831.png){fig-align="center"}
 
