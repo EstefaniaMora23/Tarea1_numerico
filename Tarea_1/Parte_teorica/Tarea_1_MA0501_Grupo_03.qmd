@@ -2091,25 +2091,35 @@ $$
 
 ### e) Escriba el Algoritmo del método de Newton descrito en el ejercicio.
 
--   **Entradas:** $F:\mathbb{R}^n\to\mathbb{R}^n$ continuamente diferenciable, su matriz Jacobiana $J$, el vector inicial $x_0\in\mathbb{R}^n$, la tolerancia $tol>0$ y el número máximo de iteraciones $iteMax$.
+- **Entradas:** el vector de expresiones simbolicas $F_s$, el vector de variables simbolicas $v=(v_1,\ldots,v_n)^T$, el vector inicial $x_0\in\mathbb{R}^n$, la tolerancia $tol>0$ y el numero maximo de iteraciones $iteMax$.
 
--   **Salidas:** $k$, número de iteraciones realizadas, y $x$, aproximación obtenida para la solución de $F(x)=0$.
+- **Salidas:** la matriz $M$, cuyas primeras $n$ columnas contienen las aproximaciones y cuya ultima columna contiene la norma del cambio entre aproximaciones. La primera fila corresponde al vector inicial.
 
 Pasos a seguir:
 
 $$
 \begin{array}{l}
-k\leftarrow 0,\qquad x\leftarrow x_0,\qquad err\leftarrow tol+1.
+(J_s)_{ij}\leftarrow \texttt{diff}((F_s)_i,v_j),
+\qquad i,j=1,\ldots,n.
+\\[6pt]
+F\leftarrow \texttt{matlabFunction}(F_s,\texttt{`Vars'},\{v\})
+\\[6pt]
+J\leftarrow \texttt{matlabFunction}(J_s,\texttt{`Vars'},\{v\})
 \\[8pt]
-\text{Mientras } err\ge tol \text{ y } k<iteMax \text{ hacer:}
+k\leftarrow 0,\qquad x\leftarrow x_0,\qquad err\leftarrow tol+1
+\\[6pt]
+M_{1,:}\leftarrow (x^T,\infty)
+\\[8pt]
+\text{Mientras } err>tol \text{ y } k<iteMax \text{ hacer:}
 \\[6pt]
 \quad t\leftarrow x
 \\[6pt]
 \quad A\leftarrow J(x)
 \\[6pt]
-\quad \text{Si } A \text{ es singular:}
+\quad \text{Si } \operatorname{rcond}(A)<\texttt{eps}:
 \\[6pt]
-\qquad \text{Mostrar un mensaje de error y detener el algoritmo.}
+\qquad \text{Mostrar una advertencia, devolver } M
+\text{ y detener el algoritmo.}
 \\[6pt]
 \quad \text{end}
 \\[6pt]
@@ -2121,21 +2131,15 @@ k\leftarrow 0,\qquad x\leftarrow x_0,\qquad err\leftarrow tol+1.
 \\[6pt]
 \quad k\leftarrow k+1
 \\[6pt]
-\text{end}
-\\[8pt]
-\text{Si } err\ge tol:
-\\[6pt]
-\quad \text{Indicar que se alcanzó el máximo de iteraciones}
-\\
-\quad \text{sin cumplir la tolerancia.}
+\quad M_{k+1,:}\leftarrow (x^T,err)
 \\[6pt]
 \text{end}
 \\[8pt]
-\text{Devolver } k \text{ y } x.
+\text{Devolver } M.
 \end{array}
 $$
 
-### f)\[MATLAB\] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
+### f)[MATLAB] Escriba una función de MATLAB que resuelva sistemas no lineales usando el método de Newton.
 
 La resolución del ejercicio se encuentra en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección *Funciones*, Ejercicio 12, inciso f.
 
