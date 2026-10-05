@@ -831,43 +831,65 @@ end
 % Inciso a
 
 % Metodo de Newton para ecuaciones no lineales
+% Aqui, es necesario hacer una aclaracion. Se utiliza calculo simbolico para obtener automaticamente 
+% las derivadas que forman la matriz jacobiana. Luego, mediante matlabFunction, se convierten el sistema y 
+% su jacobiano en funciones numericas para evaluarlos en cada iteracion. Asi, no es necesario que el usuario 
+% proporcione el jacobiano como entrada.
 
-function[M] = metodoNewtonSistemas(F,J,x,tol,iteMax)
+function[M] = metodoNewtonSistemas(F,variables,x0,tol,iteMax)
 % Funcion para aproximar la solucion de F(x) = 0 usando Newton.
-% Entradas:       F --- funcion que devuelve el vector de ecuaciones
-%                 J --- funcion que devuelve la matriz jacobiana
-%                 x --- vector de aproximacion inicial
-%               tol --- tolerancia para el cambio entre aproximaciones
-%            iteMax --- numero maximo de filas de M, incluida la inicial
-% Salidas:        M --- primeras n columnas: componentes de x
-%                       ultima columna: norma del cambio entre aproximaciones
+% Entradas:         F --- vector simbolico de ecuaciones
+%           variables --- vector de variables simbolicas
+%                  x0 --- vector de aproximacion inicial
+%                 tol --- tolerancia para el cambio entre aproximaciones
+%              iteMax --- numero maximo de iteraciones
+% Salida:           M --- primeras n columnas: componentes de x
+%                        ultima columna: norma del cambio
 
-x = x(:); % Trabajar con un vector columna
-n = length(x);
+    F = F(:);
+    variables = variables(:);
+    n = length(variables);
 
-cont = 1;
-er = tol + 1;
-M(1,1:n) = x.';
-M(1,n+1) = inf;
+    df0 = sym(zeros(n,n));
 
-while er > tol && cont < iteMax
-    t = x;
-    A = J(x);
-
-    if rcond(A) < eps
-        warning('El jacobiano es singular o numericamente casi singular.');
-        return;
+    for j = 1:n
+        df0(:,j) = diff(F,variables(j));
     end
 
-    % Resolver J(x)*y = -F(x)
-    y = A\(-F(x));
-    x = x + y; % actualizar
-    er = norm(t-x,2);
+    F = matlabFunction(F,'Vars',{variables});
+    df = matlabFunction(df0,'Vars',{variables});
 
-    M(cont+1,1:n) = x.';
-    M(cont+1,n+1) = er;
-    cont = cont + 1;
-end
+    xk = x0(:);
+    suc = xk.';
+    er = tol + 1;
+    errores = inf;
+    cont = 0;
+
+    while er > tol && cont < iteMax
+
+        A = df(xk);
+
+        if rcond(A) < eps
+            warning('El jacobiano es singular o numericamente casi singular.');
+            M = [suc errores];
+            return;
+        end
+
+        y = A\(-F(xk));
+        xNuevo = xk + y;
+        er = norm(xNuevo-xk,2);
+
+        cont = cont + 1;
+
+        suc(cont+1,:) = xNuevo.';
+        errores(cont+1,1) = er;
+
+        xk = xNuevo;
+
+    end
+
+    M = [suc errores];
+
 end
 
 %% Ejercicio 13
