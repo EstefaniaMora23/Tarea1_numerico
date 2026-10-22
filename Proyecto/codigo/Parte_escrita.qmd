@@ -23,17 +23,46 @@ format:
             - \usepackage{hyperref}
    include-before-body: Portada.tex
 ---
-# Título del proyecto:
+
+# Título del proyecto
+
+Comparación de los algoritmos X-opt, Y-opt y 2-opt en localidades de Costa Rica y análisis de su estabilidad ante perturbaciones.
 
 # Introducción
+
+El problema del viajero consiste en encontrar un recorrido de longitud mínima que visite un conjunto de localidades exactamente una vez y regrese al punto de partida. Debido al crecimiento del número de recorridos posibles conforme aumenta la cantidad de localidades, se utilizan métodos heurísticos que permiten obtener soluciones aproximadas (Flood, 1956).
+
+En este proyecto se tomará como referencia el trabajo de Manthey y van Rhijn (2025) para comparar los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica. Estos métodos realizan modificaciones sobre una ruta inicial, pero utilizan distintos criterios para seleccionar los intercambios. Su aplicación permitirá examinar las diferencias en la longitud de las rutas obtenidas y en el esfuerzo computacional requerido.
+
+Para ello, se implementarán los tres algoritmos en Python y se ejecutarán a partir de las mismas rutas iniciales aleatorias. Posteriormente se realizarán gráficos en MATLAB. Se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución. Además, se introducirán pequeñas perturbaciones en las coordenadas para estudiar cómo estos cambios afectan los recorridos y sus longitudes. De esta manera, se explorará el comportamiento de los métodos en una configuración geográfica basada en localidades reales.
 
 # Objetivos
 
 ## Objetivo general
 
+Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica, tomando como referencia el trabajo de Manthey y van Rhijn (2025), y analizar cómo pequeñas perturbaciones en las coordenadas afectan las rutas obtenidas y sus longitudes.
+
 ## Objetivos específicos
 
+1. Preparar un conjunto de localidades de Costa Rica mediante la selección de registros, la conversión de sus coordenadas geográficas a coordenadas planas y la construcción de una matriz de distancias euclidianas.
+
+2. Implementar en Python los algoritmos X-opt, Y-opt y 2-opt, de acuerdo con los criterios descritos en el artículo de referencia, y verificar su funcionamiento mediante pruebas pequeñas.
+
+3. Comparar la longitud final de las rutas, el número de intercambios y el tiempo de ejecución de los tres algoritmos, utilizando las mismas rutas iniciales aleatorias en cada comparación.
+
+4. Evaluar los cambios en los recorridos y sus longitudes al introducir distintos niveles de perturbación en las coordenadas de las localidades.
+
+5. Contrastar los resultados experimentales con el comportamiento descrito en el artículo de referencia, considerando las características y limitaciones del conjunto de localidades seleccionado.
+
 # Delimitación del estudio
+
+El estudio se realizará sobre un subconjunto de localidades de Costa Rica seleccionadas a partir del archivo `CR.txt`. Los criterios de selección y la cantidad definitiva de localidades se establecerán según la disponibilidad y calidad de los registros y los recursos computacionales disponibles. Para las pruebas iniciales se utilizará un conjunto de aproximadamente 100 localidades.
+
+Las coordenadas geográficas se convertirán a coordenadas planas expresadas en kilómetros, a partir de las cuales se calcularán distancias euclidianas. El problema se formulará como la búsqueda de un recorrido cerrado que visite cada localidad exactamente una vez. Estas distancias representarán una aproximación geométrica y no incorporarán la red vial, las condiciones del tránsito, los tiempos de traslado ni las restricciones de acceso.
+
+La comparación se limitará a los algoritmos X-opt, Y-opt y 2-opt implementados en Python. En cada ejecución, los tres métodos partirán de la misma ruta inicial aleatoria y utilizarán los mismos datos. Su desempeño se evaluará mediante la longitud final del recorrido, el número de intercambios y el tiempo de ejecución. No se incluirá la búsqueda exacta del óptimo global como parte del alcance del proyecto.
+
+El análisis de estabilidad se basará en perturbaciones controladas de las coordenadas, manteniendo fijo el conjunto de localidades. Se examinarán los cambios en las rutas y sus longitudes para los niveles de perturbación considerados. Los resultados tendrán un carácter experimental y sus conclusiones se limitarán a los datos, las implementaciones y los escenarios estudiados; no constituirán una reproducción de las demostraciones teóricas del artículo.
 
 # Fundamento teórico
 
