@@ -24,4 +24,32 @@ format:
    include-before-body: Portada.tex
 ---
 
-# 
+# Introducción
+
+# Objetivos
+
+## Objetivo general
+
+## Objetivos específicos
+
+# Fundamento teórico
+
+# Datos
+
+# Metodología e implementación en Python
+
+## Representación de una ruta y cálculo de su longitud
+
+## Construcción de las rutas iniciales
+
+## Algoritmo 2-opt
+
+## Algoritmo X-opt
+
+## Algoritmo Y-opt
+
+# Prueba preliminar
+
+# Trabajo pendiente para el segundo avance
+
+# Referencias
