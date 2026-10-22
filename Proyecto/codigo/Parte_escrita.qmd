@@ -23,6 +23,7 @@ format:
             - \usepackage{hyperref}
    include-before-body: Portada.tex
 ---
+# Título del proyecto:
 
 # Introducción
 
@@ -31,6 +32,8 @@ format:
 ## Objetivo general
 
 ## Objetivos específicos
+
+# Delimitación del estudio
 
 # Fundamento teórico
 
