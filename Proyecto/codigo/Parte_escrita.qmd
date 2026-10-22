@@ -1,4 +1,6 @@
 ---
+bibliography: ../referencias/referencias.bib
+csl: https://www.zotero.org/styles/apa
 format: 
  pdf: 
    papersize: letter
@@ -65,6 +67,31 @@ La comparación se limitará a los algoritmos X-opt, Y-opt y 2-opt implementados
 El análisis de estabilidad se basará en perturbaciones controladas de las coordenadas, manteniendo fijo el conjunto de localidades. Se examinarán los cambios en las rutas y sus longitudes para los niveles de perturbación considerados. Los resultados tendrán un carácter experimental y sus conclusiones se limitarán a los datos, las implementaciones y los escenarios estudiados; no constituirán una reproducción de las demostraciones teóricas del artículo.
 
 # Fundamento teórico
+
+
+
+
+## Algoritmo Y-opt
+
+El algoritmo Y-opt es una variante del algoritmo 2-opt. Como se vio anteriormente, el algoritmo 2-opt acepta un intercambio de aristas si la suma de las longitudes de las dos aristas nuevas es menor que la suma de las dos aristas viejas; esto se hace comparando únicamente las aristas que se modificaron, ya que el resto de la ruta permanece igual. Por otro lado, el algoritmo Y-opt impone una condición de cambio más estricta, donde, para aceptar un cambio en la ruta, la arista más larga de las nuevas debe ser más corta que la arista más larga de las viejas, y, además, la arista más corta de las nuevas debe ser más corta que la arista más corta de las viejas. Esto hace que el algoritmo Y-opt sea más restrictivo en su condición de aceptación de nuevas rutas, ya que no solo compara la suma total, sino el tamaño individual de cada arista.
+
+La principal ventaja del algoritmo Y-opt es que el número de iteraciones para una ruta de $n$ vértices y $m$ aristas está acotado por $(m-1)n$ [@manthey2025performance], resultando en un tiempo de ejecución polinomial. En comparación, el algoritmo 2-opt puede necesitar un tiempo exponencial en los peores casos; de esta forma, el algoritmo Y-opt compensa su condición de aceptación con el tiempo que necesitará para ejecutarse. A pesar de que el algoritmo Y-opt sea más estricto, los resultados teóricos muestran que este algoritmo tiene resultados similares a los del 2-opt, donde se llega a rutas ligeramente más largas con el algoritmo Y-opt pero en un tiempo de ejecución acotado en comparación al 2-opt [@manthey2025performance].
+
+## Medidas a Recopilar en los experimentos
+
+Para evaluar y poder comparar el rendimiento de los tres algoritmos, 2-opt, X-opt y Y-opt, se utilizarán las siguientes medidas:
+
+**Longitud de la ruta optimizada:** Es la longitud final medida en kilómetros de cada ruta optimizada según el algoritmo; esta medida incluye todo el recorrido realizado y el regreso desde la última visitada hasta el punto de partida inicial. De esta forma, se puede comparar qué tan grande o pequeña es la ruta de un algoritmo con respecto a las demás. 
+
+**Tiempo de ejecución:** Es el tiempo medido en segundos, de lo que tardó cada algoritmo en encontrar su solución. Esto permitirá comparar la rapidez de cada algoritmo para encontrar una solución. 
+
+**Número de intercambios aceptados:** Es el número de veces que cada algoritmo aceptó algún cambio en la ruta. Esta medida permitirá ver qué tanto aceptó o rechazó cambios un algoritmo, permitiendo así, ver qué tan estricto es cada algoritmo con la aceptación de un cambio. 
+
+**Ruta final obtenida:** Es una lista los índices que representan el orden en que se visitó cada ciudad. Esto permitirá realizar los gráficos y comparar las rutas creadas por cada algoritmo.
+
+**Porcentaje de mejora con respecto a la ruta inicial:** Esta medida se calculará como $$((longitud inicial - longitud final) / longitud inicial) \times 100 $$; esta medida permite ver cuánto mejoró la solución de cada algoritmo con respecto a la ruta inicial creada aleatoriamente.
+
+Las métricas antes mencionadas permitirán realizar la comparación entre algoritmos, además de la visualización de cada ruta creada. Es importante destacar que, para lograr realizar esta comparación, los tres algoritmos utilizarán la misma ruta inicial y la misma matriz de distancias.
 
 # Datos
 
