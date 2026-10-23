@@ -58,7 +58,7 @@ Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto del
 
 # Delimitación del estudio
 
-El estudio se realizará sobre un subconjunto de localidades de Costa Rica seleccionadas a partir del archivo `CR.txt`. Los criterios de selección y la cantidad definitiva de localidades se establecerán según la disponibilidad y calidad de los registros y los recursos computacionales disponibles. Para las pruebas iniciales se utilizará un conjunto de aproximadamente 100 localidades.
+El estudio se realizará sobre un subconjunto de localidades de Costa Rica seleccionadas a partir del archivo `CR.txt`. Los criterios de selección y la cantidad definitiva de localidades se establecerán según la disponibilidad y calidad de los registros y los recursos computacionales disponibles. Para las pruebas iniciales se utilizará un conjunto de 129 localidades.
 
 Las coordenadas geográficas se convertirán a coordenadas planas expresadas en kilómetros, a partir de las cuales se calcularán distancias euclidianas. El problema se formulará como la búsqueda de un recorrido cerrado que visite cada localidad exactamente una vez. Estas distancias representarán una aproximación geométrica y no incorporarán la red vial, las condiciones del tránsito, los tiempos de traslado ni las restricciones de acceso.
 
@@ -67,8 +67,6 @@ La comparación se limitará a los algoritmos X-opt, Y-opt y 2-opt implementados
 El análisis de estabilidad se basará en perturbaciones controladas de las coordenadas, manteniendo fijo el conjunto de localidades. Se examinarán los cambios en las rutas y sus longitudes para los niveles de perturbación considerados. Los resultados tendrán un carácter experimental y sus conclusiones se limitarán a los datos, las implementaciones y los escenarios estudiados; no constituirán una reproducción de las demostraciones teóricas del artículo.
 
 # Fundamento teórico
-
-
 
 
 ## Algoritmo Y-opt
@@ -94,6 +92,77 @@ Para evaluar y poder comparar el rendimiento de los tres algoritmos, 2-opt, X-op
 Las métricas antes mencionadas permitirán realizar la comparación entre algoritmos, además de la visualización de cada ruta creada. Es importante destacar que, para lograr realizar esta comparación, los tres algoritmos utilizarán la misma ruta inicial y la misma matriz de distancias.
 
 # Datos
+
+## Fuente y estructura
+
+Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que corresponde al extracto de Costa Rica y se distribuye bajo la licencia Creative Commons Attribution 4.0 [@geonames]. El archivo está en texto delimitado por tabulaciones, con codificación UTF-8 y sin fila de encabezado. Contiene 21 426 registros y 19 variables.
+
+Cada registro describe un rasgo geográfico, no necesariamente un poblado. Los rasgos se clasifican en nueve clases; la clase `P` (lugares poblados) es la de interés para este proyecto.
+
+| Clase | Descripción | Registros |
+|:--:|:--|--:|
+| H | Ríos, lagos y otros cuerpos de agua | 6 801 |
+| P | Ciudades, pueblos y caseríos | 5 900 |
+| S | Sitios, edificaciones y fincas | 4 401 |
+| T | Montañas, colinas y rocas | 2 908 |
+| L | Parques y áreas | 798 |
+| A | Divisiones administrativas | 565 |
+| V | Bosques y vegetación | 44 |
+| R | Caminos y ferrocarriles | 6 |
+| U | Rasgos submarinos | 3 |
+
+: Registros de `CR.txt` según clase de rasgo. {#tbl-clases}
+
+## Variables utilizadas
+
+De las 19 variables, el proyecto utiliza principalmente las siguientes:
+
+| Variable | Descripción |
+|:--|:--|
+| `geonameid` | Identificador único del registro |
+| `nombre` | Nombre del lugar |
+| `latitud`, `longitud` | Coordenadas en grados decimales (WGS84) |
+| `clase`, `codigo` | Clase y código del tipo de rasgo (por ejemplo, `PPL`, `PPLA`, `PPLC`) |
+| `admin1` | Código de la división administrativa de primer nivel (provincia), traducido con el archivo `admin1CodesASCII.txt` de GeoNames |
+| `poblacion` | Población reportada |
+
+: Variables principales de `CR.txt`. {#tbl-variables}
+
+Las coordenadas son la base para construir las coordenadas planas y la matriz de distancias, y la población se usa como criterio de selección. El resto de las variables (nombres alternos, `cc2`, `admin2` a `admin4`, `elevacion`, `dem`, `zona_horaria` y `fecha_modificacion`) no intervienen en los algoritmos. Además, `elevacion` está vacía en el 99,6 % de los registros (21 349 de 21 426) y `admin4` está vacía en prácticamente todos.
+
+## Criterios de selección de las localidades
+
+El conjunto de localidades se obtuvo aplicando los siguientes filtros sobre `CR.txt`:
+
+1. **Solo lugares poblados.** Se conservaron los registros de clase `P`, es decir, 5 900 de los 21 426.
+2. **Exclusión de poblados destruidos o históricos.** Se descartaron los códigos `PPLQ` (poblado abandonado), `PPLW` (poblado destruido) y `PPLH` (poblado histórico).
+3. **Población reportada.** Se conservaron únicamente las localidades con población mayor que cero. Este filtro es necesario porque el 97,8 % de los lugares poblados reporta población igual a cero, de modo que no tienen información de población disponible.
+4. **Coordenadas únicas.** Se eliminaron los registros con coordenadas repetidas.
+
+El conjunto resultante consta de **129 localidades**, que se ordenaron por población decreciente y se numeraron de 0 a 128 para usarse como índices en las rutas.
+
+## Descripción de las localidades seleccionadas
+
+La población de las 129 localidades tiene un mínimo de 194, una mediana de 7 022, una media de 14 830 y un máximo de 335 007 habitantes. La media supera ampliamente a la mediana, lo que indica una distribución asimétrica a la derecha. Sus coordenadas están entre las latitudes 8,533° y 11,074° N y las longitudes −85,841° y −82,612° O.
+
+| Código | Descripción | Localidades |
+|:--|:--|--:|
+| `PPL` | Lugar poblado | 99 |
+| `PPLX` | Sección de un lugar poblado | 11 |
+| `PPLA` | Capital de división de primer nivel | 6 |
+| `PPLA2` | Capital de división de segundo nivel | 6 |
+| `PPLA3` | Capital de división de tercer nivel | 4 |
+| `PPLA4` | Capital de división de cuarto nivel | 2 |
+| `PPLC` | Capital del país | 1 |
+
+: Localidades seleccionadas según código de rasgo. {#tbl-codigos}
+
+Por provincia, 36 localidades pertenecen a San José, 26 a Alajuela, 16 a Puntarenas, 15 a Guanacaste, 14 a Cartago, 11 a Heredia y 11 a Limón. Así, 87 de las 129 localidades (67 %) pertenecen a las provincias de San José, Alajuela, Heredia y Cartago, donde se ubica el Valle Central. Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por Manthey y van Rhijn (2025), lo cual se retomará al comparar resultados.
+
+## Limitaciones de los datos
+
+- La población proviene de GeoNames y no de un censo oficial, por lo que sirve como criterio de selección, no como medida precisa. Al exigir solo población positiva, el conjunto incluye localidades muy pequeñas (la menor tiene 194 habitantes).
+- Once de las localidades son de código `PPLX`, que corresponde a secciones de un lugar poblado (como barrios o distritos urbanos).
 
 # Metodología e implementación en Python
 
