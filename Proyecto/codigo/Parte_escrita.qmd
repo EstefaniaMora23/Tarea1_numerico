@@ -58,7 +58,7 @@ Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto del
 
 # Delimitación del estudio
 
-El estudio se realizará sobre un subconjunto de localidades de Costa Rica seleccionadas a partir del archivo `CR.txt`. Los criterios de selección y la cantidad definitiva de localidades se establecerán según la disponibilidad y calidad de los registros y los recursos computacionales disponibles. Para las pruebas iniciales se utilizará un conjunto de 129 localidades.
+El estudio se realizará sobre un subconjunto de localidades de Costa Rica seleccionadas a partir del archivo `CR.txt`. Los criterios de selección se describen en la sección de datos. Para los experimentos se utilizará un conjunto de 15 localidades, número limitado por el costo computacional.
 
 Las coordenadas geográficas se convertirán a coordenadas planas expresadas en kilómetros, a partir de las cuales se calcularán distancias euclidianas. El problema se formulará como la búsqueda de un recorrido cerrado que visite cada localidad exactamente una vez. Estas distancias representarán una aproximación geométrica y no incorporarán la red vial, las condiciones del tránsito, los tiempos de traslado ni las restricciones de acceso.
 
@@ -120,7 +120,7 @@ Las métricas antes mencionadas permitirán realizar la comparación entre algor
 
 Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que corresponde al extracto de Costa Rica y se distribuye bajo la licencia Creative Commons Attribution 4.0 [@geonames]. El archivo está en texto delimitado por tabulaciones, con codificación UTF-8 y sin fila de encabezado. Contiene 21 426 registros y 19 variables.
 
-Cada registro describe un rasgo geográfico, no necesariamente un poblado. Los rasgos se clasifican en nueve clases; la clase `P` (lugares poblados) es la de interés para este proyecto.
+Cada registro describe un rasgo geográfico, no necesariamente un poblado. Los rasgos se clasifican en nueve clases (@tbl-clases); la clase `P` (lugares poblados) es la de interés para este proyecto.
 
 | Clase | Descripción | Registros |
 |:--:|:--|--:|
@@ -138,7 +138,7 @@ Cada registro describe un rasgo geográfico, no necesariamente un poblado. Los r
 
 ## Variables utilizadas
 
-De las 19 variables, el proyecto utiliza principalmente las siguientes:
+De las 19 variables, el proyecto utiliza principalmente las que muestra la @tbl-variables:
 
 | Variable | Descripción |
 |:--|:--|
@@ -146,7 +146,7 @@ De las 19 variables, el proyecto utiliza principalmente las siguientes:
 | `nombre` | Nombre del lugar |
 | `latitud`, `longitud` | Coordenadas en grados decimales (WGS84) |
 | `clase`, `codigo` | Clase y código del tipo de rasgo (por ejemplo, `PPL`, `PPLA`, `PPLC`) |
-| `admin1` | Código de la división administrativa de primer nivel (provincia), traducido con el archivo `admin1CodesASCII.txt` de GeoNames |
+| `admin1` | Código de la división administrativa de primer nivel (provincia), traducido al nombre de la provincia con base en el archivo `admin1CodesASCII.txt` de GeoNames |
 | `poblacion` | Población reportada |
 
 : Variables principales de `CR.txt`. {#tbl-variables}
@@ -160,36 +160,53 @@ El conjunto de localidades se obtuvo aplicando los siguientes filtros sobre `CR.
 1. **Solo lugares poblados.** Se conservaron los registros de clase `P`, es decir, 5 900 de los 21 426.
 2. **Exclusión de poblados destruidos o históricos.** Se descartaron los códigos `PPLQ` (poblado abandonado), `PPLW` (poblado destruido) y `PPLH` (poblado histórico).
 3. **Población reportada.** Se conservaron únicamente las localidades con población mayor que cero. Este filtro es necesario porque el 97,8 % de los lugares poblados reporta población igual a cero, de modo que no tienen información de población disponible.
-4. **Coordenadas únicas.** Se eliminaron los registros con coordenadas repetidas.
+4. **Coordenadas únicas.** Se eliminaron los registros con coordenadas repetidas, considerando como repetidas las coordenadas que coinciden al redondear a tres decimales (aproximadamente 100 m); entre los registros repetidos se conservó el de mayor población. Este filtro es necesario porque @manthey2025performance suponen que no hay dos puntos en la misma posición, supuesto con el que X-opt puede decidir si dos aristas se cruzan.
+5. **Selección final.** Tras el filtrado, se seleccionaron las 15 localidades con mayor población.
 
-El conjunto resultante consta de **129 localidades**, que se ordenaron por población decreciente y se numeraron de 0 a 128 para usarse como índices en las rutas.
+El conjunto resultante consta de **15 localidades**, que se ordenaron por población decreciente y se numeraron de 0 a 14 para usarse como índices en las rutas.
+
+## Coordenadas planas y distancias
+
+Las coordenadas geográficas se convirtieron a coordenadas planas en kilómetros mediante la proyección equirectangular (cilíndrica equidistante) para la esfera [@snyder1987, pp. 90-91], con $x = R\cos(\varphi_1)(\lambda-\lambda_0)$ y $y = R(\varphi-\varphi_0)$, donde $R = 6371$ km es el radio medio terrestre, $\varphi_1$ es el paralelo estándar, $(\varphi_0,\lambda_0)$ es el origen del plano y los ángulos se expresan en radianes. Se tomó como origen el promedio de las latitudes y de las longitudes de las 15 localidades, y el paralelo estándar se fijó en esa misma latitud, es decir, $\varphi_1=\varphi_0$; restar $\varphi_0$ en $y$ solo traslada el origen. Esto es necesario porque X-opt requiere determinar si dos aristas se cruzan en el plano [@manthey2025performance]. A partir de estas coordenadas se construyó la matriz de distancias euclidianas de tamaño $15 \times 15$, que es simétrica y tiene ceros en la diagonal.
 
 ## Descripción de las localidades seleccionadas
 
-La población de las 129 localidades tiene un mínimo de 194, una mediana de 7 022, una media de 14 830 y un máximo de 335 007 habitantes. La media supera ampliamente a la mediana, lo que indica una distribución asimétrica a la derecha. Sus coordenadas están entre las latitudes 8,533° y 11,074° N y las longitudes −85,841° y −82,612° O.
+La población de las 15 localidades tiene un mínimo de 27 477, una mediana de 34 877, una media de 58 191 y un máximo de 335 007 habitantes. La media supera ampliamente a la mediana, lo que indica una distribución asimétrica a la derecha. Sus coordenadas están entre las latitudes 9,367° y 10,952° N y las longitudes −85,438° y −83,036° O. La @tbl-localidades presenta el conjunto y la @fig-localidades muestra su ubicación.
 
-| Código | Descripción | Localidades |
-|:--|:--|--:|
-| `PPL` | Lugar poblado | 99 |
-| `PPLX` | Sección de un lugar poblado | 11 |
-| `PPLA` | Capital de división de primer nivel | 6 |
-| `PPLA2` | Capital de división de segundo nivel | 6 |
-| `PPLA3` | Capital de división de tercer nivel | 4 |
-| `PPLA4` | Capital de división de cuarto nivel | 2 |
-| `PPLC` | Capital del país | 1 |
+|   Índice | Nombre        | Provincia   | Código   |   Población |   Latitud |   Longitud |   x (km) |   y (km) |
+|---------:|:--------------|:------------|:---------|------------:|----------:|-----------:|---------:|---------:|
+|        0 | San José      | San José    | PPLC     |      335007 |     9,934 |    -84,085 |      7,9 |     -9,1 |
+|        1 | Limón         | Limón       | PPLA     |       63081 |     9,991 |    -83,036 |    122,7 |     -2,8 |
+|        2 | San Francisco | Heredia     | PPLX     |       55923 |     9,994 |    -84,127 |      3,2 |     -2,5 |
+|        3 | Alajuela      | Alajuela    | PPLA     |       47494 |    10,017 |    -84,213 |     -6,2 |      0,1 |
+|        4 | Liberia       | Guanacaste  | PPLA     |       45380 |    10,635 |    -85,438 |   -140,3 |     68,8 |
+|        5 | Paraíso       | Cartago     | PPL      |       39702 |     9,838 |    -83,867 |     31,8 |    -19,8 |
+|        6 | Puntarenas    | Puntarenas  | PPLA     |       35650 |     9,977 |    -84,838 |    -74,6 |     -4,4 |
+|        7 | San Isidro    | San José    | PPLA3    |       34877 |     9,367 |    -83,697 |     50,3 |    -72,1 |
+|        8 | Curridabat    | San José    | PPL      |       34586 |     9,914 |    -84,036 |     13,2 |    -11,4 |
+|        9 | San Vicente   | San José    | PPL      |       34447 |     9,962 |    -84,049 |     11,7 |     -6,0 |
+|       10 | San José      | Alajuela    | PPL      |       31430 |    10,952 |    -85,136 |   -107,2 |    104,1 |
+|       11 | Purral        | San José    | PPL      |       30034 |     9,957 |    -84,032 |     13,6 |     -6,6 |
+|       12 | Turrialba     | Cartago     | PPL      |       28955 |     9,904 |    -83,684 |     51,8 |    -12,5 |
+|       13 | San Miguel    | San José    | PPL      |       28827 |     9,871 |    -84,061 |     10,5 |    -16,1 |
+|       14 | San Pedro     | San José    | PPLA2    |       27477 |     9,928 |    -84,051 |     11,6 |     -9,8 |
 
-: Localidades seleccionadas según código de rasgo. {#tbl-codigos}
+: Localidades seleccionadas. {#tbl-localidades}
 
-Por provincia, 36 localidades pertenecen a San José, 26 a Alajuela, 16 a Puntarenas, 15 a Guanacaste, 14 a Cartago, 11 a Heredia y 11 a Limón. Así, 87 de las 129 localidades (67 %) pertenecen a las provincias de San José, Alajuela, Heredia y Cartago, donde se ubica el Valle Central. Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por Manthey y van Rhijn (2025), lo cual se retomará al comparar resultados.
+![Ubicación de las localidades seleccionadas en coordenadas planas. El número corresponde al índice de la @tbl-localidades.](../figuras/localidades.png){#fig-localidades}
+
+Por provincia, 7 localidades pertenecen a San José, 2 a Alajuela, 2 a Cartago y 1 a cada una de Guanacaste, Heredia, Limón y Puntarenas. Según las coordenadas planas de la @tbl-localidades, 8 de las 15 localidades (53 %) están a menos de 20 km del centro de San José, mientras que Liberia, Limón y San José (Alajuela) quedan a más de 100 km. Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por @manthey2025performance, lo cual se retomará al comparar resultados.
 
 ## Limitaciones de los datos
 
-- La población proviene de GeoNames y no de un censo oficial, por lo que sirve como criterio de selección, no como medida precisa. Al exigir solo población positiva, el conjunto incluye localidades muy pequeñas (la menor tiene 194 habitantes).
-- Once de las localidades son de código `PPLX`, que corresponde a secciones de un lugar poblado (como barrios o distritos urbanos).
+- La población proviene de GeoNames y no de un censo oficial, por lo que sirve como criterio de selección, no como medida precisa.
+- Una de las localidades (San Francisco) tiene código `PPLX`, que corresponde a una sección de un lugar poblado, y queda a unos 8 km de San José.
+- Dos localidades comparten el nombre «San José» (índices 0 y 10); la segunda, en la provincia de Alajuela, queda a unos 160 km de la capital.
+- Al conservar solo las localidades más pobladas, el conjunto se concentra en el área metropolitana de San José y no representa de forma pareja el resto del territorio.
 
 # Metodología e implementación en Python
 
-Se realizará un estudio computacional y experimental en Python para comparar los algoritmos X-opt, Y-opt y 2-opt en localidades de Costa Rica, tomando como referencia a @manthey2025performance. El desarrollo detallado del código y sus pruebas se presentarán en el Jupyter Notebook titulado `codigo.ipynb`.
+Se realizará un estudio computacional y experimental en Python para comparar los algoritmos X-opt, Y-opt y 2-opt en localidades de Costa Rica, tomando como referencia a @manthey2025performance. El desarrollo detallado del código y sus pruebas se presentarán en el Jupyter Notebook titulado `codigo.ipynb`. Los gráficos se elaborarán en MATLAB (`graficos.m`) a partir de los datos exportados desde el notebook.
 
 A partir del archivo `CR.txt` con las localidades de Costa Rica, se seleccionarán localidades pobladas, se excluirán registros históricos o abandonados y se eliminarán coordenadas duplicadas. Las coordenadas geográficas se convertirán a coordenadas planas en kilómetros para construir una matriz de distancias euclidianas. Cada ruta visitará todas las localidades seleccionadas una vez e incluirá el regreso al punto inicial.
 
