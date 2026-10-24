@@ -68,6 +68,29 @@ El análisis de estabilidad se basará en perturbaciones controladas de las coor
 
 # Fundamento teórico
 
+## Artículo de referencia
+
+El presente proyecto toma como referencia el trabajo de @manthey2025performance, titulado *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*. A modo de resumen, los autores estudian variantes de la heurística 2-opt para el problema del viajero, con el propósito de analizar la relación entre las garantías sobre su tiempo de ejecución y la calidad de las rutas obtenidas.
+
+Por un lado, el algoritmo 2-opt mejora un recorrido mediante el intercambio de dos conexiones, siempre que la modificación reduzca su longitud total. Aunque suele presentar buenos resultados en la práctica, puede requerir un número exponencial de iteraciones en casos desfavorables. Ante esta limitación, el artículo analiza dos variantes que restringen los intercambios permitidos y cuentan con garantías de terminación en un número polinomial de iteraciones.
+
+La primera variante, X-opt, únicamente permite intercambios que eliminan cruces entre las conexiones de una ruta en el plano. Los autores demuestran que la ausencia de cruces no garantiza que un recorrido tenga una longitud cercana a la óptima. La segunda variante, Y-opt, exige que, al ordenar de mayor a menor las longitudes de las dos conexiones anteriores y de las dos nuevas, ninguna de las longitudes correspondientes aumente y al menos una disminuya. Esta condición es más restrictiva que exigir únicamente una reducción de la suma de las distancias.
+
+Además del análisis teórico, el artículo presenta una comparación numérica de X-opt, Y-opt y 2-opt sobre conjuntos de puntos generados uniformemente en el cuadrado unitario, utilizando rutas iniciales aleatorias. Los resultados muestran que Y-opt obtiene longitudes cercanas a las de 2-opt y que el comportamiento experimental de X-opt es más favorable de lo que podría sugerir el análisis de sus peores soluciones locales.
+
+## Algoritmo 2-opt
+
+Según @manthey2025performance, 2-opt es una heurística de búsqueda local que mejora un recorrido mediante la sustitución de dos aristas no adyacentes. El intercambio elimina estas aristas y reconecta sus extremos de manera que se conserve un único recorrido cerrado que visite cada localidad exactamente una vez. Esta modificación implica invertir el orden de un segmento de la ruta.
+
+Considere las aristas $(a,b)$ y $(c,d)$, cuyos extremos aparecen en ese orden en el recorrido. El intercambio las sustituye por $(a,c)$ y $(b,d)$. Si $d(i,j)$ representa la distancia entre las localidades $i$ y $j$, el criterio de aceptación es
+
+$$
+d(a,c)+d(b,d)<d(a,b)+d(c,d).
+$$
+
+Por tanto, el intercambio se acepta únicamente cuando la suma de las longitudes de las nuevas aristas es estrictamente menor que la de las aristas eliminadas. En el caso de distancias simétricas, invertir el segmento intermedio no modifica su longitud, por lo que esta condición garantiza una reducción de la longitud total del recorrido.
+
+El procedimiento se repite hasta que no existen intercambios 2-opt que reduzcan la longitud. La ruta resultante es un óptimo local respecto de estos movimientos, aunque no necesariamente es un óptimo global [@manthey2025performance].
 
 ## Algoritmo Y-opt
 
@@ -166,18 +189,14 @@ Por provincia, 36 localidades pertenecen a San José, 26 a Alajuela, 16 a Puntar
 
 # Metodología e implementación en Python
 
-## Representación de una ruta y cálculo de su longitud
+Se realizará un estudio computacional y experimental en Python para comparar los algoritmos X-opt, Y-opt y 2-opt en localidades de Costa Rica, tomando como referencia a @manthey2025performance. El desarrollo detallado del código y sus pruebas se presentarán en el Jupyter Notebook titulado `codigo.ipynb`.
 
-## Construcción de las rutas iniciales
+A partir del archivo `CR.txt` con las localidades de Costa Rica, se seleccionarán localidades pobladas, se excluirán registros históricos o abandonados y se eliminarán coordenadas duplicadas. Las coordenadas geográficas se convertirán a coordenadas planas en kilómetros para construir una matriz de distancias euclidianas. Cada ruta visitará todas las localidades seleccionadas una vez e incluirá el regreso al punto inicial.
 
-## Algoritmo 2-opt
+En el primer avance se implementarán los tres algoritmos y se verificará su funcionamiento con aproximadamente 10 a 15 localidades (en caso de que los códigos funcionen bien, y no tarden mucho en correr, se intentará con más localidades), utilizando una misma ruta inicial aleatoria. En el avance final se realizarán múltiples ejecuciones y se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución mediante tablas y gráficos.
 
-## Algoritmo X-opt
-
-## Algoritmo Y-opt
+Finalmente, se introducirán pequeñas perturbaciones en las coordenadas y se repetirán los experimentos para estudiar los cambios en los recorridos y sus longitudes. Los resultados se contrastarán con los del artículo, considerando las diferencias entre las localidades reales y los puntos aleatorios utilizados por los autores.
 
 # Prueba preliminar
-
-# Trabajo pendiente para el segundo avance
 
 # Referencias
