@@ -28,33 +28,33 @@ format:
 
 # Título del proyecto
 
-Comparación de los algoritmos X-opt, Y-opt y 2-opt en localidades de Costa Rica y análisis de su estabilidad ante perturbaciones.
+**Comparación de los algoritmos X-opt, Y-opt y 2-opt para optimizar rutas en localidades de Costa Rica: análisis de su estabilidad ante perturbaciones**
 
 # Introducción
 
 El problema del viajero consiste en encontrar un recorrido de longitud mínima que visite un conjunto de localidades exactamente una vez y regrese al punto de partida. Debido al crecimiento del número de recorridos posibles conforme aumenta la cantidad de localidades, se utilizan métodos heurísticos que permiten obtener soluciones aproximadas (Flood, 1956).
 
-En este proyecto se tomará como referencia el trabajo de Manthey y van Rhijn (2025) para comparar los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica. Estos métodos realizan modificaciones sobre una ruta inicial, pero utilizan distintos criterios para seleccionar los intercambios. Su aplicación permitirá examinar las diferencias en la longitud de las rutas obtenidas y en el esfuerzo computacional requerido.
+El presente proyecto tomará como referencia el trabajo de Manthey y van Rhijn (2025) para comparar los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica. Estos métodos realizan modificaciones sobre una ruta inicial, utilizando distintos criterios para seleccionar los intercambios. Su aplicación permitirá examinar las diferencias en la longitud de las rutas obtenidas, así como en el esfuerzo computacional requerido.
 
-Para ello, se implementarán los tres algoritmos en Python y se ejecutarán a partir de las mismas rutas iniciales aleatorias. Posteriormente se realizarán gráficos en MATLAB. Se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución. Además, se introducirán pequeñas perturbaciones en las coordenadas para estudiar cómo estos cambios afectan los recorridos y sus longitudes. De esta manera, se explorará el comportamiento de los métodos en una configuración geográfica basada en localidades reales.
+Para ello, se implementarán los tres algoritmos en Python y se ejecutarán a partir de las mismas rutas iniciales aleatorias. Posteriormente se realizarán gráficos en MATLAB. Asimismo, se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución. Finalmente, se introducirán pequeñas perturbaciones en las coordenadas para estudiar cómo estos cambios afectan los recorridos y sus longitudes. De esta manera, se explorará el comportamiento de los métodos en una configuración geográfica basada en localidades reales.
 
 # Objetivos
 
 ## Objetivo general
 
-Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica, tomando como referencia el trabajo de Manthey y van Rhijn (2025), y analizar cómo pequeñas perturbaciones en las coordenadas afectan las rutas obtenidas y sus longitudes.
+Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica y analizar cómo pequeñas perturbaciones en las coordenadas afectan las rutas obtenidas y sus longitudes.
 
 ## Objetivos específicos
 
-1. Preparar un conjunto de localidades de Costa Rica mediante la selección de registros, la conversión de sus coordenadas geográficas a coordenadas planas y la construcción de una matriz de distancias euclidianas.
+1.  Preparar un conjunto de localidades de Costa Rica mediante la selección de registros, la conversión de sus coordenadas geográficas a coordenadas planas y la construcción de una matriz de distancias euclidianas.
 
-2. Implementar en Python los algoritmos X-opt, Y-opt y 2-opt, de acuerdo con los criterios descritos en el artículo de referencia, y verificar su funcionamiento mediante pruebas pequeñas.
+2.  Implementar en Python los algoritmos X-opt, Y-opt y 2-opt, de acuerdo con los criterios descritos en el artículo de referencia, y verificar su funcionamiento mediante pruebas pequeñas.
 
-3. Comparar la longitud final de las rutas, el número de intercambios y el tiempo de ejecución de los tres algoritmos, utilizando las mismas rutas iniciales aleatorias en cada comparación.
+3.  Comparar la longitud final de las rutas, el número de intercambios y el tiempo de ejecución de los tres algoritmos, utilizando las mismas rutas iniciales aleatorias en cada comparación.
 
-4. Evaluar los cambios en los recorridos y sus longitudes al introducir distintos niveles de perturbación en las coordenadas de las localidades.
+4.  Evaluar los cambios en los recorridos y sus longitudes al introducir distintos niveles de perturbación en las coordenadas de las localidades.
 
-5. Contrastar los resultados experimentales con el comportamiento descrito en el artículo de referencia, considerando las características y limitaciones del conjunto de localidades seleccionado.
+5.  Contrastar los resultados experimentales con el comportamiento descrito en el artículo de referencia, considerando las características y limitaciones del conjunto de localidades seleccionado.
 
 # Delimitación del estudio
 
@@ -74,7 +74,7 @@ El presente proyecto toma como referencia el trabajo de @manthey2025performance,
 
 Por un lado, el algoritmo 2-opt mejora un recorrido mediante el intercambio de dos conexiones, siempre que la modificación reduzca su longitud total. Aunque suele presentar buenos resultados en la práctica, puede requerir un número exponencial de iteraciones en casos desfavorables. Ante esta limitación, el artículo analiza dos variantes que restringen los intercambios permitidos y cuentan con garantías de terminación en un número polinomial de iteraciones.
 
-La primera variante, X-opt, únicamente permite intercambios que eliminan cruces entre las conexiones de una ruta en el plano. Los autores demuestran que la ausencia de cruces no garantiza que un recorrido tenga una longitud cercana a la óptima. La segunda variante, Y-opt, exige que, al ordenar de mayor a menor las longitudes de las dos conexiones anteriores y de las dos nuevas, ninguna de las longitudes correspondientes aumente y al menos una disminuya. Esta condición es más restrictiva que exigir únicamente una reducción de la suma de las distancias.
+La primera variante, X-opt, únicamente permite intercambios que eliminan cruces entre las conexiones de una ruta en el plano. Los autores demuestran que la ausencia de cruces no garantiza que un recorrido tenga una longitud cercana a la óptima. La segunda variante, Y-opt, tras ordenar de mayor a menor las longitudes de las dos conexiones anteriores y de las dos nuevas, exige que ninguna de las longitudes correspondientes aumente y al menos una disminuya. Esta condición es más restrictiva que exigir únicamente una reducción de la suma de las distancias.
 
 Además del análisis teórico, el artículo presenta una comparación numérica de X-opt, Y-opt y 2-opt sobre conjuntos de puntos generados uniformemente en el cuadrado unitario, utilizando rutas iniciales aleatorias. Los resultados muestran que Y-opt obtiene longitudes cercanas a las de 2-opt y que el comportamiento experimental de X-opt es más favorable de lo que podría sugerir el análisis de sus peores soluciones locales.
 
@@ -94,11 +94,9 @@ El procedimiento se repite hasta que no existen intercambios 2-opt que reduzcan 
 
 ## Algoritmo X-opt
 
-De acuerdo con @manthey2025performance, el algoritmo X-opt corresponde a una variante del algoritmo 2-opt, en la que el reemplazo de dos aristas solo está permitido si dichas aristas se cruzan entre sí. Lo anterior solo está bien definido para distancias euclidianas en $\mathbb{R}^{2}$. Considere $L(x, y)$ como el segmento de recta entre $x$ e $y$, en vías de facilitar la notación si $e = \{x, y\}$ con $x \neq y$, entonces se escribe $L(e) = L(x, y)$.
-Se dice que un conjunto $T$ de aristas presenta cruces si existen $e, f \in T$ que no comparten ningún extremo y que cumplen $L(e) \cap L(f) \neq \emptyset$. Por el contrario, $T$ no presenta cruces si para todo par de aristas no adyacentes $e, f \in T$, se cumple que $L(e) \cap L(f) = \emptyset$. Bajo X-opt un óptimo local es precisamente un recorrido sin cruces entre sus aristas, donde se entiende a un óptimo local como un recorrido que no puede mejorarse mediante ninguna de las modificaciones permitidas por el algoritmo. Por otro lado, con el objetivo de evitar contradicciones en lo que concierne a la definición de cruce, se asume que no es posible que más de un punto se sitúe en una misma posición.
+De acuerdo con @manthey2025performance, el algoritmo X-opt corresponde a una variante del algoritmo 2-opt, en la que el reemplazo de dos aristas solo está permitido si dichas aristas se cruzan entre sí. Lo anterior solo está bien definido para distancias euclidianas en $\mathbb{R}^{2}$. Considere $L(x, y)$ como el segmento de recta entre $x$ y $y$, en vías de facilitar la notación si $e = \{x, y\}$ con $x \neq y$, entonces se escribe $L(e) = L(x, y)$. Se dice que un conjunto $T$ de aristas presenta cruces si existen $e, f \in T$ que no comparten ningún extremo y que cumplen $L(e) \cap L(f) \neq \emptyset$. Por el contrario, $T$ no presenta cruces si para todo par de aristas no adyacentes $e, f \in T$, se cumple que $L(e) \cap L(f) = \emptyset$. Bajo X-opt un óptimo local es precisamente un recorrido sin cruces entre sus aristas, donde se entiende a un óptimo local como un recorrido que no puede mejorarse mediante ninguna de las modificaciones permitidas por el algoritmo. Por otro lado, con el objetivo de evitar contradicciones en lo que concierne a la definición de cruce, se asume que no es posible que más de un punto se sitúe en una misma posición.
 
-De manera genera, sea $T$ un recorrido a través de un conjunto de puntos $\mathcal{X} ⊆ \mathbb{R}^{2}$. Si $T$ presenta cruces, el modo de operación del algoritmo radica en identificar dos aristas no adyacentes $e, f \in T$ que se intersecten, y sustituirlas por nuevas aristas que permitan obtener un recorrido válido con una menor longitud total. Este procedimiento se repite mientras existan cruces en el recorrido, hasta obtener uno sin intersecciones entre aristas no adyacentes. 
-
+De manera general, sea $T$ un recorrido a través de un conjunto de puntos $\mathcal{X} ⊆ \mathbb{R}^{2}$. Si $T$ presenta cruces, el modo de operación del algoritmo radica en identificar dos aristas no adyacentes $e, f \in T$ que se intersecten, y sustituirlas por nuevas aristas que permitan obtener un recorrido válido con una menor longitud total. Este procedimiento se repite mientras existan cruces en el recorrido, hasta obtener uno sin intersecciones entre aristas no adyacentes.
 
 ## Algoritmo Y-opt
 
@@ -106,19 +104,19 @@ El algoritmo Y-opt es una variante del algoritmo 2-opt. Como se vio anteriorment
 
 La principal ventaja del algoritmo Y-opt es que el número de iteraciones para una ruta de $n$ vértices y $m$ aristas está acotado por $(m-1)n$ [@manthey2025performance], resultando en un tiempo de ejecución polinomial. En comparación, el algoritmo 2-opt puede necesitar un tiempo exponencial en los peores casos; de esta forma, el algoritmo Y-opt compensa su condición de aceptación con el tiempo que necesitará para ejecutarse. A pesar de que el algoritmo Y-opt sea más estricto, los resultados teóricos muestran que este algoritmo tiene resultados similares a los del 2-opt, donde se llega a rutas ligeramente más largas con el algoritmo Y-opt pero en un tiempo de ejecución acotado en comparación al 2-opt [@manthey2025performance].
 
-## Medidas a Recopilar en los experimentos
+## Medidas a recopilar en los experimentos
 
-Para evaluar y poder comparar el rendimiento de los tres algoritmos, 2-opt, X-opt y Y-opt, se utilizarán las siguientes medidas:
+Para evaluar y poder comparar el rendimiento de los tres algoritmos: 2-opt, X-opt y Y-opt, se utilizarán las medidas que se detallan a continuación.
 
-**Longitud de la ruta optimizada:** Es la longitud final medida en kilómetros de cada ruta optimizada según el algoritmo; esta medida incluye todo el recorrido realizado y el regreso desde la última visitada hasta el punto de partida inicial. De esta forma, se puede comparar qué tan grande o pequeña es la ruta de un algoritmo con respecto a las demás. 
+**Longitud de la ruta optimizada:** corresponde a la longitud final medida en kilómetros de cada ruta optimizada según el algoritmo; esta medida incluye todo el recorrido realizado y el regreso desde el punto final hasta el punto de partida inicial. De esta forma, se puede comparar qué tan grande o qué tan pequeña es la ruta de un algoritmo con respecto a las demás.
 
-**Tiempo de ejecución:** Es el tiempo medido en segundos, de lo que tardó cada algoritmo en encontrar su solución. Esto permitirá comparar la rapidez de cada algoritmo para encontrar una solución. 
+**Tiempo de ejecución:** es el tiempo medido en segundos de la duración de cada algoritmo en encontrar su solución. Esto permitirá comparar la rapidez de cada algoritmo para encontrar el recorrido óptimo.
 
-**Número de intercambios aceptados:** Es el número de veces que cada algoritmo aceptó algún cambio en la ruta. Esta medida permitirá ver qué tanto aceptó o rechazó cambios un algoritmo, permitiendo así, ver qué tan estricto es cada algoritmo con la aceptación de un cambio. 
+**Número de intercambios aceptados:** representa el número de veces que cada algoritmo aceptó algún cambio en la ruta. Esta medida permitirá ver qué tanto aceptó o rechazó cambios un algoritmo, permitiendo así, ver qué tan estricto es cada algoritmo con la aceptación de un cambio.
 
-**Ruta final obtenida:** Es una lista los índices que representan el orden en que se visitó cada ciudad. Esto permitirá realizar los gráficos y comparar las rutas creadas por cada algoritmo.
+**Ruta final obtenida:** es una lista que contiene a los índices que representan el orden en que se visitó cada ciudad. Lo anterior permitirá realizar los gráficos y comparar las rutas creadas por cada algoritmo.
 
-**Porcentaje de mejora con respecto a la ruta inicial:** Esta medida se calculará como $$((longitud inicial - longitud final) / longitud inicial) \times 100 $$; esta medida permite ver cuánto mejoró la solución de cada algoritmo con respecto a la ruta inicial creada aleatoriamente.
+**Porcentaje de mejora con respecto a la ruta inicial:** esta medida se calculará como: $$((\text{longitud inicial} - \text{longitud final}) / \text{longitud inicial}) \times 100. $$Tal medida permitirá ver cuánto mejoró la solución de cada algoritmo con respecto a la ruta inicial creada aleatoriamente.
 
 Las métricas antes mencionadas permitirán realizar la comparación entre algoritmos, además de la visualización de cada ruta creada. Es importante destacar que, para lograr realizar esta comparación, los tres algoritmos utilizarán la misma ruta inicial y la misma matriz de distancias.
 
@@ -130,26 +128,26 @@ Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que cor
 
 Cada registro describe un rasgo geográfico, no necesariamente un poblado. Los rasgos se clasifican en nueve clases (@tbl-clases); la clase `P` (lugares poblados) es la de interés para este proyecto.
 
-| Clase | Descripción | Registros |
-|:--:|:--|--:|
-| H | Ríos, lagos y otros cuerpos de agua | 6 801 |
-| P | Ciudades, pueblos y caseríos | 5 900 |
-| S | Sitios, edificaciones y fincas | 4 401 |
-| T | Montañas, colinas y rocas | 2 908 |
-| L | Parques y áreas | 798 |
-| A | Divisiones administrativas | 565 |
-| V | Bosques y vegetación | 44 |
-| R | Caminos y ferrocarriles | 6 |
-| U | Rasgos submarinos | 3 |
+| Clase | Descripción                         | Registros |
+|:-----:|:------------------------------------|----------:|
+|   H   | Ríos, lagos y otros cuerpos de agua |     6 801 |
+|   P   | Ciudades, pueblos y caseríos        |     5 900 |
+|   S   | Sitios, edificaciones y fincas      |     4 401 |
+|   T   | Montañas, colinas y rocas           |     2 908 |
+|   L   | Parques y áreas                     |       798 |
+|   A   | Divisiones administrativas          |       565 |
+|   V   | Bosques y vegetación                |        44 |
+|   R   | Caminos y ferrocarriles             |         6 |
+|   U   | Rasgos submarinos                   |         3 |
 
 : Registros de `CR.txt` según clase de rasgo. {#tbl-clases}
 
 ## Variables utilizadas
 
-De las 19 variables, el proyecto utiliza principalmente las que muestra la @tbl-variables:
+De las 19 variables, el proyecto utilizará principalmente las que muestra la @tbl-variables:
 
 | Variable | Descripción |
-|:--|:--|
+|:-----------------------------------|:-----------------------------------|
 | `geonameid` | Identificador único del registro |
 | `nombre` | Nombre del lugar |
 | `latitud`, `longitud` | Coordenadas en grados decimales (WGS84) |
@@ -165,11 +163,11 @@ Las coordenadas son la base para construir las coordenadas planas y la matriz de
 
 El conjunto de localidades se obtuvo aplicando los siguientes filtros sobre `CR.txt`:
 
-1. **Solo lugares poblados.** Se conservaron los registros de clase `P`, es decir, 5 900 de los 21 426.
-2. **Exclusión de poblados destruidos o históricos.** Se descartaron los códigos `PPLQ` (poblado abandonado), `PPLW` (poblado destruido) y `PPLH` (poblado histórico).
-3. **Población reportada.** Se conservaron únicamente las localidades con población mayor que cero. Este filtro es necesario porque el 97,8 % de los lugares poblados reporta población igual a cero, de modo que no tienen información de población disponible.
-4. **Coordenadas únicas.** Se eliminaron los registros con coordenadas repetidas, considerando como repetidas las coordenadas que coinciden al redondear a tres decimales (aproximadamente 100 m); entre los registros repetidos se conservó el de mayor población. Este filtro es necesario porque @manthey2025performance suponen que no hay dos puntos en la misma posición, supuesto con el que X-opt puede decidir si dos aristas se cruzan.
-5. **Selección final.** Tras el filtrado, se seleccionaron las 15 localidades con mayor población.
+1.  **Solo lugares poblados.** Se conservaron los registros de clase `P`, es decir, 5 900 de los 21 426.
+2.  **Exclusión de poblados destruidos o históricos.** Se descartaron los códigos `PPLQ` (poblado abandonado), `PPLW` (poblado destruido) y `PPLH` (poblado histórico).
+3.  **Población reportada.** Se conservaron únicamente las localidades con población mayor que cero. Este filtro es necesario porque el 97,8 % de los lugares poblados reporta población igual a cero, de modo que no tienen información de población disponible.
+4.  **Coordenadas únicas.** Se eliminaron los registros con coordenadas repetidas, considerando como repetidas las coordenadas que coinciden al redondear a tres decimales (aproximadamente 100 m); entre los registros repetidos se conservó el de mayor población. Este filtro es necesario porque @manthey2025performance suponen que no hay dos puntos en la misma posición, supuesto con el que X-opt puede decidir si dos aristas se cruzan.
+5.  **Selección final.** Tras el filtrado, se seleccionaron las 15 localidades con mayor población.
 
 El conjunto resultante consta de **15 localidades**, que se ordenaron por población decreciente y se numeraron de 0 a 14 para usarse como índices en las rutas.
 
@@ -179,38 +177,38 @@ Las coordenadas geográficas se convirtieron a coordenadas planas en kilómetros
 
 ## Descripción de las localidades seleccionadas
 
-La población de las 15 localidades tiene un mínimo de 27 477, una mediana de 34 877, una media de 58 191 y un máximo de 335 007 habitantes. La media supera ampliamente a la mediana, lo que indica una distribución asimétrica a la derecha. Sus coordenadas están entre las latitudes 9,367° y 10,952° N y las longitudes −85,438° y −83,036° O. La @tbl-localidades presenta el conjunto y la @fig-localidades muestra su ubicación.
+La población de las 15 localidades tiene un mínimo de 27 477, una mediana de 34 877, una media de 58 191 y un máximo de 335 007 habitantes. La media supera ampliamente a la mediana, lo que indica la presencia de una distribución asimétrica a la derecha. Sus coordenadas están entre las latitudes 9,367° y 10,952° N y las longitudes −85,438° y −83,036° O. La @tbl-localidades presenta al conjunto y la @fig-localidades muestra su ubicación.
 
-|   Índice | Nombre        | Provincia   | Código   |   Población |   Latitud |   Longitud |   x (km) |   y (km) |
-|---------:|:--------------|:------------|:---------|------------:|----------:|-----------:|---------:|---------:|
-|        0 | San José      | San José    | PPLC     |      335007 |     9,934 |    -84,085 |      7,9 |     -9,1 |
-|        1 | Limón         | Limón       | PPLA     |       63081 |     9,991 |    -83,036 |    122,7 |     -2,8 |
-|        2 | San Francisco | Heredia     | PPLX     |       55923 |     9,994 |    -84,127 |      3,2 |     -2,5 |
-|        3 | Alajuela      | Alajuela    | PPLA     |       47494 |    10,017 |    -84,213 |     -6,2 |      0,1 |
-|        4 | Liberia       | Guanacaste  | PPLA     |       45380 |    10,635 |    -85,438 |   -140,3 |     68,8 |
-|        5 | Paraíso       | Cartago     | PPL      |       39702 |     9,838 |    -83,867 |     31,8 |    -19,8 |
-|        6 | Puntarenas    | Puntarenas  | PPLA     |       35650 |     9,977 |    -84,838 |    -74,6 |     -4,4 |
-|        7 | San Isidro    | San José    | PPLA3    |       34877 |     9,367 |    -83,697 |     50,3 |    -72,1 |
-|        8 | Curridabat    | San José    | PPL      |       34586 |     9,914 |    -84,036 |     13,2 |    -11,4 |
-|        9 | San Vicente   | San José    | PPL      |       34447 |     9,962 |    -84,049 |     11,7 |     -6,0 |
-|       10 | San José      | Alajuela    | PPL      |       31430 |    10,952 |    -85,136 |   -107,2 |    104,1 |
-|       11 | Purral        | San José    | PPL      |       30034 |     9,957 |    -84,032 |     13,6 |     -6,6 |
-|       12 | Turrialba     | Cartago     | PPL      |       28955 |     9,904 |    -83,684 |     51,8 |    -12,5 |
-|       13 | San Miguel    | San José    | PPL      |       28827 |     9,871 |    -84,061 |     10,5 |    -16,1 |
-|       14 | San Pedro     | San José    | PPLA2    |       27477 |     9,928 |    -84,051 |     11,6 |     -9,8 |
+| Índice | Nombre        | Provincia  | Código | Población | Latitud | Longitud | x (km) | y (km) |
+|-------:|:-------|:-------|:-------|-------:|-------:|-------:|-------:|-------:|
+|      0 | San José      | San José   | PPLC   |    335007 |   9,934 |  -84,085 |    7,9 |   -9,1 |
+|      1 | Limón         | Limón      | PPLA   |     63081 |   9,991 |  -83,036 |  122,7 |   -2,8 |
+|      2 | San Francisco | Heredia    | PPLX   |     55923 |   9,994 |  -84,127 |    3,2 |   -2,5 |
+|      3 | Alajuela      | Alajuela   | PPLA   |     47494 |  10,017 |  -84,213 |   -6,2 |    0,1 |
+|      4 | Liberia       | Guanacaste | PPLA   |     45380 |  10,635 |  -85,438 | -140,3 |   68,8 |
+|      5 | Paraíso       | Cartago    | PPL    |     39702 |   9,838 |  -83,867 |   31,8 |  -19,8 |
+|      6 | Puntarenas    | Puntarenas | PPLA   |     35650 |   9,977 |  -84,838 |  -74,6 |   -4,4 |
+|      7 | San Isidro    | San José   | PPLA3  |     34877 |   9,367 |  -83,697 |   50,3 |  -72,1 |
+|      8 | Curridabat    | San José   | PPL    |     34586 |   9,914 |  -84,036 |   13,2 |  -11,4 |
+|      9 | San Vicente   | San José   | PPL    |     34447 |   9,962 |  -84,049 |   11,7 |   -6,0 |
+|     10 | San José      | Alajuela   | PPL    |     31430 |  10,952 |  -85,136 | -107,2 |  104,1 |
+|     11 | Purral        | San José   | PPL    |     30034 |   9,957 |  -84,032 |   13,6 |   -6,6 |
+|     12 | Turrialba     | Cartago    | PPL    |     28955 |   9,904 |  -83,684 |   51,8 |  -12,5 |
+|     13 | San Miguel    | San José   | PPL    |     28827 |   9,871 |  -84,061 |   10,5 |  -16,1 |
+|     14 | San Pedro     | San José   | PPLA2  |     27477 |   9,928 |  -84,051 |   11,6 |   -9,8 |
 
 : Localidades seleccionadas. {#tbl-localidades}
 
 ![Ubicación de las localidades seleccionadas en coordenadas planas. El número corresponde al índice de la @tbl-localidades.](../figuras/localidades.png){#fig-localidades}
 
-Por provincia, 7 localidades pertenecen a San José, 2 a Alajuela, 2 a Cartago y 1 a cada una de Guanacaste, Heredia, Limón y Puntarenas. Según las coordenadas planas de la @tbl-localidades, 8 de las 15 localidades (53 %) están a menos de 20 km del centro de San José, mientras que Liberia, Limón y San José (Alajuela) quedan a más de 100 km. Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por @manthey2025performance, lo cual se retomará al comparar resultados.
+Por provincia, siete localidades pertenecen a San José, dos localidades se sitúan en Alajuela, dos localidades se encuentran en Cartago y una localidad está en cada una de las siguientes provincias: Guanacaste, Heredia, Limón y Puntarenas. Según las coordenadas planas de la @tbl-localidades, ocho de las quince localidades (53%) están a menos de 20 km del centro de San José, mientras que Liberia, Limón y San José (Alajuela) quedan a más de 100 km. Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por @manthey2025performance, lo cual se retomará al comparar resultados.
 
 ## Limitaciones de los datos
 
-- La población proviene de GeoNames y no de un censo oficial, por lo que sirve como criterio de selección, no como medida precisa.
-- Una de las localidades (San Francisco) tiene código `PPLX`, que corresponde a una sección de un lugar poblado, y queda a unos 8 km de San José.
-- Dos localidades comparten el nombre «San José» (índices 0 y 10); la segunda, en la provincia de Alajuela, queda a unos 160 km de la capital.
-- Al conservar solo las localidades más pobladas, el conjunto se concentra en el área metropolitana de San José y no representa de forma pareja el resto del territorio.
+-   La población proviene de GeoNames y no de un censo oficial, por lo que sirve como criterio de selección, no como medida precisa.
+-   Una de las localidades (San Francisco) tiene código `PPLX`, que corresponde a una sección de un lugar poblado, y queda a unos 8 km de San José.
+-   Dos localidades comparten el nombre «San José» (índices 0 y 10); la segunda, en la provincia de Alajuela, queda a unos 160 km de la capital.
+-   Al conservar solo las localidades más pobladas, el conjunto se concentra en el área metropolitana de San José y no representa de forma pareja el resto del territorio.
 
 # Metodología e implementación en Python
 
@@ -218,10 +216,6 @@ Se realizará un estudio computacional y experimental en Python para comparar lo
 
 A partir del archivo `CR.txt` con las localidades de Costa Rica, se seleccionarán localidades pobladas, se excluirán registros históricos o abandonados y se eliminarán coordenadas duplicadas. Las coordenadas geográficas se convertirán a coordenadas planas en kilómetros para construir una matriz de distancias euclidianas. Cada ruta visitará todas las localidades seleccionadas una vez e incluirá el regreso al punto inicial.
 
-En el primer avance se implementarán los tres algoritmos y se verificará su funcionamiento con aproximadamente 10 a 15 localidades (en caso de que los códigos funcionen bien, y no tarden mucho en correr, se intentará con más localidades), utilizando una misma ruta inicial aleatoria. En el avance final se realizarán múltiples ejecuciones y se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución mediante tablas y gráficos.
-
-Finalmente, se introducirán pequeñas perturbaciones en las coordenadas y se repetirán los experimentos para estudiar los cambios en los recorridos y sus longitudes. Los resultados se contrastarán con los del artículo, considerando las diferencias entre las localidades reales y los puntos aleatorios utilizados por los autores.
-
-# Prueba preliminar
+Se realizarán múltiples ejecuciones y se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución mediante tablas y gráficos. Finalmente, se introducirán pequeñas perturbaciones en las coordenadas y se repetirán los experimentos para estudiar los cambios en los recorridos y sus longitudes. Los resultados se contrastarán con los del artículo, considerando las diferencias entre las localidades reales y los puntos aleatorios utilizados por los autores.
 
 # Referencias
