@@ -1,0 +1,26 @@
+---
+format: 
+ pdf: 
+   papersize: letter
+   documentclass: article
+   lang: es-CR
+   titlepage: false
+   toc: false
+   fontsize: "11pt"
+   mainfont: Times New Roman
+   urlcolor: "blue"
+   number-sections: false
+   margin-left: "2.54cm"
+   margin-right: "2.54cm"
+   margin-top: "2.54cm"
+   margin-bottom: "2.54cm"
+   header-includes:
+            - \usepackage{indentfirst}
+            - \setlength{\parindent}{0cm}
+            - \usepackage{setspace}
+            - \setstretch{1.15} 
+            - \usepackage{hanging}
+            - \usepackage{hyperref}
+   include-before-body: Portada.tex
+---
+
