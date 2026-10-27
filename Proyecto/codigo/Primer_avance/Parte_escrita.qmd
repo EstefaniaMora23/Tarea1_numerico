@@ -1,5 +1,5 @@
 ---
-bibliography: ../referencias/referencias.bib
+bibliography: ../../referencias/referencias.bib
 csl: https://www.zotero.org/styles/apa
 format: 
  pdf: 
@@ -199,7 +199,7 @@ La población de las 15 localidades tiene un mínimo de 27 477, una mediana de 3
 
 : Localidades seleccionadas. {#tbl-localidades}
 
-![Ubicación de las localidades seleccionadas en coordenadas planas. El número corresponde al índice de la @tbl-localidades.](../figuras/localidades.png){#fig-localidades}
+![Ubicación de las localidades seleccionadas en coordenadas planas. El número corresponde al índice de la @tbl-localidades.](../../figuras/localidades.png){#fig-localidades}
 
 Por provincia, siete localidades pertenecen a San José, dos localidades se sitúan en Alajuela, dos localidades se encuentran en Cartago y una localidad está en cada una de las siguientes provincias: Guanacaste, Heredia, Limón y Puntarenas. Según las coordenadas planas de la @tbl-localidades, ocho de las quince localidades (53%) están a menos de 20 km del centro de San José, mientras que Liberia, Limón y San José (Alajuela) quedan a más de 100 km. Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por @manthey2025performance, lo cual se retomará al comparar resultados.
 
