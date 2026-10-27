@@ -32,9 +32,9 @@ format:
 
 # Introducción
 
-El problema del viajero consiste en encontrar un recorrido de longitud mínima que visite un conjunto de localidades exactamente una vez y regrese al punto de partida. Debido al crecimiento del número de recorridos posibles conforme aumenta la cantidad de localidades, se utilizan métodos heurísticos que permiten obtener soluciones aproximadas (Flood, 1956).
+El problema del viajero consiste en encontrar un recorrido de longitud mínima que visite un conjunto de localidades exactamente una vez y regrese al punto de partida. Debido al crecimiento del número de recorridos posibles conforme aumenta la cantidad de localidades, se utilizan métodos heurísticos que permiten obtener soluciones aproximadas [@flood1956].
 
-El presente proyecto tomará como referencia el trabajo de Manthey y van Rhijn (2025) para comparar los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica. Estos métodos realizan modificaciones sobre una ruta inicial, utilizando distintos criterios para seleccionar los intercambios. Su aplicación permitirá examinar las diferencias en la longitud de las rutas obtenidas, así como en el esfuerzo computacional requerido.
+El presente proyecto tomará como referencia el trabajo de @manthey2025performance para comparar los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica. Estos métodos realizan modificaciones sobre una ruta inicial, utilizando distintos criterios para seleccionar los intercambios. Su aplicación permitirá examinar las diferencias en la longitud de las rutas obtenidas, así como en el esfuerzo computacional requerido.
 
 Para ello, se implementarán los tres algoritmos en Python y se ejecutarán a partir de las mismas rutas iniciales aleatorias. Posteriormente se realizarán gráficos en MATLAB. Asimismo, se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución. Finalmente, se introducirán pequeñas perturbaciones en las coordenadas para estudiar cómo estos cambios afectan los recorridos y sus longitudes. De esta manera, se explorará el comportamiento de los métodos en una configuración geográfica basada en localidades reales.
 
