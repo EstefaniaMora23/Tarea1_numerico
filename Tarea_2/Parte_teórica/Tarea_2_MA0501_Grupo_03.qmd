@@ -122,6 +122,61 @@ Por lo que la aproximación tiene 0 dígitos de significancia. Esta mala aproxim
 
 # Valores/Vectores propios
 
+## Ejercicio 7
+
+Considere $A \in \mathbb{C}^{m \times m}$ no necesariamente hermética. Muestre que un número $z \in \mathbb{C}$ es un cociente de Rayleigh de $A$ si y solo si es una entrada diagonal de la matriz $Q^*AQ$ para una matriz unitaria $Q$.
+
+
+($\Rightarrow$) Asumamos que $z \in \mathbb{C}$ es un cociente de Rayleigh de $A$. Hay que mostrar que $z$ es una entrada diagonal de la matriz $Q^*AQ$ para alguna matriz unitaria $Q$.
+
+Como $z$ es cociente de Rayleigh, podemos definirlo como:
+$$z = R(x) = \frac{x^*Ax}{x^*x}$$
+para un vector $x \neq 0$.
+
+Si se define $v = \frac{x}{\|x\|}$ como un vector unitario:
+$$\Rightarrow x = v \|x\|$$
+$$\Rightarrow x^* = \|x\| v^*$$
+$$\Rightarrow z = \frac{\|x\| v^* A v \|x\|}{\|x\| v^* v \|x\|} = \frac{\|x\|^2 v^* A v}{\|x\|^2 v^* v}$$
+
+Como $v$ es unitario, $v^*v = 1$:
+$$\Rightarrow z = \frac{v^* A v}{1} = v^* A v$$
+
+Ahora, sean $q_2, q_3, \dots, q_m$ los $m-1$ vectores tales que $\{v, q_2, q_3, \dots, q_m\}$ sea una base ortonormal de $\mathbb{C}^m$. Definimos $Q \in \mathbb{C}^{m \times m}$ de la siguiente forma:
+$$Q = \begin{pmatrix} | & | & | & & | \\ v & q_2 & q_3 & \dots & q_m \\ | & | & | & & | \end{pmatrix}$$
+
+Donde se cumple que $\|v\| = \|q_2\| = \dots = \|q_m\| = 1$ y $v^*q_j = 0$ y $q_i^*q_j = 0$ $\forall i \neq j$, ya que el conjunto $\{v, q_2, q_3, \dots, q_m\}$ es una base ortonormal de $\mathbb{C}^m$.
+$$\Rightarrow Q \text{ es unitaria}$$
+
+Ahora, sabemos que por definición del producto matricial:
+$$(Q^*AQ)_{ij} = Q^*_{i,\cdot} A Q_{\cdot,j}$$
+
+En particular, para la entrada $(1,1)$, es decir, $i = 1 = j$:
+$$\Rightarrow (Q^*AQ)_{11} = Q^*_{1,\cdot} A Q_{\cdot,1}$$
+
+Note que $Q_{\cdot,1} = v$ y además $Q^*_{1,\cdot} = v^*$, ya que es la primer fila de $Q^*$ conjugada y transpuesta:
+$$\Rightarrow (Q^*AQ)_{11} = v^* A v = z$$
+
+Así, si $z \in \mathbb{C}$ es cociente de Rayleigh, entonces es una entrada diagonal de la matriz $Q^*AQ$ con $Q$ una matriz unitaria.
+
+($\Leftarrow$) Ahora, asumamos que $z \in \mathbb{C}$ es una entrada diagonal de la matriz $Q^*AQ$ para una matriz unitaria $Q$. Hay que mostrar que $z$ es un cociente de Rayleigh de $A$.
+
+Sea $q_i$ la $i$-ésima columna de la matriz $Q$. La entrada $(i,i)$ de la matriz $Q^*AQ$ sería:
+$$(Q^*AQ)_{ii} = q_i^* A q_i$$
+
+Defina $z = q_i^* A q_i$.
+
+Como $Q$ es unitaria por hipótesis, entonces el conjunto $\{q_1, \dots, q_m\}$ forma una base ortonormal. Entonces cada vector $q_i$ es unitario:
+$$\Rightarrow q_i^* q_i = 1$$
+
+El cociente de Rayleigh para el vector $q_i$ sería:
+$$R(q_i) = \frac{q_i^* A q_i}{q_i^* q_i} = \frac{z}{1} = z$$
+
+Por lo que, $z$ es el cociente de Rayleigh del vector $q_i$.
+
+
+De esta forma, $z \in \mathbb{C}$ es un cociente de Rayleigh de $A \in \mathbb{C}^{m \times m}$ si y solo si es una entrada diagonal de la matriz $Q^*AQ$ para $Q$ una matriz unitaria. $\blacksquare$
+
+
 
 
 # Ecuaciones Diferenciales
