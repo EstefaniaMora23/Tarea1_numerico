@@ -28,7 +28,7 @@ format:
 
 # Título del proyecto
 
-**Comparación de los algoritmos X-opt, Y-opt y 2-opt para optimizar rutas en localidades de Costa Rica: análisis de su estabilidad ante perturbaciones**
+**Comparación de los algoritmos X-opt, Y-opt y 2-opt para optimizar rutas en localidades de Costa Rica**
 
 # Introducción
 
@@ -36,13 +36,13 @@ El problema del viajero consiste en encontrar un recorrido de longitud mínima q
 
 El presente proyecto tomará como referencia el trabajo de @manthey2025performance para comparar los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica. Estos métodos realizan modificaciones sobre una ruta inicial, utilizando distintos criterios para seleccionar los intercambios. Su aplicación permitirá examinar las diferencias en la longitud de las rutas obtenidas, así como en el esfuerzo computacional requerido.
 
-Para ello, se implementarán los tres algoritmos en Python y se ejecutarán a partir de las mismas rutas iniciales aleatorias. Posteriormente se realizarán gráficos en MATLAB. Asimismo, se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución. Finalmente, se introducirán pequeñas perturbaciones en las coordenadas para estudiar cómo estos cambios afectan los recorridos y sus longitudes. De esta manera, se explorará el comportamiento de los métodos en una configuración geográfica basada en localidades reales.
+Para ello, se implementarán los tres algoritmos en Python y se ejecutarán a partir de las mismas rutas iniciales aleatorias. Posteriormente se realizarán gráficos en MATLAB. Asimismo, se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución. 
 
 # Objetivos
 
 ## Objetivo general
 
-Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica y analizar cómo pequeñas perturbaciones en las coordenadas afectan las rutas obtenidas y sus longitudes.
+Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica.
 
 ## Objetivos específicos
 
@@ -52,9 +52,7 @@ Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto del
 
 3.  Comparar la longitud final de las rutas, el número de intercambios y el tiempo de ejecución de los tres algoritmos, utilizando las mismas rutas iniciales aleatorias en cada comparación.
 
-4.  Evaluar los cambios en los recorridos y sus longitudes al introducir distintos niveles de perturbación en las coordenadas de las localidades.
-
-5.  Contrastar los resultados experimentales con el comportamiento descrito en el artículo de referencia, considerando las características y limitaciones del conjunto de localidades seleccionado.
+4.  Contrastar los resultados experimentales con el comportamiento descrito en el artículo de referencia, considerando las características y limitaciones del conjunto de localidades seleccionado.
 
 # Delimitación del estudio
 
@@ -64,7 +62,7 @@ Las coordenadas geográficas se convertirán a coordenadas planas expresadas en 
 
 La comparación se limitará a los algoritmos X-opt, Y-opt y 2-opt implementados en Python. En cada ejecución, los tres métodos partirán de la misma ruta inicial aleatoria y utilizarán los mismos datos. Su desempeño se evaluará mediante la longitud final del recorrido, el número de intercambios y el tiempo de ejecución. No se incluirá la búsqueda exacta del óptimo global como parte del alcance del proyecto.
 
-El análisis de estabilidad se basará en perturbaciones controladas de las coordenadas, manteniendo fijo el conjunto de localidades. Se examinarán los cambios en las rutas y sus longitudes para los niveles de perturbación considerados. Los resultados tendrán un carácter experimental y sus conclusiones se limitarán a los datos, las implementaciones y los escenarios estudiados; no constituirán una reproducción de las demostraciones teóricas del artículo.
+Los resultados tendrán un carácter experimental y sus conclusiones se limitarán a los datos, las implementaciones y los escenarios estudiados; no constituirán una reproducción de las demostraciones teóricas del artículo.
 
 # Fundamento teórico
 
@@ -216,6 +214,6 @@ Se realizará un estudio computacional y experimental en Python para comparar lo
 
 A partir del archivo `CR.txt` con las localidades de Costa Rica, se seleccionarán localidades pobladas, se excluirán registros históricos o abandonados y se eliminarán coordenadas duplicadas. Las coordenadas geográficas se convertirán a coordenadas planas en kilómetros para construir una matriz de distancias euclidianas. Cada ruta visitará todas las localidades seleccionadas una vez e incluirá el regreso al punto inicial.
 
-Se realizarán múltiples ejecuciones y se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución mediante tablas y gráficos. Finalmente, se introducirán pequeñas perturbaciones en las coordenadas y se repetirán los experimentos para estudiar los cambios en los recorridos y sus longitudes. Los resultados se contrastarán con los del artículo, considerando las diferencias entre las localidades reales y los puntos aleatorios utilizados por los autores.
+Se realizarán múltiples ejecuciones y se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución mediante tablas y gráficos. Los resultados se contrastarán con los del artículo, considerando las diferencias entre las localidades reales y los puntos aleatorios utilizados por los autores.
 
 # Referencias
