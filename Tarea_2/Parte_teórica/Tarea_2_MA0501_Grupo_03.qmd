@@ -24,3 +24,110 @@ format:
    include-before-body: Portada.tex
 ---
 
+# Interporlación
+
+
+## Ejercicio 1
+
+Tenemos $f(x) := \frac{1}{2} + \frac{2}{1 + \left|1 - \tan\left(\frac{x}{2}\right)\right|}$ para $0 \le x \le 2$.
+
+### a) Aproxime $f(0)$, $f(1)$ y $f(2)$ y $f'(0)$, $f'(1)$ y $f'(2)$
+
+Vea que
+
+$$f(0) = \frac{1}{2} + \frac{2}{1 + \left|1 - \tan\left(\frac{0}{2}\right)\right|} = \frac{3}{2} = 1.5000 $$
+
+$$f(1) = \frac{1}{2} + \frac{2}{1 + \left|1 - \tan\left(\frac{1}{2}\right)\right|} \approx 1.8758$$
+
+$$f(2) = \frac{1}{2} + \frac{2}{1 + \left|1 - \tan\left(\frac{2}{2}\right)\right|} \approx 1.7842$$
+
+Ahora:
+$$1 - \tan\left(\frac{x}{2}\right) < 0 \Rightarrow \tan\left(\frac{x}{2}\right) > 1 \Rightarrow x > 2 \cdot \tan^{-1}(1) \Rightarrow x > \frac{\pi}{2}$$
+
+$$\Rightarrow \left|1 - \tan\left(\frac{x}{2}\right)\right| = \begin{cases} 1 - \tan\left(\frac{x}{2}\right) & \text{si } x \in \left[0, \frac{\pi}{2}\right] \\ \tan\left(\frac{x}{2}\right) - 1 & \text{si } x \in \left]\frac{\pi}{2}, 2\right] \end{cases}$$
+
+Por lo que
+
+$$ f(x) = \begin{cases} \frac{1}{2} + \frac{2}{2 - \tan\left(\frac{x}{2}\right)} & \text{si } x \in \left[0, \frac{\pi}{2}\right[ \\ \frac{1}{2} + \frac{2}{\tan\left(\frac{x}{2}\right)} & \text{si } x \in \left]\frac{\pi}{2}, 2\right] \end{cases}$$
+
+Ahora, calculemos la derivada para cada intervalo:
+$$\left(\frac{1}{2} + \frac{2}{2 - \tan\left(\frac{x}{2}\right)}\right)' = 0 + \frac{2 \cdot \sec^2\left(\frac{x}{2}\right) \cdot \frac{1}{2}}{\left(2 - \tan\left(\frac{x}{2}\right)\right)^2} = \frac{\sec^2\left(\frac{x}{2}\right)}{\left(2 - \tan\left(\frac{x}{2}\right)\right)^2}$$
+
+$$\left(\frac{1}{2} + \frac{2}{\tan\left(\frac{x}{2}\right)}\right)' = 0 - \frac{2 \sec^2\left(\frac{x}{2}\right) \cdot \frac{1}{2}}{\tan^2\left(\frac{x}{2}\right)} = -\frac{\sec^2\left(\frac{x}{2}\right)}{\tan^2\left(\frac{x}{2}\right)} = -\csc^2\left(\frac{x}{2}\right)$$
+
+Pero, vea que:
+$$\lim_{x \to \frac{\pi}{2}^-} f'(x) = \lim_{x \to \frac{\pi}{2}^-} \frac{\sec^2\left(\frac{x}{2}\right)}{\left(2 - \tan\left(\frac{x}{2}\right)\right)^2} = 2$$
+$$\lim_{x \to \frac{\pi}{2}^+} f'(x) = \lim_{x \to \frac{\pi}{2}^+} -\csc^2\left(\frac{x}{2}\right) = -2$$
+
+Como los límites laterales de $f'(x)$ cuando $x \to \frac{\pi}{2}$ no son iguales, entonces $f'(x)$ posee una discontinuidad en $x = \frac{\pi}{2}$.
+
+$$\Rightarrow f'(x) = \begin{cases} 
+\frac{\sec^2\left(\frac{x}{2}\right)}{\left(2 - \tan\left(\frac{x}{2}\right)\right)^2} & \text{si } x \in \left[0, \frac{\pi}{2}\right[ \\ 
+-\csc^2\left(\frac{x}{2}\right) & \text{si } x \in \left]\frac{\pi}{2}, 2\right] 
+\end{cases}$$
+
+$$\Rightarrow f'(0) = \frac{\sec^2(0)}{(2 - \tan(0))^2} = \frac{1}{4} = 0.2500$$
+
+$$\Rightarrow f'(1) = \frac{\sec^2\left(\frac{1}{2}\right)}{\left(2 - \tan\left(\frac{1}{2}\right)\right)^2} \approx 0.6144$$
+
+$$\Rightarrow f'(2) = -\csc^2(2/2) = -\csc^2(1) \approx -1.4123$$
+
+### b) Para $f′$, construya el polinomio interpolante de Lagrange: $p_2(y)$ para $x$ como función de $y$.
+
+Necesitamos el polinomio interpolante de Lagrange en:
+$$(y_0, x_0) = \left(\frac{1}{4}, 0\right), \quad (y_1, x_1) = (0.6144, 1), \quad (y_2, x_2) = (-1.4123, 2)$$
+
+El polinomio interpolante de Lagrange sería:
+$$p_2(y) = x_0 L_0(y) + x_1 L_1(y) + x_2 L_2(y)$$
+ ya que tenemos que $y$ es la variable independiente. Donde
+$$L_k(y) = \prod_{i=0, i \neq k}^n \frac{y - y_i}{y_k - y_i}$$
+
+$$\Rightarrow L_0(y) = \frac{(y - y_1)(y - y_2)}{(y_0 - y_1)(y_0 - y_2)} = \frac{(y - 0.6144)(y + 1.4123)}{(0.25 - 0.6144)(0.25 + 1.4123)} = \frac{(y - 0.6144)(y + 1.4123)}{-0.6057}$$
+
+$$\Rightarrow L_1(y) = \frac{(y - y_0)(y - y_2)}{(y_1 - y_0)(y_1 - y_2)} = \frac{(y - 0.25)(y + 1.4123)}{(0.6144 - 0.25)(0.6144 + 1.4123)} = \frac{(y - 0.25)(y + 1.4123)}{0.7385}$$
+
+$$\Rightarrow L_2(y) = \frac{(y - y_0)(y - y_1)}{(y_2 - y_0)(y_2 - y_1)} = \frac{(y - 0.25)(y - 0.6144)}{(-1.4123 - 0.25)(-1.4123 - 0.6144)} = \frac{(y - 0.25)(y - 0.6144)}{3.3690}$$
+
+Como $p_2(y) = x_0 L_0(y) + x_1 L_1(y) + x_2 L_2(y)$:
+$$\Rightarrow p_2(y) = 0 \cdot L_0(y) + 1 \cdot L_1(y) + 2 \cdot L_2(y)$$
+$$\Rightarrow p_2(y) = \frac{(y - 0.25)(y + 1.4123)}{0.7385} + \frac{2(y - 0.25)(y - 0.6144)}{3.3690}$$
+
+### c) Evalúe $p_2$ en un valor apropiado de $y$ para encontrar una aproximación a un extremo relativo de $f$.
+
+Sabemos que un extremo relativo se alcanza cuando $f'(x) = 0$. Por lo que, podemos usar $y = 0$ para aproximar dicho valor extremo ya que $x \approx p_2(y)$.
+
+Vea que:
+$$p_2(0) = \frac{(0 - 0.25)(0 + 1.4123)}{0.7385} + \frac{2(0 - 0.25)(0 - 0.6144)}{3.3690} \approx -0.3869$$
+
+Se puede ver que, comparada con la solución exacta $\xi = \frac{\pi}{2} \approx 1.5708$, la aproximación encontrada tendría:
+$$\frac{|1.5708 - (-0.3869)|}{|1.5708|} < 5 \times 10^{-t}$$
+$$\Rightarrow 0.2493 < 10^{-t}$$
+$$\Rightarrow \log_{10}(0.2493) < -t \log_{10}(10)$$
+$$\Rightarrow -\log_{10}(0.2493) > t$$
+$$\Rightarrow 0.6033 > t$$
+
+Como $t$ debe ser entero no negativo, $t = 0$. 
+
+Por lo que la aproximación tiene 0 dígitos de significancia. Esta mala aproximación puede deberse a que la derivada de $f$ posee una discontinuidad en $x = \frac{\pi}{2}$.
+
+
+
+
+
+
+# Integración 
+
+
+
+
+# Valores/Vectores propios
+
+
+
+# Ecuaciones Diferenciales
+
+
+
+# Ejercicios de Investigación
+
+
