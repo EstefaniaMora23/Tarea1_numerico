@@ -255,7 +255,7 @@ $$ \Rightarrow \frac{2.78808}{12*0.00006831} * \leq n^{2}$$
 $$ \Rightarrow \sqrt{\frac{2.78808}{0.0008120}} * \leq n$$
 
 $$ \Rightarrow 58.59689  \leq n$$
-Del resultado anterior concluya que **se requieren al menos 59 subintervalos para que la regla del trapecio compuesta alcance el error obtenido en inciso b**: 0.00006831, es decir, se necesitan al menos 59 subintervalos para que la regla del trapecio tenga un error igual o menor a 0.00006831.
+Del resultado anterior concluya que **se requieren al menos 59 subintervalos para que la regla del trapecio compuesta alcance el error obtenido en inciso b**: 0.00006831, es decir, se necesitan al menos 59 subintervalos para que la regla del trapecio compuesta tenga un error igual o menor a 0.00006831.
 
 # Valores y vectores propios
 
