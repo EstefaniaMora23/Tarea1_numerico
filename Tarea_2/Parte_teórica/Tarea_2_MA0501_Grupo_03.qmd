@@ -117,10 +117,147 @@ Por lo que la aproximación tiene 0 dígitos de significancia. Esta mala aproxim
 
 # Integración 
 
+## Ejercicio 4
+
+Considere la integral: 
+
+$$ \int_{e}^{e+2} \frac{1}{xln(x)} dx \approx 0.43919$$
+Realice lo siguiente usando redondeo a 5 dígitos decimales.
+
+### a) Utilice la regla Compuesta de Simpson para aproximar la integral anterior con 6 subintervalos.
+
+Para aproximar la integral utilizando la regla Compuesta de Simpson y 6 subintervalos, se parte de la siguiente fórmula: 
+
+$$
+\int_a^b f(x)\,dx \approx
+\frac{h}{3}
+\left[
+f(a)
++ 2\sum_{j=1}^{\frac{n}{2}-1} f(x_{2j})
++ 4\sum_{j=1}^{\frac{n}{2}} f(x_{2j-1})
++ f(b)
+\right],
+$$
+donde $h=\frac{b-a}{n}$, $x_{j} = a + jh \quad \text{con} \quad j=0,1,...,n \quad$ y $\quad \mu \in (a,b)$. 
+
+
+Dada la integral del ejercicio y los datos brindados, se tiene que $a=e$, $b=e+2$, $f(x)=\frac{1}{xln(x)}$ y $n=6$. Se procede a calcular cada componente para aproximar la integral. 
+
+$$h =\frac{e+2-e}{6} = \frac{2}{6} = \frac{1}{3} \approx 0.33333$$
+Se sabe que $x_{0} = a = e \approx 2.71828$ y $x_{6} = b = e+2 \approx 4.71828$. Averigüando los demás puntos que conforman los límites de los subintervalos:
+
+$$x_{1} = e + \frac{1}{3} \approx 3.05162,$$
+$$x_{2} = e + 2*\frac{1}{3} = e + \frac{2}{3} \approx 3.38495, $$
+$$x_{3} = e + 3*\frac{1}{3} = e + 1 \approx 3.71828, $$
+$$x_{4} = e + 4*\frac{1}{3} = e + \frac{4}{3} \approx 4.05162, $$
+$$x_{5} = e + 5*\frac{1}{3} = e + \frac{5}{3} \approx 4.38495. $$
+Evaluando la función en cada punto, usando el redondeo a cinco dígitos decimales: 
+
+$$f(x_{0}) = f(2.71828) = \frac{1}{2.71828*ln(2.71828)} \approx  0.36788 ,$$
+$$f(x_{1}) = f(3.05162) = \frac{1}{3.05162*ln(3.05162)} \approx 0.29372,$$
+$$f(x_{2}) = f(3.38495) = \frac{1}{3.38495*ln(3.38495)} \approx 0.24228,$$
+$$f(x_{3}) = f(3.71828) = \frac{1}{3.71828*ln(3.71828)} \approx 0.20479,$$
+$$f(x_{4}) = f(4.05162) = \frac{1}{4.05162*ln(4.05162)} \approx 0.17641,$$
+$$f(x_{5}) = f(4.38495) = \frac{1}{4.38495*ln(4.38495)} \approx 0.15428,$$
+$$f(x_{6}) = f(4.71828) = \frac{1}{4.71828*ln(4.71828)} \approx 0.13661.$$
+
+Finalmente, construyendo la aproximación: 
+
+$$ \int_{e}^{e+2} \frac{1}{xln(x)} dx \approx \frac{0.33333}{3}
+\left[
+f(x_{0})
++ 2\sum_{j=1}^{2} f(x_{2j})
++ 4\sum_{j=1}^{3} f(x_{2j-1})
++ f(x_{6})
+\right] $$
 
 
 
-# Valores/Vectores propios
+$$ \int_{e}^{e+2} \frac{1}{xln(x)} dx \approx 0.11111
+\left[
+0.36788
++ 2(0.24228+0.17641)+ 4(0.29372+0.20479+0.15428)+0.13661)
+\right] $$
+
+$$ \int_{e}^{e+2} \frac{1}{xln(x)} dx \approx 0.11111 * 3.95303 \approx 0.43922 $$
+Así, se ha encontrado: 
+
+$$ \int_{e}^{e+2} \frac{1}{xln(x)} dx  \approx 0.43922. $$
+
+
+### b) Determine la cantidad de dígitos significativos de la aproximación encontrada en (a).
+
+
+Para encontrar la cantidad de dígitos significativos se parte de la siguiente definición: se dice que $\tilde{x}$ aproxima a $x \neq 0$ con t dígitos significativos si t es el mayor entero no negativo para el cual
+$$\frac{|x − \tilde{x}|}{|x|} < 5 × 10^{−t}$$
+Calculando: 
+
+$$\frac{|x − \tilde{x}|}{|x|} = \frac{|0.43919 − 0.43922|}{|0.43919|} \approx 0.00006831$$
+
+Ahora, evaluando la expresión dada para cada t: 
+
+Para $t=1$: 
+$$5 × 10^{−1} = 0.5$$
+Para $t=2$: 
+$$5 × 10^{−2} = 0.05$$
+Para $t=3$: 
+$$5 × 10^{−3} = 0.005$$
+Para $t=4$: 
+$$5 × 10^{−4} = 0.0005$$
+Para $t=5$: 
+$$5 × 10^{−5} = 0.00005$$
+
+Note que $0.00005 < 0.00006831$, por lo que la aproximación encontrada en el inciso a posee **4 dígitos significativos**. 
+
+### c) Usando la regla del trapecio compuesta, determine la cantidad de subintervalos necesaria para que la regla del trapecio compuesta alcance el error obtenido en b).
+
+Se tiene que el error en la regla del trapecio compuesta está dado por: 
+
+$$ \frac{b − a}{12} * h^{2} * f′′(\mu), \quad con \quad \mu \in (a,b)\quad \text{y} \quad h = \frac{b-a}{n}.$$
+Se retoma: $a=e$ y $b=e+2$. Calculando la segunda derivada de la función: 
+
+$$f(x) = \frac{1}{xln(x)}$$
+
+**Primera derivada**
+
+$$f'(x) = \frac{0*xln(x) - 1*[1*ln(x)+x*\frac{1}{x}]}{(xln(x))^{2}} = \frac{-ln(x) - 1}{(xln(x))^{2}}$$
+
+**Segunda derivada**
+
+$$f''(x) = \frac{\frac{-1}{x}*(xln(x))^{2} - (-ln(x)-1)*2xln(x)*[1*ln(x)+x*\frac{1}{x}]}{(xln(x))^{4}} $$
+$$f''(x) = \frac{-xln(x)^{2} + 2xln(x)^{3} + 2xln(x)^{2}+ 2xln(x)^{2} + 2xln(x)}{(xln(x))^{4}} $$
+$$f''(x) = \frac{2xln(x) + 3xln(x)^{2} + 2xln(x)^{3}}{(xln(x))^{4}} = \frac{xln(x)[2 + 3ln(x) + 2ln(x)^{2}]}{(xln(x))^{4}} $$
+
+$$f''(x) = \frac{2 + 3ln(x) + 2ln(x)^{2}}{(xln(x))^{3}} $$
+
+Ahora, se precisa encontrar el valor $\mu \in (e,e+2)$ en el cual $f''(x)$ alcanza su máximo dentro de dicho intervalo. Para ello, se analiza el comportamiento de la función $f''(x)$ en el intervalo $(e, e+2)$. 
+
+**Tercera derivada**
+
+$$f'''(x) = \frac{[\frac{3}{x} + \frac{4ln(x)}{x}]*(xln(x))^{3} - [2 + 3ln(x) + 2ln(x)^{2}] *3(xln(x))^{2} * [1*ln(x)+x*\frac{1}{x}] }{(xln(x))^{6}}$$
+
+$$f'''(x) = \frac{3x^{2}ln(x)^{3} + 4x^{2}ln(x)^{4} -6x^{2}ln(x)^{3} - 9x^{2}ln(x)^{4}-6x^{2}ln(x)^{5} - 6x^{2}ln(x)^{2} - 9x^{2}ln(x)^{3}-6x^{2}ln(x)^{4}}{(xln(x))^{6}}$$
+$$f'''(x) = \frac{- 6x^{2}ln(x)^{2} -12x^{2}ln(x)^{3} -11x^{2}ln(x)^{4} -6x^{2}ln(x)^{5}}{(xln(x))^{6}}$$
+$$f'''(x) = \frac{x^{2}ln(x)^{2}[-6 -12ln(x) -11ln(x)^{2} -6ln(x)^{3}]}{x^{6}ln(x)^{6}}$$
+$$f'''(x) = \frac{-6 -12ln(x) -11ln(x)^{2} -6ln(x)^{3}}{x^{4}ln(x)^{4}}$$
+$$f'''(x) = -\frac{6 + 12ln(x) + 11ln(x)^{2} + 6ln(x)^{3}}{x^{4}ln(x)^{4}}$$
+
+Note que para todo $x \in (e, e+2)$ se tiene que $f'''(x) <0$, pues $ln(x) > 0$ para todo $x \in (e, e+2)$. En consecuencia,  $f''(x)$ es decreciente en el intervalo $(e, e+2)$, de manera que su máximo dentro de él se sitúa en el menor punto del mismo: en este caso $a=e \approx 2.71828$. Evaluando: 
+
+$$f''( 2.71828) = \frac{2 + 3ln( 2.71828) + 2ln( 2.71828)^{2}}{( 2.71828*ln( 2.71828))^{3}} \approx 0.34851  $$
+
+Ahora, partiendo del hecho de que el valor de la segunda derivada en $(e, e+2)$ está acotado superiormente por 0.34851, con el objetivo de averiguar la cantidad de subintervalos necesaria
+para que la regla del trapecio compuesta alcance el error obtenido en el inciso b, se plantea: 
+
+$$ \Rightarrow\frac{4.71828 − 2.71828}{12} * \frac{(4.71828 − 2.71828)^{2}}{n^{2}} * 0.34851 \leq 0.00006831  $$
+$$ \Rightarrow \frac{2.78808}{12n^{2}} * \leq 0.00006831  $$
+$$ \Rightarrow \frac{2.78808}{12*0.00006831} * \leq n^{2}$$
+$$ \Rightarrow \sqrt{\frac{2.78808}{0.0008120}} * \leq n$$
+
+$$ \Rightarrow 58.59689  \leq n$$
+Del resultado anterior concluya que **se requieren al menos 59 subintervalos para que la regla del trapecio compuesta alcance el error obtenido en inciso b**: 0.00006831, es decir, se necesitan al menos 59 subintervalos para que la regla del trapecio tenga un error igual o menor a 0.00006831.
+
+# Valores y vectores propios
 
 ## Ejercicio 7
 
