@@ -110,9 +110,149 @@ Como $t$ debe ser entero no negativo, $t = 0$.
 
 Por lo que la aproximación tiene 0 dígitos de significancia. Esta mala aproximación puede deberse a que la derivada de $f$ posee una discontinuidad en $x = \frac{\pi}{2}$.
 
+## Ejercicio 2
+
+Considere el trazador cúbico $S(x)$ definido como
+
+$$
+S(x):=
+\begin{cases}
+-\dfrac{19}{20}x^3+\alpha x^2-\dfrac{38}{5}x+12,
+& -2\leq x<0,\\[6pt]
+\beta x^3-\dfrac{57}{10}x^2-\dfrac{38}{5}x+12,
+& 0\leq x<2,\\[6pt]
+-\dfrac{31}{20}x^3-\dfrac{62}{19}\alpha x^2-\dfrac{562}{25}\beta x+\dfrac{222}{5},
+& 2\leq x\leq4,
+\end{cases}
+$$
+
+donde $\alpha$ y $\beta$ son parámetros por determinar.
+
+### a) Encuentre los valores de $\alpha$ y $\beta$ para que $S$ sea, en efecto, un trazador cúbico.
+
+Sean $S_0$, $S_1$ y $S_2$ los polinomios que definen a $S$ en los intervalos $[-2,0]$, $[0,2]$ y $[2,4]$, respectivamente. Como son de grado 3, para que $S$ sea un trazador cúbico basta verificar que la función y sus dos primeras derivadas sean continuas en los nodos interiores $x=0$ y $x=2$.
+
+Calculando las primeras derivadas
+
+$$
+\begin{aligned}
+S_0'(x)&=-\frac{57}{20}x^2+2\alpha x-\frac{38}{5},\\
+S_1'(x)&=3\beta x^2-\frac{57}{5}x-\frac{38}{5},\\
+S_2'(x)&=-\frac{93}{20}x^2-\frac{124}{19}\alpha x-\frac{562}{25}\beta.
+\end{aligned}
+$$
+
+Las segundas derivadas son
+
+$$
+\begin{aligned}
+S_0''(x)&=-\frac{57}{10}x+2\alpha,\\
+S_1''(x)&=6\beta x-\frac{57}{5},\\
+S_2''(x)&=-\frac{93}{10}x-\frac{124}{19}\alpha.
+\end{aligned}
+$$
+
+En $x=0$, la continuidad de la función y de su primera derivada se cumplen para cualquier valor de los parámetros, esto pues
+
+$$
+S_0(0)=S_1(0)=12,
+\qquad
+S_0'(0)=S_1'(0)=-\frac{38}{5}.
+$$
+
+Para que la segunda derivada sea continua, se debe cumplir que 
+
+$$
+S_0''(0)=S_1''(0)
+\quad\Longleftrightarrow\quad
+2\alpha=-\frac{57}{5}\quad
+\Longrightarrow\alpha=-\frac{57}{10}.
+$$
+
+Por otro lado, en $x=2$, la continuidad de la segunda derivada requiere
+
+$$
+12\beta-\frac{57}{5}
+=-\frac{93}{5}-\frac{124}{19}\alpha.
+$$
+
+Al sustituir el valor de $\alpha$, resulta
+
+$$
+12\beta-\frac{57}{5}
+=-\frac{93}{5}+\frac{186}{5}
+=\frac{93}{5}
+\\
+12\beta=30
+\quad\Longrightarrow\quad
+\beta=\frac{5}{2}.
+$$
+
+Ahora, basta comprobar que estos valores también garantizan la continuidad de la función y de su primera derivada en $x=2$. Al sustituir los parámetros obtenidos tenemos que 
+
+$$
+\begin{aligned}
+S_1(2)
+&=20-\frac{114}{5}-\frac{76}{5}+12=-6,\\[4pt]
+S_2(2)
+&=-\frac{62}{5}+\frac{372}{5}-\frac{562}{5}+\frac{222}{5}
+=-6.
+\end{aligned}
+$$
+
+Asimismo, evualuando en la primera derivada
+
+$$
+\begin{aligned}
+S_1'(2)
+&=30-\frac{114}{5}-\frac{38}{5}
+=-\frac{2}{5},\\[4pt]
+S_2'(2)
+&=-\frac{93}{5}+\frac{372}{5}-\frac{281}{5}
+=-\frac{2}{5}.
+\end{aligned}
+$$
+
+Además, evaluando en la segunda derivada
+
+$$
+S_1''(2)=S_2''(2)=\frac{93}{5}.
+$$
+
+En consecuencia, la función y sus dos primeras derivadas son continuas en ambos nodos interiores. Por tanto, se concluye que los únicos valores para los cuales $S$ es un trazador cúbico son
+
+$$
+\alpha=-\frac{57}{10},\qquad \beta=\frac{5}{2}.
+$$
 
 
+### b) ¿Es $S$ un trazador cúbico con frontera natural? Justifique su respuesta.
 
+Sabemos que un trazador cúbico tiene frontera natural si su segunda derivada se anula en los extremos del intervalo. En este caso, debemos verificar que
+
+$$
+S''(-2)=0
+\qquad\text{y}\qquad
+S''(4)=0.
+$$
+
+Con $\alpha=-57/10$, en el extremo izquierdo se obtiene
+
+$$
+S''(-2)=S_0''(-2)
+=-\frac{57}{10}(-2)+2\left(-\frac{57}{10}\right)
+=\frac{57}{5}-\frac{57}{5}=0.
+$$
+
+En el extremo derecho,
+
+$$
+S''(4)=S_2''(4)
+=-\frac{93}{10}(4)-\frac{124}{19}\left(-\frac{57}{10}\right)
+=-\frac{186}{5}+\frac{186}{5}=0.
+$$
+
+Por tanto, se concluye que $S$ sí es un trazador cúbico con frontera natural.
 
 
 # Integración 
