@@ -60,7 +60,7 @@ k_15 = [20, 50, 100, 200];
 
 figure;
 subplot(2,3,1);
-imshow(A, [0,255]); % [0, 255] es para determinar el rango en que pueden estar los valores de intensidad
+imshow(A_15, [0,255]); % [0, 255] es para determinar el rango en que pueden estar los valores de intensidad
 title("Original");
 sgtitle("Comparación de la imagen original con las aproximaciones");
 
