@@ -500,6 +500,8 @@ Así,
 
 $$x_{3} = \frac{1}{\frac{4\sqrt{1085}}{25}} * \begin{pmatrix} \frac{-36}{5\sqrt{5}}  \\ \frac{-24}{5\sqrt{5}} \\ \frac{-40}{5\sqrt{5}} \end{pmatrix}  = \begin{pmatrix} \frac{25}{4\sqrt{1085}}* \frac{-36}{5\sqrt{5}}  \\ \frac{25}{4\sqrt{1085}}*\frac{-24}{5\sqrt{5}} \\ \frac{25}{4\sqrt{1085}}*\frac{-40}{5\sqrt{5}} \end{pmatrix} = \begin{pmatrix} \frac{-45}{\sqrt{5425}}  \\ \frac{-30}{\sqrt{5425}} \\ \frac{-50}{\sqrt{5425}} \end{pmatrix} = \begin{pmatrix} \frac{-9}{\sqrt{217}}  \\ \frac{-6}{\sqrt{217}} \\ \frac{-10}{\sqrt{217}}\end{pmatrix}$$
 $$\lambda_{3}= \begin{pmatrix} \frac{-9}{\sqrt{217}}  & \frac{-6}{\sqrt{217}} & \frac{-10}{\sqrt{217}}\end{pmatrix} * \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} \frac{-9}{\sqrt{217}}  \\ \frac{-6}{\sqrt{217}} \\ \frac{-10}{\sqrt{217}}\end{pmatrix} =  \begin{pmatrix} \frac{-45}{\sqrt{217}} & \frac{-50}{\sqrt{217}} & \frac{-43}{\sqrt{217}} \end{pmatrix} * \begin{pmatrix} \frac{-9}{\sqrt{217}}  \\ \frac{-6}{\sqrt{217}} \\ \frac{-10}{\sqrt{217}}\end{pmatrix} = \frac{1135}{217} \approx 5.230415$$
+La aproximación del valor propio de mayor magnitud de A mediante el método de potencias, a partir de la realización de tres iteraciones corresponde a $\lambda_{3}= 5.230415.$
+
 
 
 ### b) Realice 3 iteraciones del método del cociente de Rayleigh para aproximar un valor propio de A.
@@ -535,9 +537,9 @@ $$w_{1}= 2,85167; \quad w_{2}=-4,58982 ; \quad w_{3}= 2,67966.$$
 
 Seguidamente: 
 
-$$\left\|w\right\| = \sqrt{(2,85167)^{2}+ (-4,58982)^{2}+(2,67966)^{2}} \approx 6.03150$$
+$$\left\|w\right\| = \sqrt{(2,85167)^{2}+ (-4,58982)^{2}+(2,67966)^{2}} \approx 6,03150$$
 
-$$v_{1} = \frac{1}{6.03150} * \begin{pmatrix} 2,85167  \\ -4,58982 \\ 2,67966 \end{pmatrix} = \begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix}$$
+$$v_{1} = \frac{1}{6,03150} * \begin{pmatrix} 2,85167  \\ -4,58982 \\ 2,67966 \end{pmatrix} = \begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix}$$
 Se ingresa a la calculadora la multiplicación de matrices: 
 
 $$\lambda_{1}= \begin{pmatrix} 0,47280 & -0,76097 &  0,44428  \end{pmatrix} * \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix} \approx 0,74580  $$
@@ -562,9 +564,47 @@ $$3w_{1} + 2w_{2}+0,2542w_{3} = 0,44428$$
 
 Ingresando el sistema en la calculadora, se obtiene que: 
 
-$$w_{1}= ; \quad w_{2}= ; \quad w_{3}= .$$
+$$w_{1}= 25,75140; \quad w_{2}= -41,67928; \quad w_{3}=25,76178.$$
+Seguidamente: 
+
+$$\left\|w\right\| = \sqrt{(25,75140)^{2}+ (-41,67928)^{2}+(25,76178)^{2}} \approx 55,35311$$
+
+$$v_{2} = \frac{1}{55,35311} * \begin{pmatrix} 25,75140  \\ -41,67928  \\ 25,76178 \end{pmatrix} = \begin{pmatrix} 0,46522  \\ -0,75297 \\ 0,46541 \end{pmatrix}$$
+Se ingresa a la calculadora la multiplicación de matrices: 
+
+$$\lambda_{2}= \begin{pmatrix} 0,46522  & -0,75297 & 0,46541  \end{pmatrix} * \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} *  \begin{pmatrix} 0,46522  \\ -0,75297 \\ 0,46541 \end{pmatrix} \approx 0,76386  $$
 
 **Tercera iteración**
+
+Considere
+$$v_{2} = \begin{pmatrix} 0,46522  \\ -0,75297 \\ 0,46541 \end{pmatrix} \quad \text{y} \quad \lambda_{2} = 0,76386$$
+Resolviendo el sistema: 
+
+$$(\begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} - 0,76386* \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix})\begin{pmatrix} w_{1}  \\ w_{2}\\ w_{3} \end{pmatrix}= \begin{pmatrix} 0,46522  \\ -0,75297 \\ 0,46541 \end{pmatrix} $$
+
+$$\begin{pmatrix} 0,23614 & 2 & 3 \\ 1 & 1,23614 & 1 \\ 3 & 2 & 0,23614 \end{pmatrix} \begin{pmatrix} w_{1}  \\ w_{2}\\ w_{3} \end{pmatrix}= \begin{pmatrix} 0,46522  \\ -0,75297 \\ 0,46541 \end{pmatrix}$$
+
+Planteando el sistema de ecuaciones: 
+
+$$0,23614w_{1} + 2w_{2}+3w_{3} =  0,46522$$
+
+$$w_{1} + 1,23614w_{2}+w_{3} = -0,75297$$
+
+$$3w_{1} + 2w_{2}+0,23614w_{3} = 0,46541$$
+
+Ingresando el sistema en la calculadora, se obtiene que: 
+
+$$w_{1}= 6461,15206; \quad w_{2}= -10454,36361; \quad w_{3}=6461,15199.$$
+Seguidamente: 
+
+$$\left\|w\right\| = \sqrt{(6461,15206)^{2}+ (-10454,36361)^{2}+(6461,15199)^{2}} \approx 13884,76465$$
+
+$$v_{3} = \frac{1}{13884,76465} * \begin{pmatrix} 6461,15206 \\ -10454,36361 \\ 6461,15199 \end{pmatrix} = \begin{pmatrix} 0,46534  \\ -0,75294 \\ 0,46534\end{pmatrix}$$
+
+Se ingresa a la calculadora la multiplicación de matrices: 
+
+$$\lambda_{3}= \begin{pmatrix} 0,46534  & -0,75294 & 0,46534\end{pmatrix}* \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} *  \begin{pmatrix} 0,46534  \\ -0,75294 \\ 0,46534\end{pmatrix} \approx 0,76393 $$
+La aproximación de un valor propio de A mediante el método del cociente de Rayleigh, a partir de la realización de tres iteraciones corresponde a $\lambda_{3}= 0,76393.$
 
 
 # Ecuaciones Diferenciales
