@@ -485,14 +485,86 @@ $$\lambda_{1}= \begin{pmatrix} \frac{-1}{\sqrt{19}} & \frac{-3}{\sqrt{19}} & \fr
 **Segunda iteración**
 $$A * x_{1} = \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} \frac{-1}{\sqrt{19}}  \\ \frac{-3}{\sqrt{19}} \\ \frac{-3}{\sqrt{19}} \end{pmatrix} = \begin{pmatrix} 1* \frac{-1}{\sqrt{19}} + 2*\frac{-3}{\sqrt{19}}+3*\frac{-3}{\sqrt{19}} \\ 1*\frac{-1}{\sqrt{19}}+2* \frac{-3}{\sqrt{19}}+1*\frac{-3}{\sqrt{19}} \\ 3*\frac{-1}{\sqrt{19}}+2*\frac{-3}{\sqrt{19}}+1*\frac{-3}{\sqrt{19}} \end{pmatrix} = \begin{pmatrix} \frac{-16}{\sqrt{19}}  \\ \frac{-10}{\sqrt{19}} \\ \frac{-12}{\sqrt{19}} \end{pmatrix}$$
 $$\left\|A * x_{1}\right\|_{2}= \sqrt{(\frac{-16}{\sqrt{19}})^{2} + (\frac{-10}{\sqrt{19}})^{2} + (\frac{-12}{\sqrt{19}})^{2}} = \frac{10\sqrt{95}}{19} $$
+Así, 
 
+$$x_{2} = \frac{1}{\frac{10\sqrt{95}}{19}} * \begin{pmatrix} \frac{-16}{\sqrt{19}}  \\ \frac{-10}{\sqrt{19}} \\ \frac{-12}{\sqrt{19}} \end{pmatrix} = \begin{pmatrix} \frac{-8}{5\sqrt{5}}  \\ \frac{-1}{\sqrt{5}} \\ \frac{-6}{5\sqrt{5}} \end{pmatrix} $$
 
-
+$$\lambda_{2}= \begin{pmatrix} \frac{-8}{5\sqrt{5}} & \frac{-1}{\sqrt{5}} & \frac{-6}{5\sqrt{5}} \end{pmatrix} * \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} \frac{-8}{5\sqrt{5}}  \\ \frac{-1}{\sqrt{5}} \\ \frac{-6}{5\sqrt{5}} \end{pmatrix} =  \begin{pmatrix} \frac{-31}{5\sqrt{5}} & \frac{-38}{5\sqrt{5}} & \frac{-7}{\sqrt{5}} \end{pmatrix} * \begin{pmatrix} \frac{-8}{5\sqrt{5}}  \\ \frac{-1}{\sqrt{5}} \\ \frac{-6}{5\sqrt{5}} \end{pmatrix} = \frac{648}{125}$$
 
 **Tercera iteración**
 
+$$A * x_{2} = \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} \frac{-8}{5\sqrt{5}}  \\ \frac{-1}{\sqrt{5}} \\ \frac{-6}{5\sqrt{5}} \end{pmatrix}  = \begin{pmatrix} 1* \frac{-8}{5\sqrt{5}} + 2*\frac{-1}{\sqrt{5}}+3*\frac{-6}{5\sqrt{5}} \\ 1*\frac{-8}{5\sqrt{5}}+2* \frac{-1}{\sqrt{5}}+1*\frac{-6}{5\sqrt{5}} \\ 3*\frac{-8}{5\sqrt{5}}+2*\frac{-1}{\sqrt{5}}+1*\frac{-6}{5\sqrt{5}} \end{pmatrix} = \begin{pmatrix} \frac{-36}{5\sqrt{5}}  \\ \frac{-24}{5\sqrt{5}} \\ \frac{-40}{5\sqrt{5}} \end{pmatrix}$$
+
+$$\left\|A * x_{2}\right\|_{2}= \sqrt{(\frac{-36}{5\sqrt{5}})^{2} + (\frac{-24}{5\sqrt{5}})^{2} + (\frac{-40}{5\sqrt{5}})^{2}} = \sqrt{\frac{3472}{125}} = \frac{\sqrt{3472}}{\sqrt{125}} = \frac{4\sqrt{217}}{5\sqrt{5}} = \frac{4\sqrt{1085}}{25}$$
+Así, 
+
+$$x_{3} = \frac{1}{\frac{4\sqrt{1085}}{25}} * \begin{pmatrix} \frac{-36}{5\sqrt{5}}  \\ \frac{-24}{5\sqrt{5}} \\ \frac{-40}{5\sqrt{5}} \end{pmatrix}  = \begin{pmatrix} \frac{25}{4\sqrt{1085}}* \frac{-36}{5\sqrt{5}}  \\ \frac{25}{4\sqrt{1085}}*\frac{-24}{5\sqrt{5}} \\ \frac{25}{4\sqrt{1085}}*\frac{-40}{5\sqrt{5}} \end{pmatrix} = \begin{pmatrix} \frac{-45}{\sqrt{5425}}  \\ \frac{-30}{\sqrt{5425}} \\ \frac{-50}{\sqrt{5425}} \end{pmatrix} = \begin{pmatrix} \frac{-9}{\sqrt{217}}  \\ \frac{-6}{\sqrt{217}} \\ \frac{-10}{\sqrt{217}}\end{pmatrix}$$
+$$\lambda_{3}= \begin{pmatrix} \frac{-9}{\sqrt{217}}  & \frac{-6}{\sqrt{217}} & \frac{-10}{\sqrt{217}}\end{pmatrix} * \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} \frac{-9}{\sqrt{217}}  \\ \frac{-6}{\sqrt{217}} \\ \frac{-10}{\sqrt{217}}\end{pmatrix} =  \begin{pmatrix} \frac{-45}{\sqrt{217}} & \frac{-50}{\sqrt{217}} & \frac{-43}{\sqrt{217}} \end{pmatrix} * \begin{pmatrix} \frac{-9}{\sqrt{217}}  \\ \frac{-6}{\sqrt{217}} \\ \frac{-10}{\sqrt{217}}\end{pmatrix} = \frac{1135}{217} \approx 5.230415$$
+
+
 ### b) Realice 3 iteraciones del método del cociente de Rayleigh para aproximar un valor propio de A.
 
+El método del cociente de Rayleigh establece que para una matriz A dada y un vector $x_{0}$ que representa una aproximación inicial al vector propio tal que $\left\|x_{0}\right\| = 1$ , es posible aproximar un valor propio de A a partir de las iteraciones:
+
+$$ (A - \lambda_{k-1}*I)w = v_{k-1}; \quad v_{k} = \frac{w}{\left\|w\right\|} \quad \text{y} \quad \lambda_{k}= (v_{k})^{T}*A*v_{k},$$
+donde además se tiene que $\lambda_{0} = x_{0}^{T}*A*x_{0}$.
+
+**Primera iteración**
+
+Primero, se normaliza el vector inicial:
+
+$$\left\|x_{0}\right\| = \sqrt{(0)^{2} + (-2)^{2} + (1)^{2}}= \sqrt{5}$$
+$$v_{0} = \frac{1}{\sqrt{5}} * \begin{pmatrix} 0  \\ -2 \\ 1 \end{pmatrix} = \begin{pmatrix} 0  \\ \frac{-2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}} \end{pmatrix}$$
+Ahora: 
+
+$$\lambda_{0} = \begin{pmatrix} 0  & \frac{-2}{\sqrt{5}} & \frac{1}{\sqrt{5}} \end{pmatrix}*\begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} 0  \\ \frac{-2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}} \end{pmatrix}= \begin{pmatrix} \frac{1}{\sqrt{5}}  & \frac{-2}{\sqrt{5}} & \frac{-1}{\sqrt{5}} \end{pmatrix} * \begin{pmatrix} 0  \\ \frac{-2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}} \end{pmatrix} = \frac{3}{5} $$
+
+Resolviendo el sistema: 
+
+$$(\begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} - \frac{3}{5}* \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix})\begin{pmatrix} w_{1}  \\ w_{2}\\ w_{3} \end{pmatrix}= \begin{pmatrix} 0  \\ \frac{-2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}} \end{pmatrix}$$
+$$\begin{pmatrix} \frac{2}{5} & 2 & 3 \\ 1 & \frac{7}{5} & 1 \\ 3 & 2 & \frac{2}{5} \end{pmatrix}\begin{pmatrix} w_{1}  \\ w_{2}\\ w_{3} \end{pmatrix}= \begin{pmatrix} 0  \\ \frac{-2}{\sqrt{5}} \\ \frac{1}{\sqrt{5}} \end{pmatrix}$$
+
+Planteando el sistema de ecuaciones: 
+
+$$\frac{2}{5}w_{1} + 2w_{2}+3w_{3} = 0$$
+$$w_{1} + \frac{7}{5}w_{2}+w_{3} = \frac{-2}{\sqrt{5}}$$
+$$3w_{1} + 2w_{2}+\frac{2}{5}w_{3} = \frac{1}{\sqrt{5}}$$
+Ingresando el sistema en la calculadora, se obtiene que: 
+
+$$w_{1}= 2,85167; \quad w_{2}=-4,58982 ; \quad w_{3}= 2,67966.$$
+
+Seguidamente: 
+
+$$\left\|w\right\| = \sqrt{(2,85167)^{2}+ (-4,58982)^{2}+(2,67966)^{2}} \approx 6.03150$$
+
+$$v_{1} = \frac{1}{6.03150} * \begin{pmatrix} 2,85167  \\ -4,58982 \\ 2,67966 \end{pmatrix} = \begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix}$$
+Se ingresa a la calculadora la multiplicación de matrices: 
+
+$$\lambda_{1}= \begin{pmatrix} 0,47280 & -0,76097 &  0,44428  \end{pmatrix} * \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} * \begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix} \approx 0,74580  $$
+**Segunda iteración**
+
+Considere
+$$v_{1} =\begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix} \quad \text{y} \quad \lambda_{1} = 0,74580$$
+
+Resolviendo el sistema: 
+
+$$(\begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 1 \\ 3 & 2 & 1 \end{pmatrix} - 0,74580* \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix})\begin{pmatrix} w_{1}  \\ w_{2}\\ w_{3} \end{pmatrix}= \begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix} $$
+$$\begin{pmatrix} 0,2542 & 2 & 3 \\ 1 & 1,2542 & 1 \\ 3 & 2 & 0,2542 \end{pmatrix} \begin{pmatrix} w_{1}  \\ w_{2}\\ w_{3} \end{pmatrix}= \begin{pmatrix} 0,47280  \\ -0,76097 \\ 0,44428 \end{pmatrix}$$
+
+
+Planteando el sistema de ecuaciones: 
+
+$$0,2542w_{1} + 2w_{2}+3w_{3} = 0,47280$$
+
+$$w_{1} + 1,2542w_{2}+w_{3} = -0,76097$$
+
+$$3w_{1} + 2w_{2}+0,2542w_{3} = 0,44428$$
+
+Ingresando el sistema en la calculadora, se obtiene que: 
+
+$$w_{1}= ; \quad w_{2}= ; \quad w_{3}= .$$
+
+**Tercera iteración**
 
 
 # Ecuaciones Diferenciales
