@@ -587,7 +587,91 @@ $$
 
 ### d) Cree en MATLAB una función que aproxime integrales impropias utilizando los puntos anteriores de este ejercicio.
 
-Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 5`.
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 5`.
+
+## Ejercicio 6
+
+Suponga que al calentar una placa rectangular plana $R$, su temperatura (en grados Celsius) se describe mediante la función
+
+$$T_R(x,y) = 10 - 8x^2 - 2y^2.$$
+
+Además, $R$ tiene $1\,m$ de largo (dimensión $x$) y $2\,m$ de ancho (dimensión $y$), y se desea aproximar la temperatura media de la placa, la cual viene dada por la fórmula
+
+$$T_{\text{media}} = \iint_R T(x,y)\,dA.$$
+
+### a) Utilice dos veces la Regla del Trapecio Compuesta, para mostrar que una fórmula para aproximar integrales dobles sobre un rectángulo corresponde a la fórmula (3).
+
+Se parte de la fórmula de la regla Compuesta del Trapecio para una variable, sin el término del error:
+
+$$\int_a^b g(x)\,dx \approx \frac{h}{2}\left[g(a) + 2\sum_{i=1}^{n-1} g(x_i) + g(b)\right],$$
+
+donde $h=\frac{b-a}{n}$ y $x_i = a + ih$ para $i=0,1,\dots,n$.
+
+Primero, para un $x$ fijo, se aplica la regla a la integral interna. Con $k=\frac{d-c}{m}$ y $y_j=c+jk$ para $j=0,1,\dots,m$, se tiene que
+
+$$\int_c^d f(x,y)\,dy \approx \frac{k}{2}\left[f(x,y_0) + 2\sum_{j=1}^{m-1} f(x,y_j) + f(x,y_m)\right] =: g(x).$$
+
+Por lo que
+
+$$\int_a^b \left(\int_c^d f(x,y)\,dy\right)dx \approx \int_a^b g(x)\,dx.$$
+
+Ahora, se aplica por segunda vez la regla del trapecio compuesta, esta vez a $g(x)$ sobre $[a,b]$:
+
+$$\int_a^b g(x)\,dx \approx \frac{h}{2}\left[g(x_0) + 2\sum_{i=1}^{n-1} g(x_i) + g(x_n)\right].$$
+
+Al sustituir $g(x_0)$, $g(x_i)$ y $g(x_n)$, y factorizando $\frac{k}{2}$ de cada uno, se obtiene
+
+$$
+\begin{aligned}
+\int_a^b \left(\int_c^d f(x,y)\,dy\right)dx \approx\ & \frac{kh}{4}\Bigg\{ \left[f(x_0,y_0) + 2\sum_{j=1}^{m-1} f(x_0,y_j) + f(x_0,y_m)\right]\\
+&\quad + 2\sum_{i=1}^{n-1}\left[f(x_i,y_0) + 2\sum_{j=1}^{m-1} f(x_i,y_j) + f(x_i,y_m)\right]\\
+&\quad + \left[f(x_n,y_0) + 2\sum_{j=1}^{m-1} f(x_n,y_j) + f(x_n,y_m)\right]\Bigg\}.
+\end{aligned}
+$$
+
+Vea que, al distribuir el $2$ de la suma central, los nodos interiores quedan con peso $2\cdot 2 = 4$. Agrupando los términos según su posición en la malla (esquinas, bordes e interior), se tiene que
+
+$$
+\begin{aligned}
+\int_a^b \left(\int_c^d f(x,y)\,dy\right)dx \approx\ & \frac{kh}{4}\Bigg\{ f(x_0,y_0) + 2\sum_{i=1}^{n-1} f(x_i,y_0) + f(x_n,y_0)\\
+&\quad + 2\sum_{j=1}^{m-1} f(x_0,y_j) + 4\sum_{j=1}^{m-1}\sum_{i=1}^{n-1} f(x_i,y_j)\\
+&\quad + 2\sum_{j=1}^{m-1} f(x_n,y_j)\\
+&\quad + f(x_0,y_m) + 2\sum_{i=1}^{n-1} f(x_i,y_m) + f(x_n,y_m)\Bigg\},
+\end{aligned}
+$$
+
+que es justamente la fórmula (3).
+
+### b) Usando $n=m=2$ subintervalos y la fórmula encontrada en a) aproxime la temperatura media de la placa.
+
+Se tiene que $a=0$, $b=1$, $c=0$, $d=2$ y $f(x,y)=T_R(x,y)=10-8x^2-2y^2$. Además, $n=m=2$, por lo que
+
+$$h = \frac{1-0}{2} = 0.5, \qquad k = \frac{2-0}{2} = 1, \qquad \frac{kh}{4} = \frac{0.5 \cdot 1}{4} = 0.125.$$
+
+Los nodos son $x_0=0$, $x_1=0.5$, $x_2=1$ y $y_0=0$, $y_1=1$, $y_2=2$. Evaluando la función en cada nodo:
+
+$$f(x_0,y_0) = 10, \quad f(x_0,y_1) = 8, \quad f(x_0,y_2) = 2,$$
+$$f(x_1,y_0) = 8, \quad f(x_1,y_1) = 6, \quad f(x_1,y_2) = 0,$$
+$$f(x_2,y_0) = 2, \quad f(x_2,y_1) = 0, \quad f(x_2,y_2) = -6.$$
+
+Como $n-1 = m-1 = 1$, cada suma tiene un único término. Sustituyendo en la fórmula (3):
+
+$$
+\begin{aligned}
+T_{\text{media}} \approx 0.125\Big\{ & f(x_0,y_0) + 2f(x_1,y_0) + f(x_2,y_0)+ 2f(x_0,y_1) + 4f(x_1,y_1)\\
+&+ 2f(x_2,y_1) + f(x_0,y_2) + 2f(x_1,y_2) + f(x_2,y_2)\Big\}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+T_{\text{media}} \approx 0.125\Big\{ & 10 + 2(8) + 2 + 2(8) + 4(6) + 2(0) + 2 + 2(0) + (-6)\Big\}
+\end{aligned}
+$$
+
+$$T_{\text{media}} \approx 0.125 \cdot 64 = 8.$$
+
+Así, se ha encontrado que la temperatura media aproximada de la placa es $T_{\text{media}} \approx 8$.
 
 # Valores y vectores propios
 
