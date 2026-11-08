@@ -26,6 +26,31 @@
 
 
 
+%% Pregunta 6
+
+% c) Funcion de MATLAB con la regla del trapecio para integrales dobles y comprobacion de los resultados de b)
+
+% Datos del problema: la temperatura de la placa y sus dimensiones
+
+T_6 = @(x,y) 10 - 8*x.^2 - 2*y.^2;
+
+a_6 = 0; % La placa mide 1 m de largo en la dimension x
+b_6 = 1;
+c_6 = 0; % y 2 m de ancho en la dimension y
+d_6 = 2;
+
+n_6 = 2; % Subintervalos en x
+m_6 = 2; % Subintervalos en y
+
+% Aproximacion con la funcion trapecio_doble (formula (3)), la cual se encuentra al final del archivo
+
+disp('Resultado del ejercicio 6c:')
+I_6 = trapecio_doble(T_6, a_6, b_6, c_6, d_6, n_6, m_6)
+
+% Como puede observarse, se obtuvo que I_6 = 8, que coincide con el
+% resultado obtenido a mano en el inciso b).
+
+
 %% Pregunta 15
 
 % a) Seleccion de la imagen con un tamanyo superior a 1MB
@@ -145,3 +170,39 @@ end
 
 %% Solucion de incisos: creacion de funciones 
 
+% Pregunta 6: regla del trapecio compuesta para integrales dobles
+
+function I = trapecio_doble(f, a, b, c, d, n, m)
+% f es un function handle de la forma f(x,y)
+% [a,b] es el intervalo en x, dividido en n subintervalos
+% [c,d] es el intervalo en y, dividido en m subintervalos
+% Se implementa la formula (3), donde x(i+1) = x_i y y(j+1) = y_j
+
+    h = (b - a) / n;
+    k = (d - c) / m;
+
+    x = a + (0:n) * h;
+    y = c + (0:m) * k;
+
+    % Esquinas: f(x0,y0) + f(xn,y0) + f(x0,ym) + f(xn,ym)
+    S = f(x(1), y(1)) + f(x(n+1), y(1)) + f(x(1), y(m+1)) + f(x(n+1), y(m+1));
+
+    % Bordes inferior y superior (peso 2)
+    for i = 1:n-1
+        S = S + 2*f(x(i+1), y(1)) + 2*f(x(i+1), y(m+1));
+    end
+
+    % Bordes izquierdo y derecho (peso 2)
+    for j = 1:m-1
+        S = S + 2*f(x(1), y(j+1)) + 2*f(x(n+1), y(j+1));
+    end
+
+    % Nodos interiores (peso 4)
+    for j = 1:m-1
+        for i = 1:n-1
+            S = S + 4*f(x(i+1), y(j+1));
+        end
+    end
+
+    I = (h*k/4) * S;
+end
