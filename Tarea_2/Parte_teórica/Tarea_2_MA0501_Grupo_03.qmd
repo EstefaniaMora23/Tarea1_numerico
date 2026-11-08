@@ -254,6 +254,90 @@ $$
 
 Por tanto, se concluye que $S$ sí es un trazador cúbico con frontera natural.
 
+## Ejercicio 3
+
+Sea $f$ definida en $[a,b]$ y considere los puntos dados $a = x_0 < x_1 < x_2 = b$. El trazador cuadrático $S$ que interpola $f$ está dado por
+
+$$
+S(x)=
+\begin{cases}
+S_0(x)=a_0+b_0(x-x_0)+c_0(x-x_0)^2, & \text{en } [x_0,x_1],\\[6pt]
+S_1(x)=a_1+b_1(x-x_1)+c_1(x-x_1)^2, & \text{en } [x_1,x_2],
+\end{cases}
+$$
+
+tal que cumple las condiciones:
+
+(i) $S(x_i)=f(x_i)$ para $i=0,1,2$.
+
+(ii) $S\in C^1[x_0,x_2]$.
+
+### a) Muestre que las condiciones (i) y (ii) generan cinco ecuaciones con las seis incógnitas: $a_0, b_0, c_0, a_1, b_1$ y $c_1$. Determine esas condiciones.
+
+Sean $h_0 = x_1 - x_0$ y $h_1 = x_2 - x_1$. Vea que las derivadas de cada polinomio son
+
+$$
+S_0'(x)=b_0+2c_0(x-x_0), \qquad S_1'(x)=b_1+2c_1(x-x_1).
+$$
+
+Para la condición (i) se debe cumplir que $S(x_i)=f(x_i)$ para $i=0,1,2$. En $x_1$ ambos polinomios deben valer $f(x_1)$, con lo cual $S$ es continua en $x_1$. Así, se obtienen cuatro ecuaciones:
+
+$$
+\begin{aligned}
+S_0(x_0)&=a_0=f(x_0), &&(1)\\
+S_0(x_1)&=a_0+b_0h_0+c_0h_0^2=f(x_1), &&(2)\\
+S_1(x_1)&=a_1=f(x_1), &&(3)\\
+S_1(x_2)&=a_1+b_1h_1+c_1h_1^2=f(x_2). &&(4)
+\end{aligned}
+$$
+
+Y para la condición (ii), como $S$ ya es continua por (2) y (3), para que $S \in C^1[x_0,x_2]$ solo falta que $S_0'(x_1)=S_1'(x_1)$. Vea que $S_0'(x_1)=b_0+2c_0h_0$ y $S_1'(x_1)=b_1$, por lo que se obtiene la ecuación
+
+$$
+b_0+2c_0h_0=b_1. \qquad (5)
+$$
+
+De esta forma, las condiciones (i) y (ii) generan cinco ecuaciones, (1) a (5), para seis incógnitas ($a_0, b_0, c_0, a_1, b_1$ y $c_1$).
+
+### b) ¿Por qué es necesaria la condición $S \in C^2[x_0,x_2]$ para el problema? ¿Esta condición hace que el trazador sea único? Justifique su respuesta.
+
+Es necesaria porque se tienen 5 ecuaciones y 6 incógnitas, es decir, hay menos ecuaciones que incógnitas, por lo que es necesario encontrar una ecuación adicional. Esta se obtiene al pedir que $S \in C^2[x_0,x_2]$: como $S_0''(x)=2c_0$ y $S_1''(x)=2c_1$, la continuidad de la segunda derivada en $x_1$ implica
+
+$$
+S_0''(x_1)=S_1''(x_1) \quad \Longrightarrow \quad 2c_0=2c_1 \quad \Longrightarrow \quad c_0=c_1. \qquad (6)
+$$
+
+De (1) y (3) ya se conocen $a_0=f(x_0)$ y $a_1=f(x_1)$, por lo que las incógnitas que faltan por encontrar son $b_0, c_0, b_1$ y $c_1$. Con las ecuaciones (2), (4), (5) y (6) se plantea el sistema $Ax=b$:
+
+$$
+\begin{pmatrix}
+h_0 & h_0^2 & 0 & 0\\
+0 & 0 & h_1 & h_1^2\\
+1 & 2h_0 & -1 & 0\\
+0 & 1 & 0 & -1
+\end{pmatrix}
+\begin{pmatrix}b_0\\c_0\\b_1\\c_1\end{pmatrix}
+=
+\begin{pmatrix}f(x_1)-f(x_0)\\f(x_2)-f(x_1)\\0\\0\end{pmatrix}
+$$
+
+Para hallar la solución única se resuelve el sistema despejando cada incógnita. De la cuarta ecuación, $c_1=c_0$. De la primera y la segunda ecuación, como $h_0>0$ y $h_1>0$:
+
+$$
+b_0=\frac{f(x_1)-f(x_0)}{h_0}-h_0c_0, \qquad b_1=\frac{f(x_2)-f(x_1)}{h_1}-h_1c_0.
+$$
+
+Al sustituir en la tercera ecuación, $b_0+2h_0c_0-b_1=0$, se obtiene
+
+$$
+\frac{f(x_1)-f(x_0)}{h_0}+h_0c_0-\frac{f(x_2)-f(x_1)}{h_1}+h_1c_0=0
+\quad\Longrightarrow\quad
+c_0=\frac{\dfrac{f(x_2)-f(x_1)}{h_1}-\dfrac{f(x_1)-f(x_0)}{h_0}}{h_0+h_1}.
+$$
+
+Como $h_0+h_1=x_2-x_0>0$, el valor de $c_0$ existe y es único. Luego, $c_1$, $b_0$ y $b_1$ quedan determinados de forma única por las expresiones anteriores. Por lo tanto, el sistema $Ax=b$ tiene solución única.
+
+Ahora, como $a_0$ y $a_1$ están determinados por (1) y (3), y $b_0, c_0, b_1, c_1$ son la solución única del sistema anterior, los seis coeficientes quedan determinados de forma única. Por lo tanto, sí, la condición $S \in C^2[x_0,x_2]$ hace que el trazador sea único.
 
 # Integración 
 
