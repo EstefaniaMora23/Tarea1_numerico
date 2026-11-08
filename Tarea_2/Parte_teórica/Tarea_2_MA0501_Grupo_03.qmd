@@ -481,6 +481,114 @@ $$ \Rightarrow \sqrt{\frac{2.78808}{0.0008120}} * \leq n$$
 $$ \Rightarrow 58.59689  \leq n$$
 Del resultado anterior concluya que **se requieren al menos 59 subintervalos para que la regla del trapecio compuesta alcance el error obtenido en inciso b**: 0.00006831, es decir, se necesitan al menos 59 subintervalos para que la regla del trapecio compuesta tenga un error igual o menor a 0.00006831.
 
+## Ejercicio 5
+
+### a) Usando la ecuación (1), reescriba la integral $N(1)$.
+
+Sea $\varphi(t)=\dfrac{1}{\sqrt{2\pi}}e^{-t^2/2}$ la densidad normal estándar. Como su integral sobre toda la recta real es igual a uno,
+
+$$
+N(1)=\int_{-\infty}^{1}\varphi(t)\,dt
+=1-\int_1^{+\infty}\varphi(t)\,dt.
+$$
+
+En la integral de la derecha, los límites son positivos. Por tanto, podemos aplicar el cambio de variable indicado en la ecuación (1). Tomando
+
+$$
+u=\frac{1}{t},\qquad t=\frac{1}{u},\qquad dt=-\frac{1}{u^2}\,du,
+$$
+
+se tiene que $t=1$ corresponde a $u=1$ y que $t\to+\infty$ corresponde a $u\to0^+$. Así,
+
+$$
+\int_1^{+\infty}\varphi(t)\,dt
+=\int_0^1\frac{1}{u^2}\varphi\!\left(\frac{1}{u}\right)\,du
+=\int_0^1\frac{1}{\sqrt{2\pi}\,u^2}e^{-1/(2u^2)}\,du.
+$$
+
+En consecuencia,
+
+$$
+\boxed{N(1)=1-\int_0^1\frac{1}{\sqrt{2\pi}\,u^2}e^{-1/(2u^2)}\,du}.
+$$
+
+### b) A partir de a), explique por qué las reglas del trapecio y de Simpson no permiten aproximar directamente la integral $N(1)$.
+
+Las reglas del trapecio y de Simpson requieren evaluar el integrando en los extremos del intervalo. Sin embargo, la expresión
+
+$$
+g(u)=\frac{1}{\sqrt{2\pi}\,u^2}e^{-1/(2u^2)},\qquad 0<u\leq1,
+$$
+
+no está definida en $u=0$. Por ello, estas reglas no pueden aplicarse directamente a la integral transformada.
+
+No obstante, la singularidad es removible, pues
+
+$$
+\lim_{u\to0^+}g(u)
+=\frac{1}{\sqrt{2\pi}}\lim_{v\to+\infty}v^2e^{-v^2/2}
+=0.
+$$
+
+Por tanto, si se define $g(0)=0$, se obtiene una extensión continua y sí es posible aplicar las reglas del trapecio y de Simpson. La dificultad corresponde a su aplicación directa a la expresión original de $g$.
+
+### c) Usando la regla compuesta (2) con $m=6$, aproxime el valor de $N(1)$.
+
+Por el inciso a), basta aproximar la integral de $g$ en $[0,1]$ y restar el resultado de uno. La regla indicada utiliza solamente puntos interiores, por lo que no requiere evaluar $g(0)$.
+
+Con $m=6$, el tamaño de paso y los nodos son
+
+$$
+h=\frac{1-0}{6}=\frac16,
+\qquad u_i=\frac{i}{6},\qquad i=0,\ldots,6.
+$$
+
+Las evaluaciones necesarias son
+
+| $i$ | $u_i$ | $g(u_i)$ |
+|:---:|:---:|---:|
+| 1 | $1/6$ | 0.000000218732 |
+| 2 | $1/3$ | 0.039886635707 |
+| 3 | $1/2$ | 0.215963866053 |
+| 4 | $2/3$ | 0.291414590248 |
+| 5 | $5/6$ | 0.279627919176 |
+
+Al aplicar la regla dada,
+
+$$
+\int_0^1g(u)\,du
+=\frac{h}{2}
+\left[
+3g(u_1)+2\sum_{i=2}^{4}g(u_i)+3g(u_5)
+\right].
+$$
+
+Sustituyendo el tamaño de paso y las evaluaciones anteriores,
+
+$$
+\begin{aligned}
+\int_0^1g(u)\,du
+&=\frac1{12}\Big[
+3(0.000000218732)\\
+&\qquad+2(0.039886635707+0.215963866053
++0.291414590248)\\
+&\qquad+3(0.279627919176)
+\Big]\\
+&=0.161117883145.
+\end{aligned}
+$$
+
+Por tanto,
+
+$$
+N(1)=1-0.161117883145
+=0.838882116855.
+$$
+
+### d) Cree en MATLAB una función que aproxime integrales impropias utilizando los puntos anteriores de este ejercicio.
+
+Ver programación en el archivo `Tarea_1_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 5`.
+
 # Valores y vectores propios
 
 ## Ejercicio 7
