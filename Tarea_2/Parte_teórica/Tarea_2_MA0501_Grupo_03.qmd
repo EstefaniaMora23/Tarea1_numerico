@@ -885,6 +885,91 @@ La aproximación de un valor propio de A mediante el método del cociente de Ray
 
 # Ecuaciones Diferenciales
 
+## Ejercicio 12
+Considere el problema de valor inicial:
+
+$$
+\begin{cases}
+y'(t)-3\displaystyle\int_0^t e^{-2(t-u)}y(u)\,du
+=4e^{-2t}, & 0\leq t\leq 1,\\[8pt]
+y(0)=4
+\end{cases}
+$$
+
+### a) Utilizando la Regla del Trapecio, aproxime la integral en la ecuación anterior.
+
+En primer lugar, la integral que se pretende aproximar corresponde a:
+
+$$I(t) = \int_0^t e^{-2(t-u)}y(u)\,du.$$
+En segundo lugar, se tiene que la Regla del trapecio establece lo siguiente: 
+
+$$\int_{a}^{b} f(u, y(u))\,du \approx \frac{1}{2}(b-a)\left[f(a,y(a)) + f(b,y(b))\right].$$
+
+A partir de la integral que se desea aproximar se define $f(u, y(u)) = e^{-2(t-u)}y(u)$, $a=0$ y $b=t$. 
+
+Sustituyendo tales valores en la fórmula detallada, se obtiene: 
+
+$$\int_0^t e^{-2(t-u)}y(u)\,du \approx \frac{1}{2}(t-0) \left[e^{-2(t-0)}y(0) +e^{-2(t-t)}y(t)\right] \approx \frac{t}{2}\left[e^{-2t}y(0) + y(t)\right]$$
+
+Ahora, se tiene que $y(0) = 4$, finalmente de esta forma: 
+
+$$\int_0^t e^{-2(t-u)}y(u)\,du \approx \frac{t}{2}\left[4e^{-2t} + y(t)\right]$$
+
+### b) Usando la aproximación encontrada en el inciso a, reescriba el problema de valor inicial.
+
+Partiendo de:
+
+$$\int_0^t e^{-2(t-u)}y(u)\,du \approx \frac{t}{2}\left[4e^{-2t} + y(t)\right] $$
+Se busca reescribir el problema de valor inicial, el cual inicialmente está dado por: 
+
+$$
+\begin{cases}
+y'(t)-3\displaystyle\int_0^t e^{-2(t-u)}y(u)\,du
+=4e^{-2t}, & 0\leq t\leq 1,\\[8pt]
+y(0)=4
+\end{cases}
+$$
+Sustituyendo la aproximación encontrada en el problema anterior: 
+
+$$\implies y'(t)-3(\frac{t}{2}\left[4e^{-2t} + y(t)\right] ) =4e^{-2t}$$
+$$\implies y'(t)= 4e^{-2t} + 3(\frac{t}{2}\left[4e^{-2t} + y(t)\right] )$$
+$$\implies y'(t)= 4e^{-2t} + 6te^{-2t} + \frac{3t}{2}y(t)$$
+Reescribiendo el problema completo:
+
+$$
+\begin{cases}
+y'(t)= 4e^{-2t} + 6te^{-2t} + \frac{3t}{2}y(t), & 0\leq t\leq 1,\\[8pt]
+y(0)=4
+\end{cases}
+$$
+
+### c) Empleando el método de Euler, con $h = 0,25$, encuentre una aproximación para y(0,5).
+
+La fórmula de aproximación del método de Euler está dada por:
+
+$$\begin{cases} \omega_0 &= \alpha,\\
+\omega_{i+1} &= \omega_i + h f(t_i,\omega_i),
+\quad i=0,1,\ldots,N-1.
+\end{cases}$$
+
+Donde $h$ representa el tamaño de cada paso, $\omega_0$ corresponde al valor inicial y $\omega_{i+1}$ es la aproximación de la solución en el siguiente punto. El método de Euler construye $\omega_{i}\approx y(t_i)$, para $i = 1, 2, . . . , N$;
+eliminado el término del error.
+
+Del enunciado se tiene que $h=0,25$, $\omega_0 = y(0) = 4$ y $f(t_i,\omega_i) = 4e^{-2t_i} + 6t_ie^{-2t_i} + \frac{3t_i}{2}y(t_i)$. Calculando:
+
+1. $\omega_1 \approx y(0,25)$
+
+Partiendo de $t_0=0 \quad$ y $\quad \omega_0 = y(0)= 4$:
+
+$$\implies\omega_{1} = 4 + 0,25(4e^{-2*0} + 6*0*e^{-2*0} + \frac{3*0}{2}*4) = 4 + 0,25 * (4 + 0 + 0) = 5 $$
+
+2. $\omega_2 \approx y(0,5)$
+
+Partiendo de $t_1=0,25 \quad$ y $\quad \omega_1 \approx y(0,25) = 5$:
+
+$$\implies\omega_{2} = 5 + 0,25(4e^{-2*0,25} + 6*0,25*e^{-2*0,25} + \frac{3*0,25}{2}*5) \approx 5 +1,30273  = 6,30273 $$
+
+Así, se ha encontrado que bajo el método de Euler $\omega_2 \approx y(0,5) \approx 6,30273.$
 
 
 # Ejercicios de Investigación
