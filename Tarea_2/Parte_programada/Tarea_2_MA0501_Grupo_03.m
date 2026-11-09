@@ -24,8 +24,6 @@
 
 
 
-
-
 %% Pregunta 6
 
 % c) Funcion de MATLAB con la regla del trapecio para integrales dobles y comprobacion de los resultados de b)
@@ -50,6 +48,54 @@ I_6 = trapecio_doble(T_6, a_6, b_6, c_6, d_6, n_6, m_6)
 % Como puede observarse, se obtuvo que I_6 = 8, que coincide con el
 % resultado obtenido a mano en el inciso b).
 
+
+
+%% Pregunta 13
+
+% b) Resolver el sistema con la funcion Runge-Kutta
+
+u0_13 = 1000; % Numero inicial de presas
+v0_13 = 500; % Numero inicial de depredadores
+n_13 = (365 * 4); % Numero de subintervalos, este N se escogio de forma que cada subintervalo represente la poblacion de presas y depredadores cada dia
+t0_13 = 0; % Tiempo inicial
+t1_13 = 4; % Tiempo final
+k1_13 = 3; % Tasa de natalidad de las presas
+k2_13 = 0.002; % Tasa de mortalidad de las presas debido a depredación
+k3_13 = 0.0006; % Tasa de natalidad de los depredadores
+k4_13 = 0.5; % Tasa de mortalidad de los depredadores 
+
+[t_13,u_13,v_13] = Runge_Kutta(u0_13, v0_13, n_13, t0_13, t1_13, k1_13, k2_13, k3_13, k4_13);
+
+% c) Graficos con las soluciones del problema
+
+figure;
+plot(t_13,u_13);
+title("Relación entre el número de presas y el tiempo");
+ylabel("Número de presas");
+xlabel("Tiempo");
+
+
+figure;
+plot(t_13,v_13);
+title("Relación entre el número de depredadores y el tiempo");
+ylabel("Número de depredadores");
+xlabel("Tiempo");
+
+figure;
+plot(t_13,u_13);
+hold on;
+plot(t_13,v_13);
+legend('Presas', 'Depredadores');
+title("Poblaciones de presas y depredadores a lo largo del tiempo");
+ylabel("Población");
+xlabel("Tiempo");
+
+
+figure;
+plot(u_13,v_13);
+title("Relación entre la población de presas y depredadores");
+xlabel("Población de presas");
+ylabel("Población de depredadores");
 
 %% Pregunta 15
 
@@ -170,7 +216,7 @@ end
 
 %% Solucion de incisos: creacion de funciones 
 
-% Pregunta 6: regla del trapecio compuesta para integrales dobles
+%% Pregunta 6: regla del trapecio compuesta para integrales dobles
 
 function I = trapecio_doble(f, a, b, c, d, n, m)
 % f es un function handle de la forma f(x,y)
@@ -205,4 +251,57 @@ function I = trapecio_doble(f, a, b, c, d, n, m)
     end
 
     I = (h*k/4) * S;
+end
+
+
+%% Pregunta 13
+
+% a) Crear la funcion Runge-Kutta de orden 4
+
+function[t,u,v] = Runge_Kutta(u0, v0, n, t0, t1 ,k1, k2, k3, k4)
+% Función para calcular la población de presas y depredadores a lo largo del tiempo
+% Entradas:            u0 ---- Numero inicial de presas
+%                      v0 ---- Numero inicial de depredadores
+%                      t0 ---- tiempo inicial
+%                      t1 ---- tiempo final
+%                      k1 ---- Tasa de natalidad de las presas
+%                      k2 ---- Tasa de mortalidad de las presas debido a depredación
+%                      k3 ---- Tasa de natalidad de los depredadores 
+%                      k4 ---- Tasa de mortalidad de los depredadores 
+% Salidas:              t ---- Vector con la evolución del tiempo
+%                       u ---- Vector con el número de presas vivas en el tiempo t
+%                       v ---- Vector con el número de depredadores vivos en el tiempo t
+
+t = zeros(1,n+1);
+u = zeros(1,n+1);
+v = zeros(1,n+1);
+t(1) = t0;
+u(1) = u0;
+v(1) = v0;
+h = abs(t1 - t0)/n; % Tamanyo del paso
+tactual = t0; % numero para guardar el tiempo actual 
+
+% f(ti, ui, vi) = k1*ui-k2*ui*vi
+% g(ti, ui, vi) = k3*ui*vi-k4*vi
+for i = 1:n % Se llega hasta n porque el indice de los arreglos en matlab empieza en 1 y no en 0
+    tactual = tactual + h;
+    t(i+1) = tactual;
+
+    k_1 = k1*u(i) - k2 * u(i)*v(i);
+    l_1 = k3*u(i)*v(i) - k4*v(i);
+
+
+    k_2 = k1 * (u(i) + (h/2) * k_1) - k2 * (u(i) + (h/2) * k_1) * (v(i) + (h/2) * l_1);
+    l_2 = k3 * (u(i) + (h/2) * k_1) * (v(i) + (h/2) * l_1) - k4 * (v(i) + (h/2) * l_1);
+
+    k_3 = k1 * (u(i) + (h/2) * k_2) - k2 * (u(i) + (h/2) * k_2) * (v(i) + (h/2) * l_2); 
+    l_3 = k3 * (u(i) + (h/2) * k_2) * (v(i) + (h/2) * l_2) - k4 * (v(i) + (h/2) * l_2);
+
+    k_4 = k1 * (u(i) + h * k_3) - k2 * (u(i) + h * k_3) * (v(i) + h*l_3);
+    l_4 = k3 * (u(i) + h * k_3) * (v(i) + h*l_3) - k4 * (v(i) + h*l_3);
+
+
+    u(i+1) = u(i) + (h/6) * (k_1 + 2*k_2 + 2*k_3 + k_4);
+    v(i+1) = v(i) + (h/6) * (l_1 + 2*l_2 + 2*l_3 + l_4);
+end
 end
