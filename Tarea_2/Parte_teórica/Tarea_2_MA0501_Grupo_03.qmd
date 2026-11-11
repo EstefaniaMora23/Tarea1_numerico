@@ -1068,12 +1068,37 @@ Finalmente, por el principio de inducción matemática, el resultado se cumple p
 
 ### b) [MATLAB] Escriba un programa de MATLAB que, dados los coeficientes de un polinomio mónico, calcule la matriz compañera de Frobenius.
 
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 11`, `inciso b)`.
+
 ### c) [MATLAB] Considere el polinomio de Wilkinson definido por $p(x)=\prod_{i=1}^{n}(x-i).$ Escriba un programa de MATLAB que, dado $n$, calcule los coeficientes del polinomio de Wilkinson de grado $n$.
+
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 11`, `inciso c)`.
 
 ### d) [MATLAB] Escriba líneas de código de MATLAB que aproximen todas las raíces del polinomio de Wilkinson de grado $5$, usando el método de potencias sobre la matriz compañera de Frobenius asociada y la deflación de Wielandt del ejercicio anterior. Comente los resultados.
 
+Se utilizaron las funciones auxiliares `polinomioWilkinson` y `matrizFrobenius` para calcular los coeficientes del polinomio y construir su matriz compañera. Además, se empleó una función auxiliar que implementa el método de potencias para aproximar el valor propio dominante y su vector propio asociado, con una tolerancia de $10^{-10}$ para el residuo. Se fijó la semilla aleatoria mediante `rng(1)` para reproducir los vectores iniciales utilizados.
+
+Después de obtener cada par propio aproximado, se aplicó la deflación de Wielandt. Como los valores propios de la matriz compañera coinciden con las raíces del polinomio, se obtuvieron aproximaciones de las cinco raíces en orden descendente. A continuación se muestran los resultados obtenidos:
+
+| Raíz exacta | Aproximación mostrada | Error absoluto |
+|:-----------:|:--------------------:|:--------------:|
+| $5$ | $5.0000$ | $1.542\times10^{-9}$ |
+| $4$ | $4.0000$ | $4.57\times10^{-10}$ |
+| $3$ | $3.0000$ | $4.35\times10^{-10}$ |
+| $2$ | $2.0000$ | $5.4\times10^{-11}$ |
+| $1$ | $1.0000$ | $6.50\times10^{-10}$ |
+
+Aunque las aproximaciones coinciden con las raíces exactas en los decimales mostrados, los errores absolutos son distintos de cero. El mayor error corresponde a la raíz $5$, mientras que el menor corresponde a la raíz $2$. Estos resultados muestran que, para grado $5$, el procedimiento aproxima todas las raíces con alta precisión.
+
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 11`, `inciso d)`. Además, la función auxiliar del método de potencias se encuentra en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 11`, `inciso d)`.
+
 ### e) [MATLAB] ¿Qué pasa al repetir el ejercicio anterior para el polinomio de Wilkinson de grado $10$? Comente los resultados.
 
+Para el polinomio de Wilkinson de grado $10$, se obtuvieron aproximaciones de las diez raíces en orden descendente, los cuales coinciden con los valores exactos en los cuatro decimales mostrados. Los errores absolutos se encuentran entre $2.97\times10^{-10}$ y $8.636\times10^{-9}$. El mayor error corresponde a la raíz $10$, mientras que el menor corresponde a la raíz $3$.
+
+En comparación con el caso de grado $5$, el error absoluto máximo aumentó aproximadamente $5.6$ veces. Por tanto, en esta ejecución se observa una disminución de la precisión al aumentar el grado, aunque el procedimiento sigue aproximando todas las raíces con errores pequeños.
+
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 11`, `inciso e)`.
 
 # Ecuaciones Diferenciales
 
