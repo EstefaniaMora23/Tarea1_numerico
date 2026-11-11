@@ -585,7 +585,7 @@ N(1)=1-0.161117883145
 =0.838882116855.
 $$
 
-### d) Cree en MATLAB una función que aproxime integrales impropias utilizando los puntos anteriores de este ejercicio.
+### d) [MATLAB] Cree en MATLAB una función que aproxime integrales impropias utilizando los puntos anteriores de este ejercicio.
 
 Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 5`.
 
@@ -974,6 +974,105 @@ Concluya que para $i= 2, ..., n;$ $\lambda_i$ corresponde a un valor propio de B
 
 Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 10`.
 
+## Ejercicio 11
+
+Dado un polinomio mónico
+
+$$
+p(x)=x^n+p_{n-1}x^{n-1}+\cdots+p_1x+p_0,
+$$
+
+su matriz compañera de Frobenius está definida por
+
+$$
+C=
+\begin{pmatrix}
+0 & 1 & 0 & \cdots & 0\\
+0 & 0 & 1 & \cdots & 0\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+0 & 0 & 0 & \cdots & 1\\
+-p_0 & -p_1 & -p_2 & \cdots & -p_{n-1}
+\end{pmatrix}.
+$$
+
+### a) Muestre que $p(x)$ es el polinomio característico de $C$.
+
+Procedemos por inducción sobre $n$. Queremos probar que
+
+$$
+\det(xI_n-C)=p(x).
+$$
+
+**Caso base.** Para $n=1$, se tiene $C=[-p_0]$, por lo que
+
+$$
+\det(xI_1-C)=x+p_0=p(x).
+$$
+
+**Hipótesis inductiva.** Suponga que el resultado se cumple para toda matriz compañera de tamaño $n-1$. 
+
+**Paso inductivo.** Para una matriz compañera de tamaño $n$, tenemos
+
+$$
+xI_n-C=
+\begin{pmatrix}
+x & -1 & 0 & \cdots & 0\\
+0 & x & -1 & \cdots & 0\\
+\vdots & \vdots & \ddots & \ddots & \vdots\\
+0 & 0 & \cdots & x & -1\\
+p_0 & p_1 & \cdots & p_{n-2} & x+p_{n-1}
+\end{pmatrix}.
+$$
+
+Al desarrollar el determinante por la primera columna, obtenemos
+
+$$
+\det(xI_n-C)
+=
+x\det(M_{11})+(-1)^{n+1}p_0\det(M_{n1}),
+$$
+
+donde $M_{ij}$ denota la matriz obtenida al eliminar la fila $i$ y la columna $j$ de $xI_n-C$.
+
+La matriz $M_{n1}$ es triangular inferior y todos sus elementos diagonales son iguales a $-1$. Por tanto,
+
+$$
+\det(M_{n1})=(-1)^{n-1}.
+$$
+
+Por otra parte, $M_{11}=xI_{n-1}-\widetilde C$, donde $\widetilde C$ es la matriz compañera del polinomio mónico
+
+$$
+q(x)=x^{n-1}+p_{n-1}x^{n-2}+\cdots+p_2x+p_1.
+$$
+
+Por la hipótesis inductiva,
+
+$$
+\det(M_{11})=q(x).
+$$
+
+En consecuencia,
+
+$$
+\begin{aligned}
+\det(xI_n-C)
+&=xq(x)+(-1)^{n+1}p_0(-1)^{n-1}\\
+&=xq(x)+p_0\\
+&=x^n+p_{n-1}x^{n-1}+\cdots+p_1x+p_0\\
+&=p(x).
+\end{aligned}
+$$
+
+Finalmente, por el principio de inducción matemática, el resultado se cumple para todo $n\geq 1$. Así, $p(x)$ es el polinomio característico de $C$ y, por consiguiente, las raíces de $p(x)$ son precisamente los valores propios de $C$.
+
+### b) [MATLAB] Escriba un programa de MATLAB que, dados los coeficientes de un polinomio mónico, calcule la matriz compañera de Frobenius.
+
+### c) [MATLAB] Considere el polinomio de Wilkinson definido por $p(x)=\prod_{i=1}^{n}(x-i).$ Escriba un programa de MATLAB que, dado $n$, calcule los coeficientes del polinomio de Wilkinson de grado $n$.
+
+### d) [MATLAB] Escriba líneas de código de MATLAB que aproximen todas las raíces del polinomio de Wilkinson de grado $5$, usando el método de potencias sobre la matriz compañera de Frobenius asociada y la deflación de Wielandt del ejercicio anterior. Comente los resultados.
+
+### e) [MATLAB] ¿Qué pasa al repetir el ejercicio anterior para el polinomio de Wilkinson de grado $10$? Comente los resultados.
 
 
 # Ecuaciones Diferenciales
