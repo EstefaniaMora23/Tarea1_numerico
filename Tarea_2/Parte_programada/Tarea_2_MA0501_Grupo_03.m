@@ -197,29 +197,53 @@ ylabel("Población de depredadores");
 
 %% Pregunta 15
 
-% a) Seleccion de la imagen con un tamanyo superior a 1MB
+% Inciso a)
+% Seleccion de la imagen con un tamanyo superior a 1MB
 
-% i) Carga de la imagen y traconversion a escala de grises
+% (i) Carga de la imagen y traconversion a escala de grises
 edificio = imread("edificio.jpg"); 
 
 edificio_b_n = rgb2gray(edificio); % La imagen aparece como si estuviera a color (A pesar de estar en escala de grises), por lo que se pasa a blanco y negro
 
-% ii) Representacion de la imagen en una matriz A de tipo double
+% (ii) Representacion de la imagen en una matriz A de tipo double
 A_15 = double(edificio_b_n);
 
-% iii) Dimensiones de la matriz A y que representan
+% (iii) Dimensiones de la matriz A y que representan
 [m_15,n_15] = size(A_15);
 
 % La interpretacion de las dimensiones se encuentra en el documento escrito
 
+% Inciso b) 
+% Calculo de la descomposicion en valores singulares
 
+[U,S,V] = svd(A_15,'econ');
 
+sigma_15 = diag(S);
+r_15 = length(sigma_15);
 
-% c) Construir las aproximaciones A_k 
+% (i) Grafica de valores singulares de A en orden decreciente
 
-% i) y ii) Implementar la construccion de A_k y Graficar la imagen original y las 4 aproximaciones en un solo grafico
+figure;
+semilogy(1:r_15,sigma_15,'LineWidth',1.5);
+xlabel('Indice i');
+ylabel('Valor singular');
+title('Valores singulares de la imagen');
+grid on;
 
-[U,S,V] = svd(A_15);
+% (ii) Interpretacion del comportamiento de los valores singulares
+
+% La solucion a este apartado se encuentra detalladamente desarrollada en
+% el archivo de la parte teorica. 
+
+% (iii) Justificacion mediante el teorema de Eckart-Young-Mirsky
+
+% La solucion a este apartado se encuentra detalladamente desarrollada en
+% el archivo de la parte teorica. 
+
+% Inciso c)
+% Construir las aproximaciones A_k 
+
+% (i) y (ii) Implementar la construccion de A_k y Graficar la imagen original y las 4 aproximaciones en un solo grafico
  
 k_15 = [20, 50, 100, 200];
 
@@ -233,26 +257,78 @@ sgtitle("Comparación de la imagen original con las aproximaciones");
 for i=1:length(k_15)
     k = k_15(i);
     A_k = U(:, 1:k) * S(1:k, 1:k) * V(:, 1:k)';  % V va conjugada y transpuesta
-
-    % ii) Graficar las aproximaciones
+% (ii) Graficar las aproximaciones
     subplot(2,3,i+1);
     imshow(A_k, [0,255]);
     title(["k = ", num2str(k_15(i))]); % Ir cambiando el numero de k para el titulo
 end
 
-% iii) Descripcion del cambio en la calidad visual conforme aumenta k
+% (iii) Descripcion del cambio en la calidad visual conforme aumenta k
 
 
 % La descripcion del cambio en la calidad visual se encuentra en el documento escrito
 
+% Inciso d)
 
+% (i) Tabla de errores relativos para cada valor de k
 
+normaA_15d = norm(A_15,'fro');
 
+normas_15d = zeros(length(k_15),1);
+errores_15d = zeros(length(k_15),1);
 
+for j_15d = 1:length(k_15)
 
-% e) Calculo y comparacion de la razon de almacenamiento de las imagenes aproximadas
+    k_15d = k_15(j_15d);
 
-% i) Calcular para cada k la razon de almacenamiento 
+    A_15d = U(:,1:k_15d)*S(1:k_15d,1:k_15d)*V(:,1:k_15d)';
+
+    normas_15d(j_15d) = norm(A_15-A_15d,'fro');
+    errores_15d(j_15d) = normas_15d(j_15d)/normaA_15d;
+
+end
+
+disp('Errores relativos de aproximacion')
+
+disp(table(k_15(:),errores_15d, ...
+    'VariableNames',{'k','ErrorRelativo'}))
+
+% (ii) Demostracion de la identidad del error
+
+% La solucion a este apartado se encuentra detalladamente desarrollada en
+% el archivo de la parte teorica.
+
+% (iii) Verificacion numerica de la identidad
+
+lado_izquierdo_15d = normas_15d.^2;
+lado_derecho_15d = zeros(length(k_15),1);
+
+for j_15d = 1:length(k_15)
+
+    k_15d = k_15(j_15d);
+
+    lado_derecho_15d(j_15d) = sum(sigma_15(k_15d+1:end).^2);
+
+end
+
+diferencias_15d = abs(lado_izquierdo_15d-lado_derecho_15d);
+escalas_15d = max(lado_izquierdo_15d,lado_derecho_15d);
+diferencias_relativas_15d = diferencias_15d./max(escalas_15d,eps);
+
+disp('Verificacion de la identidad')
+
+disp(table(k_15(:),lado_izquierdo_15d,lado_derecho_15d, ...
+    diferencias_relativas_15d, ...
+    'VariableNames',{'k','NormaResiduoCuadrada', ...
+    'SumaCuadradosDescartados','DiferenciaRelativa'}))
+
+% Note que, al aumentar k se descartan menos valores singulares, por lo que la suma
+% de sus cuadrados no aumenta. En consecuencia, el error tampoco aumenta.
+
+% Inciso e)
+% Calculo y comparacion de la razon de almacenamiento de las imagenes aproximadas
+
+% (i) Calcular para cada k la razon de almacenamiento 
 
 R = zeros(1,length(k_15));
 for i=1:length(k_15)
@@ -260,16 +336,68 @@ for i=1:length(k_15)
 end
 
 
-% ii) Determinar para cuales valores de k la representacion truncada requiere almacenar menos numeros que la matriz original
+% (ii) Determinar para cuales valores de k la representacion truncada requiere almacenar menos numeros que la matriz original
 
 % La determinacion de los valores de k para los cuales la representacion truncada requiere almacenar menos numeros que la matriz original se encuentra en el documento escrito
 
-% iii) Explicar la diferencia entre esta medida teorica de almacenamiento y el tamanyo real de un archivo JPG o PNG
+% (iii) Explicar la diferencia entre esta medida teorica de almacenamiento y el tamanyo real de un archivo JPG o PNG
 
 % La expliación entre la medida teorica y el  tamanyo real de un archivo
 % JPG o PNG se encuentra en el documento escrito
 
+% Inciso f)
 
+% (i) Grafico del error relativo en funcion de k
+
+r_15f = length(sigma_15);
+valores_k_15f = (1:r_15f-1)';
+errores_15f = zeros(length(valores_k_15f),1);
+
+normaA_15f = norm(A_15,'fro');
+
+for j_15f = 1:length(valores_k_15f)
+
+    k_15f = valores_k_15f(j_15f);
+
+    errores_15f(j_15f) = sqrt(sum(sigma_15(k_15f+1:end).^2))/normaA_15f;
+
+end
+
+figure;
+plot(valores_k_15f,errores_15f,'LineWidth',1.5);
+hold on;
+yline(0.05,'--r');
+xlabel('k');
+ylabel('Error relativo');
+title('Error relativo en funcion de k');
+legend('Error relativo','Umbral 0.05');
+grid on;
+hold off;
+
+% (ii) Menor valor de k con error relativo inferior a 0.05
+
+posicion_15f = find(errores_15f < 0.05,1);
+
+if isempty(posicion_15f)
+
+    disp('No existe un k menor que r con error relativo inferior a 0.05.')
+
+else
+
+    k_min_15f = valores_k_15f(posicion_15f);
+
+    disp('Menor k con error relativo inferior a 0.05')
+    disp(k_min_15f)
+
+    disp('Error relativo correspondiente')
+    disp(errores_15f(posicion_15f))
+
+end
+
+% (iii) Relacion entre rango, error, calidad visual y almacenamiento
+
+% La solucion a este apartado se encuentra detalladamente desarrollada en
+% el archivo de la parte teorica. 
 
 %% Solucion de incisos: creacion de funciones 
 
