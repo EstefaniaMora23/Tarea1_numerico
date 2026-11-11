@@ -21,9 +21,6 @@
 
 
 
-
-
-
 %% Pregunta 6
 
 % c) Funcion de MATLAB con la regla del trapecio para integrales dobles y comprobacion de los resultados de b)
@@ -215,6 +212,62 @@ end
 
 
 %% Solucion de incisos: creacion de funciones 
+
+%% Pregunta 5: aproximacion de integrales impropias
+
+function[] = integralesImpropias(f,a,b,m)
+% Funcion para aproximar integrales impropias utilizando la regla compuesta
+% del enunciado 
+% Entradas: f----funcion por integrar
+%           a----limite inferior, puede ser -Inf
+%           b----limite superior, puede ser Inf
+%           m----numero entero de subintervalos por intervalo, m >= 3
+% Salidas:  I----aproximacion de la integral
+
+I = 0; 
+
+if a == -Inf && b == Inf
+    intervalos = [-Inf,-1; -1,1; 1,Inf];
+elseif a == -Inf && b >= 0
+    intervalos = [-Inf,-1; -1,b];
+elseif b == Inf && a <= 0
+    intervalos = [a,1; 1,Inf];
+else
+    intervalos = [a,b];
+end
+
+n = size(intervalos,1);
+
+for k = 1:n
+
+    inferior = intervalos(k,1);
+    superior = intervalos(k,2);
+
+    if inferior == -Inf
+        g = @(x) f(1/x)/x^2;
+        A = 1/superior;
+        B = 0;
+    elseif superior == Inf
+        g = @(x) f(1/x)/x^2;
+        A = 0;
+        B = 1/inferior;
+    else
+        g = f;
+        A = inferior;
+        B = superior;
+    end
+
+    h = (B-A)/m;
+    suma = 0;
+
+    for i = 2:m-2
+        xi = A + i*h;
+        suma = suma + g(xi);
+    end
+    I = I + (h/2)*(3*g(A+h) + 2*suma + 3*g(B-h));
+end
+I
+end
 
 %% Pregunta 6: regla del trapecio compuesta para integrales dobles
 
