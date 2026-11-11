@@ -68,18 +68,6 @@ k4_13 = 0.5; % Tasa de mortalidad de los depredadores
 
 % c) Graficos con las soluciones del problema
 
-figure;
-plot(t_13,u_13);
-title("Relación entre el número de presas y el tiempo");
-ylabel("Número de presas");
-xlabel("Tiempo");
-
-
-figure;
-plot(t_13,v_13);
-title("Relación entre el número de depredadores y el tiempo");
-ylabel("Número de depredadores");
-xlabel("Tiempo");
 
 figure;
 plot(t_13,u_13);
