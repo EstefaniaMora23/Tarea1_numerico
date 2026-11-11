@@ -1065,6 +1065,58 @@ $$\implies\omega_{2} = 5 + 0,25(4e^{-2*0,25} + 6*0,25*e^{-2*0,25} + \frac{3*0,25
 Así, se ha encontrado que bajo el método de Euler $\omega_2 \approx y(0,5) \approx 6,30273.$
 
 
+## Ejercicio 13 Modelo de Lotka-Volterra implementando el método de Runge-Kutta de orden 4 para poblaciones de presas y depredadores
+
+### a) Creación del programa que implemente RK4
+
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 13`.
+
+### b) Ejecución del programa con los valores brindados
+
+Ver ejecución en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 13`.
+
+### c) Gráficos de las poblaciones de presas y depredadores vs tiempo y de depredadores vs presas
+
+Ver realización de los gráficos en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 13`.
+
+![Población de presas y depredadores vs tiempo](grafico_presas_depredadores_vs_tiempo.png){#fig-presas-depredadores-tiempo width="60%"} 
+
+En la @fig-presas-depredadores-tiempo se puede apreciar que ambas poblaciones tienen un intervalo de tiempo en el que aumentan su población y otro en el que la disminuyen, sin embargo, la población de las presas sube antes y más rápido que la población de los depredadores. Además, la población de los depredadores aumenta luego de que haya aumentado la población de las presas, y conforme aumenta el número de depredadores, disminuye el número de las presas, hasta llegar a un punto en que la población de las presas se acerca mucho a cero, donde se llega a una población aproximada de 25 y entonces empieza a disminuir la población de los depredadores, debido a que la disponibilidad de presas es muy baja con respecto al número de depredadores.
+
+
+![Relación entre la población de depredadores y presas](grafico_depredadores_vs_presas.png){#fig-presas-depredadores width="60%"} 
+
+El modelo demográfico sí posee una solución estable, la cual se encuentra en el centro del óvalo que se muestra en la @fig-presas-depredadores el cual muestra la relación entre el número de depredadores y de presas. 
+
+Para que el modelo demográfico tenga solución estable, las poblaciones no deben cambiar a lo largo del tiempo. Asumiendo que las poblaciones iniciales no son cero:
+
+$$x_1'(t) = 0$$
+
+$$\implies k_1 x_1(t) - k_2 x_1(t) x_2(t) = 0$$
+
+$$\implies x_1(t) (k_1 - k_2 x_2(t)) = 0$$
+
+$$\implies k_1 - k_2 x_2(t) = 0$$
+
+$$\implies x_2(t) = \frac{k_1}{k_2} = \frac{3}{0.002} = 1500$$
+
+Por otro lado:
+
+$$x_2'(t) = 0$$
+
+$$\implies k_3 x_1(t) x_2(t) - k_4 x_2(t) = 0$$
+
+$$\implies x_2(t)(k_3 x_1(t) - k_4) = 0$$
+
+$$\implies k_3 x_1(t) - k_4 = 0$$
+
+$$\implies x_1(t) = \frac{k_4}{k_3} = \frac{0.5}{0.0006} \approx 833.3333$$
+
+Por lo que, para que este modelo tenga solución estable, el número de presas debe ser de aproximadamente 833.33 y el número de depredadores debe ser de 1500. Esta solución estable puede verse en la @fig-presas-depredadores-punto, donde puede apreciarse que el punto rojo, ubicado en $(833.3333, 1500)$, se encuentra en el centro del óvalo que representa depredadores vs presas.
+
+![Población de presas y depredadores vs tiempo con solución estable](grafico_depredadores_vs_presas_punto.png){#fig-presas-depredadores-punto width="60%"} 
+
+
 # Ejercicios de Investigación
 
 

@@ -81,9 +81,21 @@ xlabel("Tiempo");
 
 figure;
 plot(u_13,v_13);
+hold on;
+plot(833.3333, 1500, 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 8);
+legend('Depredador vs presa', 'Punto de solución estable', 'Location', 'best');
 title("Relación entre la población de presas y depredadores");
 xlabel("Población de presas");
 ylabel("Población de depredadores");
+
+
+% La interpretacion de los graficos, respuesta a si el modelo posee
+% solucion estable y los valores
+% de x_1 y x_2 para los que la
+% solución es estable se
+% encuentra en el documento escrito. Además, el punto rojo en el grafico
+% de depredadores vs presas se grafico una vez encontrados los valores de
+% x_1 y x_2 (Para evitar realizar 2 graficos)
 
 %% Pregunta 15
 
