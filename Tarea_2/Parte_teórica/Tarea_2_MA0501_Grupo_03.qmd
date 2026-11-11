@@ -883,6 +883,99 @@ $$\lambda_{3}= \begin{pmatrix} 0,46534  & -0,75294 & 0,46534\end{pmatrix}* \begi
 La aproximación de un valor propio de A mediante el método del cociente de Rayleigh, a partir de la realización de tres iteraciones corresponde a $\lambda_{3}= 0,76393.$
 
 
+## Ejercicio 10
+
+Sea A una matriz cuadrada con valores propios $\lambda_{1}, \lambda_{2}, . . . , \lambda_{n}$ y vectores propios asociados $v_1, v_2, . . . , v_n$, con $v_i \neq 0$, respectivamente. La idea de este ejercicio es
+mostrar cómo se puede modificar la matriz A para trasladar un valor propio hacia cero, dejando el
+resto de los valores propios exactamente igual.
+
+### a) Pruebe el siguiente resultado: Sea A una matriz $n×n$ con valores propios $\lambda_{1}, \lambda_{2}, . . . , \lambda_{n}$ y vectores propios asociados $v_1, v_2, . . . , v_n$ y sea $x$ cualquier vector de dimensión $n$ tal que $x^{t}v_1 = 1$. Entonces la matriz $B = A - \lambda_{1}v_1x^{t}$ tiene los valores propios: $0, \lambda_{2}, . . . , \lambda_{n}$ y vectores propios asociados $v_1, u_2, . . . , u_n$, donde para $i = 2, 3, 4, . . . , n$: $v_i = (\lambda_{i} − \lambda_{1})u_i + \lambda_{1}(x^{t}u_i)v_1.$
+
+Primero, de la definición de vector y valor propio se tiene que: Sea $A \in C^{m×m}$ una matriz cuadrada. Un vector distinto de cero $v \in C^{m}$ es un vector propio de A y $\lambda$ es el valor propio correspondiente si: 
+$$Av = \lambda v$$
+En vista de lo anterior, para los valores propios $\lambda_{1}, \lambda_{2}, . . . , \lambda_{n}$ y los vectores propios asociados $v_1, v_2, . . . , v_n$, se cumple que
+$$Av_i = \lambda_i v_i \quad \text{para} \quad  i = 1, 2, 3, 4, . . . , n.$$
+Ahora, se define $B = A - \lambda_{1}v_1x^{t}$. Se precisa demostrar que el valor propio asociado al vector propio $v_1$ corresponde a $0$, se procede como sigue.
+
+Se parte de:
+
+$$ \implies B = A - \lambda_{1}v_1x^{t}$$
+
+Multiplicando cada lado por $v_1$:
+
+
+$$ \implies Bv_1 = (A - \lambda_{1}v_1x^{t})v_1 $$
+$$ \implies Bv_1 = Av_1 - \lambda_{1}v_1x^{t}v_1 $$
+Del enunciado se tiene que $x^{t}v_1 = 1$, así: 
+
+$$ \implies Bv_1 = Av_1 - \lambda_{1}v_1$$
+Como se cumple que  $\lambda_{1}$ es un valor propio de A, cuyo vector propio asociado corresponde a $v_1$, por la definición de valor y vector propio se tiene que:
+
+$$Av_1 = \lambda_1 v_1$$
+De esta manera:
+
+$$ \implies Bv_1 = \lambda_{1}v_1 - \lambda_{1}v_1$$
+$$ \implies Bv_1 = (\lambda_{1} - \lambda_{1})v_1 $$
+$$ \implies Bv_1 = 0v_1 $$
+Concluya así que $v_1$ es un vector propio de $B$, no obstante, ahora está asociado al valor propio $0$. 
+
+Seguidamente, se procede a probar lo solicitado para $i= 2, ..., n.$ Se parte de la igualdad propuesta en el enunciado: 
+
+$$v_i = (\lambda_{i} − \lambda_{1})u_i + \lambda_{1}(x^{t}u_i)v_1$$
+Despejando $u_i$ se obtiene: 
+
+$$u_i =  \frac{v_i - \lambda_{1}(x^{t}u_i)v_1 }{\lambda_{i} − \lambda_{1}}$$
+Note que se busca demostrar que $Bu_i = \lambda_{i}u_i.$ Se procede como sigue. 
+
+Partiendo de: 
+
+$$ \implies B = A - \lambda_{1}v_1x^{t}$$
+Multiplicado por $u_i$ a ambos lados: 
+
+$$ \implies Bu_i = (A - \lambda_{1}v_1x^{t})u_i$$
+$$ \implies Bu_i = Au_i - \lambda_{1}v_1x^{t}u_i$$
+Ahora, visualice que: 
+
+$$ \implies Au_i = A*\frac{v_i - \lambda_{1}(x^{t}u_i)v_1 }{\lambda_{i} − \lambda_{1}} $$
+$$ \implies Au_i = \frac{Av_i - A[\lambda_{1}(x^{t}u_i)v_1]}{\lambda_{i} − \lambda_{1}} $$
+Como $\lambda_{1}$ y $(x^{t}u_i)$ corresponden a escalares, se pueden sacar de la multiplicación en el numerador: 
+
+$$ \implies Au_i = \frac{Av_i - \lambda_{1}(x^{t}u_i)Av_1}{\lambda_{i} − \lambda_{1}} $$
+Por la definición de valor y vector propio: $Av_i = \lambda_i v_i$ para $i= 1,...,n.$ Así:
+
+$$ \implies Au_i = \frac{\lambda_i v_i - \lambda_{1}(x^{t}u_i)\lambda_1 v_1}{\lambda_{i} − \lambda_{1}} $$
+$$ \implies Au_i = \frac{\lambda_i v_i - \lambda_{1}^{2}(x^{t}u_i)v_1}{\lambda_{i} − \lambda_{1}} $$
+Reemplazando $v_i = (\lambda_{i} − \lambda_{1})u_i + \lambda_{1}(x^{t}u_i)v_1$:
+
+$$ \implies Au_i = \frac{\lambda_i[(\lambda_{i} − \lambda_{1})u_i + \lambda_{1}(x^{t}u_i)v_1] - \lambda_{1}^{2}(x^{t}u_i)v_1}{\lambda_{i} − \lambda_{1}} $$
+$$ \implies Au_i = \frac{\lambda_i(\lambda_{i} − \lambda_{1})u_i + \lambda_i\lambda_{1}(x^{t}u_i)v_1 - \lambda_{1}^{2}(x^{t}u_i)v_1}{\lambda_{i} − \lambda_{1}} $$
+Agrupando los dos últimos términos del numerador: 
+
+$$ \implies Au_i = \frac{\lambda_i(\lambda_{i} − \lambda_{1})u_i + \lambda_{1}(x^{t}u_i)v_1(\lambda_{i} - \lambda_{1})}{\lambda_{i} − \lambda_{1}} $$
+$$ \implies Au_i = \frac{[\lambda_{i} − \lambda_{1}][\lambda_iu_i + \lambda_{1}(x^{t}u_i)v_1]}{\lambda_{i} − \lambda_{1}} $$
+
+$$ \implies Au_i = \lambda_iu_i + \lambda_{1}(x^{t}u_i)v_1$$
+Retomando el último resultado obtenido y reemplazando $Au_i$:
+
+$$ \implies Bu_i = Au_i - \lambda_{1}v_1x^{t}u_i$$
+$$ \implies Bu_i = \lambda_iu_i + \lambda_{1}(x^{t}u_i)v_1 - \lambda_{1}v_1x^{t}u_i$$
+Reordenando los factores escalares del tercer término:
+
+$$ \implies Bu_i = \lambda_iu_i + \lambda_{1}(x^{t}u_i)v_1 - \lambda_{1}(x^{t}u_i)v_1$$
+Finalmente: 
+
+$$ \implies Bu_i = \lambda_iu_i,$$
+que es precisamente la definición de valor y vector propio. 
+
+Concluya que para $i= 2, ..., n;$ $\lambda_i$ corresponde a un valor propio de B, cuyo vector propio asociado es $u_i$. De esta forma, se ha demostrado lo requerido. 
+
+
+### b) Escriba un programa de MATLAB que reciba una matriz $n × n$, A, cuyos valores propios son todos distintos y mayores que cero. Use el método de potencias para aproximar el valor/vector propio de mayor magnitud y utilice el método de deflación de Wielandt para trasladarlo. Una vez hecho esto, se utiliza la nueva matriz con el valor propio trasladado y se vuleve a aplicar el proceso. Su programa debe devolver aproximaciones a todos los valores/vectores propios de la matriz original A.
+
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: creacion de funciones`, en el apartado `Ejercicio 10`.
+
+
+
 # Ecuaciones Diferenciales
 
 ## Ejercicio 12
