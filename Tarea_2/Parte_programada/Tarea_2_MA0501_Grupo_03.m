@@ -45,7 +45,108 @@ I_6 = trapecio_doble(T_6, a_6, b_6, c_6, d_6, n_6, m_6)
 % Como puede observarse, se obtuvo que I_6 = 8, que coincide con el
 % resultado obtenido a mano en el inciso b).
 
+%% Pregunta 11
 
+% Inciso d)
+
+% En este caso, se construye la matriz companera del polinomio de Wilkinson de grado 5.
+% Luego, se aproximan sus raices mediante el metodo de potencias y la deflacion
+% de Wielandt. Para el analisis de resultados se calcularon ademas los
+% errores absolutos. 
+
+rng(1) % Semilla para valores aleatorios
+
+n_11d = 5;
+p_11d = polinomioWilkinson(n_11d);
+C_11d = matrizFrobenius(p_11d);
+
+A_11d = C_11d;
+tol_11d = 1e-10;
+
+raices_11d = zeros(n_11d,1);
+
+for j_11d = 1:n_11d
+
+    [lambda_11d,v_11d] = metodoPotencias(A_11d,tol_11d);
+
+    raices_11d(j_11d) = lambda_11d;
+
+    if j_11d < n_11d
+
+        [~,k_11d] = max(abs(v_11d));
+
+        x_11d = A_11d(k_11d,:)'/(lambda_11d*v_11d(k_11d));
+        A_11d = A_11d-lambda_11d*v_11d*x_11d';
+
+    end
+end
+
+exactas_11d = (n_11d:-1:1)';
+errores_11d = abs(raices_11d-exactas_11d);
+
+disp('Resultados del ejercicio 11d:')
+disp('Raices exactas')
+disp(exactas_11d)
+
+disp('Raices aproximadas')
+disp(raices_11d)
+
+disp('Errores absolutos')
+disp(errores_11d)
+
+% Se aproximaron las cinco raices en orden descendente, con errores absolutos
+% entre 5.4e-11 y 1.542e-9. Para grado 5, el procedimiento obtuvo alta precision.
+% Un analisis de resultados mas detallado se encuentra en el archivo de la
+% parte teorica. 
+
+% Inciso e)
+
+% Repetimos lo mismo que el inciso anterior, con un polinomio de Wilkinson
+% de grado 10
+
+n_11e = 10;
+p_11e = polinomioWilkinson(n_11e);
+C_11e = matrizFrobenius(p_11e);
+
+A_11e = C_11e;
+tol_11e = 1e-10;
+
+raices_11e = zeros(n_11e,1);
+
+for j_11e = 1:n_11e
+
+    [lambda_11e,v_11e] = metodoPotencias(A_11e,tol_11e);
+
+    raices_11e(j_11e) = lambda_11e;
+
+    if j_11e < n_11e
+
+        [~,k_11e] = max(abs(v_11e));
+
+        x_11e = A_11e(k_11e,:)'/(lambda_11e*v_11e(k_11e));
+        A_11e = A_11e-lambda_11e*v_11e*x_11e';
+
+    end
+
+end
+
+exactas_11e = (n_11e:-1:1)';
+errores_11e = abs(raices_11e-exactas_11e);
+
+disp('Resultados del ejercicio 11e')
+disp('Raices exactas')
+disp(exactas_11e)
+
+disp('Raices aproximadas')
+disp(raices_11e)
+
+disp('Errores absolutos')
+disp(errores_11e)
+
+% Para grado 10 se aproximaron las diez raices con alta precision. El error
+% absoluto maximo fue 8.636e-9, aproximadamente 5.6 veces el obtenido para
+% grado 5, por lo que se observa una mayor perdida de precision conforme
+% aumenta el grado del polinomio. 
 
 %% Pregunta 13
 
@@ -265,6 +366,74 @@ function I = trapecio_doble(f, a, b, c, d, n, m)
     I = (h*k/4) * S;
 end
 
+%% Pregunta 11
+
+% Inciso b)
+
+function[C] = matrizFrobenius(p)
+% Funcion para construir la matriz companera de Frobenius
+% Entradas:      p-----vector de coeficientes de un polinomio monico,
+%                ordenados de mayor a menor grado
+% Salidas:       C-----matriz companera de Frobenius
+
+n = length(p)-1;
+C = zeros(n,n);
+
+for i = 1:n-1
+    C(i,i+1) = 1;
+end
+
+for j = 1:n
+    C(n,j) = -p(n-j+2);
+end
+end
+
+% Inciso c)
+
+function[p] = polinomioWilkinson(n)
+% Funcion para calcular los coeficientes del polinomio de Wilkinson
+% Entradas:     n-----grado del polinomio, entero positivo
+% Salidas:      p-----vector de coeficientes ordenados de mayor a menor grado
+
+p = 1;
+
+for k = 1:n
+
+    nuevo = zeros(1,length(p)+1);
+
+    for j = 1:length(p)
+        nuevo(j) = nuevo(j) + p(j);
+        nuevo(j+1) = nuevo(j+1) - k*p(j);
+    end
+
+    p = nuevo;
+
+end
+end
+
+% Inciso d)
+
+% Para este inciso se requirio una funcion auxiliar del metodo de
+% potencias, programada en clases
+
+function[lambda, v] = metodoPotencias(A, tol)
+% Funcion que aproxima el valor y vector propio de mayor magnitud de A
+% Entradas:             A------------matriz nxn
+% Salidas:              lambda, v,---aproximacion al par propio de mayor
+%                                    magnitud de A
+
+v = rand(length(A),1);
+v = v/norm(v); lambda = v'*A*v;
+
+er = norm(A*v - lambda*v);
+
+while er > tol
+    w = A*v;
+    v = w/norm(w);
+    lambda = v'*A*v;
+    er = norm(A*v - lambda*v);
+end
+end
 
 %% Pregunta 13
 
