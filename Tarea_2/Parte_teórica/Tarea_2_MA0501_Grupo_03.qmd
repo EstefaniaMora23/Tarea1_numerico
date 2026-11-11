@@ -1219,3 +1219,64 @@ Por lo que, para que este modelo tenga solución estable, el número de presas d
 # Ejercicios de Investigación
 
 
+
+
+
+
+
+
+## Ejercicio 15 Compresión de imágenes mediante la descomposición en valores singulares(SVD).
+
+### a) Selección de imagen en formato JPG o PNG cuyo archivo original tenga un tamaño superior a 1 MB.
+
+#### i) Carga de la imagen en MATLAB y conversión a escala de grises
+
+Ver carga de la imagen en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`.
+
+#### ii) Representación de la imagen mediante una matriz $A$ de tipo double
+
+Ver la representación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`.
+
+#### iii) Cálculo de las dimensiones $m$ $x$ $n$ de la matriz y qué representan
+
+Ver el cálculo de las dimensiones en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`.
+
+La primera entrada $m_15$ representa el alto de la imagen en píxeles, en este caso se obtuvo que la imagen posee 3919 pixeles de alto. Mientras que la segunda entrada $n_15$ representa el ancho de la imagen, obteniendo en este caso un ancho de 2250 pixeles. Además, cada entrada de la matriz $A_15$ representa la intensidad de gris de cada pixel, donde el 0 representa el negro y el 255 representa el blanco.
+
+
+
+
+
+### c) Construcción de las aproximaciones $A_k$ utilizando los valores $k = 20, 50, 100, 200$.
+
+#### i) Construcción de las aproximaciones $A_k$ en MATLAB utilizando únicamente los primeros $k$ valores singulares y sus vectores singulares asociados.
+
+Ver la construcción en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`.
+
+#### ii) Mostrar en una misma figura la imagen original y las cuatro aproximaciones obtenidas
+
+Ver graficación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`. A continuación se muestra el gráfico creado:
+
+![Comparación de la imagen original con las aproximaciones](grafico_comparacion_edificio_k.png){#fig-comparacion-edificio width="60%"} 
+
+#### iii) Descripción del cambio en la calidad visual de la imagen conforme aumenta el valor de $k$.
+
+Como puede observarse en la @fig-comparacion-edificio, con el valor inicial de $k=20$ se obtuvo una imagen borrosa, principalmente en la parte superior de la imagen, donde deberían ir las nubes. Por otro lado con $k=50$ la mejora en la calidad de la imagen es notoria, donde la parte superior de la imagen ya no se ve tan borrosa y se ve más nítidamente el edificio. Con $k=100$ se puede apreciar una mejora considerable con respecto a $k=50$, pero la diferencia entre ambas no es muy significativa. Por último, con $k=200$, la aproximación se parece mucho a la imagen original, donde se puede ver una mejora considerable con respecto a las demás aproximaciones, de igual manera, el cambio entre esta aproximación y la anterior no es mucho considerando que se duplicó el valor de $k$.
+
+
+
+### e) Cálculo de la razón de almacenamiento y comparación con formatos JPG y PNG
+
+#### i) Cálculo, para cada $k$, la razón de almacenamiento $R_k$.
+
+Ver el cálculo en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 15`.
+
+#### ii) Determinar para cuáles valores de $k$ la representación truncada requiere almacenar menos números que la matriz original. 
+
+Como puede observarse en los resultados obtenidos en el inciso anterior, para cada $k$, la razón de almacenamiento es menor que 1, donde para $k = 20$ se tiene $R = 0.013994$; para $k = 50$ se tiene $R = 0.034986$; para $k = 100$ se tiene $R = 0.069972$ y para $k = 200$ se tiene $R = 0.13994$; por lo que, en todos los casos se tiene que el almacenamiento necesitado para guardar la representación truncada es menor que lo que se necesita para almacenar la versión original.
+
+
+#### iii) Explicación de la diferencia entre esta medida teórica de almacenamiento y el tamaño real de un archivo JPG o PNG.
+
+La diferencia entre esta medida de almacenamiento y el tamaño real del almacenamiento se debe a que en el SVD se calculan los valores singulares y se ordenan de mayor a menor, de esta forma, primero están los valores singulares que contienen la información más importante de la imagen, al acotar esa información se seleccionan los $k$ primeros valores singulares que contienen la información mas importante, lo que permite representar bien a la imagen original pero desechando información que no es tan importante. De esta forma se logra reducir en gran medida el tamaño de la imagen, pero sin que pierda mucha calidad, la pérdida de calidad y el tamaño de la aproximación dependen directamente de si $k$ es más o menos grande, donde a un $k$ más grande se tiene una aproximación mejor pero que también pesa más, y no siempre aumentar el valor de $k$ implica un aumento significativo en la calidad de la imagen aproximada. Por lo que, $R_k$ es una medida teórica que representa la proporción de números que se necesitan para cada aproximación con respecto a los que se necesitan para la imagen original. La diferencia entre esta medida y un formato como el JPG o el PNG es que el $R_k$ no considera el tamaño que necesita en la memoria de la computadora para poder ser guardada la aproximación; por lo que, para poder comparar $R_k$ con el tamaño de un archivo JPG o PNG habría que multiplicar $R_k$ por el espacio en bits que se necesitarían para guardar cada número.
+

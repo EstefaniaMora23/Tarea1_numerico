@@ -109,11 +109,7 @@ A_15 = double(edificio_b_n);
 % iii) Dimensiones de la matriz A y que representan
 [m_15,n_15] = size(A_15);
 
-% La primer entrada m representa el alto de la imagen en pixeles, en este 
-% caso se obtuvo que la imagen posee 3919 pixeles de alto. Mientras que la 
-% seguda entrada n representa el ancho de la imagen, obteniendo en este 
-% caso un ancho de 2250 pixeles
-
+% La interpretacion de las dimensiones se encuentra en el documento escrito
 
 
 
@@ -145,20 +141,8 @@ end
 
 % iii) Descripcion del cambio en la calidad visual conforme aumenta k
 
-% Como puede observarse, con el valor inicial de k=20 se obtuvo una
-% imagen borrosa, principalmente en la parte de arriba de la imagen, donde
-% deberian ir las nubes. Por otro lado con k=50 la mejora en la calidad de
-% la imagen es notoria, donde la parte superior de la imagen ya no se ve
-% tan borrosa y se ve mas nitidamente el edificio. Con k=100 se puede
-% apreciar una mejora considerable con respecto a k=50, pero no es mucha la
-% diferencia entre ambas. Por ultimo, con k=200, la aproximacion se parece
-% mucho a la imagen original, donde se puede ver una mejora considerable
-% con respecto a las demás
-% aproximaciones, de igual manera, el cambio entre esta aproximacion y la
-% anterior no es mucha considerando que se duplicó el valor de k.
 
-
-
+% La descripcion del cambio en la calidad visual se encuentra en el documento escrito
 
 
 
@@ -177,38 +161,13 @@ end
 
 % ii) Determinar para cuales valores de k la representacion truncada requiere almacenar menos numeros que la matriz original
 
-% Como puede observarse en los resultados obtenidos en el inciso anterior,
-% para cada k, la razon de almacenamiento es menor que 1, donde para k = 20
-% se tiene R = 0.013994; para k = 50 se tiene R = 0.034986; para k = 100 se
-% tiene R = 0.069972 y para k = 200 se tiene R = 0.13994; por lo que, en
-% todos los casos se tiene que el almacenamiento necesitado para guardar la
-% representacion truncada es menor que lo que se necesita para almacenar la
-% version original.
-
+% La determinacion de los valores de k para los cuales la representacion truncada requiere almacenar menos numeros que la matriz original se encuentra en el documento escrito
 
 % iii) Explicar la diferencia entre esta medida teorica de almacenamiento y el tamanyo real de un archivo JPG o PNG
 
-% La diferencia entre esta medida del almacenamiento y la tamanyo real del
-% almacenamiento se debe a que en el SVD se calculan los valores singulares y
-% se ordenan de mayor a menor, de esta forma, primero estan los valores
-% singulares que contienen la informacion mas importante de la imagen, al
-% acotar esa informacion se seleccionan los k primeros valores singulares que
-% contienen la informacion mas importante, lo que permite representar bien
-% a la imagen original pero desechando informacion que no es tan
-% importante, de esta forma se logra reducir en gran medida el tamanyo de
-% la imagen, pero sin que pierda mucha calidad, la perdida de calidad y el
-% tamanyo de la aproximacion dependen directamente de si k es mas o menos
-% grande, donde a un k mas grande se tiene una aproximacion mejor pero que
-% tambien pesa mas, y no siempre aumentar el valor de k significa un
-% aumento significativo en la calidad de la imagen aproximada. Por lo que,
-% R_k es una medida teórica que representa la proporcion de numeros que se
-% necesitan para cada aproximacion con respecto a los que se necesitan para
-% la imagen original, la diferencia entre esta medida y un formato como el
-% JPG o el PNG es que el R_k no considera el tamanyo que necesita en la
-% memoria de la computadora para poder ser guardada la aproximacion; por lo
-% que, para poder comparar R_k con el tamanyo de un archivo JPG o PNG
-% habria que multiplicar R_k por el espacio en bits que se necesitarian para
-% guardar cada numero.
+% La expliación entre la medida teorica y el  tamanyo real de un archivo
+% JPG o PNG se encuentra en el documento escrito
+
 
 
 %% Solucion de incisos: creacion de funciones 
