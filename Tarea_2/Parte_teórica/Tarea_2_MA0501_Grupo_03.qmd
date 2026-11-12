@@ -1243,13 +1243,6 @@ Por lo que, para que este modelo tenga solución estable, el número de presas d
 
 # Ejercicios de Investigación
 
-
-
-
-
-
-
-
 ## Ejercicio 15 Compresión de imágenes mediante la descomposición en valores singulares(SVD).
 
 ### a) Selección de imagen en formato JPG o PNG cuyo archivo original tenga un tamaño superior a 1 MB.
