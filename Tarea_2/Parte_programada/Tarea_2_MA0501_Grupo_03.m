@@ -19,8 +19,6 @@
 
 %% Solucion de incisos: calculos a partir de las funciones creadas
 
-
-
 %% Pregunta 6
 
 % c) Funcion de MATLAB con la regla del trapecio para integrales dobles y comprobacion de los resultados de b)
@@ -493,6 +491,81 @@ function I = trapecio_doble(f, a, b, c, d, n, m)
 
     I = (h*k/4) * S;
 end
+%% Pregunta 10
+
+% Inciso b
+
+function[val_prop, vec_prop] = deflacionWielandt(A, k)
+% Funcion para calcular los valores y los vectores propios de una matriz
+% mediante el metodo de potencias y la deflacion de Wielandt.
+% Entradas:       A --- matriz nxn 
+%                 k --- numero de iteraciones metodo de potencias 
+% Salidas: val_prop --- vector con las aproximaciones a los valores 
+%                       propios de A 
+%          vec_prop --- matriz cuyas columnas contienen las
+%                       aproximaciones de los vectores propios
+%                       asociados a cada valor propio de A
+
+% Verificaciones antes de ejecutar la funcion
+tamanio = size(A);
+if tamanio(1) ~= tamanio(2)
+    error('La matriz A debe ser cuadrada');
+end
+
+val_prop_A = eig(A);
+
+if any(abs(imag(val_prop_A)) > 1e-10) || any(real(val_prop_A) <= 0)
+    error('Los valores propios de A deben ser reales y mayores que cero');
+end
+
+if length(unique(round(real(val_prop_A),10))) ~= length(A)
+    error('Los valores propios de A deben ser todos distintos');
+end
+
+if k < 1 || k ~= floor(k)
+    error('k debe ser un entero positivo');
+end
+
+% Inicia la ejecucion de la funcion
+n = length(A);
+val_prop = zeros(n,1);
+vec_prop = zeros(n,n);
+
+B = A;
+
+for i = 1:n
+    % Aplicacion del metodo de potencias
+    v = rand(n,1);
+    v = v/norm(v);
+
+    for j = 1:k
+        w = B*v;
+        v = w/norm(w);
+        lambda = v'*B*v;
+    end
+
+    % Se guarda el valor y el vector propio de la aproximacion actual
+    val_prop(i) = lambda;
+    vec_prop(:,i) = v;
+
+    % Se aplica la deflacion de Wielandt
+    if i < n
+
+        % Se selecciona el valor k a utilizar
+        [~,k_wielandt] = max(abs(v));
+        % Nota: se utiliza el maximo del vector para evitar la division por
+        % cifras cercanas a cero
+
+        % Se calcula el vector x
+        x = B(k_wielandt,:)'/(lambda*v(k_wielandt));
+
+        % Finalmente, se actualiza la matriz
+        B = B - lambda*v*x';
+
+    end
+
+end
+end 
 
 %% Pregunta 11
 
