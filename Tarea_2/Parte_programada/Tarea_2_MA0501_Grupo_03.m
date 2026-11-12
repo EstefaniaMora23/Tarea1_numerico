@@ -223,9 +223,9 @@ r_15 = length(sigma_15);
 
 figure;
 semilogy(1:r_15,sigma_15,'LineWidth',1.5);
-xlabel('Indice i');
-ylabel('Valor singular');
-title('Valores singulares de la imagen');
+xlabel('Indice del valor singular, i');
+ylabel('Valor singular, \sigma_i (escala logarítmica)');
+title('Valores singulares en orden decreciente de la imagen, ejercicio 15, inciso b)');
 grid on;
 
 % (ii) Interpretacion del comportamiento de los valores singulares
@@ -286,7 +286,7 @@ for j_15d = 1:length(k_15)
 
 end
 
-disp('Errores relativos de aproximacion')
+disp('Errores relativos de aproximacion, ejercicio 15, inciso d, (i)')
 
 disp(table(k_15(:),errores_15d, ...
     'VariableNames',{'k','ErrorRelativo'}))
@@ -313,7 +313,7 @@ diferencias_15d = abs(lado_izquierdo_15d-lado_derecho_15d);
 escalas_15d = max(lado_izquierdo_15d,lado_derecho_15d);
 diferencias_relativas_15d = diferencias_15d./max(escalas_15d,eps);
 
-disp('Verificacion de la identidad')
+disp('Verificacion de la identidad, ejercicio 15, inciso d, (iii)')
 
 disp(table(k_15(:),lado_izquierdo_15d,lado_derecho_15d, ...
     diferencias_relativas_15d, ...
@@ -367,7 +367,7 @@ hold on;
 yline(0.05,'--r');
 xlabel('k');
 ylabel('Error relativo');
-title('Error relativo en funcion de k');
+title('Error relativo en funcion de k, ejercicio 15, inciso f, (i)');
 legend('Error relativo','Umbral 0.05');
 grid on;
 hold off;
@@ -384,10 +384,10 @@ else
 
     k_min_15f = valores_k_15f(posicion_15f);
 
-    disp('Menor k con error relativo inferior a 0.05')
+    disp('Menor k con error relativo inferior a 0.05, ejercicio 15, inciso f, (ii)')
     disp(k_min_15f)
 
-    disp('Error relativo correspondiente')
+    disp('Error relativo correspondiente, ejercicio 15, inciso f, (ii)')
     disp(errores_15f(posicion_15f))
 
 end
