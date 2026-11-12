@@ -1449,6 +1449,8 @@ Por otra parte, almacenar la representación truncada requiere $k(m+n+1)$ númer
 
 La elección de $k$ establece así un equilibrio entre precisión, calidad visual y almacenamiento. Un rango pequeño permite una representación más compacta, pero produce una mayor pérdida de información; uno mayor reduce el error a costa de almacenar más números. Esta comparación corresponde al almacenamiento teórico de la representación matricial y no directamente al tamaño de un archivo JPG o PNG.
 
+\newpage
+
 # Referencias
 
 Brunton, S. L., & Kutz, J. N. (2019). *Data-driven science and engineering: Machine learning, dynamical systems, and control*. Cambridge University Press. <https://doi.org/10.1017/9781108380690>
