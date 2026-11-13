@@ -229,4 +229,18 @@ A partir del archivo `CR.txt` con las localidades de Costa Rica, se seleccionar�
 
 Se realizarán múltiples ejecuciones y se compararán las longitudes finales, el número de intercambios y los tiempos de ejecución mediante tablas y gráficos. Los resultados se contrastarán con los del artículo, considerando las diferencias entre las localidades reales y los puntos aleatorios utilizados por los autores.
 
+# Limitaciones del estudio
+
+Los resultados de este proyecto deben interpretarse considerando algunas limitaciones relacionadas con los datos utilizados y las condiciones en las que se realizaron los experimentos.
+
+En primer lugar, las distancias se calcularon utilizando la distancia euclidiana sobre coordenadas planas obtenidas mediante la proyección equirectangular. Por lo tanto, representan distancias en línea recta y no consideran elementos como carreteras y caminos disponibles, el tránsito o las restricciones de acceso. Esto implica que las longitudes obtenidas no necesariamente corresponden a los recorridos reales entre localidades, aunque permiten comparar los algoritmos bajo las mismas condiciones.
+
+Por otra parte, todos los experimentos se realizaron con las 50 localidades más pobladas de `CR.txt`, las cuales se concentran principalmente en el área metropolitana de San José. Esta distribución geográfica difiere de la distribución uniforme utilizada por @manthey2025performance, por lo que los resultados podrían variar al trabajar con localidades de otras regiones o con una configuración espacial diferente. En consecuencia, las conclusiones se limitan al conjunto de datos seleccionado.
+
+En cuanto al tamaño del problema, se comenzó trabajando con 15 localidades y se fue aumentando progresivamente hasta llegar a las 50 utilizadas en los experimentos finales, conforme se comprobó que los algoritmos podían ejecutarse en tiempos reducidos. Este tamaño es considerablemente menor que el utilizado por @manthey2025performance, quienes evalúan conjuntos de hasta 7000 puntos. Esta diferencia se debe a que, después de aplicar los filtros correspondientes, únicamente se dispone de 128 localidades con población reportada y coordenadas únicas. Por tanto, no fue posible analizar el comportamiento de los algoritmos a escalas mayores.
+
+Otra limitación corresponde a las rutas iniciales utilizadas. Se trabajó con una muestra de 100 rutas aleatorias generadas a partir de una semilla fija. Aunque esto permite reproducir los experimentos y mantener condiciones comparables, los resultados dependen de las rutas generadas. Por tanto, al utilizar otra semilla o una muestra más amplia, podrían obtenerse resultados diferentes.
+
+Por último, los tiempos de ejecución dependen de las características del equipo, la implementación en Python y la carga del sistema durante cada ejecución. Por esta razón, deben interpretarse como una referencia para comparar los algoritmos bajo las condiciones de este estudio y no como una medida absoluta de su rendimiento computacional.
+
 # Referencias
