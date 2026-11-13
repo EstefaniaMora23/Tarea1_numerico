@@ -24,7 +24,7 @@ format:
    include-before-body: Portada.tex
 ---
 
-# Interporlación
+# Interpolación
 
 
 ## Ejercicio 1
@@ -200,7 +200,7 @@ S_2(2)
 \end{aligned}
 $$
 
-Asimismo, evualuando en la primera derivada
+Asimismo, evaluando en la primera derivada
 
 $$
 \begin{aligned}
@@ -629,7 +629,7 @@ $$
 \end{aligned}
 $$
 
-Vea que, al distribuir el $2$ de la suma central, los nodos interiores quedan con peso $2\cdot 2 = 4$. Agrupando los términos según su posición en la malla (esquinas, bordes e interior), se tiene que
+Vea que, al distribuir el $2$ de la suma central, los nodos interiores quedan con peso $2\cdot 2 = 4$. Así, la primera llave aporta $f(x_0,y_0)$, $2\sum_{j=1}^{m-1} f(x_0,y_j)$ y $f(x_0,y_m)$; la segunda aporta $2\sum_{i=1}^{n-1} f(x_i,y_0)$, $4\sum_{j=1}^{m-1}\sum_{i=1}^{n-1} f(x_i,y_j)$ y $2\sum_{i=1}^{n-1} f(x_i,y_m)$; y la tercera aporta $f(x_n,y_0)$, $2\sum_{j=1}^{m-1} f(x_n,y_j)$ y $f(x_n,y_m)$. Agrupando los términos según su posición en la malla (esquinas, bordes e interior), se tiene que
 
 $$
 \begin{aligned}
@@ -908,7 +908,7 @@ Desarrollando ambos lados:
 
 $$Ax + A\,\delta x + \delta A\,x + \delta A\,\delta x = \lambda x + \lambda\,\delta x + \delta\lambda\,x + \delta\lambda\,\delta x.$$
 
-Como $Ax = \lambda x$, estos términos se cancelan. Además, se ignoran los términos con dos $\delta$, es decir, $\delta A\,\delta x$ y $\delta\lambda\,\delta x$, los cuales quedan incluidos en el término $O(\|\delta A\|^2)$. De esta forma:
+Como $Ax = \lambda x$, estos términos se cancelan. Además, se ignoran los términos con dos $\delta$, es decir, $\delta A\,\delta x$ y $\delta\lambda\,\delta x$, los cuales quedan incluidos en el término $O(\|\delta A\|^2)$, pues, como $\lambda$ es simple, $\delta\lambda$ y $\delta x$ son $O(\|\delta A\|)$. De esta forma:
 
 $$A\,\delta x + \delta A\,x = \lambda\,\delta x + \delta\lambda\,x.$$
 
@@ -920,7 +920,7 @@ Ahora, como $y^*A = \lambda y^*$, se tiene que $y^*A\,\delta x = \lambda\, y^*\d
 
 $$y^*\delta A\,x = \delta\lambda\, y^*x.$$
 
-Note que la expresión que se quiere probar divide por $y^*x$, por lo que se parte de que $y^*x \neq 0$. Despejando $\delta\lambda$ y agregando el término que se ignoró:
+Note que la expresión que se quiere probar divide por $y^*x$, por lo que se usa que $y^*x \neq 0$, lo cual se cumple pues $\lambda$ es un valor propio simple. Despejando $\delta\lambda$ y agregando el término que se ignoró:
 
 $$\delta\lambda = \frac{y^*\delta A\,x}{y^*x} + O(\|\delta A\|^2). \qquad (1)$$
 
@@ -946,7 +946,7 @@ Concluya así que se cumplen ambas expresiones.
 
 Por el inciso a), basta mostrar que $|y^*x| = 1$ cuando $A$ es simétrica, pues al sustituir en la segunda expresión se obtiene el resultado.
 
-Como $A$ es simétrica, $A = A^T = A^*$ (es decir, es hermítica). De $Ax = \lambda x$ y $\|x\|_2 = 1$ se tiene que
+Como $A$ es real y simétrica, $A = A^T = A^*$ (es decir, es hermítica). De $Ax = \lambda x$ y $\|x\|_2 = 1$ se tiene que
 
 $$x^*Ax = \lambda\, x^*x = \lambda.$$
 
@@ -1347,6 +1347,75 @@ Por lo que, para que este modelo tenga solución estable, el número de presas d
 
 
 # Ejercicios de Investigación
+
+## Ejercicio 14 Análisis de Componentes Principales (PCA)
+
+### a) Escriba una pequeña explicación sobre la idea principal del Análisis de Componentes Principales y su relación con la descomposición de valores singulares.
+
+El Análisis de Componentes Principales (PCA) construye, a partir de los datos, un sistema de coordenadas ortogonal en el que la primera dirección captura la mayor variabilidad de los datos, la segunda captura la mayor variabilidad restante, y así sucesivamente (Brunton y Kutz, 2019).
+
+Sea $X \in \mathbb{R}^{m \times n}$ la matriz de datos, cuyas $n$ columnas son observaciones de $m$ variables (nótese que el libro dispone las observaciones en filas; aquí se usan columnas, como en el código del ejemplo). Se calcula la media $\bar{x} = \frac{1}{n}\sum_{j=1}^{n} X_{\cdot j}$ y se resta a cada columna de $X$, con lo que se obtiene la matriz de datos centrados
+
+$$B = X - \bar{x}\mathbf{1}^T,$$
+
+cuya matriz de covarianza es
+
+$$C = \frac{1}{n-1}BB^T.$$
+
+La primera componente principal es
+
+$$u_1 = \underset{\|u\|_2=1}{\arg\max}\ u^TBB^Tu,$$
+
+que es el vector propio de $BB^T$ asociado al mayor valor propio. Ahora, si $B = U\Sigma V^T$ es la descomposición en valores singulares de $B$, entonces
+
+$$BB^T = U\Sigma^2U^T,$$
+
+por lo que los vectores propios de $BB^T$ son las columnas de $U$ y sus valores propios son $\sigma_i^2$. Así, las componentes principales son las columnas de $U$ (la primera es el vector singular izquierdo asociado a $\sigma_1$) y la varianza asociada a $u_i$ es $\sigma_i^2/(n-1)$. De esta forma, el PCA se obtiene al calcular la descomposición en valores singulares de la matriz de datos centrados.
+
+### b) Escoja uno de los dos ejemplos: *Noisy Gaussian data* de la página 25 u *Ovarian cancer data* de la página 27. Describa la idea del ejemplo y cómo se utiliza el Análisis de Componentes Principales para estudiarlo.
+
+Se escoge el ejemplo *Noisy Gaussian data* de la página 25. En este ejemplo se generan $n = 10\,000$ puntos de la siguiente forma. Primero, se toman vectores $z_j \in \mathbb{R}^2$ de una distribución normal con media cero y varianza unitaria, $z_j \sim N(0, I_2)$. Luego, se escalan en las direcciones $x$ y $y$ por $\sigma_1 = 2$ y $\sigma_2 = 0.5$, se rotan un ángulo de $\pi/3$ y se trasladan al centro $x_C = [2, 1]^T$:
+
+$$x_j = R_{\pi/3}\operatorname{diag}(\sigma_1, \sigma_2)z_j + x_C, \qquad R_{\pi/3} = \begin{pmatrix} \cos\frac{\pi}{3} & -\sin\frac{\pi}{3} \\ \sin\frac{\pi}{3} & \cos\frac{\pi}{3} \end{pmatrix} = \begin{pmatrix} 0.5 & -0.8660 \\ 0.8660 & 0.5 \end{pmatrix}.$$
+
+Como $\operatorname{Cov}(z_j) = I_2$ y $R_{\pi/3}^TR_{\pi/3} = I$, la covarianza de los datos es
+
+$$R_{\pi/3}\operatorname{diag}(\sigma_1^2, \sigma_2^2)R_{\pi/3}^T,$$
+
+cuyos vectores propios son las columnas de $R_{\pi/3}$ y cuyos valores propios son $\sigma_1^2$ y $\sigma_2^2$. La idea del ejemplo es verificar que el PCA recupera esta estructura: el centro de los datos, las desviaciones estándar en los ejes principales y la rotación.
+
+Para estudiar los datos con PCA se procede como sigue. Primero, se calcula la media $\bar{x}$ y se obtiene la matriz de datos centrados $B = X - \bar{x}\mathbf{1}^T$, donde las columnas de $X \in \mathbb{R}^{2 \times n}$ son los puntos. Después, se calcula la descomposición en valores singulares
+
+$$\frac{1}{\sqrt{n}}B = U\Sigma V^T,$$
+
+con lo que, por el inciso a), las columnas de $U$ son las componentes principales y, para $n$ grande, $\frac{1}{n}BB^T = U\Sigma^2U^T \approx \frac{1}{n-1}BB^T$. Por lo anterior, se espera que $\sigma_1 \approx 2$, $\sigma_2 \approx 0.5$ y $U \approx R_{\pi/3}$.
+
+Finalmente, para $k = 1, 2, 3$ se grafican los puntos
+
+$$\bar{x} + kU\Sigma\begin{pmatrix}\cos\theta \\ \sin\theta\end{pmatrix}, \qquad \theta \in [0, 2\pi],$$
+
+que forman elipses con semiejes $k\sigma_iu_i$ y representan los intervalos de confianza de $k$ desviaciones estándar.
+
+### c) [MATLAB] Escriba el código MATLAB asociado al ejemplo escogido y reproduzca los resultados. Explique los resultados.
+
+Ver programación en el archivo `Tarea_2_MA0501_Grupo_03.m`, en la sección `Solucion de incisos: calculos a partir de las funciones creadas`, en el apartado `Ejercicio 14`. A continuación se muestra el gráfico creado:
+
+![Nube de datos gaussianos con las elipses de confianza y los vectores singulares](grafico_nube_gaussiana.png){#fig-pca-nube width="60%"}
+
+En la @fig-pca-nube se observa que la nube de puntos es alargada y está inclinada respecto a los ejes. Las elipses punteadas corresponden a $1$, $2$ y $3$ desviaciones estándar, y las flechas son los vectores $\sigma_iu_i$ con origen en $\bar{x}$.
+
+Fijando la semilla con `rng(1)`, se obtuvo que la media de los datos es $\bar{x} \approx [2.0122, 1.0267]^T$, la cual es cercana al centro $x_C = [2, 1]^T$. Además, los valores singulares obtenidos son
+
+| | $\sigma_1$ | $\sigma_2$ |
+|:---:|:---:|:---:|
+| Datos | 2 | 0.5 |
+| SVD | 1.9963 | 0.5028 |
+
+por lo que los valores singulares son cercanos a las desviaciones estándar con las que se escalaron los datos. Por otro lado, la matriz $U$ obtenida y la matriz de rotación $R_{\pi/3}$ son
+
+$$R_{\pi/3} = \begin{pmatrix} 0.5 & -0.8660 \\ 0.8660 & 0.5 \end{pmatrix}, \qquad U = \begin{pmatrix} 0.4980 & -0.8672 \\ 0.8672 & 0.4980 \end{pmatrix}.$$
+
+Se observa que $U$ es aproximadamente igual a $R_{\pi/3}$, pues la norma $2$ de su diferencia, tras ajustar el signo de las columnas (que en la SVD es arbitrario), es $0.0023$. De esta forma, $u_1$ apunta en la dirección de mayor variabilidad, a $60^\circ$ del eje $x$, y $u_2$ es perpendicular a $u_1$, tal como se vio en el inciso b).
 
 ## Ejercicio 15 Compresión de imágenes mediante la descomposición en valores singulares(SVD).
 

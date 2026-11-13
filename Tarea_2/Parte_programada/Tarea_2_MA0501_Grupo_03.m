@@ -195,6 +195,89 @@ ylabel("Población de depredadores");
 % de depredadores vs presas se grafico una vez encontrados los valores de
 % x_1 y x_2 (Para evitar realizar 2 graficos)
 
+%% Pregunta 14
+
+% % c) Escriba el codigo MATLAB asociado al ejemplo escogido y reproduzca
+% los resultados. Explique los resultados.
+
+rng(1) % Semilla para valores aleatorios
+
+% Generacion de los datos
+
+xC_14 = [2; 1]; % Centro de los datos
+sig_14 = [2; 0.5]; % Desviaciones estandar en los ejes principales
+
+theta_14 = pi/3; % Angulo de rotacion
+R_14 = [cos(theta_14) -sin(theta_14);
+        sin(theta_14)  cos(theta_14)]; % Matriz de rotacion
+
+n_14 = 10000; % Cantidad de puntos
+
+Z_14 = randn(2,n_14); % Puntos de una normal estandar
+X_14 = xC_14 + R_14*(sig_14.*Z_14); % Se escalan, se rotan y se trasladan
+
+% PCA mediante la SVD
+
+Xprom_14 = mean(X_14,2); % Media de los datos
+B_14 = X_14 - Xprom_14; % Datos centrados
+
+[U_14,S_14] = svd(B_14/sqrt(n_14),'econ');
+sigma_14 = diag(S_14);
+
+% Grafico
+
+t_14 = linspace(0,2*pi,200);
+circulo_14 = [cos(t_14); sin(t_14)];
+
+figure;
+plot(X_14(1,:),X_14(2,:),'.','Color',[0.7 0.7 0.7],'MarkerSize',4);
+hold on;
+
+for k_14 = 1:3 % Elipses de 1, 2 y 3 desviaciones estandar
+    E_14 = Xprom_14 + k_14*U_14*S_14*circulo_14;
+    h_14 = plot(E_14(1,:),E_14(2,:),'--','Color',[0 0.45 0.74],'LineWidth',1.5);
+    if k_14 > 1
+        set(h_14,'HandleVisibility','off');
+    end
+end
+
+% Vectores sigma_i*u_i con origen en la media
+quiver(Xprom_14(1),Xprom_14(2),sigma_14(1)*U_14(1,1),sigma_14(1)*U_14(2,1), ...
+    0,'r','LineWidth',2.5,'MaxHeadSize',0.6);
+quiver(Xprom_14(1),Xprom_14(2),sigma_14(2)*U_14(1,2),sigma_14(2)*U_14(2,2), ...
+    0,'Color',[0 0.6 0],'LineWidth',2.5,'MaxHeadSize',0.6);
+plot(Xprom_14(1),Xprom_14(2),'k+','MarkerSize',10,'LineWidth',2);
+
+axis equal;
+grid on;
+xlabel('x');
+ylabel('y');
+title('Datos gaussianos y componentes principales');
+legend({'Datos','Elipses de 1, 2 y 3 \sigma','\sigma_1 u_1','\sigma_2 u_2','Media'}, ...
+    'Location','southeast');
+
+% Resultados
+
+disp('Resultados del ejercicio 14c:')
+
+disp('Media de los datos (valor esperado [2 1])')
+disp(Xprom_14')
+
+disp('Desviaciones estandar de los datos y valores singulares')
+disp(table(sig_14,sigma_14,'VariableNames',{'Datos','SVD'}))
+
+disp('Matriz de rotacion R')
+disp(R_14)
+
+disp('Matriz U de la SVD')
+disp(U_14)
+
+disp('Norma de la diferencia entre U y R, ajustando el signo de las columnas')
+signos_14 = sign(diag(U_14'*R_14));
+disp(norm(U_14*diag(signos_14)-R_14))
+
+% La explicacion de los resultados se encuentra en el documento escrito
+
 %% Pregunta 15
 
 % Inciso a)
@@ -476,7 +559,6 @@ h = (b - a) / n;
 k = (d - c) / m;
 
 % Nodos equiespaciados en cada dimension
-% Nota: x(i+1) = x_i y y(j+1) = y_j, porque los indices de MATLAB empiezan en 1
 x = a + (0:n) * h;
 y = c + (0:m) * k;
 
