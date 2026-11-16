@@ -452,6 +452,28 @@ Por otro lado, resulta fundamental señalar que la ausencia de cruces no garanti
 Recapitulando, los resultados obtenidos evidencian que X-opt consiguió reducir las distancias de todas las rutas iniciales, aunque presentó un porcentaje medio de mejora inferior y un mayor tiempo de ejecución en comparación con 2-opt. Estas observaciones describen su comportamiento en las 100 instancias analizadas, pero no permiten establecer qué tan cerca se encuentran las soluciones obtenidas del óptimo global.
 
 
+## Desempeño del algoritmo Y-opt
+
+
+El algoritmo Y-opt redujo la longitud de los recorridos de las 100 rutas de 50 localidades. La longitud media de la ruta obtenida a partir de la aplicación del algoritmo fue de 1001.643 km y la mediana fue de 999.794; por otro lado, en promedio la reducción de longitud respecto a la ruta inicial fue de 67.991% y el tiempo medio de ejecución del algoritmo fue de 0.96091 segundos. Estas medidas se resumen en la @tbl-resultados-Yopt.
+
+| Medida | Resultado |
+|:--|--:|
+| Longitud final media (km) | 1001,643 |
+| Longitud final mediana (km) | 999,794 |
+| Reducción media respecto de la ruta inicial (%) | 67,991 |
+| Tiempo medio de ejecución (s) | 0,96091 |
+| Rutas con menor longitud que la inicial | 100 de 100 |
+
+: Resumen del desempeño de Y-opt sobre las 100 rutas iniciales. {#tbl-resultados-Yopt}
+
+Como puede observarse en los resultados obtenidos, el algoritmo Y-opt fue el que obtuvo un mayor tiempo que los otros dos algoritmos, los cuales obtuvieron 0,580721 segundos y  0,064491 segundos para X-opt y 2-opt respectivamente, esto puede deberse a que la condición de aceptación del algoritmo es la más estricta y por ende la que es más difícil de cumplir, esto hace que posiblemente esté realizando más iteraciones que los otros algoritmos.
+
+Un aspecto a remarcar es la cercanía entre la longitud final media (1001,643 km) y la mediana (999,794 km), las cuales distan por 1,849 km, esto indica que el algoritmo Y-opt no depende en gran medida de la calidad de la ruta inicial generada aleatoriamente, brindando resultados bastante homogéneos. Además de esto, el algoritmo mejoró la longitud de las rutas en el 100% de las ocasiones, lo cual indica que a pesar de que sea el algoritmo que posee la condición de aceptación más estricta, sigue logrando realizar intercambios los cuales hacen que la longitud de la ruta final sea menor que la de la ruta inicial, esto se ve reflejado también en el porcentaje de reducción media con respecto a la ruta inicial, en donde se encontró que en promedio se redujo la distancia de la ruta en un 67,991%.
+
+
+
+
 ## Aplicación de un algoritmo sobre su propia solución
 
 Se examinó la aplicación repetida de cada algoritmo utilizando la primera ruta inicial de 50 localidades. Después de obtener la solución de cada método, esta se utilizó como entrada de una segunda ejecución del mismo algoritmo. En los tres casos se conservaron tanto el orden de las localidades como la longitud del recorrido (@tbl-repeticion-algoritmos).
