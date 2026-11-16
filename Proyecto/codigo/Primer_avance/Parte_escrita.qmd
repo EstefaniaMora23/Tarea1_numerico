@@ -18,27 +18,73 @@ format:
    margin-bottom: "2.54cm"
    header-includes:
             - \usepackage{indentfirst}
-            - \setlength{\parindent}{0cm}
+            - \setlength{\parindent}{1.27cm}
             - \usepackage{setspace}
             - \setstretch{1.15} 
             - \usepackage{hanging}
             - \usepackage{hyperref}
-   include-before-body: Portada.tex
+            - \usepackage{fancyhdr}
+            - \pagestyle{fancy}
+            - \fancyhf{}
+            - \fancyfoot[L]{\footnotesize Alexandra González, Estefanía Mora, Daniela Prado y José Miguel Rodríguez}
+            - \fancyfoot[R]{\thepage}
+            - \renewcommand{\headrulewidth}{0pt}
+            - \renewcommand{\footrulewidth}{0.4pt}
+editor: 
+  markdown: 
+    wrap: sentence
+  
 ---
 
-# Título del proyecto
+```{=latex}
+\begin{center}
+```
 
-**Comparación de los algoritmos X-opt, Y-opt y 2-opt para optimizar rutas en localidades de Costa Rica**
+```{=latex}
+{\fontsize{13pt}{14pt}\selectfont\textbf{Comparación de los algoritmos X-opt, Y-opt y 2-opt para optimizar rutas en localidades de Costa Rica}}
+```
 
-# Resumen
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont Alexandra González, Estefanía Mora, Daniela Prado y José Miguel Rodríguez}
+```
+
+```{=latex}
+{\fontsize{9pt}{14pt}\selectfont ALEXANDRA.GONZALEZBERMUDEZ@ucr.ac.cr, EMILY.MORACONTRERAS@ucr.ac.cr, DANIELA.PRADOVARGAS@ucr.ac.cr, JOSE.RODRIGUEZGOMEZ@ucr.ac.cr}
+```
+
+```{=latex}
+\end{center}
+```
+
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{12pt}{14pt}\selectfont\textbf{RESUMEN}}
+```
+
+```{=latex}
+\end{center}
+```
+
 
 Este trabajo compara el desempeño de los algoritmos X-opt, Y-opt y 2-opt para el problema del viajero en un conjunto de 50 localidades de Costa Rica. Los métodos se implementaron en Python y se evaluaron sobre las mismas 100 rutas iniciales aleatorias, utilizando una matriz de distancias euclidianas calculada a partir de coordenadas planas. Se analizaron las longitudes finales, los porcentajes de mejora, las parejas de aristas evaluadas y los tiempos de ejecución. Además, se exploraron la aplicación repetida de un mismo algoritmo y distintas secuencias de los tres métodos. Entre los algoritmos individuales, 2-opt obtuvo la menor longitud media, con 898,31 km, frente a 1001,64 km de Y-opt y 1523,92 km de X-opt. Su reducción media respecto de las rutas iniciales fue del 71,28 %. En las pruebas de aplicación repetida, las rutas permanecieron sin cambios al ejecutar nuevamente el mismo algoritmo. Por su parte, la secuencia X-opt → Y-opt → 2-opt produjo recorridos más cortos que 2-opt directo en 38 de las 100 comparaciones, pero presentó una mayor longitud media y un mayor tiempo medio de ejecución. Los resultados indican que, bajo los datos y las implementaciones estudiados, 2-opt directo ofreció el mejor desempeño promedio entre las estrategias evaluadas.
 
-# Palabras clave
+**PALABRAS CLAVE**: Traveling Salesman Problem (TSP), búsqueda local, 2-opt, X-opt, Y-opt, optimización de rutas.
 
-Traveling Salesman Problem (TSP), búsqueda local, 2-opt, X-opt, Y-opt, optimización de rutas.
 
-# Introducción
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{12pt}{14pt}\selectfont\textbf{INTRODUCCIÓN}}
+```
+
+```{=latex}
+\end{center}
+```
 
 El problema del viajero consiste en encontrar un recorrido de longitud mínima que visite un conjunto de localidades exactamente una vez y regrese al punto de partida. El crecimiento del número de recorridos posibles conforme aumenta la cantidad de localidades dificulta su resolución mediante la exploración exhaustiva. Por ello, se emplean métodos heurísticos que permiten obtener soluciones aproximadas sin examinar todos los recorridos posibles [@flood1956].
 
@@ -50,9 +96,30 @@ Los algoritmos se implementan en Python y la comparación utiliza 100 rutas inic
 
 El análisis tiene un carácter experimental y busca contrastar los resultados obtenidos con el comportamiento descrito en el artículo de referencia, considerando las características y limitaciones del conjunto de localidades seleccionado. Sus conclusiones se restringen a los datos, las implementaciones y los escenarios estudiados, sin constituir una reproducción de las demostraciones teóricas del artículo.
 
-# Fundamento teórico
+```{=latex}
+\begin{center}
+```
 
-## Sobre el problema del viajero
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{FUNDAMENTO TEÓRICO}}
+```
+
+```{=latex}
+\end{center}
+```
+
+
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{EL PROBLEMA DEL VIAJERO}}
+```
+
+```{=latex}
+\end{center}
+```
 
 El problema del viajero consiste en encontrar un recorrido cerrado de longitud mínima que visite cada localidad exactamente una vez y regrese al punto de partida. Su versión de optimización se clasifica como NP-hard, incluso cuando las distancias son euclidianas [@manthey2025performance]. Esta clasificación indica que el problema es, al menos, tan difícil como cualquier problema de la clase NP. Actualmente, no se conoce un algoritmo que garantice obtener una solución óptima en tiempo polinomial para todas sus instancias.
 
@@ -60,7 +127,18 @@ Ante esta dificultad, se utilizan métodos heurísticos que buscan obtener recor
 
 El criterio utilizado para aceptar estos movimientos determina tanto las mejoras disponibles como la condición de terminación del procedimiento. Cuando ningún movimiento permitido reduce la longitud, se alcanza un óptimo local respecto de ese conjunto de movimientos. Sin embargo, esta condición no garantiza que el recorrido sea el más corto entre todos los posibles. Esta distinción resulta fundamental para interpretar las soluciones obtenidas mediante X-opt, Y-opt y 2-opt.
 
-## Artículo de referencia
+
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{ARTÍCULO DE REFERENCIA}}
+```
+
+```{=latex}
+\end{center}
+```
 
 Este estudio toma como referencia el artículo de @manthey2025performance, titulado *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*. Los autores analizan la relación entre la calidad de las soluciones y las garantías sobre el tiempo de ejecución de dos variantes de la heurística 2-opt.
 
@@ -70,7 +148,18 @@ X-opt permite únicamente movimientos que eliminan cruces entre aristas de una r
 
 El análisis teórico se complementa con experimentos sobre puntos distribuidos uniformemente en el cuadrado unitario y rutas iniciales aleatorias. En estas pruebas, Y-opt obtiene longitudes cercanas a las de 2-opt, mientras que X-opt presenta un comportamiento más favorable de lo que sugieren sus peores óptimos locales. Estos resultados muestran la importancia de distinguir las garantías teóricas del comportamiento experimental y sirven como base para la comparación sobre las localidades de Costa Rica seleccionadas en este trabajo.
 
-## Algoritmo 2-opt
+
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{ALGORITMO 2-OPT}}
+```
+
+```{=latex}
+\end{center}
+```
 
 El algoritmo 2-opt es una heurística de búsqueda local que mejora una ruta mediante el intercambio de dos aristas no adyacentes. En cada paso, estas aristas se eliminan y se sustituyen por otras dos, conservando un único recorrido cerrado que visite cada localidad exactamente una vez. El intercambio se acepta únicamente cuando reduce la longitud total de la ruta [@manthey2025performance].
 
@@ -112,13 +201,33 @@ Este valor corresponde al número de parejas examinadas en una pasada completa, 
 
 Aunque cada pasada requiere un número de evaluaciones de orden $O(n^2)$, esto no implica que la ejecución completa tenga un costo cuadrático. También debe considerarse la cantidad de intercambios y reinicios necesarios para alcanzar un óptimo local. A diferencia de Y-opt, 2-opt puede requerir un número exponencial de pasos en casos desfavorables [@manthey2025performance]. Por tanto, los tiempos reducidos observados en los experimentos describen su comportamiento en las instancias estudiadas, sin establecer una garantía general de tiempo polinomial.
 
-## Algoritmo X-opt
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{ALGORITMO X-OPT}}
+```
+
+```{=latex}
+\end{center}
+```
 
 De acuerdo con @manthey2025performance, el algoritmo X-opt corresponde a una variante del algoritmo 2-opt, en la que el reemplazo de dos aristas solo está permitido si dichas aristas se cruzan entre sí. Lo anterior solo está bien definido para distancias euclidianas en $\mathbb{R}^{2}$. Considere $L(x, y)$ como el segmento de recta entre $x$ y $y$, en vías de facilitar la notación si $e = \{x, y\}$ con $x \neq y$, entonces se escribe $L(e) = L(x, y)$. Se dice que un conjunto $T$ de aristas presenta cruces si existen $e, f \in T$ que no comparten ningún extremo y que cumplen $L(e) \cap L(f) \neq \emptyset$. Por el contrario, $T$ no presenta cruces si para todo par de aristas no adyacentes $e, f \in T$, se cumple que $L(e) \cap L(f) = \emptyset$. Bajo X-opt un óptimo local es precisamente un recorrido sin cruces entre sus aristas, donde se entiende a un óptimo local como un recorrido que no puede mejorarse mediante ninguna de las modificaciones permitidas por el algoritmo. Por otro lado, con el objetivo de evitar contradicciones en lo que concierne a la definición de cruce, se asume que no es posible que más de un punto se sitúe en una misma posición.
 
 De manera general, sea $T$ un recorrido a través de un conjunto de puntos $\mathcal{X} ⊆ \mathbb{R}^{2}$. Si $T$ presenta cruces, el modo de operación del algoritmo radica en identificar dos aristas no adyacentes $e, f \in T$ que se intersecten, y sustituirlas por nuevas aristas que permitan obtener un recorrido válido con una menor longitud total. Este procedimiento se repite mientras existan cruces en el recorrido, hasta obtener uno sin intersecciones entre aristas no adyacentes.
 
-## Algoritmo Y-opt
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{ALGORITMO Y-OPT}}
+```
+
+```{=latex}
+\end{center}
+```
 
 El algoritmo Y-opt es una variante del algoritmo 2-opt. Como se vio anteriormente, el algoritmo 2-opt acepta un intercambio de aristas si la suma de las longitudes de las dos aristas nuevas es menor que la suma de las dos aristas viejas; esto se hace comparando únicamente las aristas que se modificaron, ya que el resto de la ruta permanece igual. Por otro lado, el algoritmo Y-opt impone una condición de cambio más estricta, donde, para aceptar un cambio en la ruta, la arista más larga de las nuevas debe ser más corta que la arista más larga de las viejas, y, además, la arista más corta de las nuevas debe ser más corta que la arista más corta de las viejas. Esto hace que el algoritmo Y-opt sea más restrictivo en su condición de aceptación de nuevas rutas, ya que no solo compara la suma total, sino el tamaño individual de cada arista.
 
@@ -137,7 +246,17 @@ $$m = \frac{n(n-1)}{2} = \frac{50(50-1)}{2}= 1225$$
 Donde, aplicando el *Teorema 5* mencionado antes, se obtendría un máximo teórico de iteraciones de $(1225-1)50 = 61200$, lo cual representa un número muy reducido de iteraciones comparado con las iteraciones que se necesitarían para alcanzar un óptimo global en el que se evaluaran todas las posibles permutaciones, en el cual se necesitarían $n! = 50!$ iteraciones.
 
 
-## Medidas a recopilar en los experimentos
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{MEDIDAS A RECOPILAR EN LOS EXPERIMENTOS}}
+```
+
+```{=latex}
+\end{center}
+```
 
 Para evaluar y poder comparar el rendimiento de los tres algoritmos: 2-opt, X-opt y Y-opt, se utilizarán las medidas que se detallan a continuación.
 
@@ -153,7 +272,17 @@ Para evaluar y poder comparar el rendimiento de los tres algoritmos: 2-opt, X-op
 
 Las métricas antes mencionadas permitirán realizar la comparación entre algoritmos, además de la visualización de cada ruta creada. Es importante destacar que, para lograr realizar esta comparación, los tres algoritmos utilizarán la misma ruta inicial y la misma matriz de distancias.
 
-# Datos
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{12pt}{14pt}\selectfont\textbf{DATOS}}
+```
+
+```{=latex}
+\end{center}
+```
 
 ## Fuente y estructura
 
@@ -243,7 +372,17 @@ Por provincia, siete localidades pertenecen a San José, dos localidades se sit�
 -   Dos localidades comparten el nombre «San José» (índices 0 y 10); la segunda, en la provincia de Alajuela, queda a unos 160 km de la capital.
 -   Al conservar solo las localidades más pobladas, el conjunto se concentra en el área metropolitana de San José y no representa de forma pareja el resto del territorio.
 
-# Metodología e implementación en Python
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{12pt}{14pt}\selectfont\textbf{IMPLEMENTACIÓN EN PYTHON}}
+```
+
+```{=latex}
+\end{center}
+```
 
 Se realizó un estudio computacional y experimental para comparar los algoritmos X-opt, Y-opt y 2-opt sobre 50 localidades de Costa Rica, tomando como referencia a @manthey2025performance. La preparación de los datos, la implementación y las pruebas se desarrollaron en Python y se documentaron en `codigo.ipynb`. Algunos gráficos se elaboraron en MATLAB mediante `graficos.m`.
 
@@ -255,7 +394,17 @@ Como pruebas complementarias, se examinó si aplicar nuevamente un algoritmo sob
 
 Los resultados se resumieron mediante tablas, estadísticas descriptivas y gráficos. Además, se elaboró una animación en Python para visualizar los intercambios de 2-opt y la evolución de la longitud del recorrido. Finalmente, se contrastaron los hallazgos con el artículo de referencia, considerando las diferencias entre los conjuntos de datos.
 
-# Discusión y resultados
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{12pt}{14pt}\selectfont\textbf{RESULTADOS}}
+```
+
+```{=latex}
+\end{center}
+```
 
 ## Desempeño del algoritmo 2-opt
 
@@ -351,7 +500,17 @@ Por tanto, la ventaja observada para la secuencia en la prueba exploratoria no s
 
 Esta interpretación se limita a la secuencia seleccionada y a las implementaciones utilizadas. Todas las secuencias se exploraron sobre una sola ruta, mientras que únicamente X-opt → Y-opt → 2-opt se comparó con 2-opt directo sobre las 100 rutas. Además, estas pruebas corresponden a distintos recorridos iniciales sobre un mismo conjunto de localidades, por lo que no representan 100 configuraciones geográficas independientes.
 
-# Conclusiones
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{12pt}{14pt}\selectfont\textbf{CONCLUSIONES}}
+```
+
+```{=latex}
+\end{center}
+```
 
 En las 100 rutas iniciales sobre las 50 localidades seleccionadas, 2-opt mostró un desempeño favorable, al reducir la longitud de todos los recorridos y alcanzar la menor longitud entre los tres algoritmos individuales en 98 comparaciones. La reducción media respecto de las rutas iniciales fue del 71,285 %. Estos resultados respaldan su utilidad para mejorar recorridos aleatorios en el conjunto estudiado, aunque no permiten determinar su cercanía al óptimo global.
 
@@ -375,6 +534,14 @@ Otra limitación corresponde a las rutas iniciales utilizadas. Se trabajó con u
 
 Por último, los tiempos de ejecución dependen de las características del equipo, la implementación en Python y la carga del sistema durante cada ejecución. Por esta razón, deben interpretarse como una referencia para comparar los algoritmos bajo las condiciones de este estudio y no como una medida absoluta de su rendimiento computacional.
 
-\newpage
+```{=latex}
+\begin{center}
+```
 
-# Referencias
+```{=latex}
+{\fontsize{12pt}{14pt}\selectfont\textbf{REFERENCIAS}}
+```
+
+```{=latex}
+\end{center}
+```
