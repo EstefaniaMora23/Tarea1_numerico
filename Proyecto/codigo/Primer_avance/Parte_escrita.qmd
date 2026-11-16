@@ -428,6 +428,30 @@ Asimismo, las dos comparaciones favorables a Y-opt muestran que permitir un conj
 
 El tiempo medio reducido tampoco establece una garantía de tiempo polinomial. Como señala @manthey2025performance, 2-opt puede requerir un número exponencial de intercambios en casos desfavorables. Los tiempos observados describen su comportamiento para las localidades, las implementaciones y las condiciones de ejecución de este estudio.
 
+## Desempeño del algoritmo X-opt
+
+A partir de la ejecución del algoritmo X-opt sobre las rutas generadas, se encontró que este redujo la longitud de la totalidad de los recorridos. Asimismo, el estudio de las medidas de interés permitió determinar que bajo el presente algoritmo la longitud final media fue de 1523,920 km y la mediana de la longitud final adoptó un valor de 1497,804 km; el porcentaje medio de mejora frente a las rutas iniciales fue del 51,321 %. Después, el tiempo medio de ejecución registrado fue de 0,580721 segundos. A continuación, se extiende la tabla que ilustra los resultados descritos: (@tbl-resultados-Xopt).
+
+| Medida | Resultado |
+|:--|--:|
+| Longitud final media (km) | 1523,92 |
+| Longitud final mediana (km) | 1497,804 |
+| Reducción media respecto de la ruta inicial (%) | 51,321 |
+| Tiempo medio de ejecución (s) | 0,580721 |
+| Rutas con menor longitud que la inicial | 100 de 100 |
+
+: Resumen del desempeño de X-opt sobre las 100 rutas iniciales. {#tbl-resultados-Xopt}
+
+
+A pesar de que X-opt logró mejorar las rutas iniciales en la totalidad de los casos estudiados, se precisa analizar su desempeño frente a los demás algoritmos. Se tiene que el porcentaje medio de mejora del algoritmo 2-opt adquirió un valor de 71,285 %, mientras que en el caso del algoritmo Y-opt el mismo alcanzó un valor de 67,991 %; de esta forma, es posible notar que el algoritmo X-opt posee el porcentaje de mejora de más bajo:  presenta un menor nivel de mejora con respecto a los recorridos aleatorios utilizados como punto de partida. Tal diferencia puede estar vinculada a la naturaleza mayormente restrictiva de X-opt, ya que únicamente permite realizar intercambios entre aristas que se intersectan geométricamente, limitando las posibilidades de modificación de las rutas.
+
+Por otra parte, el tiempo medio de ejecución fue de 0,580721 segundos, superior al registrado por 2-opt: 0,064491 segundos e inferior al reportado por Y-opt: 0,96091 segundos. De lo anterior, se destaca que, bajo las condiciones tanto de implementación como de ejecución del presente estudio, X-opt requirió más tiempo para procesar las rutas en comparación a 2-opt, a pesar de alcanzar una menor reducción media de las distancias iniciales.
+
+Por otro lado, resulta fundamental señalar que la ausencia de cruces no garantiza que la ruta obtenida sea cercana al óptimo global. Como explican @manthey2025performance, una solución sin cruces constituye un óptimo local para X-opt, pero puede presentar una longitud considerablemente superior a la de una solución óptima. Los autores demuestran que, en determinadas instancias, la relación entre la longitud de una ruta obtenida mediante X-opt y la longitud óptima puede crecer proporcionalmente al número de localidades.
+
+Recapitulando, los resultados obtenidos evidencian que X-opt consiguió reducir las distancias de todas las rutas iniciales, aunque presentó un porcentaje medio de mejora inferior y un mayor tiempo de ejecución en comparación con 2-opt. Estas observaciones describen su comportamiento en las 100 instancias analizadas, pero no permiten establecer qué tan cerca se encuentran las soluciones obtenidas del óptimo global.
+
+
 ## Aplicación de un algoritmo sobre su propia solución
 
 Se examinó la aplicación repetida de cada algoritmo utilizando la primera ruta inicial de 50 localidades. Después de obtener la solución de cada método, esta se utilizó como entrada de una segunda ejecución del mismo algoritmo. En los tres casos se conservaron tanto el orden de las localidades como la longitud del recorrido (@tbl-repeticion-algoritmos).
