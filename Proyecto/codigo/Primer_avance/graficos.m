@@ -6,18 +6,23 @@ cd(fileparts(mfilename('fullpath')))
 % Leer los datos exportados desde Python
 datos = readtable('../../datos/localidades_seleccionadas.csv');
 
-x = datos.x_km;
-y = datos.y_km;
+% Latitud y longitud
+
+lat = datos.latitud;
+lon = datos.longitud;
+
+% Límites del mapa con un pequeño margen
+latlim = [min(lat) - 0.15, max(lat) + 0.15];
+lonlim = [min(lon) - 0.15, max(lon) + 0.15];
 
 % Figura de ubicación de las localidades
 figure
-scatter(x, y, 50, 'filled')
-axis equal
-grid on
-xlabel('x (km)')
-ylabel('y (km)')
+geoscatter(lat, lon, 50, 'filled')
+geobasemap streets-light
+geolimits(latlim, lonlim)
 title('Localidades seleccionadas')
-saveas(gcf, '../../figuras/localidades.png')
+drawnow; pause(2)   % espera a que carguen los tiles del mapa
+exportgraphics(gcf, '../../figuras/localidades.png', 'Resolution', 300)
 
 % Leer los resultados de los tres algoritmos
 resultados = readtable('../../datos/resultados_algoritmos.csv', 'TextType', 'string', 'Delimiter', ',');
@@ -37,17 +42,15 @@ for a = 1:n_alg
     ruta = [ruta, ruta(1)];                                                % regreso a la localidad inicial
 
     nexttile
-    plot(x(ruta), y(ruta), '-', 'LineWidth', 0.8)
+    geoplot(lat(ruta), lon(ruta), '-', 'LineWidth', 0.8)
     hold on
-    scatter(x, y, 15, 'filled')
+    geoscatter(lat, lon, 15, 'filled')
     hold off
-    axis equal
-    xlim([min(x) - 10, max(x) + 10])  
-    ylim([min(y) - 10, max(y) + 10])
-    xlabel('x (km)')
-    ylabel('y (km)')
+    geobasemap streets-light
+    geolimits(latlim, lonlim)
     title(sprintf('%s: %.1f km', algoritmos(a), resultados.longitud_final(fila)))
 end
 
 sgtitle(sprintf('Ruta final obtenida desde la ruta inicial %d', id_ruta_mapa))
-saveas(gcf, '../../figuras/mapa_rutas_finales.png')
+drawnow; pause(3)
+exportgraphics(gcf, '../../figuras/mapa_rutas_finales.png', 'Resolution', 300)
