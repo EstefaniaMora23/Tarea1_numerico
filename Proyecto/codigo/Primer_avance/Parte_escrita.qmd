@@ -560,15 +560,15 @@ Esta interpretación se limita a la secuencia seleccionada y a las implementacio
 
 En las 100 rutas iniciales sobre las 50 localidades seleccionadas, 2-opt mostró un desempeño favorable, al reducir la longitud de todos los recorridos y alcanzar la menor longitud entre los tres algoritmos individuales en 98 comparaciones. La reducción media respecto de las rutas iniciales fue del 71,285 %. Estos resultados respaldan su utilidad para mejorar recorridos aleatorios en el conjunto estudiado, aunque no permiten determinar su cercanía al óptimo global.
 
+CONCLUSIÓN X-OPT
+
+En cuanto algoritmo Y-opt, este obtuvo un punto medio entre el algoritmo 2-opt y el X-opt, ya que obtuvo resultados intermedios en las medidas de longitud final media, longitud final mediana y en la reducción media respecto de la ruta inicial. Sin embargo, fue el algoritmo que mayor tiempo de ejecución media tomó debido a que es el algoritmo con condición de aceptación más estricta. Finalmente, es importante mencionar que los tres algoritmos obtuvieron una mejora en la longitud en cada una de las 100 rutas con 50 localidades.
+
 La aplicación repetida de cada algoritmo sobre su propia solución no produjo modificaciones adicionales. Este comportamiento concuerda con la condición de terminación de las implementaciones, pues la primera ejecución ya había alcanzado una ruta sin mejoras admisibles bajo su respectivo criterio. La segunda ejecución únicamente añadió evaluaciones para comprobar esa condición.
 
 El orden de aplicación de los algoritmos influyó en las soluciones obtenidas. Sin embargo, la ventaja de la secuencia X-opt → Y-opt → 2-opt en la prueba exploratoria no se mantuvo en promedio sobre las 100 rutas. Aunque produjo recorridos más cortos que 2-opt directo en 38 casos, presentó una mayor longitud media y un mayor tiempo medio de ejecución. Por tanto, añadir etapas de búsqueda no garantizó una mejora que compensara su costo computacional.
 
-Las conclusiones se restringen al conjunto de localidades, las rutas iniciales y las implementaciones utilizadas. Como continuación del estudio, sería pertinente evaluar todas las secuencias sobre una muestra más amplia y considerar diferentes configuraciones geográficas para examinar la estabilidad de los resultados.
-
-# Limitaciones del estudio
-
-Los resultados de este proyecto deben interpretarse considerando algunas limitaciones relacionadas con los datos utilizados y las condiciones en las que se realizaron los experimentos.
+Por otro lado, los resultados de este proyecto deben interpretarse considerando algunas limitaciones relacionadas con los datos utilizados y las condiciones en las que se realizaron los experimentos.
 
 En primer lugar, las distancias se calcularon utilizando la distancia euclidiana sobre coordenadas planas obtenidas mediante la proyección equirectangular. Por lo tanto, representan distancias en línea recta y no consideran elementos como carreteras y caminos disponibles, el tránsito o las restricciones de acceso. Esto implica que las longitudes obtenidas no necesariamente corresponden a los recorridos reales entre localidades, aunque permiten comparar los algoritmos bajo las mismas condiciones.
 
@@ -578,7 +578,7 @@ En cuanto al tamaño del problema, se comenzó trabajando con 15 localidades y s
 
 Otra limitación corresponde a las rutas iniciales utilizadas. Se trabajó con una muestra de 100 rutas aleatorias generadas a partir de una semilla fija. Aunque esto permite reproducir los experimentos y mantener condiciones comparables, los resultados dependen de las rutas generadas. Por tanto, al utilizar otra semilla o una muestra más amplia, podrían obtenerse resultados diferentes.
 
-Por último, los tiempos de ejecución dependen de las características del equipo, la implementación en Python y la carga del sistema durante cada ejecución. Por esta razón, deben interpretarse como una referencia para comparar los algoritmos bajo las condiciones de este estudio y no como una medida absoluta de su rendimiento computacional.
+Por último, los tiempos de ejecución dependen de las características del equipo, la implementación en Python y la carga del sistema durante cada ejecución. Por esta razón, deben interpretarse como una referencia para comparar los algoritmos bajo las condiciones de este estudio y no como una medida absoluta de su rendimiento computacional. Las conclusiones de este proyecto se restringen al conjunto de localidades, las rutas iniciales y las implementaciones utilizadas. Como continuación del estudio, sería pertinente evaluar todas las secuencias sobre una muestra más amplia y considerar diferentes configuraciones geográficas para examinar la estabilidad de los resultados.
 
 ```{=latex}
 \begin{center}
