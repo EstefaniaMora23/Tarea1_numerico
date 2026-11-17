@@ -101,12 +101,14 @@ El análisis tiene un carácter experimental y busca contrastar los resultados o
 ```
 
 ```{=latex}
-{\fontsize{11pt}{14pt}\selectfont\textbf{FUNDAMENTO TEÓRICO}}
+{\fontsize{12pt}{14pt}\selectfont\textbf{METODOLOGÍA}}
 ```
 
 ```{=latex}
 \end{center}
 ```
+
+El punto de partida de la metodología consistió en identificar que el problema del viajero constituye un problema NP-hard, de manera que no se conoce un algoritmo que encuentre una solución óptima en un tiempo razonable cuando el tamaño del problema crece. Dicho aspecto hizo necesaria una combinación de métodos indagatorios, descriptivos y comparativos, para satisfacer tres objetivos objetivos principales: definir una base de datos utilizable bajo el contexto del problema, disponer de la información requerida para desarrollar de forma coherente los algoritmos en la implementación y tanto analizar como comparar los resultados obtenidos a partir de dicha implementación.
 
 
 ```{=latex}
@@ -114,56 +116,71 @@ El análisis tiene un carácter experimental y busca contrastar los resultados o
 ```
 
 ```{=latex}
-{\fontsize{11pt}{14pt}\selectfont\textbf{EL PROBLEMA DEL VIAJERO}}
+{\fontsize{11pt}{14pt}\selectfont\textbf{DATOS}}
 ```
 
 ```{=latex}
 \end{center}
 ```
 
-El problema del viajero consiste en encontrar un recorrido cerrado de longitud mínima que visite cada localidad exactamente una vez y regrese al punto de partida. Su versión de optimización se clasifica como NP-hard, incluso cuando las distancias son euclidianas [@manthey2025performance]. Esta clasificación indica que el problema es, al menos, tan difícil como cualquier problema de la clase NP. Actualmente, no se conoce un algoritmo que garantice obtener una solución óptima en tiempo polinomial para todas sus instancias.
+Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que corresponde al extracto de Costa Rica y se distribuye bajo la licencia Creative Commons Attribution 4.0 [@geonames]. El archivo está en texto delimitado por tabulaciones, con codificación UTF-8 y sin fila de encabezado, y contiene 21 426 registros y 19 variables. Cada registro describe un rasgo geográfico y no necesariamente un poblado: los rasgos se clasifican en nueve clases, entre las que predominan los cuerpos de agua (6 801 registros) y los lugares poblados, clase `P`, con 5 900 registros, que es la de interés para este proyecto.
+
+De las 19 variables se utilizaron siete: el identificador del registro (`geonameid`), el nombre, la latitud y la longitud en grados decimales (WGS84), la clase y el código del tipo de rasgo (por ejemplo, `PPL`, `PPLA` o `PPLC`), la división administrativa de primer nivel (`admin1`), que se tradujo al nombre de la provincia con el archivo `admin1CodesASCII.txt` de GeoNames, y la población reportada. Las coordenadas son la base para construir las coordenadas planas y la matriz de distancias, y la población se emplea como criterio de selección. Las variables restantes no intervienen en los algoritmos; además, `elevacion` está vacía en el 99,6 % de los registros (21 349 de 21 426) y `admin4` está vacía en prácticamente todos.
+
+Para construir el conjunto de localidades se conservaron únicamente los registros de clase `P` y se descartaron los códigos `PPLQ`, `PPLW` y `PPLH`, que corresponden a poblados abandonados, destruidos o históricos. Luego se conservaron las localidades con población mayor que cero, filtro necesario porque el 97,8 % de los lugares poblados reporta población igual a cero, es decir, sin información disponible. Después se eliminaron los registros con coordenadas repetidas, entendidas como las que coinciden al redondear a tres decimales (aproximadamente 100 m), y entre ellos se conservó el de mayor población; este filtro se aplicó porque @manthey2025performance suponen que no hay dos puntos en la misma posición, supuesto con el que X-opt puede decidir si dos aristas se cruzan. Tras aplicar estos filtros quedaron 128 localidades, de las cuales se seleccionaron las 50 con mayor población, que se ordenaron de forma decreciente y se numeraron de 0 a 49 para usarse como índices en las rutas.
+
+Las coordenadas geográficas se convirtieron a coordenadas planas en kilómetros mediante la proyección equirectangular (cilíndrica equidistante) para la esfera [@snyder1987, pp. 90-91], con $x = R\cos(\varphi_1)(\lambda-\lambda_0)$ y $y = R(\varphi-\varphi_0)$, donde $R = 6371$ km es el radio medio terrestre, $\varphi_1$ es el paralelo estándar, $(\varphi_0,\lambda_0)$ es el origen del plano y los ángulos se expresan en radianes. Se tomó como origen el promedio de las latitudes y de las longitudes de las 50 localidades, y el paralelo estándar se fijó en esa misma latitud, es decir, $\varphi_1=\varphi_0$; restar $\varphi_0$ en $y$ solo traslada el origen. Esto es necesario porque X-opt requiere determinar si dos aristas se cruzan en el plano [@manthey2025performance]. A partir de estas coordenadas se construyó la matriz de distancias euclidianas de tamaño $50 \times 50$, que es simétrica y tiene ceros en la diagonal.
+
+La población de las 50 localidades tiene un mínimo de 11 680, una mediana de 25 198, una media de 31 050 y un máximo de 335 007 habitantes, correspondiente a San José. La media supera a la mediana, lo que indica una distribución asimétrica a la derecha. Las latitudes están entre 9,173° y 10,952° N y las longitudes entre −85,585° y −83,036° O. Por provincia, 24 localidades pertenecen a San José, cinco a Alajuela, cinco a Cartago, cinco a Heredia, cuatro a Guanacaste, cuatro a Puntarenas y tres a Limón. Según las coordenadas planas, 30 de las 50 localidades (60 %), incluida San José, quedan a 20 km o menos del centro de San José, mientras que Liberia, Santa Cruz, San José (Alajuela) y Nicoya quedan a más de 150 km (@fig-localidades). Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por @manthey2025performance, lo cual se retomará al comparar resultados.
+
+![Ubicación geográfica de las 50 localidades seleccionadas.](../../figuras/localidades.png){#fig-localidades width=60%}
+
+Al examinar el conjunto resultante se identificaron algunas limitaciones, que provienen tanto de la fuente como del criterio de selección. La primera surge de la variable de población ya que al revisar sus valores en el archivo completo se observó que el 97,8 % de los lugares poblados la reporta como cero, por lo que la selección depende del 2,2 % restante. Además, esta población proviene de GeoNames y no de un censo oficial, de modo que sirve para ordenar y seleccionar las localidades, pero no como una medida precisa de su tamaño.
+
+Al revisar los códigos de las 50 localidades seleccionadas se encontró una segunda limitación: seis de ellas (por ejemplo, San Francisco e Ipís) tienen código `PPLX`, que GeoNames asigna a secciones de un lugar poblado y no a poblados independientes, por lo que algunas localidades representan zonas del área urbana más que poblados separados. De forma similar, al comparar los nombres se observó que dos localidades comparten el nombre "San José" (índices 0 y 10). No se trata de un registro duplicado, pues la segunda es una localidad de Alajuela que queda a unos 160 km de la capital y, al tener coordenadas distintas, el filtro de coordenadas únicas no la elimina, por lo que ambas se distinguen por su índice.
+
+Por último, al ubicar las localidades en el mapa (@fig-localidades) se constató que, al conservar solo las más pobladas, el conjunto se concentra en el área metropolitana de San José y no representa de forma pareja el resto del territorio. Esta consecuencia directa del criterio de selección condiciona la interpretación de los resultados, por lo que se retoma en las limitaciones del estudio.
+
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{FORMULACIÓN DE LOS MÉTODOS}}
+```
+
+```{=latex}
+\end{center}
+```
+
+
+La metodología se organizó en cuatro métodos complementarios: la construcción de la fundamentación teórica que sostiene al proyecto, la definición de las métricas de interés para el análisis, la implementación de los diversos algoritmos en el lenguaje de programación Python y la valoración del desempeño de los algoritmos en base a las métricas definidas. Esta organización permitió avanzar desde una interiorización del fundamento teórico hacia un análisis más específico en torno al desempeño mostrado por cada algoritmo. A continuación, se detalla a mayor profundidad los métodos mencionados. 
+ 
+
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{CONSTRUCCIÓN DE LA FUNDAMENTACIÓN TEÓRICA}}
+```
+
+```{=latex}
+\end{center}
+```
+
+En lo que respecta a la construcción de la fundamentación teórica que sostiene al proyecto, en esta se abordaron cuatro aspectos: el problema del viajante, el algoritmo 2-opt, el algoritmo X-opt y el algoritmo Y-opt. Previo a adentrarse en tales elementos, es preciso destacar que el presente estudio toma como referencia el artículo de @manthey2025performance, titulado *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*, en el cual los autores analizan la relación entre la calidad de las soluciones y las garantías sobre el tiempo de ejecución de los algoritmos detallados. 
+
+
+En primer lugar, se tiene que el problema del viajero consiste en encontrar un recorrido cerrado de longitud mínima que visite cada localidad exactamente una vez y regrese al punto de partida. Su versión de optimización se clasifica como NP-hard, incluso cuando las distancias son euclidianas [@manthey2025performance]. Esta clasificación indica que el problema es, al menos, tan difícil como cualquier problema de la clase NP. Actualmente, no se conoce un algoritmo que garantice obtener una solución óptima en tiempo polinomial para todas sus instancias.
 
 Ante esta dificultad, se utilizan métodos heurísticos que buscan obtener recorridos de buena calidad con un esfuerzo computacional manejable. Entre ellos se encuentran las heurísticas de búsqueda local, que parten de una ruta inicial y la modifican sucesivamente mediante movimientos que reducen su longitud.
 
 El criterio utilizado para aceptar estos movimientos determina tanto las mejoras disponibles como la condición de terminación del procedimiento. Cuando ningún movimiento permitido reduce la longitud, se alcanza un óptimo local respecto de ese conjunto de movimientos. Sin embargo, esta condición no garantiza que el recorrido sea el más corto entre todos los posibles. Esta distinción resulta fundamental para interpretar las soluciones obtenidas mediante X-opt, Y-opt y 2-opt.
 
+En segundo lugar, se profundiza en el algoritmo 2-opt. El punto de partida del artículo de referencia se centra en que 2-opt, aunque suele ofrecer buenos resultados en la práctica, puede requerir un número exponencial de intercambios para alcanzar un óptimo local en casos desfavorables. El algoritmo 2-opt es una heurística de búsqueda local que mejora una ruta mediante el intercambio de dos aristas no adyacentes. En cada paso, estas aristas se eliminan y se sustituyen por otras dos, conservando un único recorrido cerrado que visite cada localidad exactamente una vez. El intercambio se acepta únicamente cuando reduce la longitud total de la ruta [@manthey2025performance].
 
-```{=latex}
-\begin{center}
-```
-
-```{=latex}
-{\fontsize{11pt}{14pt}\selectfont\textbf{ARTÍCULO DE REFERENCIA}}
-```
-
-```{=latex}
-\end{center}
-```
-
-Este estudio toma como referencia el artículo de @manthey2025performance, titulado *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*. Los autores analizan la relación entre la calidad de las soluciones y las garantías sobre el tiempo de ejecución de dos variantes de la heurística 2-opt.
-
-El punto de partida es que 2-opt, aunque suele ofrecer buenos resultados en la práctica, puede requerir un número exponencial de intercambios para alcanzar un óptimo local en casos desfavorables. Frente a esta limitación, el artículo estudia X-opt y propone Y-opt, dos variantes que restringen los movimientos de 2-opt y garantizan la terminación en un número polinomial de intercambios.
-
-X-opt permite únicamente movimientos que eliminan cruces entre aristas de una ruta en el plano. Los autores demuestran que pueden existir recorridos sin cruces cuya longitud sea considerablemente mayor que la óptima. Por su parte, Y-opt restringe los intercambios mediante la comparación de las longitudes de las aristas y conserva varias de las garantías de aproximación de 2-opt.
-
-El análisis teórico se complementa con experimentos sobre puntos distribuidos uniformemente en el cuadrado unitario y rutas iniciales aleatorias. En estas pruebas, Y-opt obtiene longitudes cercanas a las de 2-opt, mientras que X-opt presenta un comportamiento más favorable de lo que sugieren sus peores óptimos locales. Estos resultados muestran la importancia de distinguir las garantías teóricas del comportamiento experimental y sirven como base para la comparación sobre las localidades de Costa Rica seleccionadas en este trabajo.
-
-
-```{=latex}
-\begin{center}
-```
-
-```{=latex}
-{\fontsize{11pt}{14pt}\selectfont\textbf{ALGORITMO 2-OPT}}
-```
-
-```{=latex}
-\end{center}
-```
-
-El algoritmo 2-opt es una heurística de búsqueda local que mejora una ruta mediante el intercambio de dos aristas no adyacentes. En cada paso, estas aristas se eliminan y se sustituyen por otras dos, conservando un único recorrido cerrado que visite cada localidad exactamente una vez. El intercambio se acepta únicamente cuando reduce la longitud total de la ruta [@manthey2025performance].
-
-Ahora, sea $T$ una ruta y considere las aristas $e_1=(a,b)$ y $f_1=(c,d)$, cuyos extremos aparecen en ese orden en el recorrido. El movimiento 2-opt sustituye estas aristas por $e_2=(a,c)$ y $f_2=(b,d)$, lo cual requiere invertir el orden del segmento comprendido entre $b$ y $c$. Si $\ell(e)$ representa la longitud de una arista $e$, el criterio de aceptación es
+Sea $T$ una ruta y considere las aristas $e_1=(a,b)$ y $f_1=(c,d)$, cuyos extremos aparecen en ese orden en el recorrido. El movimiento 2-opt sustituye estas aristas por $e_2=(a,c)$ y $f_2=(b,d)$, lo cual requiere invertir el orden del segmento comprendido entre $b$ y $c$. Si $\ell(e)$ representa la longitud de una arista $e$, el criterio de aceptación es
 
 $$
 \ell(e_2)+\ell(f_2)<\ell(e_1)+\ell(f_1).
@@ -201,19 +218,8 @@ Este valor corresponde al número de parejas examinadas en una pasada completa, 
 
 Aunque cada pasada requiere un número de evaluaciones de orden $O(n^2)$, esto no implica que la ejecución completa tenga un costo cuadrático. También debe considerarse la cantidad de intercambios y reinicios necesarios para alcanzar un óptimo local. A diferencia de Y-opt, 2-opt puede requerir un número exponencial de pasos en casos desfavorables [@manthey2025performance]. Por tanto, los tiempos reducidos observados en los experimentos describen su comportamiento en las instancias estudiadas, sin establecer una garantía general de tiempo polinomial.
 
-```{=latex}
-\begin{center}
-```
 
-```{=latex}
-{\fontsize{11pt}{14pt}\selectfont\textbf{ALGORITMO X-OPT}}
-```
-
-```{=latex}
-\end{center}
-```
-
-De acuerdo con @manthey2025performance, el algoritmo X-opt corresponde a una variante del algoritmo 2-opt, en la que el reemplazo de dos aristas solo está permitido si dichas aristas se cruzan entre sí. Lo anterior solo está bien definido para distancias euclidianas en $\mathbb{R}^{2}$. Considere $L(x, y)$ como el segmento de recta entre $x$ y $y$, en vías de facilitar la notación si $e = \{x, y\}$ con $x \neq y$, entonces se escribe $L(e) = L(x, y)$. Se dice que un conjunto $T$ de aristas presenta cruces si existen $e, f \in T$ que no comparten ningún extremo y que cumplen $L(e) \cap L(f) \neq \emptyset$. Por el contrario, $T$ no presenta cruces si para todo par de aristas no adyacentes $e, f \in T$, se cumple que $L(e) \cap L(f) = \emptyset$. Bajo X-opt un óptimo local es precisamente un recorrido sin cruces entre sus aristas, donde se entiende a un óptimo local como un recorrido que no puede mejorarse mediante ninguna de las modificaciones permitidas por el algoritmo. Por otro lado, con el objetivo de evitar contradicciones en lo que concierne a la definición de cruce, se asume que no es posible que más de un punto se sitúe en una misma posición.
+En tercer lugar, de acuerdo con @manthey2025performance, el algoritmo X-opt corresponde a una variante del algoritmo 2-opt, en la que el reemplazo de dos aristas solo está permitido si dichas aristas se cruzan entre sí. Lo anterior solo está bien definido para distancias euclidianas en $\mathbb{R}^{2}$. Considere $L(x, y)$ como el segmento de recta entre $x$ y $y$, en vías de facilitar la notación si $e = \{x, y\}$ con $x \neq y$, entonces se escribe $L(e) = L(x, y)$. Se dice que un conjunto $T$ de aristas presenta cruces si existen $e, f \in T$ que no comparten ningún extremo y que cumplen $L(e) \cap L(f) \neq \emptyset$. Por el contrario, $T$ no presenta cruces si para todo par de aristas no adyacentes $e, f \in T$, se cumple que $L(e) \cap L(f) = \emptyset$. Bajo X-opt un óptimo local es precisamente un recorrido sin cruces entre sus aristas, donde se entiende a un óptimo local como un recorrido que no puede mejorarse mediante ninguna de las modificaciones permitidas por el algoritmo. Por otro lado, con el objetivo de evitar contradicciones en lo que concierne a la definición de cruce, se asume que no es posible que más de un punto se sitúe en una misma posición.
 
 De manera general, sea $T$ un recorrido a través de un conjunto de puntos $\mathcal{X} ⊆ \mathbb{R}^{2}$. Si $T$ presenta cruces, el modo de operación del algoritmo radica en identificar dos aristas no adyacentes $e, f \in T$ que se intersecten, y sustituirlas por nuevas aristas que permitan obtener un recorrido válido con una menor longitud total. Este procedimiento se repite mientras existan cruces en el recorrido, hasta obtener uno sin intersecciones entre aristas no adyacentes.
 
@@ -225,19 +231,8 @@ En relación con la cantidad de iteraciones, @manthey2025performance establecen 
 
 Por consiguiente, el criterio de terminación no consiste en alcanzar una cantidad predeterminada de iteraciones, sino en obtener un recorrido que no presente cruces entre sus aristas no adyacentes. De acuerdo con la definición de X-opt, esta condición caracteriza precisamente un óptimo local. Así, la heurística finaliza cuando se alcanza dicha configuración, garantizando su terminación en un número de iteraciones perteneciente a $O(n^3)$, según lo establecido por los autores.
 
-```{=latex}
-\begin{center}
-```
 
-```{=latex}
-{\fontsize{11pt}{14pt}\selectfont\textbf{ALGORITMO Y-OPT}}
-```
-
-```{=latex}
-\end{center}
-```
-
-El algoritmo Y-opt es una variante del algoritmo 2-opt. Como se vio anteriormente, el algoritmo 2-opt acepta un intercambio de aristas si la suma de las longitudes de las dos aristas nuevas es menor que la suma de las dos aristas viejas; esto se hace comparando únicamente las aristas que se modificaron, ya que el resto de la ruta permanece igual. Por otro lado, el algoritmo Y-opt impone una condición de cambio más estricta, donde, para aceptar un cambio en la ruta, la arista más larga de las nuevas debe ser más corta que la arista más larga de las viejas, y, además, la arista más corta de las nuevas debe ser más corta que la arista más corta de las viejas. Esto hace que el algoritmo Y-opt sea más restrictivo en su condición de aceptación de nuevas rutas, ya que no solo compara la suma total, sino el tamaño individual de cada arista.
+En cuarto lugar, se detalla el algoritmo Y-opt. El algoritmo Y-opt es una variante del algoritmo 2-opt. Como se vio anteriormente, el algoritmo 2-opt acepta un intercambio de aristas si la suma de las longitudes de las dos aristas nuevas es menor que la suma de las dos aristas viejas; esto se hace comparando únicamente las aristas que se modificaron, ya que el resto de la ruta permanece igual. Por otro lado, el algoritmo Y-opt impone una condición de cambio más estricta, donde, para aceptar un cambio en la ruta, la arista más larga de las nuevas debe ser más corta que la arista más larga de las viejas, y, además, la arista más corta de las nuevas debe ser más corta que la arista más corta de las viejas. Esto hace que el algoritmo Y-opt sea más restrictivo en su condición de aceptación de nuevas rutas, ya que no solo compara la suma total, sino el tamaño individual de cada arista.
 
 La principal ventaja del algoritmo Y-opt es que el número de iteraciones para una ruta de $n$ vértices y $m$ aristas está acotado por $(m-1)n$ [@manthey2025performance], resultando en un tiempo de ejecución polinomial. En comparación, el algoritmo 2-opt puede necesitar un tiempo exponencial en los peores casos; de esta forma, el algoritmo Y-opt compensa su condición de aceptación con el tiempo que necesitará para ejecutarse. A pesar de que el algoritmo Y-opt sea más estricto, los resultados teóricos muestran que este algoritmo tiene resultados similares a los del 2-opt, donde se llega a rutas ligeramente más largas con el algoritmo Y-opt pero en un tiempo de ejecución acotado en comparación al 2-opt [@manthey2025performance].
 
@@ -253,84 +248,82 @@ Para este proyecto, se utilizaron 50 localidades de Costa Rica, con un grafo com
 $$m = \frac{n(n-1)}{2} = \frac{50(50-1)}{2}= 1225$$
 Donde, aplicando el *Teorema 5* mencionado antes, se obtendría un máximo teórico de iteraciones de $(1225-1)50 = 61200$, lo cual representa un número muy reducido de iteraciones comparado con las iteraciones que se necesitarían para alcanzar un óptimo global en el que se evaluaran todas las posibles permutaciones, en el cual se necesitarían $n! = 50!$ iteraciones.
 
+Finalmente, a nivel general es importante destacar que en el artículo de referencia el análisis teórico se complementa con experimentos sobre puntos distribuidos uniformemente en el cuadrado unitario y rutas iniciales aleatorias. En estas pruebas, Y-opt obtiene longitudes cercanas a las de 2-opt, mientras que X-opt presenta un comportamiento más favorable de lo que sugieren sus peores óptimos locales. Estos resultados muestran la importancia de distinguir las garantías teóricas del comportamiento experimental y sirven como base para la comparación sobre las localidades de Costa Rica seleccionadas en el proyecto.
+
 
 ```{=latex}
 \begin{center}
 ```
 
 ```{=latex}
-{\fontsize{11pt}{14pt}\selectfont\textbf{MEDIDAS A RECOPILAR EN LOS EXPERIMENTOS}}
+{\fontsize{11pt}{14pt}\selectfont\textbf{DEFINICIÓN DE LAS MÉTRICAS DE INTERÉS PARA EL ANÁLISIS}}
 ```
 
 ```{=latex}
 \end{center}
 ```
 
-Para evaluar y poder comparar el rendimiento de los tres algoritmos: 2-opt, X-opt y Y-opt, se utilizarán las medidas que se detallan a continuación.
 
-**Longitud de la ruta optimizada:** corresponde a la longitud final medida en kilómetros de cada ruta optimizada según el algoritmo; esta medida incluye todo el recorrido realizado y el regreso desde el punto final hasta el punto de partida inicial. De esta forma, se puede comparar qué tan grande o qué tan pequeña es la ruta de un algoritmo con respecto a las demás.
+Para evaluar y poder comparar el rendimiento de los tres algoritmos: 2-opt, X-opt y Y-opt, se utilizarán las medidas detalladas a continuación.
 
-**Tiempo de ejecución:** es el tiempo medido en segundos de la duración de cada algoritmo en encontrar su solución. Esto permitirá comparar la rapidez de cada algoritmo para encontrar el recorrido óptimo.
+La primera medida a recopilar consiste en la longitud de la ruta optimizada, la cual corresponde a la longitud final medida en kilómetros de cada ruta optimizada según el algoritmo; esta medida incluye todo el recorrido realizado y el regreso desde el punto final hasta el punto de partida inicial. De esta forma, se puede comparar qué tan grande o qué tan pequeña es la ruta de un algoritmo con respecto a las demás.
 
-**Número de intercambios aceptados:** representa el número de veces que cada algoritmo aceptó algún cambio en la ruta. Esta medida permitirá ver qué tanto aceptó o rechazó cambios un algoritmo, permitiendo así, ver qué tan estricto es cada algoritmo con la aceptación de un cambio.
+Después, se define como medida de interés al tiempo de ejecución, que es el tiempo medido en segundos de la duración de cada algoritmo en encontrar su solución respectiva. Lo anterior permitirá comparar la rapidez de cada algoritmo para encontrar el recorrido óptimo local.
 
-**Ruta final obtenida:** es una lista que contiene a los índices que representan el orden en que se visitó cada ciudad. Lo anterior permitirá realizar los gráficos y comparar las rutas creadas por cada algoritmo.
+El número de intercambios aceptados, que representa el número de veces que cada algoritmo aceptó algún cambio en la ruta, será extraído para el análisis. Esta medida permitirá ver qué tanto aceptó o rechazó cambios un algoritmo, permitiendo así verificar qué tan estricto es cada algoritmo en la aceptación de un cambio.
 
-**Porcentaje de mejora con respecto a la ruta inicial:** esta medida se calculará como: $$((\text{longitud inicial} - \text{longitud final}) / \text{longitud inicial}) \times 100. $$Tal medida permitirá ver cuánto mejoró la solución de cada algoritmo con respecto a la ruta inicial creada aleatoriamente.
+Por otro lado, se recopilará la ruta final obtenida, una lista que contiene a los índices que representan el orden en que se visitó cada ciudad. Con dicho recursos se realizarán los gráficos y se compararán las rutas creadas por cada algoritmo.
 
-Las métricas antes mencionadas permitirán realizar la comparación entre algoritmos, además de la visualización de cada ruta creada. Es importante destacar que, para lograr realizar esta comparación, los tres algoritmos utilizarán la misma ruta inicial y la misma matriz de distancias.
+Finalmente, se obtendrá el porcentaje de mejora con respecto a la ruta inicial, que se calculará como: 
+
+$$\frac{\text{longitud inicial} - \text{longitud final}} {\text{longitud inicial}} \times 100. $$
+
+Tal medida permitirá evaluar cuánto mejoró la solución de cada algoritmo con respecto a la ruta inicial creada aleatoriamente.
+
+La finalidad de obtener las métricas antes mencionadas se centra en realizar comparaciones entre algoritmos. Es importante destacar que, con tal de que dichas comparaciones guarden una coherencia, los tres algoritmos utilizarán la misma ruta inicial y la misma matriz de distancias.
 
 ```{=latex}
 \begin{center}
 ```
 
 ```{=latex}
-{\fontsize{12pt}{14pt}\selectfont\textbf{DATOS}}
+{\fontsize{11pt}{14pt}\selectfont\textbf{IMPLEMENTACIÓN DE LOS ALGORITMOS EN PYTHON}}
 ```
 
 ```{=latex}
 \end{center}
 ```
 
-Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que corresponde al extracto de Costa Rica y se distribuye bajo la licencia Creative Commons Attribution 4.0 [@geonames]. El archivo está en texto delimitado por tabulaciones, con codificación UTF-8 y sin fila de encabezado, y contiene 21 426 registros y 19 variables. Cada registro describe un rasgo geográfico y no necesariamente un poblado: los rasgos se clasifican en nueve clases, entre las que predominan los cuerpos de agua (6 801 registros) y los lugares poblados, clase `P`, con 5 900 registros, que es la de interés para este proyecto.
+Los tres algoritmos que contempla el proyecto: 2-opt, X-opt y Y-opt fueron implementados en el lenguaje de programación Python, junto con la preparación de los datos y las pruebas. Se realizó un estudio computacional y experimental para compararlos sobre 50 localidades de Costa Rica, tomando como referencia a @manthey2025performance. 
 
-De las 19 variables se utilizaron siete: el identificador del registro (`geonameid`), el nombre, la latitud y la longitud en grados decimales (WGS84), la clase y el código del tipo de rasgo (por ejemplo, `PPL`, `PPLA` o `PPLC`), la división administrativa de primer nivel (`admin1`), que se tradujo al nombre de la provincia con el archivo `admin1CodesASCII.txt` de GeoNames, y la población reportada. Las coordenadas son la base para construir las coordenadas planas y la matriz de distancias, y la población se emplea como criterio de selección. Las variables restantes no intervienen en los algoritmos; además, `elevacion` está vacía en el 99,6 % de los registros (21 349 de 21 426) y `admin4` está vacía en prácticamente todos.
-
-Para construir el conjunto de localidades se conservaron únicamente los registros de clase `P` y se descartaron los códigos `PPLQ`, `PPLW` y `PPLH`, que corresponden a poblados abandonados, destruidos o históricos. Luego se conservaron las localidades con población mayor que cero, filtro necesario porque el 97,8 % de los lugares poblados reporta población igual a cero, es decir, sin información disponible. Después se eliminaron los registros con coordenadas repetidas, entendidas como las que coinciden al redondear a tres decimales (aproximadamente 100 m), y entre ellos se conservó el de mayor población; este filtro se aplicó porque @manthey2025performance suponen que no hay dos puntos en la misma posición, supuesto con el que X-opt puede decidir si dos aristas se cruzan. Tras aplicar estos filtros quedaron 128 localidades, de las cuales se seleccionaron las 50 con mayor población, que se ordenaron de forma decreciente y se numeraron de 0 a 49 para usarse como índices en las rutas.
-
-Las coordenadas geográficas se convirtieron a coordenadas planas en kilómetros mediante la proyección equirectangular (cilíndrica equidistante) para la esfera [@snyder1987, pp. 90-91], con $x = R\cos(\varphi_1)(\lambda-\lambda_0)$ y $y = R(\varphi-\varphi_0)$, donde $R = 6371$ km es el radio medio terrestre, $\varphi_1$ es el paralelo estándar, $(\varphi_0,\lambda_0)$ es el origen del plano y los ángulos se expresan en radianes. Se tomó como origen el promedio de las latitudes y de las longitudes de las 50 localidades, y el paralelo estándar se fijó en esa misma latitud, es decir, $\varphi_1=\varphi_0$; restar $\varphi_0$ en $y$ solo traslada el origen. Esto es necesario porque X-opt requiere determinar si dos aristas se cruzan en el plano [@manthey2025performance]. A partir de estas coordenadas se construyó la matriz de distancias euclidianas de tamaño $50 \times 50$, que es simétrica y tiene ceros en la diagonal.
-
-La población de las 50 localidades tiene un mínimo de 11 680, una mediana de 25 198, una media de 31 050 y un máximo de 335 007 habitantes, correspondiente a San José. La media supera a la mediana, lo que indica una distribución asimétrica a la derecha. Las latitudes están entre 9,173° y 10,952° N y las longitudes entre −85,585° y −83,036° O. Por provincia, 24 localidades pertenecen a San José, cinco a Alajuela, cinco a Cartago, cinco a Heredia, cuatro a Guanacaste, cuatro a Puntarenas y tres a Limón. Según las coordenadas planas, 30 de las 50 localidades (60 %), incluida San José, quedan a 20 km o menos del centro de San José, mientras que Liberia, Santa Cruz, San José (Alajuela) y Nicoya quedan a más de 150 km (@fig-localidades). Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por @manthey2025performance, lo cual se retomará al comparar resultados.
-
-![Ubicación geográfica de las 50 localidades seleccionadas.](../../figuras/localidades.png){#fig-localidades width=60%}
-
-Al examinar el conjunto resultante se identificaron algunas limitaciones, que provienen tanto de la fuente como del criterio de selección. La primera surge de la variable de población ya que al revisar sus valores en el archivo completo se observó que el 97,8 % de los lugares poblados la reporta como cero, por lo que la selección depende del 2,2 % restante. Además, esta población proviene de GeoNames y no de un censo oficial, de modo que sirve para ordenar y seleccionar las localidades, pero no como una medida precisa de su tamaño.
-
-Al revisar los códigos de las 50 localidades seleccionadas se encontró una segunda limitación: seis de ellas (por ejemplo, San Francisco e Ipís) tienen código `PPLX`, que GeoNames asigna a secciones de un lugar poblado y no a poblados independientes, por lo que algunas localidades representan zonas del área urbana más que poblados separados. De forma similar, al comparar los nombres se observó que dos localidades comparten el nombre "San José" (índices 0 y 10). No se trata de un registro duplicado, pues la segunda es una localidad de Alajuela que queda a unos 160 km de la capital y, al tener coordenadas distintas, el filtro de coordenadas únicas no la elimina, por lo que ambas se distinguen por su índice.
-
-Por último, al ubicar las localidades en el mapa (@fig-localidades) se constató que, al conservar solo las más pobladas, el conjunto se concentra en el área metropolitana de San José y no representa de forma pareja el resto del territorio. Esta consecuencia directa del criterio de selección condiciona la interpretación de los resultados, por lo que se retoma en las limitaciones del estudio.
-
-```{=latex}
-\begin{center}
-```
-
-```{=latex}
-{\fontsize{12pt}{14pt}\selectfont\textbf{IMPLEMENTACIÓN EN PYTHON}}
-```
-
-```{=latex}
-\end{center}
-```
-
-Se realizó un estudio computacional y experimental para comparar los algoritmos X-opt, Y-opt y 2-opt sobre 50 localidades de Costa Rica, tomando como referencia a @manthey2025performance. La preparación de los datos, la implementación y las pruebas se desarrollaron en Python y se documentaron en `codigo.ipynb`. Algunos gráficos se elaboraron en MATLAB mediante `graficos.m`.
-
-Las localidades se seleccionaron del archivo `CR.txt`, según los criterios descritos en la sección de datos. Sus coordenadas geográficas se transformaron a coordenadas planas en kilómetros mediante una proyección equirectangular y se construyó una matriz de distancias euclidianas. Cada ruta visitó todas las localidades exactamente una vez e incluyó el regreso al punto inicial.
+Las localidades se seleccionaron del archivo `CR.txt`, según los criterios descritos en la sección de datos. Sus coordenadas geográficas se transformaron a coordenadas planas en kilómetros mediante una proyección equirectangular, a la vez que se construyó una matriz de distancias euclidianas. Cada ruta visitó todas las localidades exactamente una vez e incluyó el regreso al punto inicial.
 
 Los algoritmos utilizaron una estrategia de búsqueda de la primera mejora, reiniciando la exploración después de cada intercambio aceptado y terminando cuando no se encontraron nuevas mejoras. Tras realizar pruebas preliminares con 15 localidades, se generaron 100 rutas iniciales aleatorias con una semilla fija de valor 2026. Los tres métodos recibieron las mismas rutas y utilizaron la misma matriz de distancias. Se registraron las longitudes finales, los porcentajes de mejora, las parejas de aristas evaluadas y los tiempos de ejecución.
 
-Como pruebas complementarias, se examinó si aplicar nuevamente un algoritmo sobre su propia solución producía cambios. También se evaluaron, sobre una ruta inicial, todas las secuencias de dos y tres algoritmos sin repetición. A partir de esta exploración, se seleccionó la secuencia X-opt → Y-opt → 2-opt para aplicarla a las 100 rutas y compararla con 2-opt directo.
+Como pruebas complementarias, se examinó si aplicar nuevamente un algoritmo sobre su propia solución producía cambios. También se evaluaron, sobre una ruta inicial, todas las secuencias de dos y tres algoritmos sin repetición. A partir de esta exploración, se seleccionó la secuencia X-opt → Y-opt → 2-opt para aplicarla a las 100 rutas y compararla con 2-opt de manera directa.
 
 Los resultados se resumieron mediante tablas, estadísticas descriptivas y gráficos. Además, se elaboró una animación en Python para visualizar los intercambios de 2-opt y la evolución de la longitud del recorrido. Finalmente, se contrastaron los hallazgos con el artículo de referencia, considerando las diferencias entre los conjuntos de datos.
+
+```{=latex}
+\begin{center}
+```
+
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{VALORACIÓN DEL DESEMPEÑO DE LOS ALGORITMOS EN BASE A LAS MÉTRICAS DEFINIDAS}}
+```
+
+```{=latex}
+\end{center}
+```
+
+Para valorar el desempeño de los algoritmos 2-opt, X-opt y Y-opt, se realizará un análisis comparativo a partir de las métricas recopiladas durante las ejecuciones. El análisis considerará tanto la longitud de las rutas obtenidas como el esfuerzo computacional requerido por cada algoritmo, con el propósito de contrastar sus resultados.
+
+En primera instancia, se compararán las longitudes finales de las rutas obtenidas por cada algoritmo, considerando las mismas rutas iniciales. Esto permitirá determinar cuál de los métodos consigue recorridos de menor longitud. Asimismo, se analizarán los porcentajes de mejora respecto a las rutas iniciales, con el fin de comparar la capacidad que posee cada algoritmo para reducir la distancia total del recorrido.
+
+Posteriormente, se examinarán los tiempos de ejecución en vías de examinar el costo computacional de cada método. Esta comparación permitirá identificar cuál de los algoritmos requiere menos tiempo para alcanzar su solución y analizar si una mayor reducción en la longitud de la ruta implica también un mayor esfuerzo computacional. Se considerarán las diferencias entre los tiempos registrados en las distintas ejecuciones, así como su comportamiento general a través de la media.
+
+A partir de estas comparaciones, se buscará identificar las ventajas y las limitaciones de cada algoritmo en términos de reducción de distancias, tiempo de ejecución y comportamiento durante la búsqueda local. 
+
 
 ```{=latex}
 \begin{center}
