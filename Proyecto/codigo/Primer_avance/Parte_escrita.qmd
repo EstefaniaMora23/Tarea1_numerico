@@ -477,6 +477,23 @@ Por tanto, la ventaja observada para la secuencia en la prueba exploratoria no s
 
 Esta interpretación se limita a la secuencia seleccionada y a las implementaciones utilizadas. Todas las secuencias se exploraron sobre una sola ruta, mientras que únicamente X-opt → Y-opt → 2-opt se comparó con 2-opt directo sobre las 100 rutas. Además, estas pruebas corresponden a distintos recorridos iniciales sobre un mismo conjunto de localidades, por lo que no representan 100 configuraciones geográficas independientes.
 
+## Comparación entre búsqueda exhaustiva y los algoritmos 2-opt, X-opt y Y-opt
+
+Para realizar la comparación entre la búsqueda exhaustiva y los tres algoritmos desarrollados a lo largo del proyecto, se utilizó una ruta de 11 ciudades debido a que para encontrar la solución global realizando todas las permutaciones posibles para 11 ciudades se necesita realizar $11! = 39916800$ iteraciones. Por otro lado, para realizar la ejecución de los algoritmos se utilizó una ruta inicial aleatoria de 11 ciudades, la cual se utilizó en los tres algoritmos. Los resultados obtenidos se muestran en la @tbl-comparativa-exhaustiva.
+
+| Algoritmo | Longitud final (km) | Tiempo de ejecución (s) | Número de iteraciones |
+|:--|--:|--:|--:|
+| Búsqueda exhaustiva | 673,374 | 256,367 | 39916800 |
+| 2-opt | 686,199 | 0,001 | 358 |
+| X-opt | 790,132 | 0,003 | 153 |
+| Y-opt | 694,766 | 0,004 | 172 |
+
+: Comparación entre búsqueda exhaustiva y  2-opt, X-opt y Y-opt para 11 ciudades {#tbl-comparativa-exhaustiva}
+
+Como puede observarse en la @tbl-comparativa-exhaustiva, la búsqueda exhaustiva encontró que la ruta con menor longitud mide 673,374 km, sin embargo, le tomó 39916800 iteraciones y tardó 256,367 segundos en ejecutarse, lo cual corresponde aproximadamente a 4 minutos y 16,367 segundos. Por otro lado, el algoritmo 2-opt obtuvo una ruta con una longitud mínima local de 686,199 km representando una diferencia de 12,825 km con respecto a la solución global, para encontrar dicha ruta necesitó 0,001 segundos y 358 intercambios. Mientras que el X-opt obtuvo una ruta de longitud de 790,132, obteniendo una diferencia de 116,758 km con respecto a la solución global y por último el Y-opt obtuvo una ruta de 694,766 km obteniendo una diferencia de 21,392 km con respecto a la solución global. 
+
+Puede verse que a pesar de que los algoritmos no encuentren la solución global, encuentran una solución que se aproxima bastante, necesitando un tiempo muy reducido en comparación al tiempo requerido para encontrar la solución global con la búsqueda exhaustiva; por lo que podría optarse por agregar algunas condiciones iniciales a los algoritmos de forma que logren aproximarse más a la solución global sin necesitar un tiempo e iteraciones tan elevado como en la búsqueda exhaustiva, para esto, en el proyecto se optó por fijar cierto número de ciudades que se sabe que forman parte de la solución global, y dejar otra parte que se forme aleatoriamente para ver cuántas ciudades se necesitan fijar para que los algoritmos brinden la solución global.
+
 ```{=latex}
 \begin{center}
 ```
