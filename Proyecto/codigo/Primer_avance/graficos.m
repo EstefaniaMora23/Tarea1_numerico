@@ -21,7 +21,6 @@ geoscatter(lat, lon, 50, 'filled')
 geobasemap streets-light
 geolimits(latlim, lonlim)
 title('Localidades seleccionadas')
-drawnow; pause(2)   % espera a que carguen los tiles del mapa
 exportgraphics(gcf, '../../figuras/localidades.png', 'Resolution', 300)
 
 % Leer los resultados de los tres algoritmos
@@ -54,3 +53,34 @@ end
 sgtitle(sprintf('Ruta final obtenida desde la ruta inicial %d', id_ruta_mapa))
 drawnow; pause(3)
 exportgraphics(gcf, '../../figuras/mapa_rutas_finales.png', 'Resolution', 300)
+
+
+% Longitud final de cada algoritmo en las 100 rutas iniciales
+figure
+hold on
+for a = 1:n_alg
+    filas = resultados.algoritmo == algoritmos(a);
+    plot(resultados.id_ruta(filas), resultados.longitud_final(filas))
+end
+hold off
+xlabel('Número de ruta inicial')
+ylabel('Longitud final (km)')
+title('Longitud final por algoritmo en cada ruta inicial')
+legend(algoritmos, 'Location', 'best')
+exportgraphics(gcf, '../../figuras/longitudes_finales.png', 'Resolution', 300)
+
+% Longitud final media de cada algoritmo según el número de localidades (equivalente a la Fig. 6 del artículo)
+rendimiento = readtable('../../datos/rendimiento_por_n.csv', 'TextType', 'string');
+
+figure
+hold on
+for a = 1:n_alg
+    filas = rendimiento.algoritmo == algoritmos(a);
+    plot(rendimiento.n(filas), rendimiento.longitud_media(filas), '-s')
+end
+hold off
+xlabel('Número de localidades (n)')
+ylabel('Longitud final media (km)')
+title('Longitud final media por algoritmo según el número de localidades')
+legend(algoritmos, 'Location', 'best')
+exportgraphics(gcf, '../../figuras/longitud_media_por_n.png', 'Resolution', 300)
