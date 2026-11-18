@@ -248,6 +248,26 @@ Para este proyecto, se utilizaron 50 localidades de Costa Rica, con un grafo com
 $$m = \frac{n(n-1)}{2} = \frac{50(50-1)}{2}= 1225$$
 Donde, aplicando el *Teorema 5* mencionado antes, se obtendría un máximo teórico de iteraciones de $(1225-1)50 = 61200$, lo cual representa un número muy reducido de iteraciones comparado con las iteraciones que se necesitarían para alcanzar un óptimo global en el que se evaluaran todas las posibles permutaciones, en el cual se necesitarían $n! = 50!$ iteraciones.
 
+A partir de la teoría expuesta, se implementó el algoritmo Y-opt en Python. La implementación se muestra a continuación en forma de pseudo-código:
+
+-   **Entradas:** $ruta\_inicial$ una ruta inicial generada aleatoriamente, $matriz\_distancias$ una matriz con las distancias euclidianas entre las ciudades.
+
+-   **Salidas:** $ruta\_nueva$ ruta mejorada luego de aplicar el algoritmo, $iteraciones$ número de iteraciones que realiza el algoritmo
+
+Pasos a seguir:
+
+1. Definir $ruta\_copia$ como copia de $ruta\_inicial$.
+2. Mientras haya mejoras:
+3. Para $i$ desde $0$ hasta $n-2$:
+4. Para $j$ desde $i+2$ hasta $n-1$:
+5. Identificar aristas $(a, b)$ y $(c, d)$.
+6. Si $\max(nuevas) < \max(viejas)$ Y $\min(nuevas) < \min(viejas)$:
+7. Invertir el segmento
+8. $iteraciones \leftarrow iteraciones + 1$, $mejorada \leftarrow True$
+9. Romper bucles (break)
+10. Retornar $ruta\_copia$, $iteraciones$
+
+
 Finalmente, a nivel general es importante destacar que en el artículo de referencia el análisis teórico se complementa con experimentos sobre puntos distribuidos uniformemente en el cuadrado unitario y rutas iniciales aleatorias. En estas pruebas, Y-opt obtiene longitudes cercanas a las de 2-opt, mientras que X-opt presenta un comportamiento más favorable de lo que sugieren sus peores óptimos locales. Estos resultados muestran la importancia de distinguir las garantías teóricas del comportamiento experimental y sirven como base para la comparación sobre las localidades de Costa Rica seleccionadas en el proyecto.
 
 
