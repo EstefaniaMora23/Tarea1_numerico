@@ -1,0 +1,34 @@
+---
+title: "Comparación de los algoritmos X-opt, Y-opt y 2-opt para optimizar rutas en localidades de Costa Rica"
+author: "Alexandra González, Estefanía Mora, Daniela Prado y José Miguel Rodríguez"
+
+format:
+  beamer:
+    theme: Darmstadt
+    colortheme: default
+    toc: false
+    aspectratio: 169
+    slide-number: true
+    navigation: empty
+    fontsize: 11pt
+    number-sections: false
+    include-in-header:
+      text: |
+        \usepackage{xcolor}
+        \usepackage{hanging}
+        \usepackage{xurl} 
+        \definecolor{mainbg}{HTML}{F5F1E9}
+        \definecolor{accent}{HTML}{718C7A}
+        \definecolor{lighttext}{HTML}{465A50}
+        \definecolor{sage}{HTML}{B8CDBB}
+        \definecolor{peach}{HTML}{EBAF91} 
+        \setbeamercolor{normal text}{fg=lighttext, bg=mainbg}
+        \setbeamercolor{structure}{fg=accent}
+        \setbeamercolor{frametitle}{fg=white, bg=accent}
+        \setbeamercolor{block title}{fg=white, bg=accent}
+        \setbeamercolor{block body}{fg=lighttext, bg=sage!35!mainbg}
+        \setbeamercolor{alerted text}{fg=peach}
+        \setbeamertemplate{footline}[frame number]
+        \setbeamerfont{author}{size=\small, series=\itshape}
+        \setlength{\parskip}{0.5cm}
+---
