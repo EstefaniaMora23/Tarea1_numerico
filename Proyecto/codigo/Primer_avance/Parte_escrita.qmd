@@ -30,6 +30,11 @@ format:
             - \fancyfoot[R]{\thepage}
             - \renewcommand{\headrulewidth}{0pt}
             - \renewcommand{\footrulewidth}{0.4pt}
+            - \usepackage{longtable}
+            - \usepackage{array}
+            - \usepackage{algorithm}
+            - \usepackage{algpseudocode}
+   include-after-body: Anexos.tex
 editor: 
   markdown: 
     wrap: sentence
@@ -169,16 +174,14 @@ La metodología se organizó en cuatro métodos complementarios: la construcció
 \end{center}
 ```
 
-En lo que respecta a la construcción de la fundamentación teórica que sostiene al proyecto, en esta se abordaron cuatro aspectos: el problema del viajante, el algoritmo 2-opt, el algoritmo X-opt y el algoritmo Y-opt. Previo a adentrarse en tales elementos, es preciso destacar que el presente estudio toma como referencia el artículo de @manthey2025performance, titulado *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*, en el cual los autores analizan la relación entre la calidad de las soluciones y las garantías sobre el tiempo de ejecución de los algoritmos detallados. 
+En la construcción de la fundamentación teórica que sostiene al proyecto, se abordaron cuatro temas: el problema del viajante, el algoritmo 2-opt, el algoritmo X-opt y el algoritmo Y-opt. Previo a adentrarse en tales elementos, se debe destacar que el presente estudio toma como referencia el artículo de @manthey2025performance, titulado *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*, en el cual los autores analizan la relación entre la calidad de las soluciones y las garantías sobre el tiempo de ejecución de los algoritmos detallados. 
 
 
-En primer lugar, se tiene que el problema del viajero consiste en encontrar un recorrido cerrado de longitud mínima que visite cada localidad exactamente una vez y regrese al punto de partida. Su versión de optimización se clasifica como NP-hard, incluso cuando las distancias son euclidianas [@manthey2025performance]. Esta clasificación indica que el problema es, al menos, tan difícil como cualquier problema de la clase NP. Actualmente, no se conoce un algoritmo que garantice obtener una solución óptima en tiempo polinomial para todas sus instancias.
+En primer lugar, se tiene que el problema del viajero consiste en encontrar un recorrido cerrado de longitud mínima que visite cada localidad exactamente una vez y regrese al punto de partida. Su versión de optimización se clasifica como NP-hard, incluso cuando las distancias son euclidianas [@manthey2025performance]. Esta clasificación indica que el problema es, al menos, tan difícil como cualquier problema de la clase NP. Actualmente, no se conoce un algoritmo que garantice obtener una solución óptima en tiempo polinomial para todas sus instancias. 
 
-Ante esta dificultad, se utilizan métodos heurísticos que buscan obtener recorridos de buena calidad con un esfuerzo computacional manejable. Entre ellos se encuentran las heurísticas de búsqueda local, que parten de una ruta inicial y la modifican sucesivamente mediante movimientos que reducen su longitud.
+Ante esta dificultad, se utilizan métodos heurísticos que buscan obtener recorridos de buena calidad con un esfuerzo computacional manejable. Entre ellos se encuentran las heurísticas de búsqueda local, que parten de una ruta inicial y la modifican sucesivamente mediante movimientos que reducen su longitud. El criterio utilizado para aceptar estos movimientos determina tanto las mejoras disponibles como la condición de terminación del procedimiento. Cuando ningún movimiento permitido reduce la longitud, se alcanza un óptimo local respecto a ese conjunto de movimientos. Sin embargo, esta condición no garantiza que el recorrido sea el más corto entre todos los posibles. Esta distinción resulta fundamental para interpretar las soluciones obtenidas mediante X-opt, Y-opt y 2-opt.
 
-El criterio utilizado para aceptar estos movimientos determina tanto las mejoras disponibles como la condición de terminación del procedimiento. Cuando ningún movimiento permitido reduce la longitud, se alcanza un óptimo local respecto de ese conjunto de movimientos. Sin embargo, esta condición no garantiza que el recorrido sea el más corto entre todos los posibles. Esta distinción resulta fundamental para interpretar las soluciones obtenidas mediante X-opt, Y-opt y 2-opt.
-
-En segundo lugar, se profundiza en el algoritmo 2-opt. El punto de partida del artículo de referencia se centra en que 2-opt, aunque suele ofrecer buenos resultados en la práctica, puede requerir un número exponencial de intercambios para alcanzar un óptimo local en casos desfavorables. El algoritmo 2-opt es una heurística de búsqueda local que mejora una ruta mediante el intercambio de dos aristas no adyacentes. En cada paso, estas aristas se eliminan y se sustituyen por otras dos, conservando un único recorrido cerrado que visite cada localidad exactamente una vez. El intercambio se acepta únicamente cuando reduce la longitud total de la ruta [@manthey2025performance].
+En segundo lugar, se profundiza en el algoritmo 2-opt. El algoritmo 2-opt es una heurística de búsqueda local que mejora una ruta mediante el intercambio de dos aristas no adyacentes. En cada paso, estas aristas se eliminan y se sustituyen por otras dos, conservando un único recorrido cerrado que visite cada localidad exactamente una vez. El intercambio se acepta únicamente cuando reduce la longitud total de la ruta [@manthey2025performance].
 
 Sea $T$ una ruta y considere las aristas $e_1=(a,b)$ y $f_1=(c,d)$, cuyos extremos aparecen en ese orden en el recorrido. El movimiento 2-opt sustituye estas aristas por $e_2=(a,c)$ y $f_2=(b,d)$, lo cual requiere invertir el orden del segmento comprendido entre $b$ y $c$. Si $\ell(e)$ representa la longitud de una arista $e$, el criterio de aceptación es
 
@@ -194,15 +197,14 @@ $$
 \ell(T)-\ell(e_1)-\ell(f_1)+\ell(e_2)+\ell(f_2).
 $$
 
-En consecuencia, el criterio de aceptación garantiza que $\ell(T')<\ell(T)$. A diferencia de X-opt, no se exige que las aristas eliminadas se crucen; tampoco se requiere la reducción individual de las longitudes ordenadas que caracteriza a Y-opt [@manthey2025performance].
-
-En la implementación desarrollada se utilizó la estrategia de búsqueda de la primera mejora. Los ciclos `for` recorren las parejas de aristas no adyacentes y, cuando encuentran un intercambio que reduce la longitud, modifican la ruta y detienen la búsqueda mediante las instrucciones `break`. Posteriormente, el ciclo `while` reinicia la exploración sobre la ruta actualizada. El procedimiento termina después de completar una pasada sin aceptar ningún intercambio.
+En consecuencia, el criterio de aceptación garantiza que $\ell(T')<\ell(T)$.
 
 La terminación se justifica porque existe una cantidad finita de recorridos y cada intercambio aceptado disminuye estrictamente la longitud. Por ello, el algoritmo no puede regresar a una ruta anteriormente visitada. Al finalizar, se obtiene un óptimo local respecto de los movimientos 2-opt, es decir, una ruta que no puede acortarse mediante ninguno de estos intercambios. Esta condición no garantiza que se haya encontrado el óptimo global.
 
 Para analizar el esfuerzo computacional, una ruta cerrada de $n$ localidades tiene $n$ aristas. De las parejas posibles, se excluyen las $n$ parejas de aristas adyacentes, por lo que una exploración completa considera
 
 $$
+\binom{n}{2} - n=
 \frac{n(n-1)}{2}-n
 =
 \frac{n(n-3)}{2}
@@ -214,41 +216,29 @@ $$
 \frac{50(50-3)}{2}=1175.
 $$
 
-Este valor corresponde al número de parejas examinadas en una pasada completa, no al número total de evaluaciones durante toda la ejecución. Al aceptar una mejora, la búsqueda se reinicia y puede volver a examinar parejas sobre la ruta modificada. Además, el contador utilizado en el código registra parejas evaluadas, independientemente de si producen un intercambio.
-
-Aunque cada pasada requiere un número de evaluaciones de orden $O(n^2)$, esto no implica que la ejecución completa tenga un costo cuadrático. También debe considerarse la cantidad de intercambios y reinicios necesarios para alcanzar un óptimo local. A diferencia de Y-opt, 2-opt puede requerir un número exponencial de pasos en casos desfavorables [@manthey2025performance]. Por tanto, los tiempos reducidos observados en los experimentos describen su comportamiento en las instancias estudiadas, sin establecer una garantía general de tiempo polinomial.
+Este valor corresponde al número de parejas examinadas en una pasada completa, no al número total de evaluaciones durante toda la ejecución. Al aceptar una mejora, la búsqueda se reinicia y puede volver a examinar parejas sobre la ruta modificada. Aunque cada pasada requiere un número de evaluaciones de orden $O(n^2)$, esto no implica que la ejecución completa tenga un costo cuadrático. También debe considerarse la cantidad de intercambios y de reinicios necesarios para alcanzar un óptimo local; 2-opt puede requerir un número exponencial de pasos en casos desfavorables [@manthey2025performance], por lo tanto, los tiempos reducidos observados en los experimentos describen su comportamiento en las instancias estudiadas, sin establecer una garantía general de tiempo polinomial.
 
 
 En tercer lugar, de acuerdo con @manthey2025performance, el algoritmo X-opt corresponde a una variante del algoritmo 2-opt, en la que el reemplazo de dos aristas solo está permitido si dichas aristas se cruzan entre sí. Lo anterior solo está bien definido para distancias euclidianas en $\mathbb{R}^{2}$. Considere $L(x, y)$ como el segmento de recta entre $x$ y $y$, en vías de facilitar la notación si $e = \{x, y\}$ con $x \neq y$, entonces se escribe $L(e) = L(x, y)$. Se dice que un conjunto $T$ de aristas presenta cruces si existen $e, f \in T$ que no comparten ningún extremo y que cumplen $L(e) \cap L(f) \neq \emptyset$. Por el contrario, $T$ no presenta cruces si para todo par de aristas no adyacentes $e, f \in T$, se cumple que $L(e) \cap L(f) = \emptyset$. Bajo X-opt un óptimo local es precisamente un recorrido sin cruces entre sus aristas, donde se entiende a un óptimo local como un recorrido que no puede mejorarse mediante ninguna de las modificaciones permitidas por el algoritmo. Por otro lado, con el objetivo de evitar contradicciones en lo que concierne a la definición de cruce, se asume que no es posible que más de un punto se sitúe en una misma posición.
 
 De manera general, sea $T$ un recorrido a través de un conjunto de puntos $\mathcal{X} ⊆ \mathbb{R}^{2}$. Si $T$ presenta cruces, el modo de operación del algoritmo radica en identificar dos aristas no adyacentes $e, f \in T$ que se intersecten, y sustituirlas por nuevas aristas que permitan obtener un recorrido válido con una menor longitud total. Este procedimiento se repite mientras existan cruces en el recorrido, hasta obtener uno sin intersecciones entre aristas no adyacentes.
 
-Para comprender el mecanismo de optimización, es necesario considerar que el intercambio de aristas corresponde a una modificación de tipo 2-opt. Sean $e=\{a,b\}$ y $f=\{c,d\}$ dos aristas no adyacentes que se intersectan. El procedimiento consiste en eliminar dichas aristas y reconectar sus extremos mediante dos nuevas aristas, de manera que se conserve la validez del recorrido. Debido a que las aristas originales presentan un cruce, la nueva conexión permite sustituir dos segmentos que se intersectan por otros dos que no presentan dicha intersección. En el plano euclidiano, esta modificación produce una reducción estricta de la longitud total del recorrido, puesto que la suma de las longitudes de los segmentos que sustituyen a las diagonales de un cuadrilátero es menor que la suma de las longitudes de estas últimas.
+Para comprender el mecanismo de optimización, es necesario considerar que el intercambio de aristas corresponde a una modificación de tipo 2-opt. Sean $e=\{a,b\}$ y $f=\{c,d\}$ dos aristas no adyacentes que se intersectan. El procedimiento consiste en eliminar dichas aristas y reconectar sus extremos mediante dos nuevas aristas, de manera que se conserve la validez del recorrido. Debido a que las aristas originales presentan un cruce, la nueva conexión permite sustituir dos segmentos que se intersectan por otros dos que no presentan dicha intersección. En consecuencia, si $T$ representa el recorrido original y $T'$ el recorrido después de efectuar el intercambio, se cumple que $\ell(T') < \ell(T),$ puesto que constituye un intercambio del tipo 2-opt. Así, cada intercambio constituye una mejora respecto a la configuración anterior. El algoritmo continúa aplicando este procedimiento sobre el recorrido resultante, hasta que no sea posible identificar otro par de aristas no adyacentes que se intersecten.
 
-En consecuencia, si $T$ representa el recorrido original y $T'$ el recorrido después de efectuar el intercambio, asimismo, en la implementación del proyecto se estableció que la condición de aceptación del intercambio se basa en que $\ell(T') < \ell(T),$ donde $\ell(T)$ representa la longitud total del recorrido. Por tanto, cada intercambio constituye una mejora respecto a la configuración anterior. El algoritmo continúa aplicando este procedimiento sobre el recorrido resultante, hasta que no sea posible identificar otro par de aristas no adyacentes que se intersecten.
-
-En relación con la cantidad de iteraciones, @manthey2025performance establecen que la heurística X-opt siempre termina en $O(n^3)$ iteraciones, donde $n$ representa la cantidad de puntos del conjunto considerado. Esta expresión corresponde a una cota del número de iteraciones, lo que significa que el crecimiento de estas se encuentra acotado por un orden cúbico respecto al tamaño de la instancia. Sin embargo, no representa una cantidad exacta de iteraciones, puesto que el número efectivamente realizado depende del recorrido inicial y de los pares de aristas seleccionados durante la ejecución.
-
-Por consiguiente, el criterio de terminación no consiste en alcanzar una cantidad predeterminada de iteraciones, sino en obtener un recorrido que no presente cruces entre sus aristas no adyacentes. De acuerdo con la definición de X-opt, esta condición caracteriza precisamente un óptimo local. Así, la heurística finaliza cuando se alcanza dicha configuración, garantizando su terminación en un número de iteraciones perteneciente a $O(n^3)$, según lo establecido por los autores.
+En relación con la cantidad de iteraciones, @manthey2025performance establecen que la heurística X-opt siempre termina en $O(n^3)$ iteraciones, donde $n$ representa la cantidad de puntos del conjunto considerado. Esta expresión corresponde a una cota del número de iteraciones, lo que significa que el crecimiento de estas se encuentra acotado por un orden cúbico respecto al tamaño de la instancia. Sin embargo, no representa una cantidad exacta de iteraciones, puesto que el número efectivamente realizado depende del recorrido inicial y de los pares de aristas seleccionados durante la ejecución. Por consiguiente, el criterio de terminación no consiste en alcanzar una cantidad predeterminada de iteraciones, sino en obtener un recorrido que no presente cruces entre sus aristas no adyacentes. De acuerdo con la definición de X-opt, esta condición caracteriza precisamente un óptimo local. 
 
 
 En cuarto lugar, se detalla el algoritmo Y-opt. El algoritmo Y-opt es una variante del algoritmo 2-opt. Como se vio anteriormente, el algoritmo 2-opt acepta un intercambio de aristas si la suma de las longitudes de las dos aristas nuevas es menor que la suma de las dos aristas viejas; esto se hace comparando únicamente las aristas que se modificaron, ya que el resto de la ruta permanece igual. Por otro lado, el algoritmo Y-opt impone una condición de cambio más estricta, donde, para aceptar un cambio en la ruta, la arista más larga de las nuevas debe ser más corta que la arista más larga de las viejas, y, además, la arista más corta de las nuevas debe ser más corta que la arista más corta de las viejas. Esto hace que el algoritmo Y-opt sea más restrictivo en su condición de aceptación de nuevas rutas, ya que no solo compara la suma total, sino el tamaño individual de cada arista.
 
-La principal ventaja del algoritmo Y-opt es que el número de iteraciones para una ruta de $n$ vértices y $m$ aristas está acotado por $(m-1)n$ [@manthey2025performance], resultando en un tiempo de ejecución polinomial. En comparación, el algoritmo 2-opt puede necesitar un tiempo exponencial en los peores casos; de esta forma, el algoritmo Y-opt compensa su condición de aceptación con el tiempo que necesitará para ejecutarse. A pesar de que el algoritmo Y-opt sea más estricto, los resultados teóricos muestran que este algoritmo tiene resultados similares a los del 2-opt, donde se llega a rutas ligeramente más largas con el algoritmo Y-opt pero en un tiempo de ejecución acotado en comparación al 2-opt [@manthey2025performance].
+La principal ventaja del algoritmo Y-opt es que el número de iteraciones para una ruta de $n$ vértices y $m$ aristas está acotado por $(m-1)n$ [@manthey2025performance], resultando en un tiempo de ejecución polinomial. A pesar de que el algoritmo Y-opt sea más estricto, los resultados teóricos muestran que este algoritmo tiene resultados similares a los del 2-opt, llegando a rutas ligeramente más largas pero en un tiempo de ejecución acotado [@manthey2025performance].
 
-Matemáticamente, si se tiene una ruta $T$ en un grafo completo de $n$ vértices, lo que quiere decir que una vez llegado al último vértice $n$ (la última localidad), se debe devolver al primero, y si se definen dos aristas (caminos) no adyacentes $e_1$ y $f_1$ de la ruta $T$. Si se define la función $\ell(e)$ la cual representa la longitud de una arista $e$, en el algoritmo 2-opt tradicional, para aceptar un intercambio de aristas debe cumplirse que la suma de las distancias entre las dos aristas antiguas sea mayor que la distancia entre las dos aristas nuevas, es decir $\ell(e_1) + \ell(f_1) > \ell(e_2) + \ell(f_2)$ donde $\ell(e_2)$ y $\ell(f_2)$ representan dos aristas nuevas.
+Matemáticamente, se tiene una ruta $T$ en un grafo completo de $n$ vértices, lo que quiere decir que una vez llegado al último vértice $n$, se debe devolver al primero, y se definen a la vez dos aristas no adyacentes $e_1$ y $f_1$ de la ruta $T$. Bajo el algoritmo 2-opt tradicional, para aceptar un intercambio de aristas debe cumplirse que la suma de las distancias entre las dos aristas antiguas sea mayor que la distancia entre las dos aristas nuevas, es decir $\ell(e_1) + \ell(f_1) > \ell(e_2) + \ell(f_2)$ donde $\ell(e_2)$ y $\ell(f_2)$ representan dos aristas nuevas. Sin embargo, el algoritmo Y-opt propuesto por @manthey2025performance, impone una condición más estricta para realizar el intercambio entre aristas. Si se asume que $\ell(e_1)$ es mayor o igual que $\ell(f_1)$ y que $\ell(e_2)$ es mayor o igual que $\ell(f_2)$, el intercambio se acepta solamente si $\ell(e_1) \geq \ell(e_2)$ y $\ell(f_1) \geq \ell(f_2)$ simultáneamente y donde al menos una de las desigualdades debe ser estricta, lo cual quiere decir, como se mencionó anteriormente, un intercambio solo se acepta cuando se cumplen dos cosas: primero, que la longitud de la arista antigua más grande sea mayor o igual que la longitud de la arista nueva más grande y segundo, que la longitud de la arista antigua más pequeña sea mayor o igual que la longitud de la arista nueva más pequeña. 
 
-Sin embargo, en el algoritmo Y-opt propuesto por @manthey2025performance, impone una condición más estricta para realizar el intercambio entre aristas. Si se asume que $\ell(e_1)$ es mayor o igual que $\ell(f_1)$ y que $\ell(e_2)$ es mayor o igual que $\ell(f_2)$, el intercambio se acepta solamente si $\ell(e_1) \geq \ell(e_2)$ y $\ell(f_1) \geq \ell(f_2)$ simultáneamente y donde al menos una de las desigualdades debe ser estricta, lo cual quiere decir, como se mencionó anteriormente, solamente se acepta un intercambio entre aristas si la longitud de la arista más grande antigua es mayor o igual que la longitud de la arista más grande nueva y al mismo tiempo, la arista más pequeña antigua es mayor o igual que la longitud de la arista más pequeña nueva
-
-En cuanto a la optimización, el algoritmo Y-opt utiliza una estrategia de búsqueda local llamada búsqueda de la primera mejora, ya que, conforme el algoritmo realiza las comparaciones entre los pares de aristas, en el momento en que encuentra dos pares que cumplen la condición, realiza el intercambio de aristas y vuelve a empezar con la búsqueda desde el inicio de la ruta $T$; esto ahorra numerosas iteraciones debido a que no siempre realizará todas las combinaciones posibles, para implementar esta idea de la búsqueda de la primera mejora, en el código desarrollado se añadieron `breaks` en los bucles `for` utilizados para la implementación del algoritmo, por lo que, como no se realiza la evaluación de todas las posibles combinaciones de aristas, se evita el costo exponencial, de forma que se llega a un óptimo local y no global.
-
-A pesar de que se llega a un óptimo local, la implementación de este algoritmo disminuye en gran medida tanto el tiempo de ejecución como el número de iteraciones totales, ya que matemáticamente garantiza un tiempo de ejecución polinómico. Según el *Teorema 5* de @manthey2025performance, el número de iteraciones máximas para alcanzar una ruta Y-óptima en un grafo de $n$ vértices y $m$ aristas (el total de posibles aristas) es de $(m-1)n$.
+En cuanto a la optimización, el algoritmo Y-opt utiliza una estrategia de búsqueda local llamada búsqueda de la primera mejora, ya que, conforme el algoritmo realiza las comparaciones entre los pares de aristas, en el momento en que encuentra dos pares que cumplen la condición, realiza el intercambio de aristas y vuelve a empezar con la búsqueda desde el inicio de la ruta $T$; esto ahorra numerosas iteraciones debido a que no siempre realizará todas las combinaciones posibles. A pesar de que se llega a un óptimo local, la implementación de este algoritmo disminuye en gran medida tanto el tiempo de ejecución como el número de iteraciones totales, ya que matemáticamente garantiza un tiempo de ejecución polinómico. Según el *Teorema 5* de @manthey2025performance, el número de iteraciones máximas para alcanzar una ruta Y-óptima en un grafo de $n$ vértices y $m$ aristas (el total de posibles aristas) es de $(m-1)n$.
 
 Para este proyecto, se utilizaron 50 localidades de Costa Rica, con un grafo completo, por lo que, el número de aristas sería:
 $$m = \frac{n(n-1)}{2} = \frac{50(50-1)}{2}= 1225$$
-Donde, aplicando el *Teorema 5* mencionado antes, se obtendría un máximo teórico de iteraciones de $(1225-1)50 = 61200$, lo cual representa un número muy reducido de iteraciones comparado con las iteraciones que se necesitarían para alcanzar un óptimo global en el que se evaluaran todas las posibles permutaciones, en el cual se necesitarían $n! = 50!$ iteraciones.
-
-A partir de la teoría expuesta, se implementó el algoritmo Y-opt en Python. La implementación se muestra a continuación en forma de pseudo-código:
+Donde, aplicando el *Teorema 5* mencionado antes, se obtendría un máximo teórico de iteraciones de $(1225-1)50 = 61200$. A partir de la teoría expuesta, se implementó el algoritmo Y-opt en Python. La implementación se muestra a continuación en forma de pseudo-código:
 
 -   **Entradas:** $ruta\_inicial$ una ruta inicial generada aleatoriamente, $matriz\_distancias$ una matriz con las distancias euclidianas entre las ciudades.
 
@@ -268,9 +258,6 @@ Pasos a seguir:
 10. Retornar $ruta\_copia$, $iteraciones$
 
 
-Finalmente, a nivel general es importante destacar que en el artículo de referencia el análisis teórico se complementa con experimentos sobre puntos distribuidos uniformemente en el cuadrado unitario y rutas iniciales aleatorias. En estas pruebas, Y-opt obtiene longitudes cercanas a las de 2-opt, mientras que X-opt presenta un comportamiento más favorable de lo que sugieren sus peores óptimos locales. Estos resultados muestran la importancia de distinguir las garantías teóricas del comportamiento experimental y sirven como base para la comparación sobre las localidades de Costa Rica seleccionadas en el proyecto.
-
-
 ```{=latex}
 \begin{center}
 ```
@@ -284,15 +271,15 @@ Finalmente, a nivel general es importante destacar que en el artículo de refere
 ```
 
 
-Para evaluar y poder comparar el rendimiento de los tres algoritmos: 2-opt, X-opt y Y-opt, se utilizarán las medidas detalladas a continuación.
+Para evaluar y comparar el rendimiento de los tres algoritmos: 2-opt, X-opt y Y-opt, se utilizarán las medidas detalladas a continuación.
 
-La primera medida a recopilar consiste en la longitud de la ruta optimizada, la cual corresponde a la longitud final medida en kilómetros de cada ruta optimizada según el algoritmo; esta medida incluye todo el recorrido realizado y el regreso desde el punto final hasta el punto de partida inicial. De esta forma, se puede comparar qué tan grande o qué tan pequeña es la ruta de un algoritmo con respecto a las demás.
+La primera medida a recopilar consiste en la longitud de la ruta optimizada, la cual corresponde a la longitud final medida en kilómetros de cada ruta optimizada según el algoritmo; esta medida incluye todo el recorrido realizado y el regreso desde el punto final hasta el punto de partida inicial. De esta forma, es posible comparar qué tan grande o qué tan pequeña es la ruta de un algoritmo con respecto a las demás.
 
 Después, se define como medida de interés al tiempo de ejecución, que es el tiempo medido en segundos de la duración de cada algoritmo en encontrar su solución respectiva. Lo anterior permitirá comparar la rapidez de cada algoritmo para encontrar el recorrido óptimo local.
 
-El número de iteraciones totales, que representa el número total de operaciones computacionales que realiza cada algoritmo durante su ejecución, incluyendo las vueltas de los ciclos y las parejas de aristas evaluadas; esta medida permitirá analizar el esfuerzo computacional requerido por cada algoritmo.
+El número de iteraciones totales se considera también una medida de interés. Representa el número total de operaciones computacionales que realiza cada algoritmo durante su ejecución, incluyendo las vueltas de los ciclos y las parejas de aristas evaluadas; esta medida permitirá analizar el esfuerzo computacional requerido por cada algoritmo.
 
-Por otro lado, se recopilará la ruta final obtenida, una lista que contiene a los índices que representan el orden en que se visitó cada ciudad. Con dicho recursos se realizarán los gráficos y se compararán las rutas creadas por cada algoritmo.
+Por otro lado, se recopilará la ruta final obtenida, una lista que contiene a los índices que representan el orden en que se visitó cada ciudad. Con dicho recurso se realizarán los gráficos y se compararán las rutas creadas por cada algoritmo.
 
 Finalmente, se obtendrá el porcentaje de mejora con respecto a la ruta inicial, que se calculará como: 
 
@@ -320,9 +307,39 @@ Las localidades se seleccionaron del archivo `CR.txt`, según los criterios desc
 
 Los algoritmos utilizaron una estrategia de búsqueda de la primera mejora, reiniciando la exploración después de cada intercambio aceptado y terminando cuando no se encontraron nuevas mejoras. Tras realizar pruebas preliminares con 15 localidades, se generaron 100 rutas iniciales aleatorias con una semilla fija de valor 2026. Los tres métodos recibieron las mismas rutas y utilizaron la misma matriz de distancias. Se registraron las longitudes finales, los porcentajes de mejora, el número de iteraciones totales y los tiempos de ejecución.
 
-Como pruebas complementarias, se examinó si aplicar nuevamente un algoritmo sobre su propia solución producía cambios. También se evaluaron, sobre una ruta inicial, todas las secuencias de dos y tres algoritmos sin repetición. A partir de esta exploración, se seleccionó la secuencia X-opt → Y-opt → 2-opt para aplicarla a las 100 rutas y compararla con 2-opt de manera directa. Además de esto, para validar la calidad de las soluciones locales encontradas por los algoritmos, se implementó un algoritmo de búsqueda exhaustiva, el cual revisa todas las rutas posibles y encuentra la ruta de menor longitud globalmente. Sin embargo, debido a su complejidad factorial, se implementó el algoritmo en una ruta de 11 ciudades en la cual se evaluarán $11! = 39916800$ permutaciones; los resultados obtenidos se compararán con los resultados de los tres algoritmos una vez aplicados a una ruta aleatoria de 11 ciudades.
+Como pruebas complementarias, se examinó si aplicar nuevamente un algoritmo sobre su propia solución producía cambios. También se evaluaron, sobre una ruta inicial, todas las secuencias de dos y tres algoritmos sin repetición. A partir de esta exploración, se seleccionó la secuencia X-opt → Y-opt → 2-opt para aplicarla a las 100 rutas y compararla con 2-opt de manera directa. Además de esto, para validar la calidad de las soluciones locales encontradas por los algoritmos, se implementó un algoritmo de búsqueda exhaustiva, el cual revisa todas las rutas posibles y encuentra la ruta de menor longitud globalmente. Sin embargo, debido a su complejidad factorial, se implementó el algoritmo en una ruta de 11 ciudades en la cual se evaluarán $11! = 39916800$ permutaciones; los resultados obtenidos se compararán con los resultados de los tres algoritmos una vez aplicados a una ruta aleatoria de 11 ciudades. Después, partiendo del hecho de que se conoce la ruta óptima de las 11 localidades, encontrada mediante el algoritmo de búsqueda exhaustiva, se evaluará la convergencia de los tres algoritmos a esta última, fijando progresivamente las localidades en el orden de la ruta óptima y estableciendo el máximo de fijaciones en tres. 
 
-Los resultados se resumieron mediante tablas, estadísticas descriptivas y gráficos. Además, se elaboró una animación en Python para visualizar los intercambios de 2-opt y la evolución de la longitud del recorrido. Finalmente, se contrastaron los hallazgos con el artículo de referencia, considerando las diferencias entre los conjuntos de datos.
+Por último, se adjunta la lógica subyacente a la programación de cada algoritmo. 
+
+
+\begin{algorithm}[H]
+\caption{Algoritmo X-opt}
+\label{alg:xopt}
+\begin{algorithmic}[1]
+
+\Require Ruta inicial $R$, matriz de distancias $D$ y coordenadas $C$
+\Ensure Ruta optimizada $R'$
+
+\State $mejorar \gets \text{Verdadero}$
+
+\While{$mejorar$}
+    \State $mejorar \gets \text{Falso}$
+    \ForAll{las parejas de aristas no adyacentes $(a,b)$ y $(c,d)$ de $R$}
+        \If{las aristas se cruzan}
+            \If{$D[a,c]+D[b,d] < D[a,b]+D[c,d]$}
+                \State Invertir el orden de las localidades ubicadas entre las dos aristas seleccionadas: $b$ y $c$
+                \State $mejorar \gets \text{Verdadero}$
+                \State Reiniciar la búsqueda
+            \EndIf
+        \EndIf
+    \EndFor
+\EndWhile
+
+\State \Return $R'$
+
+\end{algorithmic}
+\end{algorithm}
+
 
 ```{=latex}
 \begin{center}
@@ -342,7 +359,7 @@ En primera instancia, se compararán las longitudes finales de las rutas obtenid
 
 Posteriormente, se examinarán los tiempos de ejecución en vías de examinar el costo computacional de cada método. Esta comparación permitirá identificar cuál de los algoritmos requiere menos tiempo para alcanzar su solución y analizar si una mayor reducción en la longitud de la ruta implica también un mayor esfuerzo computacional. Se considerarán las diferencias entre los tiempos registrados en las distintas ejecuciones, así como su comportamiento general a través de la media.
 
-A partir de estas comparaciones, se buscará identificar las ventajas y las limitaciones de cada algoritmo en términos de reducción de distancias, tiempo de ejecución y comportamiento durante la búsqueda local. 
+A partir de estas comparaciones, se buscará identificar las ventajas y las limitaciones de cada algoritmo en términos de reducción de distancias, tiempo de ejecución y comportamiento durante la búsqueda local. Asimismo, el análisis de la aplicación de un algoritmo sobre su ruta optimizada, la comparación con el mecanismo de búsqueda exhaustiva y el estudio de la convergencia de los tres algoritmos hacia la ruta óptima encontrada con este último al fijar posiciones iniciales; en conjunto brindará una mayor comprensión en torno al comportamiento que 2-opt, X-opt y Y-opt presentan. 
 
 
 ```{=latex}
@@ -421,8 +438,6 @@ El algoritmo Y-opt redujo la longitud de los recorridos de las 100 rutas de 50 l
 Como puede observarse en los resultados obtenidos, el algoritmo Y-opt fue el que obtuvo un mayor tiempo que los otros dos algoritmos, los cuales obtuvieron 0,580721 segundos y  0,064491 segundos para X-opt y 2-opt respectivamente, esto puede deberse a que la condición de aceptación del algoritmo es la más estricta y por ende la que es más difícil de cumplir, esto hace que posiblemente esté realizando más iteraciones que los otros algoritmos.
 
 Un aspecto a remarcar es la cercanía entre la longitud final media (1001,643 km) y la mediana (999,794 km), las cuales distan por 1,849 km, esto indica que el algoritmo Y-opt no depende en gran medida de la calidad de la ruta inicial generada aleatoriamente, brindando resultados bastante homogéneos. Además de esto, el algoritmo mejoró la longitud de las rutas en el 100% de las ocasiones, lo cual indica que a pesar de que sea el algoritmo que posee la condición de aceptación más estricta, sigue logrando realizar intercambios los cuales hacen que la longitud de la ruta final sea menor que la de la ruta inicial, esto se ve reflejado también en el porcentaje de reducción media con respecto a la ruta inicial, en donde se encontró que en promedio se redujo la distancia de la ruta en un 67,991%.
-
-
 
 
 ## Aplicación de un algoritmo sobre su propia solución
@@ -560,18 +575,6 @@ Por último, los tiempos de ejecución dependen de las características del equi
 \end{center}
 ```
 
-```{=latex}
-\begin{center}
-```
-
-```{=latex}
-{\fontsize{12pt}{14pt}\selectfont\textbf{ANEXOS}}
-```
-
-```{=latex}
-\end{center}
-```
-
 | Índice | Nombre | Provincia | Código | Población | Latitud | Longitud | x (km) | y (km) |
 |-------:|:-------|:----------|:-------|----------:|--------:|---------:|-------:|-------:|
 | 0 | San José | San José | PPLC | 335007 | 9,934 | -84,085 | 12,4 | -5,1 |
@@ -623,6 +626,4 @@ Por último, los tiempos de ejecución dependen de las características del equi
 | 46 | San Josecito | Heredia | PPL | 12195 | 10,013 | -84,108 | 9,9 | 3,6 |
 | 47 | Escazú | San José | PPL | 12071 | 9,919 | -84,14 | 6,3 | -6,8 |
 | 48 | Naranjo | Alajuela | PPL | 11853 | 10,099 | -84,378 | -19,8 | 13,2 |
-| 49 | Buenos Aires | Puntarenas | PPL | 11680 | 9,173 | -83,333 | 94,7 | -89,7 |
-
-: Localidades seleccionadas. {#tbl-localidades}
+| 49 | Buenos Aires | Puntarenas | PPL | 11680 | 9,173 | -83,333 | 94,7 | -89,7 | 
