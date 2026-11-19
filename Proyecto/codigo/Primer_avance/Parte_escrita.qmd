@@ -132,19 +132,19 @@ Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que cor
 
 De las 19 variables se utilizaron siete: el identificador del registro (`geonameid`), el nombre, la latitud y la longitud en grados decimales (WGS84), la clase y el código del tipo de rasgo (por ejemplo, `PPL`, `PPLA` o `PPLC`), la división administrativa de primer nivel (`admin1`), que se tradujo al nombre de la provincia con el archivo `admin1CodesASCII.txt` de GeoNames, y la población reportada. Las coordenadas son la base para construir las coordenadas planas y la matriz de distancias, y la población se emplea como criterio de selección. Las variables restantes no intervienen en los algoritmos; además, `elevacion` está vacía en el 99,6 % de los registros (21 349 de 21 426) y `admin4` está vacía en prácticamente todos.
 
-Para construir el conjunto de localidades se conservaron únicamente los registros de clase `P` y se descartaron los códigos `PPLQ`, `PPLW` y `PPLH`, que corresponden a poblados abandonados, destruidos o históricos. Luego se conservaron las localidades con población mayor que cero, filtro necesario porque el 97,8 % de los lugares poblados reporta población igual a cero, es decir, sin información disponible. Después se eliminaron los registros con coordenadas repetidas, entendidas como las que coinciden al redondear a tres decimales (aproximadamente 100 m), y entre ellos se conservó el de mayor población; este filtro se aplicó porque @manthey2025performance suponen que no hay dos puntos en la misma posición, supuesto con el que X-opt puede decidir si dos aristas se cruzan. Tras aplicar estos filtros quedaron 128 localidades, de las cuales se seleccionaron las 50 con mayor población, que se ordenaron de forma decreciente y se numeraron de 0 a 49 para usarse como índices en las rutas.
+Se conservaron los registros de clase P, excluyendo poblados abandonados, destruidos o históricos (PPLQ, PPLW y PPLH), y aquellos con población igual a cero, que representan el 97,8 % del archivo. También se eliminaron las coordenadas coincidentes al redondear a tres decimales, conservando en cada caso el registro de mayor población. Esto permite cumplir el supuesto de posiciones distintas usado por X-opt para detectar cruces de aristas (@manthey2025performance). De las 128 localidades resultantes se eligieron las 50 más pobladas, ordenadas de mayor a menor y numeradas del 0 al 49 para representar las rutas.
 
 Las coordenadas geográficas se convirtieron a coordenadas planas en kilómetros mediante la proyección equirectangular (cilíndrica equidistante) para la esfera [@snyder1987, pp. 90-91], con $x = R\cos(\varphi_1)(\lambda-\lambda_0)$ y $y = R(\varphi-\varphi_0)$, donde $R = 6371$ km es el radio medio terrestre, $\varphi_1$ es el paralelo estándar, $(\varphi_0,\lambda_0)$ es el origen del plano y los ángulos se expresan en radianes. Se tomó como origen el promedio de las latitudes y de las longitudes de las 50 localidades, y el paralelo estándar se fijó en esa misma latitud, es decir, $\varphi_1=\varphi_0$; restar $\varphi_0$ en $y$ solo traslada el origen. Esto es necesario porque X-opt requiere determinar si dos aristas se cruzan en el plano [@manthey2025performance]. A partir de estas coordenadas se construyó la matriz de distancias euclidianas de tamaño $50 \times 50$, que es simétrica y tiene ceros en la diagonal.
 
-La población de las 50 localidades tiene un mínimo de 11 680, una mediana de 25 198, una media de 31 050 y un máximo de 335 007 habitantes, correspondiente a San José. La media supera a la mediana, lo que indica una distribución asimétrica a la derecha. Las latitudes están entre 9,173° y 10,952° N y las longitudes entre −85,585° y −83,036° O. Por provincia, 24 localidades pertenecen a San José, cinco a Alajuela, cinco a Cartago, cinco a Heredia, cuatro a Guanacaste, cuatro a Puntarenas y tres a Limón. Según las coordenadas planas, 30 de las 50 localidades (60 %), incluida San José, quedan a 20 km o menos del centro de San José, mientras que Liberia, Santa Cruz, San José (Alajuela) y Nicoya quedan a más de 150 km (@fig-localidades). Esta concentración implica que la distribución espacial difiere de la uniforme utilizada por @manthey2025performance, lo cual se retomará al comparar resultados.
+La población de las 50 localidades varía entre 11 680 y 335 007 habitantes, con mediana de 25 198 y media de 31 050; el valor máximo corresponde a San José. La distribución espacial se concentra en esa provincia, que reúne 24 localidades, y 30 de las 50 se ubican a 20 km o menos del centro de la capital (@fig-localidades). Esta concentración difiere de la distribución uniforme utilizada por @manthey2025performance y se considerará al comparar los resultados.
 
 ![Ubicación geográfica de las 50 localidades seleccionadas.](../../figuras/localidades.png){#fig-localidades width=60%}
 
-Al examinar el conjunto resultante se identificaron algunas limitaciones, que provienen tanto de la fuente como del criterio de selección. La primera surge de la variable de población ya que al revisar sus valores en el archivo completo se observó que el 97,8 % de los lugares poblados la reporta como cero, por lo que la selección depende del 2,2 % restante. Además, esta población proviene de GeoNames y no de un censo oficial, de modo que sirve para ordenar y seleccionar las localidades, pero no como una medida precisa de su tamaño.
+El conjunto de 50 localidades presenta tres limitaciones. En primer lugar, la selección se basa en la población registrada por GeoNames, aunque el 97,8 % de los lugares poblados del archivo tiene un valor de cero. Por ello, solo el 2,2 % restante puede entrar en la selección. Además, las cifras no provienen de un censo oficial, por lo que no constituye una medida precisa de su tamaño.
 
-Al revisar los códigos de las 50 localidades seleccionadas se encontró una segunda limitación: seis de ellas (por ejemplo, San Francisco e Ipís) tienen código `PPLX`, que GeoNames asigna a secciones de un lugar poblado y no a poblados independientes, por lo que algunas localidades representan zonas del área urbana más que poblados separados. De forma similar, al comparar los nombres se observó que dos localidades comparten el nombre "San José" (índices 0 y 10). No se trata de un registro duplicado, pues la segunda es una localidad de Alajuela que queda a unos 160 km de la capital y, al tener coordenadas distintas, el filtro de coordenadas únicas no la elimina, por lo que ambas se distinguen por su índice.
+En segundo lugar, seis localidades, entre ellas San Francisco e Ipís, tienen el código `PPLX`, que identifica secciones de un lugar poblado y no poblados independientes. También hay dos localidades llamadas «San José» (índices 0 y 10). Son lugares distintos, con coordenadas diferentes, por lo que se distinguen mediante sus índices.
 
-Por último, al ubicar las localidades en el mapa (@fig-localidades) se constató que, al conservar solo las más pobladas, el conjunto se concentra en el área metropolitana de San José y no representa de forma pareja el resto del territorio. Esta consecuencia directa del criterio de selección condiciona la interpretación de los resultados, por lo que se retoma en las limitaciones del estudio.
+Por último, el criterio de escoger las localidades más pobladas concentra el conjunto en el área metropolitana de San José (@fig-localidades). Esta distribución limita la representatividad territorial y debe considerarse al interpretar los resultados.
 
 ```{=latex}
 \begin{center}
@@ -159,7 +159,7 @@ Por último, al ubicar las localidades en el mapa (@fig-localidades) se constat�
 ```
 
 
-La metodología se organizó en cuatro métodos complementarios: la construcción de la fundamentación teórica que sostiene al proyecto, la definición de las métricas de interés para el análisis, la implementación de los diversos algoritmos en el lenguaje de programación Python y la valoración del desempeño de los algoritmos en base a las métricas definidas. Esta organización permitió avanzar desde una interiorización del fundamento teórico hacia un análisis más específico en torno al desempeño mostrado por cada algoritmo. A continuación, se detalla a mayor profundidad los métodos mencionados. 
+La metodología se organizó en cuatro métodos complementarios: la construcción de la fundamentación teórica que sostiene al proyecto, la definición de las métricas de interés para el análisis, la implementación de los diversos algoritmos en el lenguaje de programación Python y la valoración del desempeño de los algoritmos en base a las métricas definidas y algunas prueba adicionales. Esta organización permitió avanzar desde una interiorización del fundamento teórico hacia un análisis más específico en torno al desempeño mostrado por cada algoritmo. A continuación, se detalla a mayor profundidad los métodos mencionados. 
  
 
 ```{=latex}
@@ -183,38 +183,13 @@ Ante esta dificultad, se utilizan métodos heurísticos que buscan obtener recor
 
 En segundo lugar, se profundiza en el algoritmo 2-opt. El algoritmo 2-opt es una heurística de búsqueda local que mejora una ruta mediante el intercambio de dos aristas no adyacentes. En cada paso, estas aristas se eliminan y se sustituyen por otras dos, conservando un único recorrido cerrado que visite cada localidad exactamente una vez. El intercambio se acepta únicamente cuando reduce la longitud total de la ruta [@manthey2025performance].
 
-Sea $T$ una ruta y considere las aristas $e_1=(a,b)$ y $f_1=(c,d)$, cuyos extremos aparecen en ese orden en el recorrido. El movimiento 2-opt sustituye estas aristas por $e_2=(a,c)$ y $f_2=(b,d)$, lo cual requiere invertir el orden del segmento comprendido entre $b$ y $c$. Si $\ell(e)$ representa la longitud de una arista $e$, el criterio de aceptación es
+Sea $T$ una ruta y considere las aristas $e_1=(a,b)$ y $f_1=(c,d)$, cuyos extremos aparecen en ese orden en el recorrido. El movimiento 2-opt sustituye estas aristas por $e_2=(a,c)$ y $f_2=(b,d)$, lo cual requiere invertir el orden del segmento comprendido entre $b$ y $c$. Si $\ell(e)$ representa la longitud de una arista $e$, el criterio de aceptación es $\ell(e_2)+\ell(f_2)<\ell(e_1)+\ell(f_1).$
 
-$$
-\ell(e_2)+\ell(f_2)<\ell(e_1)+\ell(f_1).
-$$
-
-Como las distancias utilizadas en este proyecto son simétricas, invertir el segmento intermedio no modifica la suma de sus distancias internas. Por tanto, basta con comparar las dos aristas eliminadas con las dos nuevas. La longitud de la ruta modificada $T'$ satisface
-
-$$
-\ell(T')
-=
-\ell(T)-\ell(e_1)-\ell(f_1)+\ell(e_2)+\ell(f_2).
-$$
-
-En consecuencia, el criterio de aceptación garantiza que $\ell(T')<\ell(T)$.
+Como las distancias utilizadas en este proyecto son simétricas, invertir el segmento intermedio no modifica la suma de sus distancias internas. Por tanto, basta con comparar las dos aristas eliminadas con las dos nuevas. La longitud de la ruta modificada $T'$ satisface $\ell(T')=\ell(T)-\ell(e_1)-\ell(f_1)+\ell(e_2)+\ell(f_2).$ En consecuencia, el criterio de aceptación garantiza que $\ell(T')<\ell(T)$.
 
 La terminación se justifica porque existe una cantidad finita de recorridos y cada intercambio aceptado disminuye estrictamente la longitud. Por ello, el algoritmo no puede regresar a una ruta anteriormente visitada. Al finalizar, se obtiene un óptimo local respecto de los movimientos 2-opt, es decir, una ruta que no puede acortarse mediante ninguno de estos intercambios. Esta condición no garantiza que se haya encontrado el óptimo global.
 
-Para analizar el esfuerzo computacional, una ruta cerrada de $n$ localidades tiene $n$ aristas. De las parejas posibles, se excluyen las $n$ parejas de aristas adyacentes, por lo que una exploración completa considera
-
-$$
-\binom{n}{2} - n=
-\frac{n(n-1)}{2}-n
-=
-\frac{n(n-3)}{2}
-$$
-
-parejas válidas. En este proyecto, para $n=50$, se obtiene
-
-$$
-\frac{50(50-3)}{2}=1175.
-$$
+Para analizar el esfuerzo computacional, una ruta cerrada de $n$ localidades tiene $n$ aristas. De las parejas posibles, se excluyen las $n$ parejas de aristas adyacentes, por lo que una exploración completa considera $\binom{n}{2} - n=\frac{n(n-1)}{2}-n=\frac{n(n-3)}{2}$ parejas válidas. 
 
 Este valor corresponde al número de parejas examinadas en una pasada completa, no al número total de evaluaciones durante toda la ejecución. Al aceptar una mejora, la búsqueda se reinicia y puede volver a examinar parejas sobre la ruta modificada. Aunque cada pasada requiere un número de evaluaciones de orden $O(n^2)$, esto no implica que la ejecución completa tenga un costo cuadrático. También debe considerarse la cantidad de intercambios y de reinicios necesarios para alcanzar un óptimo local; 2-opt puede requerir un número exponencial de pasos en casos desfavorables [@manthey2025performance], por lo tanto, los tiempos reducidos observados en los experimentos describen su comportamiento en las instancias estudiadas, sin establecer una garantía general de tiempo polinomial.
 
@@ -387,7 +362,6 @@ Por último, se adjunta la lógica subyacente a la programación de cada algorit
 \end{algorithmic}
 \end{algorithm}
 
-
 ```{=latex}
 \begin{center}
 ```
@@ -421,127 +395,59 @@ A partir de estas comparaciones, se buscará identificar las ventajas y las limi
 \end{center}
 ```
 
-## Desempeño del algoritmo 2-opt
+```{=latex}
+\begin{center}
+```
 
-En las 100 rutas iniciales de 50 localidades, el algoritmo 2-opt redujo la longitud de todos los recorridos. La longitud final media fue de 898,311 km y la mediana de 897,133 km, mientras que el porcentaje medio de reducción respecto de las rutas iniciales fue del 71,285 %. El tiempo medio de ejecución registrado fue de 0,064491 segundos (@tbl-resultados-2opt).
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{VALORACIÓN DEL DESEMPEÑO DE LOS ALGORITMOS CON BASE EN LAS MÉTRICAS DEFINIDAS}}
+```
 
-| Medida | Resultado |
-|:--|--:|
-| Longitud final media (km) | 898,311 |
-| Longitud final mediana (km) | 897,133 |
-| Reducción media respecto de la ruta inicial (%) | 71,285 |
-| Tiempo medio de ejecución (s) | 0,064491 |
-| Rutas con menor longitud que la inicial | 100 de 100 |
+```{=latex}
+\end{center}
+```
 
-: Resumen del desempeño de 2-opt sobre las 100 rutas iniciales. {#tbl-resultados-2opt}
+En primer lugar, el algortimo 2-opt, en las 100 rutas iniciales de 50 localidades redujo la longitud de todos los recorridos. La longitud final media fue de 898,311 km y la mediana de 897,133 km, mientras que el porcentaje medio de reducción respecto de las rutas iniciales fue del 71,285 %. El tiempo medio de ejecución registrado fue de 0,064491 segundos.
 
-Entre los tres algoritmos individuales, 2-opt alcanzó la menor longitud final en 98 de las 100 comparaciones, mientras que Y-opt la alcanzó en las dos restantes. Además, la longitud media de Y-opt fue un 11,503 % mayor que la de 2-opt y la de X-opt un 69,643 % mayor.
+Estos resultados describen el desempeño de 2-opt en las condiciones del estudio. Dado que las rutas iniciales se generaron aleatoriamente y se desconoce la longitud óptima para las 50 localidades, el porcentaje de reducción no permite determinar qué tan cerca están las soluciones del óptimo global.
 
-Estos resultados muestran un comportamiento favorable de 2-opt en el conjunto estudiado. Sin embargo, la reducción media del 71,285 % se calcula respecto de recorridos iniciales aleatorios y no representa una medida de cercanía al óptimo global. Al no disponer de la longitud óptima para las 50 localidades, no es posible determinar la brecha de optimalidad de las soluciones obtenidas.
+En segundo lugar, en relación con la ejecución del algoritmo X-opt sobre las rutas generadas, se encontró que este redujo la longitud de la totalidad de los recorridos. Asimismo, el estudio de las medidas de interés permitió determinar que bajo el presente algoritmo la longitud final media fue de 1523,920 km y la mediana de la longitud final adoptó un valor de 1497,804 km; el porcentaje medio de mejora frente a las rutas iniciales fue del 51,321 %. Después, el tiempo medio de ejecución registrado fue de 0,580721 segundos. 
 
-Asimismo, las dos comparaciones favorables a Y-opt muestran que permitir un conjunto más amplio de movimientos no garantiza que una ejecución concreta termine en una mejor solución. La ruta inicial y el orden de los intercambios aceptados influyen en la trayectoria de búsqueda y en el óptimo local alcanzado.
+Por otro lado, X-opt se limita a intercambios entre aristas que se cruzan geométricamente. Por ello, puede detenerse cuando ya no hay cruces, aunque la ruta todavía pueda acortarse mediante otros intercambios. Como señalan @manthey2025performance, la ausencia de cruces no garantiza cercanía al óptimo global; en este estudio tampoco se conoce la longitud óptima para medir esa diferencia.
 
-El tiempo medio reducido tampoco establece una garantía de tiempo polinomial. Como señala @manthey2025performance, 2-opt puede requerir un número exponencial de intercambios en casos desfavorables. Los tiempos observados describen su comportamiento para las localidades, las implementaciones y las condiciones de ejecución de este estudio.
+En tercer lugar, el algoritmo Y-opt redujo la longitud de los recorridos de las 100 rutas de 50 localidades. La longitud media de la ruta obtenida a partir de la aplicación del algoritmo fue de 1001.643 km y la mediana fue de 999.794; por otro lado, en promedio la reducción de longitud respecto a la ruta inicial fue de 67.991% y el tiempo medio de ejecución del algoritmo fue de 0.96091 segundos. 
 
-## Desempeño del algoritmo X-opt
+Un aspecto a remarcar es la cercanía entre la longitud final media (1001,643 km) y la mediana (999,794 km), las cuales distan por 1,849 km, esto indica que el algoritmo Y-opt no depende en gran medida de la calidad de la ruta inicial generada aleatoriamente, brindando resultados bastante homogéneos. Aunque Y-opt tiene la condición de aceptación más estricta, redujo la longitud de las 100 rutas iniciales. La reducción media fue del 67,991 %.
 
-A partir de la ejecución del algoritmo X-opt sobre las rutas generadas, se encontró que este redujo la longitud de la totalidad de los recorridos. Asimismo, el estudio de las medidas de interés permitió determinar que bajo el presente algoritmo la longitud final media fue de 1523,920 km y la mediana de la longitud final adoptó un valor de 1497,804 km; el porcentaje medio de mejora frente a las rutas iniciales fue del 51,321 %. Después, el tiempo medio de ejecución registrado fue de 0,580721 segundos. A continuación, se extiende la tabla que ilustra los resultados descritos: (@tbl-resultados-Xopt).
+De forma agregada, al comparar los tres algoritmos sobre las mismas 100 rutas iniciales, 2-opt obtuvo la menor longitud final en 98 casos y Y-opt en los dos restantes. En promedio, las rutas finales de Y-opt fueron un 11,503 % más largas que las de 2-opt, mientras que las de X-opt fueron un 69,643 % más largas.
 
-| Medida | Resultado |
-|:--|--:|
-| Longitud final media (km) | 1523,92 |
-| Longitud final mediana (km) | 1497,804 |
-| Reducción media respecto de la ruta inicial (%) | 51,321 |
-| Tiempo medio de ejecución (s) | 0,580721 |
-| Rutas con menor longitud que la inicial | 100 de 100 |
+Los tres algoritmos mejoraron todas las rutas iniciales, aunque en distinta medida. La reducción media fue del 71,285 % para 2-opt, del 67,991 % para Y-opt y del 51,321 % para X-opt. El menor porcentaje de X-opt podría relacionarse con su criterio de intercambio, que se limita a aristas que se cruzan geométricamente y, por tanto, restringe los movimientos disponibles.
 
-: Resumen del desempeño de X-opt sobre las 100 rutas iniciales. {#tbl-resultados-Xopt}
+En cuanto al tiempo medio de ejecución, 2-opt fue el más rápido, con 0,064491 segundos, seguido de X-opt, con 0,580721 segundos, y Y-opt, con 0,96091 segundos. Así, X-opt requirió más tiempo que 2-opt pese a lograr una menor reducción media. La condición de aceptación más estricta de Y-opt podría influir en su tiempo de ejecución, pero no es posible afirmar que realizó más iteraciones sin medirlas. Estos tiempos corresponden a las localidades, implementaciones y condiciones de ejecución del estudio; en particular, el tiempo observado para 2-opt no implica una garantía de tiempo polinomial, pues en casos desfavorables puede requerir un número exponencial de intercambios (@manthey2025performance).
 
+```{=latex}
+\begin{center}
+```
 
-A pesar de que X-opt logró mejorar las rutas iniciales en la totalidad de los casos estudiados, se precisa analizar su desempeño frente a los demás algoritmos. Se tiene que el porcentaje medio de mejora del algoritmo 2-opt adquirió un valor de 71,285 %, mientras que en el caso del algoritmo Y-opt el mismo alcanzó un valor de 67,991 %; de esta forma, es posible notar que el algoritmo X-opt posee el porcentaje de mejora de más bajo:  presenta un menor nivel de mejora con respecto a los recorridos aleatorios utilizados como punto de partida. Tal diferencia puede estar vinculada a la naturaleza mayormente restrictiva de X-opt, ya que únicamente permite realizar intercambios entre aristas que se intersectan geométricamente, limitando las posibilidades de modificación de las rutas.
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{ESTABILIDAD DE LAS SOLUCIONES Y EFECTO DEL ORDEN DE APLICACIÓN}}
+```
 
-Por otra parte, el tiempo medio de ejecución fue de 0,580721 segundos, superior al registrado por 2-opt: 0,064491 segundos e inferior al reportado por Y-opt: 0,96091 segundos. De lo anterior, se destaca que, bajo las condiciones tanto de implementación como de ejecución del presente estudio, X-opt requirió más tiempo para procesar las rutas en comparación a 2-opt, a pesar de alcanzar una menor reducción media de las distancias iniciales.
+```{=latex}
+\end{center}
+```
 
-Por otro lado, resulta fundamental señalar que la ausencia de cruces no garantiza que la ruta obtenida sea cercana al óptimo global. Como explican @manthey2025performance, una solución sin cruces constituye un óptimo local para X-opt, pero puede presentar una longitud considerablemente superior a la de una solución óptima. Los autores demuestran que, en determinadas instancias, la relación entre la longitud de una ruta obtenida mediante X-opt y la longitud óptima puede crecer proporcionalmente al número de localidades.
+Primero se examinó qué ocurre al aplicar cada algoritmo sobre su propia solución, utilizando la primera ruta inicial de 50 localidades. La segunda ejecución conservó tanto el orden de las localidades como la longitud obtenida en la primera: 899,555 km para 2-opt, 1517,873 km para X-opt y 986,319 km para Y-opt. Esto concuerda con la condición de terminación de los métodos, pues cada primera ejecución ya había concluido sin encontrar nuevos movimientos aceptables.
 
-Recapitulando, los resultados obtenidos evidencian que X-opt consiguió reducir las distancias de todas las rutas iniciales, aunque presentó un porcentaje medio de mejora inferior y un mayor tiempo de ejecución en comparación con 2-opt. Estas observaciones describen su comportamiento en las 100 instancias analizadas, pero no permiten establecer qué tan cerca se encuentran las soluciones obtenidas del óptimo global.
+Aun sin modificar las rutas, cada segunda ejecución evaluó las 1175 parejas de aristas no adyacentes correspondientes a una exploración completa de 50 localidades $\frac{50(50-3)}{2}=1175.$
 
+Los tres algoritmos examinaron la misma cantidad de parejas, aunque aplicaron distintos criterios de aceptación. Por tanto, repetir un algoritmo bajo las mismas condiciones añade el costo de comprobar nuevamente la ruta, pero no mejora una solución que ya es localmente óptima para ese método.
 
-## Desempeño del algoritmo Y-opt
+A partir de este resultado, se exploró si cambiar de algoritmo podía producir una ruta más corta. Sobre la misma ruta inicial se probaron las aplicaciones individuales y todas las secuencias de dos y tres algoritmos sin repetición. La menor longitud, de 896,280 km, se obtuvo con X-opt → Y-opt → 2-opt, frente a los 899,555 km de aplicar 2-opt directamente. También X-opt → 2-opt alcanzó una longitud menor, de 898,734 km; añadir Y-opt al final no la modificó. En cambio, Y-opt → 2-opt y Y-opt → X-opt → 2-opt terminaron con 903,360 km y 902,822 km, respectivamente, ambas por encima del resultado de 2-opt directo.
 
+El orden también influyó en las secuencias que no terminaron con 2-opt: Y-opt → X-opt produjo una ruta de 945,881 km, mientras que X-opt → Y-opt terminó en 952,680 km. Por otra parte, ninguna secuencia que comenzó con 2-opt mejoró sus 899,555 km. Esto es consistente con que los movimientos aceptados por X-opt y Y-opt son más restrictivos que los movimientos de mejora de 2-opt: una vez que este último termina, los otros métodos no encuentran un intercambio aceptable. En conjunto, la prueba exploratoria muestra que las etapas previas pueden cambiar la ruta desde la cual 2-opt inicia su búsqueda y conducirlo a distintos óptimos locales; añadir algoritmos no garantiza una mejora.
 
-El algoritmo Y-opt redujo la longitud de los recorridos de las 100 rutas de 50 localidades. La longitud media de la ruta obtenida a partir de la aplicación del algoritmo fue de 1001.643 km y la mediana fue de 999.794; por otro lado, en promedio la reducción de longitud respecto a la ruta inicial fue de 67.991% y el tiempo medio de ejecución del algoritmo fue de 0.96091 segundos. Estas medidas se resumen en la @tbl-resultados-Yopt.
-
-| Medida | Resultado |
-|:--|--:|
-| Longitud final media (km) | 1001,643 |
-| Longitud final mediana (km) | 999,794 |
-| Reducción media respecto de la ruta inicial (%) | 67,991 |
-| Tiempo medio de ejecución (s) | 0,96091 |
-| Rutas con menor longitud que la inicial | 100 de 100 |
-
-: Resumen del desempeño de Y-opt sobre las 100 rutas iniciales. {#tbl-resultados-Yopt}
-
-Como puede observarse en los resultados obtenidos, el algoritmo Y-opt fue el que obtuvo un mayor tiempo que los otros dos algoritmos, los cuales obtuvieron 0,580721 segundos y  0,064491 segundos para X-opt y 2-opt respectivamente, esto puede deberse a que la condición de aceptación del algoritmo es la más estricta y por ende la que es más difícil de cumplir, esto hace que posiblemente esté realizando más iteraciones que los otros algoritmos.
-
-Un aspecto a remarcar es la cercanía entre la longitud final media (1001,643 km) y la mediana (999,794 km), las cuales distan por 1,849 km, esto indica que el algoritmo Y-opt no depende en gran medida de la calidad de la ruta inicial generada aleatoriamente, brindando resultados bastante homogéneos. Además de esto, el algoritmo mejoró la longitud de las rutas en el 100% de las ocasiones, lo cual indica que a pesar de que sea el algoritmo que posee la condición de aceptación más estricta, sigue logrando realizar intercambios los cuales hacen que la longitud de la ruta final sea menor que la de la ruta inicial, esto se ve reflejado también en el porcentaje de reducción media con respecto a la ruta inicial, en donde se encontró que en promedio se redujo la distancia de la ruta en un 67,991%.
-
-
-## Aplicación de un algoritmo sobre su propia solución
-
-Se examinó la aplicación repetida de cada algoritmo utilizando la primera ruta inicial de 50 localidades. Después de obtener la solución de cada método, esta se utilizó como entrada de una segunda ejecución del mismo algoritmo. En los tres casos se conservaron tanto el orden de las localidades como la longitud del recorrido (@tbl-repeticion-algoritmos).
-
-| Algoritmo | Longitud tras la primera ejecución (km) | Longitud tras la segunda ejecución (km) | Parejas evaluadas en la segunda ejecución |
-|:--|--:|--:|--:|
-| 2-opt | 899,555 | 899,555 | 1175 |
-| X-opt | 1517,873 | 1517,873 | 1175 |
-| Y-opt | 986,319 | 986,319 | 1175 |
-
-: Resultados de aplicar nuevamente cada algoritmo sobre su propia solución. {#tbl-repeticion-algoritmos}
-
-La ausencia de cambios concuerda con la condición de terminación de los algoritmos. La primera ejecución ya había completado una exploración sin encontrar movimientos aceptables. Por ello, al recibir la misma ruta y mantener las distancias y los criterios de aceptación, la segunda ejecución volvió a comprobar esa condición sin modificar el recorrido.
-
-Aunque no se aceptaron nuevos intercambios, cada algoritmo examinó las 1175 parejas de aristas no adyacentes. Este valor corresponde a una exploración completa para 50 localidades, pues
-
-$$
-\frac{50(50-3)}{2}=1175.
-$$
-
-La coincidencia en el número de parejas evaluadas no implica que los algoritmos realicen exactamente las mismas operaciones, puesto que sus condiciones de aceptación son diferentes. En consecuencia, repetir el mismo procedimiento bajo las mismas condiciones genera un costo adicional de comprobación, pero no permite continuar mejorando una solución que ya es localmente óptima para ese método.
-
-## Efecto del orden de aplicación de los algoritmos
-
-Sobre la primera ruta inicial se compararon las aplicaciones individuales y todas las secuencias de dos y tres algoritmos sin repetición. Los resultados variaron según el orden utilizado (@tbl-secuencias-exploratorias).
-
-| Procedimiento | Longitud final (km) |
-|:--|--:|
-| X-opt → Y-opt → 2-opt | 896,280 |
-| X-opt → 2-opt | 898,734 |
-| X-opt → 2-opt → Y-opt | 898,734 |
-| 2-opt | 899,555 |
-| 2-opt → X-opt | 899,555 |
-| 2-opt → Y-opt | 899,555 |
-| 2-opt → X-opt → Y-opt | 899,555 |
-| 2-opt → Y-opt → X-opt | 899,555 |
-| Y-opt → X-opt → 2-opt | 902,822 |
-| Y-opt → 2-opt | 903,360 |
-| Y-opt → 2-opt → X-opt | 903,360 |
-| Y-opt → X-opt | 945,881 |
-| X-opt → Y-opt | 952,680 |
-| Y-opt | 986,319 |
-| X-opt | 1517,873 |
-
-: Comparación exploratoria de las secuencias sobre una misma ruta inicial. {#tbl-secuencias-exploratorias}
-
-En esta prueba, la secuencia X-opt → Y-opt → 2-opt obtuvo la menor longitud, con 896,280 km, frente a los 899,555 km de 2-opt directo. Sin embargo, otras secuencias que también terminaron con 2-opt produjeron recorridos más largos que su aplicación directa.
-
-Estas diferencias muestran que aplicar X-opt o Y-opt antes de 2-opt modifica la ruta desde la cual este último comienza su búsqueda. Por tanto, el orden de aplicación puede conducir a distintos óptimos locales, sin garantizar que añadir etapas produzca una solución de menor longitud.
-
-Por otra parte, añadir X-opt o Y-opt después de completar 2-opt no redujo la longitud del recorrido. Este comportamiento es consistente con sus criterios de aceptación, ya que los movimientos permitidos por X-opt y Y-opt son restricciones de los movimientos de mejora de 2-opt. En consecuencia, una ruta que ya no admite mejoras 2-opt tampoco debería admitir mejoras mediante estos criterios más restrictivos.
-
-## Comparación entre 2-opt directo y la secuencia seleccionada
-
-A partir de la prueba exploratoria, se extendió la evaluación de X-opt → Y-opt → 2-opt a las 100 rutas iniciales y se comparó con 2-opt directo. La secuencia presentó una longitud media de 902,788 km, superior a los 898,311 km de 2-opt, y una menor reducción media respecto de las rutas iniciales (@tbl-comparacion-secuencia).
+Para evaluar si la ventaja de X-opt → Y-opt → 2-opt se mantenía más allá de la primera ruta, se aplicó esa secuencia a las 100 rutas iniciales y se comparó con 2-opt directo (@tbl-comparacion-secuencia).
 
 | Medida | 2-opt directo | X-opt → Y-opt → 2-opt |
 |:--|--:|--:|
@@ -553,13 +459,21 @@ A partir de la prueba exploratoria, se extendió la evaluación de X-opt → Y-o
 
 : Comparación de 2-opt directo con la secuencia sobre las mismas 100 rutas iniciales. {#tbl-comparacion-secuencia}
 
-La secuencia produjo rutas más cortas en 38 casos y más largas en 62, sin empates dentro de la tolerancia utilizada. Su longitud media fue 4,477 km mayor, una diferencia aproximada del 0,498 % respecto de 2-opt directo. Además, su tiempo medio aumentó en 0,239216 segundos y fue aproximadamente 4,71 veces el de 2-opt.
+La secuencia obtuvo rutas más cortas en 38 casos y más largas en 62, sin empates dentro de la tolerancia utilizada. Su longitud final media superó en 4,477 km a la de 2-opt directo, una diferencia aproximada del 0,498 %. Además, su tiempo medio fue 0,239216 segundos mayor, equivalente a unas 4,71 veces el tiempo de 2-opt. Así, aunque la secuencia mejoró algunos recorridos, la ventaja observada en la primera ruta no se mantuvo en promedio al evaluar las 100: 2-opt directo obtuvo menores longitudes media y mediana con menos tiempo de ejecución.
 
-Por tanto, la ventaja observada para la secuencia en la prueba exploratoria no se mantuvo en promedio al ampliar su evaluación. Aunque combinar los algoritmos permitió obtener mejores recorridos en algunos casos, 2-opt directo presentó menores longitudes media y mediana, además de un menor tiempo de ejecución. Para las rutas analizadas, las etapas adicionales no ofrecieron una ventaja promedio que compensara su mayor costo computacional.
+Esta comparación se limita a la secuencia seleccionada y a las implementaciones utilizadas. Todas las secuencias se exploraron sobre una sola ruta, pero únicamente X-opt → Y-opt → 2-opt se evaluó sobre las 100 rutas. Además, estas corresponden a distintos recorridos iniciales sobre las mismas 50 localidades, no a 100 configuraciones geográficas independientes.
 
-Esta interpretación se limita a la secuencia seleccionada y a las implementaciones utilizadas. Todas las secuencias se exploraron sobre una sola ruta, mientras que únicamente X-opt → Y-opt → 2-opt se comparó con 2-opt directo sobre las 100 rutas. Además, estas pruebas corresponden a distintos recorridos iniciales sobre un mismo conjunto de localidades, por lo que no representan 100 configuraciones geográficas independientes.
+```{=latex}
+\begin{center}
+```
 
-## Comparación entre búsqueda exhaustiva y los algoritmos 2-opt, X-opt y Y-opt
+```{=latex}
+{\fontsize{11pt}{14pt}\selectfont\textbf{COMPARACIÓN CON EL ÓPTIMO GLOBAL Y EFECTO DE FIJAR LOCALIDADES}}
+```
+
+```{=latex}
+\end{center}
+```
 
 Para realizar la comparación entre la búsqueda exhaustiva y los tres algoritmos desarrollados a lo largo del proyecto, se utilizó una ruta de 11 ciudades debido a que para encontrar la solución global realizando todas las permutaciones posibles para 11 ciudades se necesita realizar $11! = 39916800$ iteraciones. Por otro lado, para realizar la ejecución de los algoritmos se utilizó una ruta inicial aleatoria de 11 ciudades, la cual se utilizó en los tres algoritmos. Los resultados obtenidos se muestran en la @tbl-comparativa-exhaustiva.
 
@@ -575,6 +489,12 @@ Para realizar la comparación entre la búsqueda exhaustiva y los tres algoritmo
 Como puede observarse en la @tbl-comparativa-exhaustiva, la búsqueda exhaustiva encontró que la ruta con menor longitud mide 673,374 km, sin embargo, le tomó 39916800 iteraciones y tardó 256,367 segundos en ejecutarse, lo cual corresponde aproximadamente a 4 minutos y 16,367 segundos. Por otro lado, el algoritmo 2-opt obtuvo una ruta con una longitud mínima local de 686,199 km representando una diferencia de 12,825 km con respecto a la solución global, para encontrar dicha ruta necesitó 0,001 segundos y 451 iteraciones Mientras que el X-opt obtuvo una ruta de longitud de 790,132, obteniendo una diferencia de 116,758 km con respecto a la solución global y por último el Y-opt obtuvo una ruta de 694,766 km obteniendo una diferencia de 21,392 km con respecto a la solución global. 
 
 Puede verse que a pesar de que los algoritmos no encuentren la solución global, encuentran una solución que se aproxima bastante, necesitando un tiempo muy reducido en comparación al tiempo requerido para encontrar la solución global con la búsqueda exhaustiva; por lo que podría optarse por agregar algunas condiciones iniciales a los algoritmos de forma que logren aproximarse más a la solución global sin necesitar un tiempo e iteraciones tan elevado como en la búsqueda exhaustiva, para esto, en el proyecto se optó por fijar cierto número de ciudades que se sabe que forman parte de la solución global, y dejar otra parte que se forme aleatoriamente para ver cuántas ciudades se necesitan fijar para que los algoritmos brinden la solución global.
+
+Con la ruta óptima conocida, se realizó una segunda prueba para examinar si fijar parte de ella ayudaba a los algoritmos a encontrarla. Se conservaron progresivamente sus primeras localidades, en el orden $[1,10,4,\ldots]$, y el resto de cada ruta inicial se ordenó aleatoriamente. Los algoritmos se adaptaron para mantener fijas esas posiciones durante los intercambios.
+
+Al fijar una localidad, las longitudes finales fueron de 687,756 km para 2-opt, 802,066 km para X-opt y 692,489 km para Y-opt. Con dos localidades fijas, 2-opt alcanzó la longitud óptima de 673,374 km, mientras que X-opt obtuvo 885,210 km y Y-opt 716,504 km. Al fijar tres, 2-opt volvió a alcanzar el óptimo y Y-opt también lo obtuvo; X-opt terminó con 826,066 km y no alcanzó el óptimo en ninguna de las tres pruebas.
+
+Las longitudes de X-opt y Y-opt no disminuyeron de forma continua al aumentar las posiciones fijas. En cada prueba se generó una nueva disposición aleatoria de las localidades restantes y se restringieron los intercambios permitidos, por lo que las diferencias no pueden atribuirse únicamente a la cantidad de localidades fijadas. Además, se utilizó información de la ruta óptima obtenida previamente mediante búsqueda exhaustiva y solo se evaluó una ruta inicial por cada cantidad de posiciones fijas. Por ello, estos resultados no establecen cuántas localidades habría que fijar para garantizar el óptimo en otros casos.
 
 ```{=latex}
 \begin{center}
