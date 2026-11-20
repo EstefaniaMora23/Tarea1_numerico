@@ -32,3 +32,17 @@ format:
         \setbeamerfont{author}{size=\small, series=\itshape}
         \setlength{\parskip}{0.5cm}
 ---
+
+
+## Visualización del algoritmo 2-opt
+
+![](ultimo_cuadro_2opt.png){width=70%}
+
+## Visualización del algoritmo Y-opt
+
+![](ultimo_cuadro_yopt.png){width=70%}
+
+## Visualización del algoritmo X-opt
+
+![](ultimo_cuadro_xopt.png){width=70%}
+
