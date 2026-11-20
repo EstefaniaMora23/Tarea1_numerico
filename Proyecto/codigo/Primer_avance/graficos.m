@@ -26,7 +26,7 @@ figure
 geoscatter(lat, lon, 50, verde_salvia, 'filled')
 geobasemap streets-light
 geolimits(latlim, lonlim)
-set(gca, 'FontSize', 20)
+set(gca, 'FontSize', 12)
 title('Localidades seleccionadas')
 exportgraphics(gcf, '../../figuras/localidades.png', 'Resolution', 300)
 
