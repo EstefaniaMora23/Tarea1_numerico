@@ -428,7 +428,7 @@ Los tres algoritmos mejoraron todas las rutas iniciales, aunque en distinta medi
 
 En cuanto al tiempo medio de ejecución, 2-opt fue el más rápido, con 0,064491 segundos, seguido de X-opt, con 0,580721 segundos, y Y-opt, con 0,96091 segundos. Así, X-opt requirió más tiempo que 2-opt pese a lograr una menor reducción media. La condición de aceptación más estricta de Y-opt podría influir en su tiempo de ejecución, pero no es posible afirmar que realizó más iteraciones sin medirlas. Estos tiempos corresponden a las localidades, implementaciones y condiciones de ejecución del estudio; en particular, el tiempo observado para 2-opt no implica una garantía de tiempo polinomial, pues en casos desfavorables puede requerir un número exponencial de intercambios (@manthey2025performance). El gráfico a continuación representa el tiempo promedio de ejecución de los algoritmos por cada iteración. 
 
-![Tiempo de ejecución promedio por iteración de cada algoritmo](../../figuras/tiempo_por_iteracion.png){#fig-tiempo-promedio-iteracion width=70%}
+![Tiempo de ejecución promedio por iteración de cada algoritmo](../../figuras/tiempo_por_iteracion.png){#fig-tiempo-promedio-iteracion width=70% fig-pos="H"}
 
 
 ```{=latex}
