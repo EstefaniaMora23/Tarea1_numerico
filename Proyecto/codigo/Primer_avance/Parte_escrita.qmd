@@ -74,7 +74,7 @@ editor:
 ```
 
 
-Este trabajo compara el desempeño de los algoritmos X-opt, Y-opt y 2-opt para el problema del viajero en un conjunto de 50 localidades de Costa Rica. Los métodos se implementaron en Python y se evaluaron sobre las mismas 100 rutas iniciales aleatorias, utilizando una matriz de distancias euclidianas calculada a partir de coordenadas planas. Se analizaron las longitudes finales, los porcentajes de mejora, el número de iteraciones totales y los tiempos de ejecución. Además, se exploraron la aplicación repetida de un mismo algoritmo y distintas secuencias de los tres métodos. Entre los algoritmos individuales, 2-opt obtuvo la menor longitud media, con 898,31 km, frente a 1001,64 km de Y-opt y 1523,92 km de X-opt. Su reducción media respecto de las rutas iniciales fue del 71,28 %. En las pruebas de aplicación repetida, las rutas permanecieron sin cambios al ejecutar nuevamente el mismo algoritmo. Por su parte, la secuencia X-opt → Y-opt → 2-opt produjo recorridos más cortos que 2-opt directo en 38 de las 100 comparaciones, pero presentó una mayor longitud media y un mayor tiempo medio de ejecución. Los resultados indican que, bajo los datos y las implementaciones estudiados, 2-opt directo ofreció el mejor desempeño promedio entre las estrategias evaluadas. Finalmente, los resultados de los algoritmos se contrastaron con los de una búsqueda exhaustiva, evidenciando que las soluciones de los mismos logran aproximarse con alta precisión a la distancia mínima global en un tiempo muy reducido.
+El presente trabajo compara el desempeño de los algoritmos X-opt, Y-opt y 2-opt bajo el problema del viajero en un conjunto de 50 localidades de Costa Rica. Los métodos se implementaron en Python y se evaluaron sobre las mismas 100 rutas iniciales aleatorias, utilizando una matriz de distancias euclidianas calculada a partir de coordenadas planas. Se analizaron las longitudes finales, los porcentajes de mejora, el número de iteraciones totales y los tiempos de ejecución. Además, se exploraron tanto la aplicación repetida de un mismo algoritmo como la aplicación de las distintas secuencias de los tres métodos. En lo que respecta a los algoritmos individuales, 2-opt obtuvo la menor longitud media, con 898,31 km, frente a 1001,64 km de Y-opt y 1523,92 km de X-opt. Su reducción media respecto a las rutas iniciales fue del 71,28 %. En las pruebas de aplicación repetida, las rutas permanecieron sin cambios al ejecutar nuevamente el mismo algoritmo. Por su parte, la secuencia X-opt → Y-opt → 2-opt produjo recorridos más cortos que 2-opt directo en 38 de las 100 comparaciones, pero presentó una mayor longitud media y un mayor tiempo medio de ejecución. Los resultados indican que, bajo los datos y las implementaciones estudiadas, 2-opt directo ofreció el mejor desempeño promedio entre las estrategias evaluadas. Finalmente, los resultados de los algoritmos se contrastaron con los de una búsqueda exhaustiva, evidenciando que las soluciones de los mismos logran aproximarse con alta precisión a la distancia mínima global en un tiempo muy reducido.
 
 **PALABRAS CLAVE**: Traveling Salesman Problem (TSP), búsqueda local, 2-opt, X-opt, Y-opt, optimización de rutas.
 
@@ -93,13 +93,13 @@ Este trabajo compara el desempeño de los algoritmos X-opt, Y-opt y 2-opt para e
 
 El problema del viajante consiste en encontrar un recorrido de longitud mínima que visite un conjunto de localidades exactamente una vez y regrese al punto de partida. El crecimiento del número de recorridos posibles conforme aumenta la cantidad de localidades dificulta su resolución mediante la exploración exhaustiva, ya que este número crece de forma factorial. Por ello, se emplean métodos heurísticos que permiten obtener soluciones aproximadas sin examinar todos los recorridos posibles [@flood1956].
 
-Este trabajo tiene como objetivo comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica, tomando como referencia el estudio de @manthey2025performance. Estos métodos modifican una ruta inicial mediante distintos criterios de selección de intercambios. Además de estudiar su desempeño individual, se explora el efecto de aplicar repetidamente un mismo algoritmo y de combinar los tres métodos en distintos órdenes, con el propósito de examinar cómo estas estrategias influyen en la longitud de los recorridos y en el esfuerzo computacional requerido.
+El proyecto posee el objetivo de comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica, tomando como referencia el estudio de @manthey2025performance. Estos métodos modifican una ruta inicial mediante distintos criterios de selección de intercambios. Además de estudiar su desempeño individual, se explora el efecto de aplicar repetidamente un mismo algoritmo y de combinar los tres métodos en distintos órdenes, con el propósito de examinar cómo estas estrategias influyen en la longitud de los recorridos y en el esfuerzo computacional requerido.
 
 El estudio considera un conjunto de 50 localidades seleccionadas del archivo `CR.txt` [@geonames], según los criterios descritos en la sección de datos. Sus coordenadas geográficas se convierten a coordenadas planas expresadas en kilómetros, a partir de las cuales se construye una matriz de distancias euclidianas. Estas distancias constituyen una aproximación geométrica y no incorporan la red vial, las condiciones del tránsito, los tiempos de traslado ni las restricciones de acceso; además, se asume que la distancia entre un punto y otro es la misma de ida y vuelta.
 
-Los algoritmos se implementan en Python y la comparación utiliza 100 rutas iniciales aleatorias sobre el conjunto de localidades seleccionado. Su desempeño se evalúa mediante la longitud final de los recorridos, el número de intercambios y el tiempo de ejecución. El análisis se complementa con gráficos elaborados en MATLAB y visualizaciones que permiten examinar las modificaciones de las rutas durante el proceso de mejora. Adicionalmente, con el propósito de validar la calidad de las soluciones obtenidas a partir de la aplicación de los algoritmos, se implementará un algoritmo de búsqueda exhaustiva sobre un subconjunto reducido de localidades, lo que permitirá comparar los óptimos locales obtenidos por X-opt, Y-opt y 2-opt con el óptimo global.
+Los algoritmos se implementan en Python y la comparación utiliza 100 rutas iniciales aleatorias sobre el conjunto de localidades seleccionado. Su desempeño se evalúa mediante la longitud final de los recorridos, el número de intercambios y el tiempo de ejecución. Asimismo, el análisis se complementa con gráficos elaborados en MATLAB y visualizaciones que permiten examinar las modificaciones de las rutas durante el proceso de mejora. Adicionalmente, con el propósito de validar la calidad de las soluciones obtenidas a partir de la aplicación de los algoritmos, se implementa un algoritmo de búsqueda exhaustiva sobre un subconjunto reducido de localidades, lo que permite comparar los óptimos locales obtenidos por X-opt, Y-opt y 2-opt con el óptimo global.
 
-El análisis tiene un carácter experimental y busca contrastar los resultados obtenidos con el comportamiento descrito en el artículo de referencia, considerando las características y limitaciones del conjunto de localidades seleccionado. Sus conclusiones se restringen a los datos, las implementaciones y los escenarios estudiados, sin constituir una reproducción de las demostraciones teóricas del artículo.
+El análisis tiene un carácter experimental y busca contrastar los resultados obtenidos con el comportamiento descrito en el artículo de referencia, considerando las características y las limitaciones del conjunto de localidades seleccionado. Sus conclusiones se restringen a los datos, las implementaciones y los escenarios estudiados, sin constituir una reproducción de las demostraciones teóricas del artículo.
 
 ```{=latex}
 \begin{center}
@@ -128,7 +128,7 @@ El punto de partida de la metodología consistió en identificar que el problema
 \end{center}
 ```
 
-Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que corresponde al extracto de Costa Rica y se distribuye bajo la licencia Creative Commons Attribution 4.0 [@geonames]. El archivo está en texto delimitado por tabulaciones, con codificación UTF-8 y sin fila de encabezado, y contiene 21 426 registros y 19 variables. Cada registro describe un rasgo geográfico y no necesariamente un poblado: los rasgos se clasifican en nueve clases, entre las que predominan los cuerpos de agua (6 801 registros) y los lugares poblados, clase `P`, con 5 900 registros, que es la de interés para este proyecto.
+Los datos provienen del *gazetteer* de GeoNames, en el archivo `CR.txt`, que corresponde al extracto de Costa Rica y se distribuye bajo la licencia Creative Commons Attribution 4.0 [@geonames]. El archivo está en texto delimitado por tabulaciones, con codificación UTF-8 y sin fila de encabezado, y contiene 21 426 registros y 19 variables. Cada registro describe un rasgo geográfico y no necesariamente un poblado: los rasgos se clasifican en nueve clases, entre las que predominan los cuerpos de agua (6 801 registros) y los lugares poblados, clase `P`, con 5 900 registros, que es la clase de interés para este proyecto.
 
 De las 19 variables se utilizaron siete: el identificador del registro (`geonameid`), el nombre, la latitud y la longitud en grados decimales (WGS84), la clase y el código del tipo de rasgo (por ejemplo, `PPL`, `PPLA` o `PPLC`), la división administrativa de primer nivel (`admin1`), que se tradujo al nombre de la provincia con el archivo `admin1CodesASCII.txt` de GeoNames, y la población reportada. Las coordenadas son la base para construir las coordenadas planas y la matriz de distancias, y la población se emplea como criterio de selección. Las variables restantes no intervienen en los algoritmos; además, `elevacion` está vacía en el 99,6 % de los registros (21 349 de 21 426) y `admin4` está vacía en prácticamente todos.
 
@@ -270,6 +270,33 @@ Como pruebas complementarias, se examinó si aplicar nuevamente un algoritmo sob
 Por último, se adjunta la lógica subyacente a la programación de cada algoritmo. 
 
 \begin{algorithm}[H]
+\caption{Algoritmo 2-opt}
+\label{alg:2opt}
+\begin{algorithmic}[1]
+
+\Require Ruta inicial $R$ y matriz de distancias $D$
+\Ensure Ruta optimizada $R'$
+
+\State $R' \gets R$
+\State $mejorar \gets \text{Verdadero}$
+
+\While{$mejorar$}
+    \State $mejorar \gets \text{Falso}$
+    \ForAll{las parejas de aristas no adyacentes $(a,b)$ y $(c,d)$ de $R'$}
+        \If{$D[a,c]+D[b,d] < D[a,b]+D[c,d]$}
+            \State Invertir el orden de las localidades ubicadas entre las dos aristas seleccionadas: $b$ y $c$
+            \State $mejorar \gets \text{Verdadero}$
+            \State Reiniciar la búsqueda
+        \EndIf
+    \EndFor
+\EndWhile
+
+\State \Return $R'$
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
 \caption{Algoritmo X-opt}
 \label{alg:xopt}
 \begin{algorithmic}[1]
@@ -335,32 +362,6 @@ Por último, se adjunta la lógica subyacente a la programación de cada algorit
 \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}[H]
-\caption{Algoritmo 2-opt}
-\label{alg:2opt}
-\begin{algorithmic}[1]
-
-\Require Ruta inicial $R$ y matriz de distancias $D$
-\Ensure Ruta optimizada $R'$
-
-\State $R' \gets R$
-\State $mejorar \gets \text{Verdadero}$
-
-\While{$mejorar$}
-    \State $mejorar \gets \text{Falso}$
-    \ForAll{las parejas de aristas no adyacentes $(a,b)$ y $(c,d)$ de $R'$}
-        \If{$D[a,c]+D[b,d] < D[a,b]+D[c,d]$}
-            \State Invertir el orden de las localidades ubicadas entre las dos aristas seleccionadas: $b$ y $c$
-            \State $mejorar \gets \text{Verdadero}$
-            \State Reiniciar la búsqueda
-        \EndIf
-    \EndFor
-\EndWhile
-
-\State \Return $R'$
-
-\end{algorithmic}
-\end{algorithm}
 
 ```{=latex}
 \begin{center}
@@ -419,11 +420,16 @@ En tercer lugar, el algoritmo Y-opt redujo la longitud de los recorridos de las 
 
 Un aspecto a remarcar es la cercanía entre la longitud final media (1001,643 km) y la mediana (999,794 km), las cuales distan por 1,849 km, esto indica que el algoritmo Y-opt no depende en gran medida de la calidad de la ruta inicial generada aleatoriamente, brindando resultados bastante homogéneos. Aunque Y-opt tiene la condición de aceptación más estricta, redujo la longitud de las 100 rutas iniciales. La reducción media fue del 67,991 %.
 
-De forma agregada, al comparar los tres algoritmos sobre las mismas 100 rutas iniciales, 2-opt obtuvo la menor longitud final en 98 casos y Y-opt en los dos restantes. En promedio, las rutas finales de Y-opt fueron un 11,503 % más largas que las de 2-opt, mientras que las de X-opt fueron un 69,643 % más largas.
+De forma agregada, al comparar los tres algoritmos sobre las mismas 100 rutas iniciales, 2-opt obtuvo la menor longitud final en 98 casos y Y-opt en los dos restantes. En promedio, las rutas finales de Y-opt fueron un 11,503 % más largas que las de 2-opt, mientras que las de X-opt fueron un 69,643 % más largas. A manera de complemento, el siguiente gráfico ilustra el comportamiento de las longitudes finales medias obtenidas a partir de cada algoritmo conforme se incrementa el número de localidades. 
+
+![Longitud final media por algoritmo según el número de localidades](../../figuras/longitud_media_por_n.png){#fig-longitud-media width=80% height=300px}
 
 Los tres algoritmos mejoraron todas las rutas iniciales, aunque en distinta medida. La reducción media fue del 71,285 % para 2-opt, del 67,991 % para Y-opt y del 51,321 % para X-opt. El menor porcentaje de X-opt podría relacionarse con su criterio de intercambio, que se limita a aristas que se cruzan geométricamente y, por tanto, restringe los movimientos disponibles.
 
-En cuanto al tiempo medio de ejecución, 2-opt fue el más rápido, con 0,064491 segundos, seguido de X-opt, con 0,580721 segundos, y Y-opt, con 0,96091 segundos. Así, X-opt requirió más tiempo que 2-opt pese a lograr una menor reducción media. La condición de aceptación más estricta de Y-opt podría influir en su tiempo de ejecución, pero no es posible afirmar que realizó más iteraciones sin medirlas. Estos tiempos corresponden a las localidades, implementaciones y condiciones de ejecución del estudio; en particular, el tiempo observado para 2-opt no implica una garantía de tiempo polinomial, pues en casos desfavorables puede requerir un número exponencial de intercambios (@manthey2025performance).
+En cuanto al tiempo medio de ejecución, 2-opt fue el más rápido, con 0,064491 segundos, seguido de X-opt, con 0,580721 segundos, y Y-opt, con 0,96091 segundos. Así, X-opt requirió más tiempo que 2-opt pese a lograr una menor reducción media. La condición de aceptación más estricta de Y-opt podría influir en su tiempo de ejecución, pero no es posible afirmar que realizó más iteraciones sin medirlas. Estos tiempos corresponden a las localidades, implementaciones y condiciones de ejecución del estudio; en particular, el tiempo observado para 2-opt no implica una garantía de tiempo polinomial, pues en casos desfavorables puede requerir un número exponencial de intercambios (@manthey2025performance). El gráfico a continuación representa el tiempo promedio de ejecución de los algoritmos por cada iteración. 
+
+![Tiempo de ejecución promedio por iteración de cada algoritmo](../../figuras/tiempo_por_iteracion.png){#fig-tiempo-promedio-iteracion width=70%}
+
 
 ```{=latex}
 \begin{center}
@@ -508,27 +514,11 @@ Las longitudes de X-opt y Y-opt no disminuyeron de forma continua al aumentar la
 \end{center}
 ```
 
-En las 100 rutas iniciales sobre las 50 localidades seleccionadas, 2-opt mostró un desempeño favorable, al reducir la longitud de todos los recorridos y alcanzar la menor longitud entre los tres algoritmos individuales en 98 comparaciones. La reducción media respecto de las rutas iniciales fue del 71,285 %. Estos resultados respaldan su utilidad para mejorar recorridos aleatorios en el conjunto estudiado, aunque no permiten determinar su cercanía al óptimo global.
+En las 100 rutas iniciales sobre las 50 localidades seleccionadas, 2-opt mostró un desempeño favorable, al reducir la longitud de todos los recorridos y alcanzar la menor longitud entre los tres algoritmos individuales en 98 comparaciones. La reducción media respecto de las rutas iniciales fue del 71,285 %. Tales resultados respaldan su utilidad para mejorar recorridos aleatorios en el conjunto estudiado, aunque no permiten determinar su cercanía al óptimo global. Seguidamente, X-opt también logró reducir la longitud de las 100 rutas iniciales, con una reducción media del 51,321 %. Sin embargo, presentó el menor porcentaje de mejora entre los tres algoritmos individuales y un tiempo medio de ejecución de 0,580721 segundos, superior al registrado por 2-opt y menor al presentado por Y-opt. Este comportamiento podría estar relacionado con su naturaleza más restrictiva, debido a que limita los intercambios a las aristas que se intersectan geométricamente. El algoritmo Y-opt constituyó un punto medio entre el algoritmo 2-opt y el algoritmo X-opt, puesto que arrojó resultados intermedios en las medidas de longitud final media, longitud final mediana y en la reducción media respecto de la ruta inicial. Sin embargo, fue el algoritmo que mayor tiempo de ejecución media tomó debido a que es el algoritmo con condición de aceptación más estricta. Finalmente, es importante mencionar que los tres algoritmos obtuvieron una mejora en la longitud en cada una de las 100 rutas con 50 localidades.
 
-Seguidamente, X-opt también logró reducir la longitud de las 100 rutas iniciales, con una reducción media del 51,321 %. Sin embargo, presentó el menor porcentaje de mejora entre los tres algoritmos individuales y un tiempo medio de ejecución de 0,580721 segundos, superior al registrado por 2-opt y menor al presentado por Y-opt. Este comportamiento podría estar relacionado con su naturaleza más restrictiva, debido a que limita los intercambios a las aristas que se intersectan geométricamente. Si bien los resultados demuestran su capacidad para mejorar los recorridos iniciales, la eliminación de cruces no garantiza que las soluciones obtenidas se encuentren próximas al óptimo global. En consecuencia, su desempeño debe interpretarse en función de las 100 instancias analizadas, sin asumir que las rutas resultantes representan soluciones óptimas.
+La aplicación repetida de cada algoritmo sobre su propia solución no produjo modificaciones adicionales. Este comportamiento concuerda con la condición de terminación de las implementaciones, pues la primera ejecución ya había alcanzado una ruta sin mejoras admisibles bajo su respectivo criterio. La segunda ejecución únicamente añadió evaluaciones para comprobar esa condición. El orden de aplicación de los algoritmos influyó en las soluciones obtenidas. Sin embargo, la ventaja de la secuencia X-opt → Y-opt → 2-opt en la prueba exploratoria no se mantuvo en promedio sobre las 100 rutas. Aunque produjo recorridos más cortos que 2-opt directo en 38 casos, presentó una mayor longitud media y un mayor tiempo medio de ejecución. Por tanto, añadir etapas de búsqueda no garantizó una mejora que compensara su costo computacional.
 
-En cuanto algoritmo Y-opt, este obtuvo un punto medio entre el algoritmo 2-opt y el X-opt, ya que obtuvo resultados intermedios en las medidas de longitud final media, longitud final mediana y en la reducción media respecto de la ruta inicial. Sin embargo, fue el algoritmo que mayor tiempo de ejecución media tomó debido a que es el algoritmo con condición de aceptación más estricta. Finalmente, es importante mencionar que los tres algoritmos obtuvieron una mejora en la longitud en cada una de las 100 rutas con 50 localidades.
-
-La aplicación repetida de cada algoritmo sobre su propia solución no produjo modificaciones adicionales. Este comportamiento concuerda con la condición de terminación de las implementaciones, pues la primera ejecución ya había alcanzado una ruta sin mejoras admisibles bajo su respectivo criterio. La segunda ejecución únicamente añadió evaluaciones para comprobar esa condición.
-
-El orden de aplicación de los algoritmos influyó en las soluciones obtenidas. Sin embargo, la ventaja de la secuencia X-opt → Y-opt → 2-opt en la prueba exploratoria no se mantuvo en promedio sobre las 100 rutas. Aunque produjo recorridos más cortos que 2-opt directo en 38 casos, presentó una mayor longitud media y un mayor tiempo medio de ejecución. Por tanto, añadir etapas de búsqueda no garantizó una mejora que compensara su costo computacional.
-
-Por otro lado, los resultados de este proyecto deben interpretarse considerando algunas limitaciones relacionadas con los datos utilizados y las condiciones en las que se realizaron los experimentos.
-
-En primer lugar, las distancias se calcularon utilizando la distancia euclidiana sobre coordenadas planas obtenidas mediante la proyección equirectangular. Por lo tanto, representan distancias en línea recta y no consideran elementos como carreteras y caminos disponibles, el tránsito o las restricciones de acceso. Esto implica que las longitudes obtenidas no necesariamente corresponden a los recorridos reales entre localidades, aunque permiten comparar los algoritmos bajo las mismas condiciones.
-
-Por otra parte, todos los experimentos se realizaron con las 50 localidades más pobladas de `CR.txt`, las cuales se concentran principalmente en el área metropolitana de San José. Esta distribución geográfica difiere de la distribución uniforme utilizada por @manthey2025performance, por lo que los resultados podrían variar al trabajar con localidades de otras regiones o con una configuración espacial diferente. En consecuencia, las conclusiones se limitan al conjunto de datos seleccionado.
-
-En cuanto al tamaño del problema, se comenzó trabajando con 15 localidades y se fue aumentando progresivamente hasta llegar a las 50 utilizadas en los experimentos finales, conforme se comprobó que los algoritmos podían ejecutarse en tiempos reducidos. Este tamaño es considerablemente menor que el utilizado por @manthey2025performance, quienes evalúan conjuntos de hasta 7000 puntos. Esta diferencia se debe a que, después de aplicar los filtros correspondientes, únicamente se dispone de 128 localidades con población reportada y coordenadas únicas. Por tanto, no fue posible analizar el comportamiento de los algoritmos a escalas mayores.
-
-Otra limitación corresponde a las rutas iniciales utilizadas. Se trabajó con una muestra de 100 rutas aleatorias generadas a partir de una semilla fija. Aunque esto permite reproducir los experimentos y mantener condiciones comparables, los resultados dependen de las rutas generadas. Por tanto, al utilizar otra semilla o una muestra más amplia, podrían obtenerse resultados diferentes.
-
-Por último, los tiempos de ejecución dependen de las características del equipo, la implementación en Python y la carga del sistema durante cada ejecución. Por esta razón, deben interpretarse como una referencia para comparar los algoritmos bajo las condiciones de este estudio y no como una medida absoluta de su rendimiento computacional. Las conclusiones de este proyecto se restringen al conjunto de localidades, las rutas iniciales y las implementaciones utilizadas. Como continuación del estudio, sería pertinente evaluar todas las secuencias sobre una muestra más amplia y considerar diferentes configuraciones geográficas para examinar la estabilidad de los resultados.
+Por otro lado, es importante destacar que los resultados del presente proyecto deben interpretarse considerando algunas limitaciones relacionadas con los datos utilizados y las condiciones en las que se realizaron los experimentos. Las distancias se calcularon utilizando la distancia euclidiana sobre coordenadas planas obtenidas mediante la proyección equirectangular. Por lo tanto, representan distancias en línea recta y no consideran elementos como carreteras y caminos disponibles, el tránsito o las restricciones de acceso. Lo anterior implica que las longitudes obtenidas no necesariamente corresponden a los recorridos reales entre las localidades, aunque permiten comparar los algoritmos bajo las mismas condiciones. Por otra parte, todos los experimentos se realizaron con las 50 localidades más pobladas de `CR.txt`, las cuales se concentran principalmente en el área metropolitana de San José. Esta distribución geográfica difiere de la distribución uniforme utilizada por @manthey2025performance, por lo que los resultados podrían variar al trabajar con localidades de otras regiones o con una configuración espacial diferente. Otra limitación corresponde a las rutas iniciales utilizadas. Se trabajó con una muestra de 100 rutas aleatorias generadas a partir de una semilla fija. Aunque esto permite reproducir los experimentos y mantener condiciones comparables, los resultados dependen de las rutas generadas. Por tanto, al utilizar otra semilla o una muestra más amplia, podrían obtenerse resultados diferentes. Por último, los tiempos de ejecución dependen de las características del equipo, la implementación en Python y la carga del sistema durante cada ejecución. Debido a lo dicho antes, deben interpretarse como una referencia para comparar los algoritmos bajo las condiciones de este estudio y no como una medida absoluta de su rendimiento computacional. A manera de continuación del estudio, sería pertinente evaluar todas las secuencias sobre una muestra más amplia y considerar diferentes configuraciones geográficas para examinar la estabilidad de los resultados.
 
 ```{=latex}
 \begin{center}
