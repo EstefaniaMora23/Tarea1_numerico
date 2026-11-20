@@ -26,6 +26,7 @@ figure
 geoscatter(lat, lon, 50, verde_salvia, 'filled')
 geobasemap streets-light
 geolimits(latlim, lonlim)
+set(gca, 'FontSize', 20)
 title('Localidades seleccionadas')
 exportgraphics(gcf, '../../figuras/localidades.png', 'Resolution', 300)
 
@@ -50,10 +51,11 @@ for a = 1:n_alg
     hold off
     geobasemap streets-light
     geolimits(latlim, lonlim)
+    set(gca, 'FontSize', 20)
     title(sprintf('%s: %.1f km', algoritmos(a), resultados.longitud_final(fila)))
 end
 
-sgtitle(sprintf('Ruta final obtenida desde la ruta inicial %d', id_ruta_mapa))
+sgtitle(sprintf('Ruta final obtenida desde la ruta inicial %d', id_ruta_mapa), 'FontSize', 20)
 drawnow; pause(3)
 exportgraphics(gcf, '../../figuras/mapa_rutas_finales.png', 'Resolution', 300)
 
@@ -67,10 +69,11 @@ for a = 1:n_alg
     plot(resultados.id_ruta(filas), resultados.longitud_final(filas), 'LineWidth', 2, 'Color', colores(a, :))
 end
 hold off
+set(gca, 'FontSize', 20)
 xlabel('Número de ruta inicial')
 ylabel('Longitud final (km)')
 title('Longitud final por algoritmo en cada ruta inicial')
-legend(algoritmos, 'Location', 'best')
+legend(algoritmos, 'Location', 'best', 'FontSize', 20)
 exportgraphics(gcf, '../../figuras/longitudes_finales.png', 'Resolution', 300)
 
 %% Longitud final media según el número de localidades
@@ -85,10 +88,11 @@ for a = 1:n_alg
     plot(rendimiento.n(filas), rendimiento.longitud_media(filas), '-s', 'LineWidth', 2, 'Color', colores(a, :), 'MarkerFaceColor', colores(a, :))
 end
 hold off
+set(gca, 'FontSize', 20)
 xlabel('Número de localidades (n)')
 ylabel('Longitud final media (km)')
 title('Longitud final media por algoritmo según el número de localidades')
-legend(algoritmos, 'Location', 'best')
+legend(algoritmos, 'Location', 'best', 'FontSize', 20)
 exportgraphics(gcf, '../../figuras/longitud_media_por_n.png', 'Resolution', 300)
 
 %% Tiempo de ejecución según el número de iteraciones
@@ -102,10 +106,11 @@ for a = 1:n_alg
     scatter(resultados.parejas_evaluadas(filas), resultados.tiempo_ejecucion(filas), 25, colores(a, :), 'filled', 'MarkerFaceAlpha', 0.8)
 end
 hold off
+set(gca, 'FontSize', 20)
 xlabel('Número de iteraciones')
 ylabel('Tiempo de ejecución (s)')
 title('Tiempo de ejecución según el número de iteraciones')
-legend(algoritmos, 'Location', 'best')
+legend(algoritmos, 'Location', 'best', 'FontSize', 20)
 exportgraphics(gcf, '../../figuras/iteraciones_vs_tiempo.png', 'Resolution', 300)
 
 %% Tiempo promedio por iteración
@@ -124,6 +129,7 @@ b = bar(tiempo_por_iteracion);
 b.FaceColor = 'flat';
 b.CData = colores;
 xticklabels(algoritmos)
+set(gca, 'FontSize', 20)
 ylabel('Tiempo por iteración (μs)')
 title('Tiempo promedio por iteración de cada algoritmo')
 exportgraphics(gcf, '../../figuras/tiempo_por_iteracion.png', 'Resolution', 300)
