@@ -94,11 +94,70 @@ $$x = R\cos(\varphi_1)(\lambda - \lambda_0), \qquad y = R(\varphi - \varphi_0)$$
 Población de GeoNames (no es un censo oficial), seis localidades PPLX que son secciones de un lugar poblado, dos localidades llamadas «San José» (índices 0 y 10) y distancias en línea recta, sin red vial.
 \end{block}
 
-## Metodología: Formulación de los métodos (Estef)
+## Metodología: Formulación de los métodos
+
+El problema del viajante es NP-hard; por ello, el proyecto se organizó en cuatro métodos complementarios.^[Manthey, B., & van Rhijn, J. (2025). *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*. *Discrete Applied Mathematics, 375*, 7–16.]
+
+:::: {.columns}
+
+::: {.column width="48%"}
+
+### Métodos
+
+1. Construcción de la fundamentación teórica.
+2. Definición de métricas de análisis.
+3. Implementación de los algoritmos en Python.
+4. Evaluación y comparación de resultados.
+
+:::
+
+::: {.column width="48%"}
+
+### Objetivo
+
+**Preparar los datos y la información necesaria para implementar 2-opt, X-opt y Y-opt, y comparar su desempeño.**
+
+:::
+
+::::
 
 ## Metodología: Problema del viajante (José)
 
-## Metodología: Algoritmo 2-opt (Estef)
+## Metodología: Algoritmo 2-opt
+
+:::: {.columns}
+
+::: {.column width="48%"}
+
+### Funcionamiento y condición de aceptación
+
+- Se eliminan dos aristas no adyacentes: $(a,b)$ y $(c,d)$.
+- Se conectan $(a,c)$ y $(b,d)$, invirtiendo el segmento entre $b$ y $c$.
+- El cambio se acepta si
+
+$$
+d(a,c)+d(b,d)<d(a,b)+d(c,d).
+$$
+
+:::
+
+::: {.column width="48%"}
+
+### Terminación y esfuerzo
+
+- Termina en un **óptimo local** respecto a los movimientos 2-opt.
+- Una pasada completa examina
+
+$$
+\frac{n(n-3)}{2}
+$$
+
+parejas de aristas, es decir, $O(n^2)$ evaluaciones.
+- Las mejoras pueden reiniciar la búsqueda: **el costo total no tiene por qué ser cuadrático**.^[Manthey, B., & van Rhijn, J. (2025). *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*. *Discrete Applied Mathematics, 375*, 7–16.]
+
+:::
+
+::::
 
 ## Metodología: Algoritmo X-opt (Ale)
 
@@ -114,23 +173,170 @@ Población de GeoNames (no es un censo oficial), seis localidades PPLX que son s
 - Los tres métodos reciben las mismas rutas y la misma matriz de distancias.
 - Métricas registradas: longitud final, porcentaje de mejora, parejas examinadas y tiempo de ejecución.
 
-## Metodología: Visualización de los algoritmos (por definir)
+## Metodología: Visualización de los algoritmos
+
+:::: {.columns}
+
+::: {.column width="43%"}
+
+### Ruta inicial de referencia
+
+- Se utilizaron **50 localidades de Costa Rica** y distancias euclidianas en kilómetros.
+- Se seleccionó `rutas_iniciales[2]`, la tercera de las rutas iniciales generadas.
+- **2-opt, X-opt y Y-opt partieron de esa misma ruta**, para visualizar cómo cada algoritmo la modifica.
+
+:::
+
+::: {.column width="55%"}
+
+\vspace{0.85cm}
+
+![](ruta_inicial.png){width=100%}
+
+:::
+
+::::
 
 ## Visualización del algoritmo 2-opt
 
-![](ultimo_cuadro_2opt.png){width=70%}
+:::: {.columns align=center}
+
+::: {.column width="62%"}
+
+\vspace{0.75cm}
+
+![](ultimo_cuadro_2opt.png){width=100%}
+
+:::
+
+::: {.column width="36%"}
+
+### Resultado final
+
+- **Longitud:** 902,16 km.
+- **Reducción:** 71,95 %.
+- **Mejoras aceptadas:** 145.
+
+Fue la **ruta más corta de los tres algoritmos** en esta visualización. Se observa una conexión más ordenada entre localidades cercanas.
+
+:::
+
+::::
 
 ## Visualización del algoritmo Y-opt
 
-![](ultimo_cuadro_yopt.png){width=70%}
+:::: {.columns align=center}
+
+::: {.column width="62%"}
+
+\vspace{0.75cm}
+
+![](ultimo_cuadro_yopt.png){width=100%}
+
+:::
+
+::: {.column width="36%"}
+
+### Resultado final
+
+- **Longitud:** 994,63 km.
+- **Reducción:** 69,08 %.
+- **Mejoras aceptadas:** 79.
+
+Y-opt produjo una ruta más corta que X-opt, pero **92,47 km más larga que 2-opt**. 
+
+:::
+
+::::
 
 ## Visualización del algoritmo X-opt
 
-![](ultimo_cuadro_xopt.png){width=70%}
+:::: {.columns align=center}
 
-## Metodología: Valoración del desempeño (Estef)
+::: {.column width="62%"}
 
-## Resultados: Desempeño de 2-opt (Estef)
+\vspace{0.75cm}
+
+![](ultimo_cuadro_xopt.png){width=100%}
+
+:::
+
+::: {.column width="36%"}
+
+### Resultado final
+
+- **Longitud:** 1 641,88 km.
+- **Reducción:** 48,95 %.
+- **Mejoras aceptadas:** 74.
+
+X-opt dejó de encontrar **cruces cuya eliminación acortara la ruta**. Obtuvo la mayor longitud final de los tres.
+
+:::
+
+::::
+
+## Metodología: Valoración del desempeño
+
+Se compararon **2-opt, X-opt y Y-opt a partir de las mismas rutas iniciales**, considerando tanto la calidad de los recorridos como el esfuerzo necesario para obtenerlos.
+
+:::: {.columns align=top}
+
+::: {.column width="48%"}
+
+### Métricas de comparación
+
+- **Longitud final** de cada ruta.
+- **Porcentaje de mejora** respecto a la ruta inicial.
+- **Tiempo de ejecución**, considerando su media y variación entre ejecuciones.
+
+:::
+
+::: {.column width="48%"}
+
+### Pruebas adicionales
+
+- Volver a aplicar un algoritmo a su ruta final.
+- Comparar los resultados con una **búsqueda exhaustiva**.
+- Fijar posiciones iniciales de la ruta óptima y observar el comportamiento de los tres algoritmos.
+
+:::
+
+::::
+
+## Resultados: Desempeño de 2-opt
+
+**100 rutas iniciales de 50 localidades**
+
+:::: {.columns align=center}
+
+::: {.column width="44%"}
+
+\begin{center}
+{\fontsize{40}{46}\selectfont\bfseries 71,285\%}
+
+\vspace{0.3cm}
+
+Reducción media de la longitud
+
+\end{center}
+
+:::
+
+::: {.column width="52%"}
+
+### Resultados finales
+
+| Métrica | Valor |
+|:--|--:|
+| Longitud media | **898,311 km** |
+| Longitud mediana | **897,133 km** |
+| Tiempo medio | **0,064491 s** |
+
+:::
+
+::::
+
+**Alcance del resultado:** se desconoce la ruta óptima para las 50 localidades, por lo que la reducción no indica la cercanía al óptimo global.
 
 ## Resultados: Desempeño de X-opt (Ale)
 
@@ -201,7 +407,50 @@ Primera ruta inicial de 50 localidades, segunda ejecución sobre la solución de
 \end{center}
 ```
 
-## Resultados: Estabilidad, secuencias (Estef)
+## Resultados: Estabilidad al combinar algoritmos
+
+Se evaluó si cambiar de algoritmo permitía obtener rutas más cortas que con **2-opt directo**.
+
+:::: {.columns align=top}
+
+::: {.column width="48%"}
+
+### Exploración: una ruta
+
+Se probaron las aplicaciones individuales y las secuencias de dos y tres algoritmos.
+
+- **Mejor secuencia:** 
+
+  X-opt → Y-opt → 2-opt.
+
+- **Secuencia:** 896,280 km.
+- **2-opt directo:** 899,555 km.
+
+**Mejora en esta ruta:** 3,275 km.
+
+:::
+
+::: {.column width="48%"}
+
+### Comparación: 100 rutas
+
+**2-opt directo**  
+
+- Longitud media: **898,311 km**  
+- Tiempo medio: **0,064 s**
+
+\vspace{0.4cm}
+
+**X-opt → Y-opt → 2-opt**  
+
+- Longitud media: **902,788 km**  
+- Tiempo medio: **0,304 s**
+
+La secuencia fue mejor en **38 rutas** y peor en **62**.
+
+:::
+
+::::
 
 ## Resultados: Óptimo global, búsqueda exhaustiva (José)
 
