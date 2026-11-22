@@ -131,7 +131,31 @@ El problema del viajante es NP-hard; por ello, el proyecto se organizó en cuatr
 
 ::::
 
-## Metodología: Problema del viajante (José)
+## Metodología: Problema del viajante
+
+:::: {.columns}
+
+::: {.column width="68%"}
+
+### El problema
+
+- Consiste en encontrar un recorrido de longitud mínima que visite un conjunto de localidades exactamente una vez y regrese al punto de partida.
+- El número total de posibles recorridos aumenta factorialmente conforme aumenta el número de ciudades.
+- Se utilizan algoritmos que aproximan la solución global.
+ 
+:::
+
+::: {.column width="30%"}
+
+### Aplicaciones 
+
+- Logística y transporte
+- Almacenes y Manufactura 
+- Electrónica y semiconductores
+
+:::
+
+::::
 
 ## Metodología: Algoritmo 2-opt
 
@@ -528,7 +552,18 @@ La secuencia fue mejor en **38 rutas** y peor en **62**.
 
 ::::
 
-## Resultados: Óptimo global, búsqueda exhaustiva (José)
+## Resultados: Óptimo global, búsqueda exhaustiva 
+
+Comparación entre búsqueda exhaustiva y  2-opt, X-opt y Y-opt para 11 ciudades
+
+| Algoritmo | Longitud final (km) | Tiempo de ejecución (s) | Número de iteraciones |
+|:--|--:|--:|--:|
+| Búsqueda exhaustiva | 673,374 | 256,367 | 39916800 |
+| 2-opt | 686,199 | 0,001 | 451 |
+| X-opt | 790,132 | 0,003 | 193 |
+| Y-opt | 694,766 | 0,004 | 214 |
+- Búsqueda exhaustiva tardó 4 minutos y 16,367 segundos y 39 916 800 iteraciones.
+- Se obtuvo un mínimo global de 673,374 km.
 
 ## Resultados: Óptimo global, fijar localidades (Ale)
 
@@ -541,4 +576,10 @@ La secuencia fue mejor en **38 rutas** y peor en **62**.
 
 ## Conclusiones: Párrafo 3 (sin asignar)
 
-## Conclusiones: Último párrafo (José)
+## Conclusiones
+
+- Distancias euclidianas las cuales no consideran carreteras. \vspace{0.3cm}
+- Localidades muy cercanas y concentradas en San José. \vspace{0.3cm}
+- La distribución geográfica difiere de la utilizada por Manthey & van Rhijn (2025). \vspace{0.3cm}
+- Los tiempos de ejecución dependen de las características del equipo utilizado.
+ 
