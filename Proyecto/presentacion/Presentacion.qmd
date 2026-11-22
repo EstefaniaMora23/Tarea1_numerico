@@ -33,7 +33,17 @@ format:
         \setlength{\parskip}{0.5cm}
 ---
 
-## Introducción: De qué trata el proyecto (José)
+## Introducción: De qué trata el proyecto
+
+\begin{block}{}
+\begin{itemize}
+  \item Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica.
+  \item Estudiar el efecto de aplicar repetidamente un mismo algoritmo y de combinar los tres métodos en distintos órdenes.
+  \item Se utiliza un conjunto de 50 localidades extraídas de la base de datos \texttt{GeoNames}.
+  \item Comparar los algoritmos con el algoritmo de búsqueda exhaustiva.
+  \item Implementación en Python y realización de gráficos en MATLAB.
+\end{itemize}
+\end{block}
 
 ## Metodología: Introducción (Ale)
 
@@ -161,7 +171,42 @@ parejas de aristas, es decir, $O(n^2)$ evaluaciones.
 
 ## Metodología: Algoritmo X-opt (Ale)
 
-## Metodología: Algoritmo Y-opt (José)
+## Metodología: Algoritmo Y-opt
+
+:::: {.columns}
+
+::: {.column width="59%"}
+
+### Funcionamiento y condición de aceptación
+
+- Se eliminan dos aristas no adyacentes: $(a,b)$ y $(c,d)$.
+- Se conectan $(a,c)$ y $(b,d)$, invirtiendo el segmento entre $b$ y $c$.
+- El cambio se acepta si
+
+$$ 
+\max\{d(a,c), d(b,d)\} < \max\{d(a,b), d(c,d)\} 
+$$
+$$
+\wedge \min\{d(a,c), d(b,d)\} < \min\{d(a,b), d(c,d)\}
+$$
+
+:::
+
+::: {.column width="39%"}
+
+### Terminación y esfuerzo
+
+- Termina en un **óptimo local** respecto a los intercambios Y-opt.
+- El número de iteraciones está acotado por
+
+$$
+(m-1)n
+$$
+
+resultando en un tiempo de ejecución polinomial.
+:::
+
+::::
 
 ## Metodología: Métricas de interés (Ale)
 
@@ -340,7 +385,38 @@ Reducción media de la longitud
 
 ## Resultados: Desempeño de X-opt (Ale)
 
-## Resultados: Desempeño de Y-opt (José)
+## Resultados: Desempeño de Y-opt
+
+**100 rutas iniciales de 50 localidades**
+
+:::: {.columns align=center}
+
+::: {.column width="44%"}
+
+\begin{center}
+{\fontsize{40}{46}\selectfont\bfseries 67,991\%}
+
+\vspace{0.3cm}
+
+Reducción media de la longitud
+
+\end{center}
+
+:::
+
+::: {.column width="52%"}
+
+### Resultados finales
+
+| Métrica | Valor |
+|:--|--:|
+| Longitud media | **1001,643 km** |
+| Longitud mediana | **999,794 km** |
+| Tiempo medio | **0,96091 s** |
+
+:::
+
+::::
 
 ## Resultados: comparación de los tres algoritmos
 
