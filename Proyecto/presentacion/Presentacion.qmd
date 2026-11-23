@@ -37,15 +37,28 @@ format:
 
 \begin{block}{}
 \begin{itemize}
-  \item Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica.
-  \item Estudiar el efecto de aplicar repetidamente un mismo algoritmo y de combinar los tres métodos en distintos órdenes.
-  \item Se utiliza un conjunto de 50 localidades extraídas de la base de datos \texttt{GeoNames}.
-  \item Comparar los algoritmos con el algoritmo de búsqueda exhaustiva.
-  \item Implementación en Python y realización de gráficos en MATLAB.
+  \item Comparar el desempeño de los algoritmos X-opt, Y-opt y 2-opt en un conjunto delimitado de localidades de Costa Rica. \vspace{0.3cm}
+  \item Estudiar el efecto de aplicar repetidamente un mismo algoritmo y de combinar los tres métodos en distintos órdenes. \vspace{0.3cm}
+  \item Se utiliza un conjunto de 50 localidades extraídas de la base de datos \texttt{GeoNames}. \vspace{0.3cm}
+  \item Comparar los algoritmos con el algoritmo de búsqueda exhaustiva. \vspace{0.3cm}
+  \item Implementación en Python y realización de gráficos en MATLAB. \vspace{0.3cm}
 \end{itemize}
 \end{block}
 
-## Metodología: Introducción (Ale)
+## Metodología: Introducción 
+###
+- **Punto de partida**: no se conoce un algoritmo que encuentre una solución óptima para el problema del viajero en un tiempo razonable. \vspace{0.35cm}
+
+- Debido a esto, se plantea una combinación de métodos indagatorios, descriptivos y comparativos. \vspace{0.35cm}
+
+- Con lo anterior se busca:  \vspace{0.3cm}
+\begin{enumerate}
+\item Definir una base de datos adecuada. \vspace{0.1cm}
+\item Disponer de la información requerida para desarrollar el proyecto. \vspace{0.1cm}
+\item Analizar y comparar los resultados. \vspace{0.1cm}
+\end{enumerate}
+
+
 
 ## Datos: fuente y selección de localidades
 
@@ -96,11 +109,12 @@ format:
 Proyección equirectangular (Snyder, 1987), con $R = 6371$ km y paralelo estándar $\varphi_1 = \varphi_0$:
 $$x = R\cos(\varphi_1)(\lambda - \lambda_0), \qquad y = R(\varphi - \varphi_0)$$
 
-- Origen $(\varphi_0, \lambda_0)$: promedio de latitudes y longitudes de las 50 localidades.
-- Matriz de distancias euclidianas de $50 \times 50$, simétrica y con ceros en la diagonal.
-- X-opt necesita coordenadas planas para determinar si dos aristas se cruzan.
+- Origen $(\varphi_0, \lambda_0)$: promedio de latitudes y longitudes de las 50 localidades. \vspace{0.2cm}
+- Matriz de distancias euclidianas de $50 \times 50$, simétrica y con ceros en la diagonal. \vspace{0.2cm}
+- X-opt necesita coordenadas planas para determinar si dos aristas se cruzan. \vspace{0.2cm}
 
 \begin{block}{Limitaciones de los datos}
+\small
 Población de GeoNames (no es un censo oficial), seis localidades PPLX que son secciones de un lugar poblado, dos localidades llamadas «San José» (índices 0 y 10) y distancias en línea recta, sin red vial.
 \end{block}
 
@@ -161,10 +175,10 @@ El problema del viajante es NP-hard; por ello, el proyecto se organizó en cuatr
 
 :::: {.columns}
 
-::: {.column width="48%"}
+::: {.column width="55%"}
 
 ### Funcionamiento y condición de aceptación
-
+\small
 - Se eliminan dos aristas no adyacentes: $(a,b)$ y $(c,d)$.
 - Se conectan $(a,c)$ y $(b,d)$, invirtiendo el segmento entre $b$ y $c$.
 - El cambio se acepta si
@@ -175,10 +189,10 @@ $$
 
 :::
 
-::: {.column width="48%"}
+::: {.column width="43%"}
 
 ### Terminación y esfuerzo
-
+\small
 - Termina en un **óptimo local** respecto a los movimientos 2-opt.
 - Una pasada completa examina
 
@@ -193,16 +207,44 @@ parejas de aristas, es decir, $O(n^2)$ evaluaciones.
 
 ::::
 
-## Metodología: Algoritmo X-opt (Ale)
+## Metodología: Algoritmo X-opt 
+:::: {.columns}
+
+::: {.column width="55%"}
+
+### Funcionamiento y condición de aceptación
+\small
+- Se eliminan dos aristas no adyacentes: $(a,b)$ y $(c,d)$. \vspace{0.2cm}
+- Se verifica si las aristas se cruzan entre sí.  \vspace{0.2cm}
+- En el caso afirmativo, se conectan $(a,c)$ y $(b,d)$, invirtiendo el segmento entre $b$ y $c$ y eliminando así el cruce. \vspace{0.2cm}
+- El cambio se acepta si 
+$$
+d(a,c)+d(b,d)<d(a,b)+d(c,d).
+$$
+
+:::
+
+::: {.column width="43%"}
+
+### Terminación y esfuerzo
+\small
+- Termina en un **óptimo local** respecto a los intercambios X-opt. \vspace{0.2cm}
+- El número de iteraciones está acotado por $O(n^3)$: un orden cúbico respecto al tamaño de la instancia. \vspace{0.2cm}
+- **Criterio de terminación**: obtener un recorrido libre de cruces entre sus aristas no adyacentes. \vspace{0.2cm}
+:::
+
+::::
+
+
 
 ## Metodología: Algoritmo Y-opt
 
 :::: {.columns}
 
-::: {.column width="59%"}
+::: {.column width="55%"}
 
 ### Funcionamiento y condición de aceptación
-
+\small
 - Se eliminan dos aristas no adyacentes: $(a,b)$ y $(c,d)$.
 - Se conectan $(a,c)$ y $(b,d)$, invirtiendo el segmento entre $b$ y $c$.
 - El cambio se acepta si
@@ -216,10 +258,10 @@ $$
 
 :::
 
-::: {.column width="39%"}
+::: {.column width="43%"}
 
 ### Terminación y esfuerzo
-
+\small
 - Termina en un **óptimo local** respecto a los intercambios Y-opt.
 - El número de iteraciones está acotado por
 
@@ -232,7 +274,20 @@ resultando en un tiempo de ejecución polinomial.
 
 ::::
 
-## Metodología: Métricas de interés (Ale)
+## Metodología: Métricas de interés 
+###
+\small
+- **Longitud de la ruta optimizada** \vspace{0.2cm}
+
+- **Tiempo de ejecución** \vspace{0.2cm}
+
+- **Número de iteraciones totales** \vspace{0.2cm}
+
+- **Ruta final obtenida** \vspace{0.2cm}
+
+- **Porcentaje de mejora con respecto a la ruta inicial**
+
+
 
 ## Implementación de los algoritmos en Python (FALTAN LOS ALGORITMOS COMPLEOTS)
 
@@ -407,7 +462,39 @@ Reducción media de la longitud
 
 **Alcance del resultado:** se desconoce la ruta óptima para las 50 localidades, por lo que la reducción no indica la cercanía al óptimo global.
 
-## Resultados: Desempeño de X-opt (Ale)
+## Resultados: Desempeño de X-opt 
+**100 rutas iniciales de 50 localidades**
+
+:::: {.columns align=center}
+
+::: {.column width="44%"}
+
+\begin{center}
+{\fontsize{40}{46}\selectfont\bfseries 51,321\%}
+
+\vspace{0.3cm}
+
+Reducción media de la longitud
+
+\end{center}
+
+:::
+
+::: {.column width="52%"}
+
+### Resultados finales
+
+| Métrica | Valor |
+|:--|--:|
+| Longitud media | **1523,920 km** |
+| Longitud mediana | **1497,804 km** |
+| Tiempo medio | **0,580721 s** |
+
+:::
+
+::::
+
+**Alcance del resultado:** la ausencia de cruces no garantiza cercanía al óptimo global. 
 
 ## Resultados: Desempeño de Y-opt
 
@@ -565,7 +652,25 @@ Comparación entre búsqueda exhaustiva y  2-opt, X-opt y Y-opt para 11 ciudades
 - Búsqueda exhaustiva tardó 4 minutos y 16,367 segundos y 39 916 800 iteraciones.
 - Se obtuvo un mínimo global de 673,374 km.
 
-## Resultados: Óptimo global, fijar localidades (Ale)
+## Resultados: efecto de fijar localidades 
+
+- Con la ruta óptima conocida (**673,374 km**), se examinó si fijar una parte de ella ayudaba a los algoritmos a encontrarla. Se conservó progresivamente hasta un máximo de las primeras tres localidades. \vspace{0.3cm}
+
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cccc}
+\hline
+\textbf{Algoritmo} & \textbf{Primera fijación} & 
+\textbf{Segunda fijación} & \textbf{Tercera fijación} \\
+\hline
+2-opt & 687,756 km & 673,374 km & 673,374 km \\
+X-opt & 802,066 km & 885,210 km & 826,066 km \\
+Y-opt & 692,489 km & 716,504 km & 673,374 km \\
+\hline
+\end{tabular}
+\end{table}
 
 ## Conclusiones
 
