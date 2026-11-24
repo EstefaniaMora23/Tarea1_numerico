@@ -17,6 +17,7 @@ format:
         \usepackage{xcolor}
         \usepackage{hanging}
         \usepackage{xurl} 
+        \usepackage{algpseudocode}
         \definecolor{mainbg}{HTML}{F5F1E9}
         \definecolor{accent}{HTML}{718C7A}
         \definecolor{lighttext}{HTML}{465A50}
@@ -60,62 +61,48 @@ format:
 
 
 
-## Datos: fuente y selección de localidades
+## Datos: selección y ubicación de las 50 localidades
 
 \begin{block}{Filtrado (GeoNames \texttt{CR.txt}, 7 de 19 variables)}
 \centering
 21 426 registros $\rightarrow$ 5 900 clase \texttt{P} $\rightarrow$ 128 válidos ($\text{pob} > 0$, sin históricos) $\rightarrow$ 50 más pobladas (ID \texttt{0}–\texttt{49})
 \end{block}
 
-\vspace{0.3cm}
+:::: {.columns align=center}
 
-:::: {.columns}
+::: {.column width="45%"}
 
-::: {.column width="48%"}
-\begin{block}{Distribución poblacional}
-\begin{itemize}
-  \item \textbf{Rango:} 11 680 – 335 007 hab.
-  \item \textbf{Mediana / Media:} 25 198 / 31 050 hab.
-  \item \textbf{Máximo:} San José
-\end{itemize}
-\end{block}
+\small
+
+- Clase \texttt{P}, sin poblados abandonados, destruidos o históricos.
+- Población mayor que cero.
+- Coordenadas únicas a 3 decimales: X-opt supone posiciones distintas para detectar cruces.
+- 24 de las 50 en la provincia de San José; 30 a $\le 20\text{ km}$ del centro de la capital.
+
 :::
 
-::: {.column width="4%"}
-:::
+::: {.column width="55%"}
 
-::: {.column width="48%"}
-\begin{block}{Concentración espacial}
-\begin{itemize}
-  \item \textbf{24} en la provincia de San José
-  \item \textbf{30} a $\le 20\text{ km}$ de la capital
-  \item Coordenadas únicas (3 decimales)
-\end{itemize}
-\end{block}
+```{=latex}
+\includegraphics[width=\linewidth,height=0.5\textheight,keepaspectratio]{../figuras/localidades.png}
+```
+
 :::
 
 ::::
 
-## Datos: ubicación de las 50 localidades
+## Datos: distancias y limitaciones
 
-```{=latex}
-\begin{center}
-\includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]{../figuras/localidades.png}
-\end{center}
-```
-
-## Datos: coordenadas planas y matriz de distancias
-
-Proyección equirectangular (Snyder, 1987), con $R = 6371$ km y paralelo estándar $\varphi_1 = \varphi_0$:
+Proyección equirectangular ($R = 6371$ km, origen en el promedio de las 50 localidades):
 $$x = R\cos(\varphi_1)(\lambda - \lambda_0), \qquad y = R(\varphi - \varphi_0)$$
+Con esas coordenadas se construyó la matriz de distancias euclidianas de $50 \times 50$.
 
-- Origen $(\varphi_0, \lambda_0)$: promedio de latitudes y longitudes de las 50 localidades. \vspace{0.2cm}
-- Matriz de distancias euclidianas de $50 \times 50$, simétrica y con ceros en la diagonal. \vspace{0.2cm}
-- X-opt necesita coordenadas planas para determinar si dos aristas se cruzan. \vspace{0.2cm}
-
-\begin{block}{Limitaciones de los datos}
-\small
-Población de GeoNames (no es un censo oficial), seis localidades PPLX que son secciones de un lugar poblado, dos localidades llamadas «San José» (índices 0 y 10) y distancias en línea recta, sin red vial.
+\begin{block}{Limitaciones}
+\begin{itemize}
+  \item Población: 97,8 \% de los lugares de GeoNames con valor cero; cifras sin censo oficial.
+  \item Concentración en San José: difiere de la distribución uniforme de Manthey y van Rhijn (2025).
+  \item Distancias en línea recta, sin red vial.
+\end{itemize}
 \end{block}
 
 ## Metodología: Formulación de los métodos
@@ -289,13 +276,153 @@ resultando en un tiempo de ejecución polinomial.
 
 
 
-## Implementación de los algoritmos en Python (FALTAN LOS ALGORITMOS COMPLEOTS)
+## Implementación de los algoritmos en Python
 
-- Los tres algoritmos (2-opt, X-opt y Y-opt), la preparación de datos y las pruebas se implementaron en Python.
-- Estrategia de **primera mejora**: tras cada intercambio aceptado se reinicia la exploración; termina cuando no hay mejoras.
-- Pruebas preliminares con 15 localidades; luego **100 rutas iniciales aleatorias** de 50 localidades, con semilla fija 2026.
+- Los tres algoritmos (2-opt, X-opt y Y-opt), la preparación de datos y las pruebas se implementaron en Python; los gráficos se elaboraron en MATLAB.
+- Estrategia de primera mejora: tras cada intercambio aceptado se reinicia la exploración; termina cuando no hay mejoras.
+- Pruebas preliminares con 15 localidades; luego 100 rutas iniciales aleatorias de 50 localidades, con semilla fija 2026.
 - Los tres métodos reciben las mismas rutas y la misma matriz de distancias.
-- Métricas registradas: longitud final, porcentaje de mejora, parejas examinadas y tiempo de ejecución.
+
+## Implementación: pseudocódigo de 2-opt
+
+:::: {.columns align=top}
+
+::: {.column width="58%"}
+
+```{=latex}
+\begin{block}{Algoritmo 2-opt}
+\setlength{\parskip}{0pt}
+\footnotesize
+\begin{algorithmic}[1]
+\Require Ruta inicial $R$ y matriz de distancias $D$
+\Ensure Ruta optimizada $R'$
+\State $R' \gets R$;\quad $mejorar \gets \text{Verdadero}$
+\While{$mejorar$}
+  \State $mejorar \gets \text{Falso}$
+  \ForAll{parejas no adyacentes $(a,b)$, $(c,d)$ de $R'$}
+    \If{$D[a,c]+D[b,d] < D[a,b]+D[c,d]$}
+      \State Invertir el segmento entre $b$ y $c$
+      \State $mejorar \gets \text{Verdadero}$;\quad reiniciar
+    \EndIf
+  \EndFor
+\EndWhile
+\State \Return $R'$
+\end{algorithmic}
+\end{block}
+```
+
+:::
+
+::: {.column width="40%"}
+
+### Explicación
+
+\small
+
+- Revisa las parejas de aristas no adyacentes.
+- Si el cambio acorta la ruta, invierte el segmento entre $b$ y $c$ y reinicia.
+- Termina cuando ninguna pareja mejora: óptimo local.
+
+:::
+
+::::
+
+## Implementación: pseudocódigo de X-opt
+
+:::: {.columns align=top}
+
+::: {.column width="58%"}
+
+```{=latex}
+\begin{block}{Algoritmo X-opt}
+\setlength{\parskip}{0pt}
+\footnotesize
+\begin{algorithmic}[1]
+\Require $R$, matriz de distancias $D$, coordenadas $C$
+\Ensure Ruta optimizada $R'$
+\State $R' \gets R$;\quad $mejorar \gets \text{Verdadero}$
+\While{$mejorar$}
+  \State $mejorar \gets \text{Falso}$
+  \ForAll{parejas no adyacentes $(a,b)$, $(c,d)$ de $R'$}
+    \If{las aristas se cruzan (según $C$)}
+      \If{$D[a,c]+D[b,d] < D[a,b]+D[c,d]$}
+        \State Invertir el segmento entre $b$ y $c$
+        \State $mejorar \gets \text{Verdadero}$;\quad reiniciar
+      \EndIf
+    \EndIf
+  \EndFor
+\EndWhile
+\State \Return $R'$
+\end{algorithmic}
+\end{block}
+```
+
+:::
+
+::: {.column width="40%"}
+
+### Explicación
+
+\small
+
+- Es 2-opt, pero solo con parejas de aristas que se cruzan.
+- Por eso necesita las coordenadas $C$, además de $D$.
+- Termina cuando la ruta no tiene cruces.
+
+:::
+
+::::
+
+## Implementación: pseudocódigo de Y-opt
+
+:::: {.columns align=top}
+
+::: {.column width="62%"}
+
+```{=latex}
+\begin{block}{Algoritmo Y-opt}
+\setlength{\parskip}{0pt}
+\scriptsize
+\begin{algorithmic}[1]
+\Require Ruta inicial $R$ y matriz de distancias $D$
+\Ensure Ruta mejorada $R'$ y parejas examinadas $iter$
+\State $R' \gets R$;\quad $iter \gets 0$;\quad $n \gets |R|$
+\State $mejorada \gets \text{Verdadero}$
+\While{$mejorada$}
+  \State $mejorada \gets \text{Falso}$
+  \For{$i \gets 0$ hasta $n-2$}
+    \For{$j \gets i+2$ hasta $n-1$}
+      \State Si $(i,j)=(0,n-1)$, pasar a la siguiente pareja
+      \State Identificar $(a,b)$, $(c,d)$;\quad $iter \gets iter+1$
+      \State $V \gets (D[a,b],D[c,d])$;\quad $N \gets (D[a,c],D[b,d])$
+      \If{$\max(N)<\max(V)$ y $\min(N)<\min(V)$}
+        \State Invertir el segmento entre $b$ y $c$ en $R'$
+        \State $mejorada \gets \text{Verdadero}$;\quad reiniciar
+      \EndIf
+    \EndFor
+  \EndFor
+\EndWhile
+\State \Return $R'$, $iter$
+\end{algorithmic}
+\end{block}
+```
+
+:::
+
+::: {.column width="36%"}
+
+### Explicación
+
+\small
+
+- Cuenta cada pareja examinada ($iter$).
+- Omite $(0,n-1)$: en una ruta cerrada son aristas adyacentes.
+- Acepta solo si la arista nueva más larga y la más corta son menores que las viejas.
+- Al aceptar, invierte el segmento y reinicia.
+
+:::
+
+::::
 
 ## Metodología: Visualización de los algoritmos
 
@@ -535,28 +662,31 @@ Sobre las mismas 100 rutas iniciales de 50 localidades:
 
 | Medida | 2-opt | X-opt | Y-opt |
 |:-------|------:|------:|------:|
+| Longitud media (km) | 898,311 | 1523,920 | 1001,643 |
 | Reducción media (%) | 71,285 | 51,321 | 67,991 |
 | Tiempo medio (s) | 0,064491 | 0,580721 | 0,96091 |
 
-Los tres algoritmos redujeron la longitud de las 100 rutas.
+\small
+
+- 2-opt obtuvo la menor longitud final en **98** de las 100 rutas; Y-opt en las **2** restantes.
+- Rutas finales de Y-opt: en promedio **11,503 %** más largas que las de 2-opt; las de X-opt, **69,643 %** más largas.
+- X-opt tardó más que 2-opt pese a lograr una menor reducción; Y-opt fue el más lento.
+- Los tres algoritmos redujeron la longitud de las 100 rutas.
 
 ## Resultados: comparación de longitudes finales
 
 ```{=latex}
 \begin{center}
 \makebox[\textwidth][c]{%
-  \includegraphics[width=0.53\linewidth,height=0.72\textheight,keepaspectratio]{../figuras/longitudes_finales.png}%
+  \includegraphics[width=0.53\linewidth,height=0.58\textheight,keepaspectratio]{../figuras/longitudes_finales.png}%
   \hspace{12pt}%
-  \includegraphics[width=0.53\linewidth,height=0.72\textheight,keepaspectratio]{../figuras/longitud_media_por_n.png}%
+  \includegraphics[width=0.53\linewidth,height=0.58\textheight,keepaspectratio]{../figuras/longitud_media_por_n.png}%
 }
 \end{center}
 ```
 
-## Resultados: ¿cuál obtuvo mejores rutas?
-
-- 2-opt obtuvo la menor longitud final en **98** de las 100 rutas; Y-opt en las **2** restantes.
-- Rutas finales de Y-opt: en promedio **11,503 %** más largas que las de 2-opt; las de X-opt, **69,643 %** más largas.
-- 2-opt fue el más rápido; X-opt tardó más que 2-opt pese a lograr una menor reducción, y Y-opt fue el más lento.
+\small
+Izquierda: longitud final en cada una de las 100 rutas iniciales. Derecha: longitud final media según el número de localidades $n$.
 
 ## Resultados: tiempo de ejecución e iteraciones
 
@@ -570,7 +700,8 @@ Los tres algoritmos redujeron la longitud de las 100 rutas.
 \end{center}
 ```
 
-- 2-opt examinó más parejas que X-opt y Y-opt, pero tardó menos: su costo por iteración es mucho menor.
+- Iteración: pareja de aristas examinada por el algoritmo.
+- El costo por iteración de 2-opt es mucho menor que el de X-opt y Y-opt, lo que contribuye a que haya sido el más rápido.
 
 ## Estabilidad: aplicar un algoritmo sobre su propia solución
 
@@ -582,7 +713,8 @@ Primera ruta inicial de 50 localidades, segunda ejecución sobre la solución de
 | X-opt | 1517,873 | 1517,873 |
 | Y-opt | 986,319 | 986,319 |
 
-- Cada segunda ejecución examinó las $\frac{50(50-3)}{2} = 1175$ parejas de aristas no adyacentes.
+- El orden de las localidades tampoco cambió.
+- Cada segunda ejecución evaluó las $\frac{50(50-3)}{2} = 1175$ parejas de aristas no adyacentes.
 - Repetir un algoritmo solo añade el costo de comprobar una ruta que ya es un óptimo local para ese método.
 
 ## Estabilidad: rutas finales desde la ruta inicial 1
@@ -671,14 +803,23 @@ Y-opt & 692,489 km & 716,504 km & 673,374 km \\
 \end{tabular}
 \end{table}
 
-## Conclusiones
+## Conclusiones: desempeño de los algoritmos
 
-- **2-opt:** redujo todos los recorridos, obtuvo la menor longitud entre los tres algoritmos en 98 comparaciones y una reducción media de 71,285 %; no permite determinar su cercanía al óptimo global.
-- **X-opt:** redujo las 100 rutas (51,321 %), pero tuvo la menor mejora y un tiempo medio de 0,580721 s; esto podría relacionarse con que solo intercambia aristas que se cruzan.
-- **Y-opt:** punto medio entre 2-opt y X-opt en longitud final y reducción, pero con el mayor tiempo medio, por tener la condición de aceptación más estricta.
+\small
+
+- 2-opt: desempeño favorable. Redujo todos los recorridos, obtuvo la menor longitud en 98 de las 100 rutas y una reducción media de 71,285 %, aunque eso no permite determinar su cercanía al óptimo global. \vspace{0.2cm}
+- X-opt: redujo las 100 rutas, pero con el menor porcentaje de mejora (51,321 %), lo que podría relacionarse con que solo intercambia aristas que se cruzan. Su tiempo medio fue mayor que el de 2-opt y menor que el de Y-opt. \vspace{0.2cm}
+- Y-opt: punto medio entre 2-opt y X-opt en longitud y reducción, pero el de mayor tiempo, lo que podría relacionarse con su condición de aceptación más estricta. \vspace{0.2cm}
 - Los tres algoritmos mejoraron la longitud de cada una de las 100 rutas de 50 localidades.
 
-## Conclusiones: Párrafo 3 (sin asignar)
+## Conclusiones: estabilidad y orden de aplicación
+
+\small
+
+- Aplicación repetida: correr de nuevo un algoritmo sobre su propia solución no produjo modificaciones, lo que concuerda con la condición de terminación. \vspace{0.2cm}
+- Orden de aplicación: influyó en las soluciones. En la prueba exploratoria, X-opt $\rightarrow$ Y-opt $\rightarrow$ 2-opt alcanzó 896,280 km frente a 899,555 km de 2-opt directo. \vspace{0.2cm}
+- Sobre las 100 rutas esa ventaja no se mantuvo: la secuencia fue más corta en 38 casos, pero con mayor longitud media y mayor tiempo medio. \vspace{0.2cm}
+- Añadir etapas de búsqueda no garantizó una mejora que compensara su costo computacional.
 
 ## Conclusiones
 
@@ -686,4 +827,3 @@ Y-opt & 692,489 km & 716,504 km & 673,374 km \\
 - Localidades muy cercanas y concentradas en San José. \vspace{0.3cm}
 - La distribución geográfica difiere de la utilizada por Manthey & van Rhijn (2025). \vspace{0.3cm}
 - Los tiempos de ejecución dependen de las características del equipo utilizado.
- 
