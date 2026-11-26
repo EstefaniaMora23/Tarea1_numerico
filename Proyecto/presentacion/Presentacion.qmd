@@ -180,15 +180,14 @@ $$
 
 ### Terminación y esfuerzo
 \small
-- Termina en un **óptimo local** respecto a los movimientos 2-opt.
+- Termina en un **óptimo local**.
 - Una pasada completa examina
 
 $$
 \frac{n(n-3)}{2}
 $$
 
-parejas de aristas, es decir, $O(n^2)$ evaluaciones.
-- Las mejoras pueden reiniciar la búsqueda: **el costo total no tiene por qué ser cuadrático**.^[Manthey, B., & van Rhijn, J. (2025). *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*. *Discrete Applied Mathematics, 375*, 7–16.]
+parejas de aristas, es decir, $O(n^2)$ evaluaciones.^[Manthey, B., & van Rhijn, J. (2025). *Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem*. *Discrete Applied Mathematics, 375*, 7–16.]
 
 :::
 
@@ -273,15 +272,6 @@ resultando en un tiempo de ejecución polinomial.
 - **Ruta final obtenida** \vspace{0.2cm}
 
 - **Porcentaje de mejora con respecto a la ruta inicial**
-
-
-
-## Implementación de los algoritmos en Python
-
-- Los tres algoritmos (2-opt, X-opt y Y-opt), la preparación de datos y las pruebas se implementaron en Python; los gráficos se elaboraron en MATLAB.
-- Estrategia de primera mejora: tras cada intercambio aceptado se reinicia la exploración; termina cuando no hay mejoras.
-- Pruebas preliminares con 15 localidades; luego 100 rutas iniciales aleatorias de 50 localidades, con semilla fija 2026.
-- Los tres métodos reciben las mismas rutas y la misma matriz de distancias.
 
 ## Implementación: pseudocódigo de 2-opt
 
@@ -521,34 +511,6 @@ Y-opt produjo una ruta más corta que X-opt, pero **92,47 km más larga que 2-op
 - **Mejoras aceptadas:** 74.
 
 X-opt dejó de encontrar **cruces cuya eliminación acortara la ruta**. Obtuvo la mayor longitud final de los tres.
-
-:::
-
-::::
-
-## Metodología: Valoración del desempeño
-
-Se compararon **2-opt, X-opt y Y-opt a partir de las mismas rutas iniciales**, considerando tanto la calidad de los recorridos como el esfuerzo necesario para obtenerlos.
-
-:::: {.columns align=top}
-
-::: {.column width="48%"}
-
-### Métricas de comparación
-
-- **Longitud final** de cada ruta.
-- **Porcentaje de mejora** respecto a la ruta inicial.
-- **Tiempo de ejecución**, considerando su media y variación entre ejecuciones.
-
-:::
-
-::: {.column width="48%"}
-
-### Pruebas adicionales
-
-- Volver a aplicar un algoritmo a su ruta final.
-- Comparar los resultados con una **búsqueda exhaustiva**.
-- Fijar posiciones iniciales de la ruta óptima y observar el comportamiento de los tres algoritmos.
 
 :::
 
@@ -827,3 +789,21 @@ Y-opt & 692,489 km & 716,504 km & 673,374 km \\
 - Localidades muy cercanas y concentradas en San José. \vspace{0.3cm}
 - La distribución geográfica difiere de la utilizada por Manthey & van Rhijn (2025). \vspace{0.3cm}
 - Los tiempos de ejecución dependen de las características del equipo utilizado.
+
+## Referencias
+
+\scriptsize
+
+Flood, M. M. (1956). The traveling-salesman problem. *Operations Research, 4*(1), 61–75. https://doi.org/10.1287/opre.4.1.61
+
+\vspace{0.2cm}
+
+GeoNames. (s. f.). *GeoNames Gazetteer: extracto de Costa Rica (CR.txt) y admin1CodesASCII.txt* [Conjunto de datos]. Recuperado el 21 de octubre de 2026, de https://www.geonames.org
+
+\vspace{0.2cm}
+
+Manthey, B., & van Rhijn, J. (2025). Performance of efficient variants of the 2-Opt heuristic for the traveling salesperson problem. *Discrete Applied Mathematics, 375*, 7–16. https://doi.org/10.1016/j.dam.2025.05.034
+
+\vspace{0.2cm}
+
+Snyder, J. P. (1987). *Map projections: A working manual* (Professional Paper 1395). U.S. Geological Survey. https://doi.org/10.3133/pp1395
