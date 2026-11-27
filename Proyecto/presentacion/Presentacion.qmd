@@ -675,7 +675,6 @@ Primera ruta inicial de 50 localidades, segunda ejecución sobre la solución de
 | X-opt | 1517,873 | 1517,873 |
 | Y-opt | 986,319 | 986,319 |
 
-- El orden de las localidades tampoco cambió.
 - Cada segunda ejecución evaluó las $\frac{50(50-3)}{2} = 1175$ parejas de aristas no adyacentes.
 - Repetir un algoritmo solo añade el costo de comprobar una ruta que ya es un óptimo local para ese método.
 
